@@ -1,0 +1,23 @@
+name: main ci
+
+on:
+    push:
+        branches:
+            - "main"
+            - "dev-*"
+
+jobs:
+    final:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout 🛎️
+              uses: actions/checkout@v2
+            - name: ui
+              run: |
+              docker build -t budget4home-ui -f ui/Dockerfile ui
+            - name: api
+              run: |
+              docker build -t budget4home-api -f api/Dockerfile api
+            - name: final
+              run: |
+              docker build -t budget4home .
