@@ -13,11 +13,8 @@ jobs:
             - name: Checkout 🛎️
               uses: actions/checkout@v2
             - name: ui
-              run: |
-              docker build -t budget4home-ui -f ui/Dockerfile ui
+              run: docker build -t budget4home-ui -f ui/Dockerfile ui
             - name: api
-              run: |
-              docker build -t budget4home-api -f api/Dockerfile api
+              run: docker build -t budget4home-api -f api/Dockerfile api
             - name: final
-              run: |
-              docker build -t budget4home .
+              run: docker build -t budget4home .
