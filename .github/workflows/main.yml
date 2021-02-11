@@ -1,20 +1,67 @@
-name: main ci
+name: action
 
 on:
-    push:
-        branches:
-            - "main"
-            - "dev-*"
+  push:
+    branches:
+      - 'main'
+      - 'dev-*'
 
 jobs:
-    final:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout 🛎️
-              uses: actions/checkout@v2
-            - name: ui
-              run: docker build -t budget4home-ui -f ui/Dockerfile ui
-            - name: api
-              run: docker build -t budget4home-api -f api/Dockerfile api
-            - name: final
-              run: docker build -t budget4home .
+  npm:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Install node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Install 🛠
+        run: npm install
+
+      - name: Build 📦
+        run: |
+          npm run build
+
+      # - name: Test 🔌
+      #   run: npm run test:coverage
+
+      # - name: Publish Codecov 📈
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     file: coverage/*
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: '${{ secrets.GH_TOKEN }}'
+          BRANCH: gh-pages
+          FOLDER: build
+
+    # docker-dev:
+    #     needs: npm
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - name: Checkout 🛎️
+    #           uses: actions/checkout@v2
+    #         - name: Deploy to heroku (dev) 🚀
+    #           env:
+    #               HEROKU_API_KEY: ${{ secrets.HEROKU_PASSWORD }}
+    #               API_URL: ${{ secrets.API_URL_DEV }}
+    #               FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY_DEV }}
+    #               FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT_DEV }}
+    #               USE_HASH_ROUTER: false
+    #           run: |
+    #               wget -qO- https://cli-assets.heroku.com/install.sh | sh
+    #               echo "${{ secrets.HEROKU_PASSWORD }}" | docker login -u "${{ secrets.HEROKU_USERNAME }}" --password-stdin registry.heroku.com
+    #               envsubst < util/.env.template > .env
+    #               heroku container:push web --app ${{ secrets.HEROKU_APP_NAME }}-dev
+    #               heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}-dev
