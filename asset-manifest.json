@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/budget4home/static/css/main.07f2e5b4.chunk.css",
-    "main.js": "/budget4home/static/js/main.18fec810.chunk.js",
-    "main.js.map": "/budget4home/static/js/main.18fec810.chunk.js.map",
-    "runtime-main.js": "/budget4home/static/js/runtime-main.7530e46c.js",
-    "runtime-main.js.map": "/budget4home/static/js/runtime-main.7530e46c.js.map",
-    "static/js/2.71c5edd3.chunk.js": "/budget4home/static/js/2.71c5edd3.chunk.js",
-    "static/js/2.71c5edd3.chunk.js.map": "/budget4home/static/js/2.71c5edd3.chunk.js.map",
-    "static/js/3.3ad7ef6c.chunk.js": "/budget4home/static/js/3.3ad7ef6c.chunk.js",
-    "static/js/3.3ad7ef6c.chunk.js.map": "/budget4home/static/js/3.3ad7ef6c.chunk.js.map",
+    "main.js": "/budget4home/static/js/main.e964dd12.chunk.js",
+    "main.js.map": "/budget4home/static/js/main.e964dd12.chunk.js.map",
+    "runtime-main.js": "/budget4home/static/js/runtime-main.e747a6d0.js",
+    "runtime-main.js.map": "/budget4home/static/js/runtime-main.e747a6d0.js.map",
+    "static/js/2.0cb86a86.chunk.js": "/budget4home/static/js/2.0cb86a86.chunk.js",
+    "static/js/2.0cb86a86.chunk.js.map": "/budget4home/static/js/2.0cb86a86.chunk.js.map",
+    "static/js/3.800d0825.chunk.js": "/budget4home/static/js/3.800d0825.chunk.js",
+    "static/js/3.800d0825.chunk.js.map": "/budget4home/static/js/3.800d0825.chunk.js.map",
     "index.html": "/budget4home/index.html",
     "static/css/main.07f2e5b4.chunk.css.map": "/budget4home/static/css/main.07f2e5b4.chunk.css.map",
-    "static/js/2.71c5edd3.chunk.js.LICENSE.txt": "/budget4home/static/js/2.71c5edd3.chunk.js.LICENSE.txt"
+    "static/js/2.0cb86a86.chunk.js.LICENSE.txt": "/budget4home/static/js/2.0cb86a86.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.7530e46c.js",
-    "static/js/2.71c5edd3.chunk.js",
+    "static/js/runtime-main.e747a6d0.js",
+    "static/js/2.0cb86a86.chunk.js",
     "static/css/main.07f2e5b4.chunk.css",
-    "static/js/main.18fec810.chunk.js"
+    "static/js/main.e964dd12.chunk.js"
   ]
 }
