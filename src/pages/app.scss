@@ -1,15 +1,19 @@
-.App {
-  text-align: center;
+body {
+  background-color: #282c34;
+  color: white;
 }
 
-.App-header {
+// .App {
+//   text-align: center;
+// }
+
+.App-body {
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: left;
-  font-size: calc(10px + 2vmin);
+  // min-height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: left;
   color: white;
 }
 

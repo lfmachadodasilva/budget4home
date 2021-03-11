@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
+import './configurations/i18n';
 import App from './pages/app';
 import reportWebVitals from './reportWebVitals';
 
