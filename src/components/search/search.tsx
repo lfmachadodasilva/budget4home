@@ -1,10 +1,13 @@
 import { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
+
 import { GlobalContext } from '../../contexts/globalContext';
 
 export const SearchComponent = memo(() => {
   const [t] = useTranslation();
-
+  const history = useHistory();
   const global = useContext(GlobalContext);
 
   const [months] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
@@ -55,6 +58,16 @@ export const SearchComponent = memo(() => {
   const handleOnChangeYear = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     setYear(+event.target.value);
   }, []);
+  const handleOnSearch = useCallback(() => {
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify({
+        group: group,
+        month: month,
+        year: year
+      })
+    });
+  }, [history, group, month, year]);
 
   return (
     <div className="mb-2">
@@ -85,7 +98,7 @@ export const SearchComponent = memo(() => {
         </div>
       </form>
       <div className="d-flex justify-content-end mt-2">
-        <button type="button" className="btn btn-primary">
+        <button type="button" className="btn btn-primary" onClick={handleOnSearch}>
           {t('SEARCH')}
         </button>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import firebase from 'firebase';
 
 import './index.scss';
 import 'bootstrap/dist/js/bootstrap.min.js';
@@ -7,10 +8,18 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import './configurations/i18n';
 import App from './pages/app';
 import reportWebVitals from './reportWebVitals';
+import { getFirebaseConfig } from './configurations/firebase';
+import { ConfigContextProvider } from './contexts/configContext';
+
+firebase.initializeApp({
+  ...getFirebaseConfig(process.env.REACT_APP_FIREBASE_PROJECT || '', process.env.REACT_APP_FIREBASE_API_KEY || '')
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ConfigContextProvider>
+      <App />
+    </ConfigContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

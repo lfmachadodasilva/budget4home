@@ -1,5 +1,21 @@
-import { memo } from "react";
+import { memo, useContext } from 'react';
+import { ConfigContext, ConfigContextProvider } from '../../contexts/configContext';
 
 export const HomePage = memo(() => {
-    return <>Home page</>;
+  const config = useContext(ConfigContext);
+  return (
+    <>
+      <p>
+        build version: <strong>{config.buildVersion}</strong>
+      </p>
+      <p>
+        api url:&nbsp;
+        <strong>
+          <a target="_blank" href={config.apiUrl + 'swagger'}>
+            {config.apiUrl}
+          </a>
+        </strong>
+      </p>
+    </>
+  );
 });

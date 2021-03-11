@@ -27,7 +27,12 @@ jobs:
         run: npm install
 
       - name: Build 📦
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
         run: |
+          envsubst < util/.env.template > .env
           npm run build
 
       # - name: Test 🔌
