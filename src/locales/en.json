@@ -5,6 +5,7 @@
     "EXPENSE": "Expense",
     "YEAR" : "Year",
     "MONTH": "Month",
+    "SEARCH": "Search",
     "MONTHS": {
         "1": "January",
         "2": "February",
