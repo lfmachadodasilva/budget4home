@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/budget4home/static/css/main.3f989a73.chunk.css",
-    "main.js": "/budget4home/static/js/main.e060e4f0.chunk.js",
-    "main.js.map": "/budget4home/static/js/main.e060e4f0.chunk.js.map",
+    "main.css": "/budget4home/static/css/main.267dd889.chunk.css",
+    "main.js": "/budget4home/static/js/main.82b419ba.chunk.js",
+    "main.js.map": "/budget4home/static/js/main.82b419ba.chunk.js.map",
     "runtime-main.js": "/budget4home/static/js/runtime-main.37295f1f.js",
     "runtime-main.js.map": "/budget4home/static/js/runtime-main.37295f1f.js.map",
-    "static/js/2.5f38acd3.chunk.js": "/budget4home/static/js/2.5f38acd3.chunk.js",
-    "static/js/2.5f38acd3.chunk.js.map": "/budget4home/static/js/2.5f38acd3.chunk.js.map",
+    "static/js/2.7bcbdd6f.chunk.js": "/budget4home/static/js/2.7bcbdd6f.chunk.js",
+    "static/js/2.7bcbdd6f.chunk.js.map": "/budget4home/static/js/2.7bcbdd6f.chunk.js.map",
     "static/js/3.ffd89783.chunk.js": "/budget4home/static/js/3.ffd89783.chunk.js",
     "static/js/3.ffd89783.chunk.js.map": "/budget4home/static/js/3.ffd89783.chunk.js.map",
     "index.html": "/budget4home/index.html",
-    "static/css/main.3f989a73.chunk.css.map": "/budget4home/static/css/main.3f989a73.chunk.css.map",
-    "static/js/2.5f38acd3.chunk.js.LICENSE.txt": "/budget4home/static/js/2.5f38acd3.chunk.js.LICENSE.txt"
+    "static/css/main.267dd889.chunk.css.map": "/budget4home/static/css/main.267dd889.chunk.css.map",
+    "static/js/2.7bcbdd6f.chunk.js.LICENSE.txt": "/budget4home/static/js/2.7bcbdd6f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.37295f1f.js",
-    "static/js/2.5f38acd3.chunk.js",
-    "static/css/main.3f989a73.chunk.css",
-    "static/js/main.e060e4f0.chunk.js"
+    "static/js/2.7bcbdd6f.chunk.js",
+    "static/css/main.267dd889.chunk.css",
+    "static/js/main.82b419ba.chunk.js"
   ]
 }
