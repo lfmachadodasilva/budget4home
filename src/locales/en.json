@@ -32,5 +32,16 @@
   "LAST_VALUE": "Last",
   "AVERAGE_VALUE": "Average",
   "DATE": "Date",
-  "VALUE": "Value"
+  "VALUE": "Value",
+  "IMPORT": "Import",
+  "SEPARATOR": "Separator",
+  "IMPORT_DATA": "Import data",
+  "INCOMING": "Incoming",
+  "OUTCOMING": "Outcoming",
+  "INVALID_DATE": "Invalid date",
+  "NUMBER": "#",
+  "NAME": "Name",
+  "TYPE": "Type",
+  "STATUS": "Status",
+  "COMMENTS": "Comments"
 }

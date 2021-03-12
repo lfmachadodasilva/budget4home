@@ -74,13 +74,7 @@ export const SearchComponent = memo(() => {
       <form className="row">
         <div className="col-sm-12 col-md-4">
           <label htmlFor="search-group">{t('GROUP')}</label>
-          <select
-            key={Math.random()}
-            className="form-select"
-            aria-label="Search by group"
-            value={group}
-            onChange={handleOnChangeGroup}
-          >
+          <select className="form-select" aria-label="Search by group" value={group} onChange={handleOnChangeGroup}>
             {groupsOptions}
           </select>
         </div>

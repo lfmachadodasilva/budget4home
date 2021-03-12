@@ -51,11 +51,14 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
             {getUserDisplayName(user)}
           </button>
           <ul className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            {/* <li>
-              <a className="dropdown-item" onClick={handleOnLogin}>
-                {t('LOGIN')}
+            <li>
+              <a className="dropdown-item" onClick={() => handleRedirectTo(Routes.import)}>
+                {t('IMPORT')}
               </a>
-            </li> */}
+            </li>
+            <li>
+              <hr className="dropdown-divider" />
+            </li>
             <li>
               <a className="dropdown-item" onClick={handleOnLogout}>
                 {t('LOGOUT')}
@@ -74,7 +77,7 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-2">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-2">
         <div className="container">
           <a className="navbar-brand" style={{ cursor: 'pointer' }} onClick={() => handleRedirectTo(Routes.home)}>
             {t('TITLE')}
