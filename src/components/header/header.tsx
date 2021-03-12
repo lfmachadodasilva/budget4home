@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 import { getUserDisplayName } from '../../helpers/userHelper';
 import { Routes } from '../../pages/routes';
-import { signOut } from '../../services/auth';
+import { signOut } from '../../services/authService';
 
 export type HeaderProps = {};
 

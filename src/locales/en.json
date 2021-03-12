@@ -1,14 +1,4 @@
 {
-    "TITLE": "budget4home",
-    "LABEL": "Label",
-    "GROUP": "Group",
-    "EXPENSE": "Expense",
-    "YEAR" : "Year",
-    "MONTH": "Month",
-    "SEARCH": "Search",
-    "FACEBOOK": "Facebook",
-    "LOGIN": "Login",
-    "LOGOUT": "Logout",
     "MONTHS": {
         "1": "January",
         "2": "February",
@@ -22,5 +12,22 @@
         "10": "October",
         "11": "November",
         "12": "December"
-    }
+    },
+    "TITLE": "budget4home",
+    "LABEL": "Label",
+    "GROUP": "Group",
+    "EXPENSE": "Expense",
+    "YEAR" : "Year",
+    "MONTH": "Month",
+    "SEARCH": "Search",
+    "FACEBOOK": "Facebook",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "ADD": "Add",
+    "CURRENT_VALUE": "Value",
+    "LAST_VALUE": "Last",
+    "AVERAGE_VALUE": "Average"
 }

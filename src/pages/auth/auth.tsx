@@ -2,7 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import { loginWithFacebook } from '../../services/auth';
+import { loginWithFacebook } from '../../services/authService';
 import { Routes } from '../routes';
 
 export const AuthPage = memo(() => {
