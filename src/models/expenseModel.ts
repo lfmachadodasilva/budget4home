@@ -8,7 +8,7 @@ export interface ExpenseModel {
   name: string;
   value: number;
   date: Date;
-  comments: string;
+  comments?: string;
   scheduleBy: number;
   scheduleTotal: number;
 
