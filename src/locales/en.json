@@ -6,6 +6,9 @@
     "YEAR" : "Year",
     "MONTH": "Month",
     "SEARCH": "Search",
+    "FACEBOOK": "Facebook",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
     "MONTHS": {
         "1": "January",
         "2": "February",

@@ -1,24 +1,76 @@
-import { FC, memo, useCallback } from 'react';
+import firebase from 'firebase';
+import { FC, memo, useCallback, useMemo } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+
+import { getUserDisplayName } from '../../helpers/userHelper';
 import { Routes } from '../../pages/routes';
+import { signOut } from '../../services/auth';
 
 export type HeaderProps = {};
 
 export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
+  const [user, initialising] = useAuthState(firebase.auth());
+
   const history = useHistory();
   const [t] = useTranslation();
 
   const handleRedirectTo = useCallback(
     (path: string) => {
+      const pathName = user && !initialising ? path : path === Routes.home ? Routes.home : Routes.auth;
       if (history.location.search) {
-        history.push({ pathname: path, search: history.location.search });
+        history.push({ pathname: pathName, search: history.location.search });
       } else {
-        history.push(path);
+        history.push(pathName);
       }
     },
-    [history]
+    [history, user]
   );
+
+  const handleOnLogin = useCallback(() => {
+    handleRedirectTo(Routes.auth);
+  }, []);
+  const handleOnLogout = useCallback(() => {
+    signOut().then(() => {
+      handleRedirectTo(Routes.home);
+    });
+  }, []);
+
+  const authElement = useMemo(() => {
+    if (user && !initialising) {
+      return (
+        <div className="btn-group" role="group">
+          <button
+            id="btnGroupDrop1"
+            type="button"
+            className="btn btn-primary dropdown-toggle btn-sm pt-0 pb-0"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {getUserDisplayName(user)}
+          </button>
+          <ul className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            {/* <li>
+              <a className="dropdown-item" onClick={handleOnLogin}>
+                {t('LOGIN')}
+              </a>
+            </li> */}
+            <li>
+              <a className="dropdown-item" onClick={handleOnLogout}>
+                {t('LOGOUT')}
+              </a>
+            </li>
+          </ul>
+        </div>
+      );
+    }
+    return (
+      <button type="button" className="btn btn-primary btn-sm pt-0 pb-0" onClick={handleOnLogin}>
+        {t('LOGIN')}
+      </button>
+    );
+  }, [user, initialising, t]);
 
   return (
     <>
@@ -50,6 +102,7 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
                 {t('EXPENSE')}
               </a>
             </div>
+            {authElement}
           </div>
         </div>
       </nav>
