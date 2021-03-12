@@ -13,6 +13,7 @@ import { ExpensePage } from './expense/expensePage';
 import { LabelPage } from './label/labelPage';
 import { GroupPage } from './group/groupPage';
 import { GlobalContextProvider } from '../contexts/globalContext';
+import { AuthPage } from './auth/auth';
 
 function App() {
   const [user, initialising] = useAuthState(firebase.auth());
@@ -64,7 +65,13 @@ function App() {
                     <br></br>
                   </div>
                 )}
-                <HomePage />
+                <Switch>
+                  <Route key={Routes.auth} path={Routes.auth} component={AuthPage} />
+                  <Route key={Routes.home} path={Routes.home} component={HomePage} />
+                  <Route key={'*'} path="*">
+                    <h1> 404 </h1>
+                  </Route>
+                </Switch>
               </>
             )}
           </GlobalContextProvider>
