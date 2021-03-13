@@ -1,11 +1,15 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
+import { difference, uniq } from 'lodash';
 
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { GlobalContext } from '../../contexts/globalContext';
 import { csvToExpenses } from '../../helpers/csvToExpenses';
 import { ExpenseModel, ExpenseType } from '../../models/expenseModel';
+import { addLabel, getAllLabels } from '../../services/labelService';
+import { LabelModel } from '../../models/labelModel';
+import { addExpense } from '../../services/expenseService';
 
 enum StatusType {
   NOT_PROCESSED = 'to do',
@@ -20,8 +24,9 @@ export const ImportPage = memo(() => {
   const [selectedGroup, setSelectedGroup] = useState<number>(group);
   const [separator, setSeparator] = useState<string>(',');
   const [data, setData] = useState<string>('');
-  const [expenses, setExpenses] = React.useState<ExpenseModel[]>([]);
-  const [status, setStatus] = React.useState<StatusType[]>([]);
+  const [expenses, setExpenses] = useState<ExpenseModel[]>([]);
+  const [status, setStatus] = useState<StatusType[]>([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     setSelectedGroup(group);
@@ -52,7 +57,47 @@ export const ImportPage = memo(() => {
     setData(event.target.value);
   }, []);
 
-  const handleOnAction = useCallback(() => {}, []);
+  const handleOnAction = useCallback(async () => {
+    // get all labels
+    setLoading(true);
+
+    const labelNames = expenses.map(e => e.labelName);
+    let labels: LabelModel[] = [];
+    try {
+      labels = await getAllLabels(group);
+    } catch {
+      // TODO show a error
+    }
+
+    // check witch need to add
+    const labelNamesToAdd = difference(uniq(labelNames), uniq(labels.map(l => l.name)));
+
+    // add all expenses
+    try {
+      labelNamesToAdd.forEach(async name => {
+        const id = await addLabel(name, group);
+        labels.push({ id, name } as LabelModel);
+      });
+    } catch {
+      // TODO show a error
+    }
+
+    expenses.forEach(async (e, index) => {
+      if (e.labelId === 0) {
+        const label = labels.find(l => l.name === e.labelName);
+        e.labelId = label?.id || 0;
+      }
+      status[index] = StatusType.PROCESSING;
+      try {
+        await addExpense(group, e);
+        status[index] = StatusType.PROCESSED;
+      } catch {
+        status[index] = StatusType.ERROR;
+      }
+    });
+
+    setLoading(false);
+  }, [expenses, group, status]);
 
   const groupsOptions = useMemo(
     () =>

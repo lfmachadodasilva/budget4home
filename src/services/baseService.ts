@@ -16,10 +16,10 @@ const handleError = async (error: AxiosError) => {
   if (error.response && error.response.status >= StatusCodes.OK) {
     if (process.env.NODE_ENV !== 'test') {
       // avoid show this when is running test
-      console.error('Request Failed:', error.config);
-      console.error('Status:', error.response.status);
-      console.error('Data:', error.response.data);
-      console.error('Headers:', error.response.headers);
+      // console.error('Request Failed:', error.config);
+      // console.error('Status:', error.response.status);
+      // console.error('Data:', error.response.data);
+      // console.error('Headers:', error.response.headers);
     }
   }
 
