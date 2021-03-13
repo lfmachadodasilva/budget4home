@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { difference, uniq } from 'lodash';
+import { difference, find, findIndex, uniq } from 'lodash';
 
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { GlobalContext } from '../../contexts/globalContext';
@@ -72,29 +72,35 @@ export const ImportPage = memo(() => {
     // check witch need to add
     const labelNamesToAdd = difference(uniq(labelNames), uniq(labels.map(l => l.name)));
 
-    // add all expenses
+    // add labels
     try {
-      labelNamesToAdd.forEach(async name => {
+      for (const name of labelNamesToAdd) {
         const id = await addLabel(name, group);
-        labels.push({ id, name } as LabelModel);
-      });
+        labels = [...labels, { id, name } as LabelModel];
+      }
     } catch {
       // TODO show a error
     }
 
-    expenses.forEach(async (e, index) => {
-      if (e.labelId === 0) {
-        const label = labels.find(l => l.name === e.labelName);
-        e.labelId = label?.id || 0;
+    // add expenses
+    let index = 0;
+    for (const expense of expenses) {
+      if (expense.labelId === 0) {
+        const label = find(labels, l => l.name === expense.labelName);
+        expense.labelId = label?.id || 0;
       }
       status[index] = StatusType.PROCESSING;
       try {
-        await addExpense(group, e);
+        await addExpense(group, expense);
         status[index] = StatusType.PROCESSED;
       } catch {
         status[index] = StatusType.ERROR;
+      } finally {
+        // force to update table
+        setStatus({ ...status });
       }
-    });
+      index++;
+    }
 
     setLoading(false);
   }, [expenses, group, status]);
@@ -136,7 +142,7 @@ export const ImportPage = memo(() => {
           <td>{expense.comments}</td>
         </tr>
       )),
-    [expenses, status, t, StatusType.ERROR, StatusType.PROCESSED]
+    [expenses, status, t]
   );
 
   return (
