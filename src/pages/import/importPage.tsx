@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { difference, find, findIndex, uniq } from 'lodash';
+import { difference, find, uniq } from 'lodash';
 
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { GlobalContext } from '../../contexts/globalContext';
@@ -147,7 +147,12 @@ export const ImportPage = memo(() => {
 
   return (
     <>
-      <ItemHeaderComponent title={t('IMPORT')} actionText={t('ADD')} onAction={handleOnAction} />
+      <ItemHeaderComponent
+        title={t('IMPORT_TITLE')}
+        actionText={t('IMPORT')}
+        onAction={handleOnAction}
+        disableAction={isLoading}
+      />
       <form>
         <div className="row justify-content-md-center">
           <div className="col-xs-12 col-sm-6">
@@ -157,17 +162,24 @@ export const ImportPage = memo(() => {
               aria-label="Search by group"
               value={selectedGroup}
               onChange={handleOnChangeGroup}
+              disabled={isLoading}
             >
               {groupsOptions}
             </select>
           </div>
           <div className="col-xs-12 col-sm-6">
             <label htmlFor="search-group">{t('SEPARATOR')}</label>
-            <input type="text" className="form-control" onChange={handleOnChangeSeparator} value={separator} />
+            <input
+              type="text"
+              className="form-control"
+              onChange={handleOnChangeSeparator}
+              value={separator}
+              disabled={isLoading}
+            />
           </div>
         </div>
         <label htmlFor="search-group">{t('IMPORT_DATA')}</label>
-        <textarea className="form-control" rows={5} onChange={handleOnChangeData} value={data} />
+        <textarea className="form-control" rows={5} onChange={handleOnChangeData} value={data} disabled={isLoading} />
       </form>
       <div className="table-responsive">
         <table className="table table-striped">

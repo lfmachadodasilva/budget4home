@@ -25,17 +25,17 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
         history.push(pathName);
       }
     },
-    [history, user]
+    [history, user, initialising]
   );
 
   const handleOnLogin = useCallback(() => {
     handleRedirectTo(Routes.auth);
-  }, []);
+  }, [handleRedirectTo]);
   const handleOnLogout = useCallback(() => {
     signOut().then(() => {
       handleRedirectTo(Routes.home);
     });
-  }, []);
+  }, [handleRedirectTo]);
 
   const authElement = useMemo(() => {
     if (user && !initialising) {
@@ -57,6 +57,11 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
               </a>
             </li>
             <li>
+              <a className="dropdown-item" onClick={() => handleRedirectTo(Routes.export)}>
+                {t('EXPORT')}
+              </a>
+            </li>
+            <li>
               <hr className="dropdown-divider" />
             </li>
             <li>
@@ -73,7 +78,7 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
         {t('LOGIN')}
       </button>
     );
-  }, [user, initialising, t]);
+  }, [user, initialising, t, handleOnLogin, handleRedirectTo, handleOnLogout]);
 
   return (
     <>

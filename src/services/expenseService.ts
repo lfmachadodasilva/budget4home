@@ -5,6 +5,10 @@ export const getAllExpenses = async (group: number, month: number, year: number)
   return GET<ExpenseModel[]>('/api/expense', { group, month, year });
 };
 
+export const getAllExpensesByGroup = async (group: number): Promise<ExpenseModel[]> => {
+  return GET<ExpenseModel[]>('/api/expense', { group });
+};
+
 export const addExpense = async (group: number, expense: ExpenseModel): Promise<number> => {
   return POST<number>(
     '/api/expense',

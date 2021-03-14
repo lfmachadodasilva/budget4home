@@ -15,6 +15,7 @@ import { GroupPage } from './group/groupPage';
 import { GlobalContextProvider } from '../contexts/globalContext';
 import { AuthPage } from './auth/auth';
 import { ImportPage } from './import/importPage';
+import { ExportPage } from './export/exportPage';
 
 function App() {
   const [user, initialising] = useAuthState(firebase.auth());
@@ -45,13 +46,14 @@ function App() {
       <HashRouter basename={'/'}>
         <HeaderComponent />
         <div className="App-body container">
-          <GlobalContextProvider>
+          <GlobalContextProvider isReady={isReady}>
             {isReady && user ? (
               <Switch>
                 <Route key={Routes.group} path={Routes.group} component={GroupPage} />
                 <Route key={Routes.label} path={Routes.label} component={LabelPage} />
                 <Route key={Routes.expense} path={Routes.expense} component={ExpensePage} />
                 <Route key={Routes.import} path={Routes.import} component={ImportPage} />
+                <Route key={Routes.export} path={Routes.export} component={ExportPage} />
                 <Route key={Routes.home} path={Routes.home} component={HomePage} />
                 <Route key={'*'} path="*">
                   <h1> 404 </h1>
