@@ -45,7 +45,7 @@ export const ExpensePage = memo(() => {
           </div>
         </ItemComponent>
       )),
-    [expenses]
+    [expenses, handleOnEdit, handleOnDelete, t]
   );
 
   return (

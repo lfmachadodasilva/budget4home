@@ -3,6 +3,7 @@ import { FC, memo, useCallback, useMemo } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { redirectTo } from '../../helpers/redirectHelper';
 
 import { getUserDisplayName } from '../../helpers/userHelper';
 import { Routes } from '../../pages/routes';
@@ -19,11 +20,7 @@ export const HeaderComponent: FC<HeaderProps> = memo((props: HeaderProps) => {
   const handleRedirectTo = useCallback(
     (path: string) => {
       const pathName = user && !initialising ? path : path === Routes.home ? Routes.home : Routes.auth;
-      if (history.location.search) {
-        history.push({ pathname: pathName, search: history.location.search });
-      } else {
-        history.push(pathName);
-      }
+      redirectTo(history, pathName);
     },
     [history, user, initialising]
   );

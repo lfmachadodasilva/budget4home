@@ -26,7 +26,7 @@ export const ExportPage = memo(() => {
     let expenses: ExpenseModel[] = [];
     setLoading(true);
     try {
-      expenses = await getAllExpensesByGroup(group);
+      expenses = await getAllExpensesByGroup(selectedGroup);
     } catch (error) {
       // TODO show error to load expenses
     }
@@ -47,7 +47,7 @@ export const ExportPage = memo(() => {
     );
 
     setLoading(false);
-  }, [group, separator, t]);
+  }, [selectedGroup, separator, t]);
 
   const groupsOptions = useMemo(
     () =>

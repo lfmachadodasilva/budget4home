@@ -1,6 +1,6 @@
-import { GroupModel } from '../models/groupModel';
+import { UserModel } from '../models/userModel';
 import { GET } from './baseService';
 
-export const getAllUsers = async (): Promise<GroupModel[]> => {
-  return GET<GroupModel[]>('/api/groups');
+export const getAllUsers = async (): Promise<UserModel[]> => {
+  return GET<UserModel[]>('/api/user');
 };

@@ -64,7 +64,7 @@ export const ImportPage = memo(() => {
     const labelNames = expenses.map(e => e.labelName);
     let labels: LabelModel[] = [];
     try {
-      labels = await getAllLabels(group);
+      labels = await getAllLabels(selectedGroup);
     } catch {
       // TODO show a error
     }
@@ -75,7 +75,7 @@ export const ImportPage = memo(() => {
     // add labels
     try {
       for (const name of labelNamesToAdd) {
-        const id = await addLabel(name, group);
+        const id = await addLabel(name, selectedGroup);
         labels = [...labels, { id, name } as LabelModel];
       }
     } catch {
@@ -91,7 +91,7 @@ export const ImportPage = memo(() => {
       }
       status[index] = StatusType.PROCESSING;
       try {
-        await addExpense(group, expense);
+        await addExpense(selectedGroup, expense);
         status[index] = StatusType.PROCESSED;
       } catch {
         status[index] = StatusType.ERROR;
@@ -103,7 +103,7 @@ export const ImportPage = memo(() => {
     }
 
     setLoading(false);
-  }, [expenses, group, status]);
+  }, [expenses, selectedGroup, status]);
 
   const groupsOptions = useMemo(
     () =>

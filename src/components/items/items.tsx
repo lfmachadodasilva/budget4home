@@ -18,7 +18,7 @@ export interface ItemProps {
 
 export const ItemComponent: FC<PropsWithChildren<ItemProps>> = memo((props: PropsWithChildren<ItemProps>) => {
   const [t] = useTranslation();
-  const { title, children, onDelete, onEdit } = props;
+  const { id, title, children, onDelete, onEdit } = props;
 
   const handleOnEdit = useCallback(
     (id: number | string) => {
@@ -34,31 +34,22 @@ export const ItemComponent: FC<PropsWithChildren<ItemProps>> = memo((props: Prop
   );
 
   return (
-    <div className="list-group-item">
-      <div className="d-flex w-100 justify-content-between">
+    <div key={id} className="list-group-item">
+      <div className="d-flex justify-content-between">
         <h5 className="mb-1">{title}</h5>
         <div className="dropdown">
-          <a
-            className="btn btn-secondary btn-sm dropdown-toggle"
-            href="#"
-            role="button"
-            id="dropdownMenuLink"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {t('ACTIONS')}
-          </a>
+          <button className="btn btn-secondary btn-sm dropdown-toggle" id="dropdown-menu" data-bs-toggle="dropdown" />
 
-          <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <ul className="dropdown-menu" aria-labelledby="dropdown-menu">
             <li>
-              <a className="dropdown-item" onClick={() => handleOnEdit(props.id)}>
+              <button className="dropdown-item" onClick={() => handleOnEdit(props.id)}>
                 {t('EDIT')}
-              </a>
+              </button>
             </li>
             <li>
-              <a className="dropdown-item" onClick={() => handleOnDelete(props.id)}>
+              <button className="dropdown-item" onClick={() => handleOnDelete(props.id)}>
                 {t('DELETE')}
-              </a>
+              </button>
             </li>
           </ul>
         </div>

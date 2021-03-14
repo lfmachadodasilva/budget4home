@@ -47,5 +47,7 @@
   "NAME": "Name",
   "TYPE": "Type",
   "STATUS": "Status",
-  "COMMENTS": "Comments"
+  "COMMENTS": "Comments",
+  "CANCEL": "Cancel",
+  "USERS": "Users"
 }
