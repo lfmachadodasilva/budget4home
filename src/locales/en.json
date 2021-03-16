@@ -13,6 +13,7 @@
     "11": "November",
     "12": "December"
   },
+  "WAKE_SERVER": "server is sleeping, hang tight.",
   "DATE_FORMAT": "dd/MM/yy",
   "TITLE": "budget4home",
   "LABEL": "Label",

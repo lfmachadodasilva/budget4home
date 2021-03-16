@@ -1,6 +1,8 @@
-import axios from 'axios';
 import { createContext, memo, PropsWithChildren } from 'react';
+import axios from 'axios';
+
 import { ConfigModel, defaultConfigModel } from '../models/configModel';
+import { WakeServerComponent } from '../components/wakeServer/wakeServer';
 
 export const ConfigContext = createContext<ConfigModel>(defaultConfigModel);
 
@@ -12,7 +14,7 @@ export const ConfigContextProvider = memo((props: PropsWithChildren<unknown>) =>
 
   return (
     <ConfigContext.Provider value={{ ...defaultConfigModel, apiUrl, buildVersion }}>
-      {props.children}
+      <WakeServerComponent>{props.children}</WakeServerComponent>
     </ConfigContext.Provider>
   );
 });
