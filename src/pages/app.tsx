@@ -17,6 +17,7 @@ import { AuthPage } from './auth/auth';
 import { ImportPage } from './import/importPage';
 import { ExportPage } from './export/exportPage';
 import { GroupManagePage } from './group/groupManagePage';
+import { LabelManagePage } from './label/labelManagePage';
 
 function App() {
   const [user, initialising] = useAuthState(firebase.auth());
@@ -52,6 +53,7 @@ function App() {
               <Switch>
                 <Route key={Routes.groupManage} path={Routes.groupManage} component={GroupManagePage} />
                 <Route key={Routes.group} path={Routes.group} component={GroupPage} />
+                <Route path={[Routes.labelAdd, Routes.labelEdit]} component={LabelManagePage} />
                 <Route key={Routes.label} path={Routes.label} component={LabelPage} />
                 <Route key={Routes.expense} path={Routes.expense} component={ExpensePage} />
                 <Route key={Routes.import} path={Routes.import} component={ImportPage} />

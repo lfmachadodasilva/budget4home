@@ -75,7 +75,7 @@ export const ImportPage = memo(() => {
     // add labels
     try {
       for (const name of labelNamesToAdd) {
-        const id = await addLabel(name, selectedGroup);
+        const id = await addLabel({ name } as LabelModel, selectedGroup);
         labels = [...labels, { id, name } as LabelModel];
       }
     } catch {

@@ -1,15 +1,20 @@
 import { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router';
+import { replace } from 'lodash';
 
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { ItemComponent, ItemsComponent } from '../../components/items/items';
 import { SearchComponent } from '../../components/search/search';
 import { GlobalContext } from '../../contexts/globalContext';
+import { redirectTo } from '../../helpers/redirectHelper';
 import { LabelFullModel } from '../../models/labelModel';
 import { getFullAllLabels } from '../../services/labelService';
+import { Routes } from '../routes';
 
 export const LabelPage = memo(() => {
   const [t] = useTranslation();
+  const history = useHistory();
   const { group, month, year } = useContext(GlobalContext);
 
   const [labels, setLabels] = useState<LabelFullModel[]>([]);
@@ -17,8 +22,15 @@ export const LabelPage = memo(() => {
     getFullAllLabels(group, month, year).then(value => setLabels(value));
   }, [group, month, year]);
 
-  const handleOnAdd = useCallback(() => {}, []);
-  const handleOnEdit = useCallback((id: number | string) => {}, []);
+  const handleOnAdd = useCallback(() => {
+    redirectTo(history, replace(Routes.labelAdd, ':groupId', group.toString()));
+  }, [history, group]);
+  const handleOnEdit = useCallback(
+    (id: number | string) => {
+      redirectTo(history, replace(Routes.labelEdit, ':id', id.toString()));
+    },
+    [history]
+  );
   const handleOnDelete = useCallback((id: number | string) => {}, []);
 
   const labelsItems = useMemo(
@@ -44,7 +56,7 @@ export const LabelPage = memo(() => {
           </div>
         </ItemComponent>
       )),
-    [labels]
+    [labels, handleOnEdit, handleOnDelete, t]
   );
 
   return (

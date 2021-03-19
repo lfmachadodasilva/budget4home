@@ -51,7 +51,7 @@ export const WakeServerComponent = memo((props: PropsWithChildren<unknown>) => {
         setLoadingElement(
           <>
             <div className="d-flex justify-content-center m-4">
-              <div className="spinner-border" role="status">
+              <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
             </div>
