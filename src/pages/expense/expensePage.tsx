@@ -9,7 +9,7 @@ import { ItemComponent, ItemsComponent } from '../../components/items/items';
 import { SearchComponent } from '../../components/search/search';
 import { GlobalContext } from '../../contexts/globalContext';
 import { ExpenseModel } from '../../models/expenseModel';
-import { getAllExpenses } from '../../services/expenseService';
+import { deleteExpense, getAllExpenses } from '../../services/expenseService';
 import { redirectTo } from '../../helpers/redirectHelper';
 import { Routes } from '../routes';
 
@@ -18,24 +18,37 @@ export const ExpensePage = memo(() => {
   const history = useHistory();
   const { group, month, year } = useContext(GlobalContext);
 
+  const [reload, setReload] = useState(false);
   const [expenses, setExpenses] = useState<ExpenseModel[]>([]);
+
   useEffect(() => {
     getAllExpenses(group, month, year).then(value => setExpenses(value));
-  }, [group, month, year]);
+  }, [group, month, year, reload]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.expenseAdd, ':groupId', group.toString()));
   }, [history, group]);
   const handleOnEdit = useCallback(
     (id: number | string) => {
-      console.log(id, group);
       const pathWithGroup = replace(Routes.expenseManage, ':groupId', group.toString());
       const pathWithGroupAndId = replace(pathWithGroup, ':id', id.toString());
       redirectTo(history, pathWithGroupAndId);
     },
     [history, group]
   );
-  const handleOnDelete = useCallback((id: number | string) => {}, []);
+  const handleOnDelete = useCallback(
+    (id: number | string) => {
+      deleteExpense(id as number)
+        .then(() => {})
+        .catch(() => {
+          // TODO error
+        })
+        .finally(() => {
+          setReload(!reload);
+        });
+    },
+    [reload]
+  );
 
   const labelsItems = useMemo(
     () =>

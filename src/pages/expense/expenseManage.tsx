@@ -1,8 +1,9 @@
-import { format, parse, toDate } from 'date-fns';
-import { first } from 'lodash';
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { format, parse } from 'date-fns';
+import { first } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
+
 import { ItemFooterComponent } from '../../components/itemFooter/itemFooter';
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { redirectTo } from '../../helpers/redirectHelper';

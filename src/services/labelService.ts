@@ -1,5 +1,5 @@
 import { LabelFullModel, LabelModel } from '../models/labelModel';
-import { GET, POST, PUT } from './baseService';
+import { DELETE, GET, POST, PUT } from './baseService';
 
 export const getAllLabels = async (group: number): Promise<LabelModel[]> => {
   return GET<LabelModel[]>('/api/label', { groupId: group });
@@ -19,4 +19,8 @@ export const addLabel = async (label: LabelModel, group: number): Promise<number
 
 export const editLabel = async (label: LabelModel, group: number): Promise<number> => {
   return PUT<number>('/api/label', {}, { id: label.id, name: label.name });
+};
+
+export const deleteLabel = async (id: number): Promise<number> => {
+  return DELETE<number>('/api/label/' + id);
 };

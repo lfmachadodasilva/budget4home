@@ -8,17 +8,18 @@ import { ItemComponent, ItemsComponent } from '../../components/items/items';
 import { redirectTo } from '../../helpers/redirectHelper';
 import { getUserDisplayName } from '../../helpers/userHelper';
 import { GroupFullModel } from '../../models/groupModel';
-import { getFullAllGroups } from '../../services/groupService';
+import { deleteGroup, getFullAllGroups } from '../../services/groupService';
 import { Routes } from '../routes';
 
 export const GroupPage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const [groups, setGroups] = useState<GroupFullModel[]>([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     getFullAllGroups().then(value => setGroups(value));
-  }, []);
+  }, [reload]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.groupManage, ':id', '0'));
@@ -29,7 +30,19 @@ export const GroupPage = memo(() => {
     },
     [history]
   );
-  const handleOnDelete = useCallback((id: number | string) => {}, []);
+  const handleOnDelete = useCallback(
+    (id: number | string) => {
+      deleteGroup(id as number)
+        .then(() => {})
+        .catch(() => {
+          // TODO error
+        })
+        .finally(() => {
+          setReload(!reload);
+        });
+    },
+    [reload]
+  );
 
   const groupsItems = useMemo(
     () =>

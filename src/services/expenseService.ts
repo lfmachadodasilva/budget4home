@@ -1,5 +1,5 @@
 import { ExpenseManageModel, ExpenseModel } from '../models/expenseModel';
-import { GET, POST, PUT } from './baseService';
+import { DELETE, GET, POST, PUT } from './baseService';
 
 export const getAllExpenses = async (group: number, month: number, year: number): Promise<ExpenseModel[]> => {
   return GET<ExpenseModel[]>('/api/expense', { group, month, year });
@@ -46,4 +46,8 @@ export const editExpense = async (group: number, expense: ExpenseManageModel): P
       schedule: expense.schedule
     }
   );
+};
+
+export const deleteExpense = async (id: number): Promise<number> => {
+  return DELETE<number>('/api/expense/' + id);
 };

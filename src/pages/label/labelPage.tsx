@@ -9,13 +9,14 @@ import { SearchComponent } from '../../components/search/search';
 import { GlobalContext } from '../../contexts/globalContext';
 import { redirectTo } from '../../helpers/redirectHelper';
 import { LabelFullModel } from '../../models/labelModel';
-import { getFullAllLabels } from '../../services/labelService';
+import { deleteLabel, getFullAllLabels } from '../../services/labelService';
 import { Routes } from '../routes';
 
 export const LabelPage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const { group, month, year } = useContext(GlobalContext);
+  const [reload, setReload] = useState(false);
 
   const [labels, setLabels] = useState<LabelFullModel[]>([]);
   useEffect(() => {
@@ -31,8 +32,19 @@ export const LabelPage = memo(() => {
     },
     [history]
   );
-  const handleOnDelete = useCallback((id: number | string) => {}, []);
-
+  const handleOnDelete = useCallback(
+    (id: number | string) => {
+      deleteLabel(id as number)
+        .then(() => {})
+        .catch(() => {
+          // TODO error
+        })
+        .finally(() => {
+          setReload(!reload);
+        });
+    },
+    [reload]
+  );
   const labelsItems = useMemo(
     () =>
       labels.map(l => (
