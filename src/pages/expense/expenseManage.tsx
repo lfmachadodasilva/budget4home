@@ -59,17 +59,19 @@ export const ExpenseManage: FC = memo(() => {
 
   const handleOnAction = useCallback(() => {
     const runAsync = async () => {
+      const expense = {
+        id: +id ?? 0,
+        type: type,
+        name: name ?? '',
+        value: value,
+        date: date,
+        schedule: schedule,
+        labelId: labelId ?? 0,
+        comments: comments
+      } as ExpenseManageModel;
+
       if (isEditMode) {
-        editExpense(+groupId, {
-          id: +id,
-          type: type,
-          name: name ?? '',
-          value: value,
-          date: date,
-          schedule: schedule,
-          labelId: labelId ?? 0,
-          comments: comments
-        } as ExpenseManageModel)
+        editExpense(+groupId, expense)
           .then(() => {
             redirectTo(history, Routes.expense);
           })
@@ -77,16 +79,7 @@ export const ExpenseManage: FC = memo(() => {
             // TODO
           });
       } else {
-        addExpense(+groupId, {
-          id: 0,
-          type: type,
-          name: name ?? '',
-          value: value,
-          date: date,
-          schedule: schedule,
-          labelId: labelId ?? 0,
-          comments: comments
-        } as ExpenseManageModel)
+        addExpense(+groupId, expense)
           .then(() => {
             redirectTo(history, Routes.expense);
           })
@@ -192,7 +185,7 @@ export const ExpenseManage: FC = memo(() => {
             className="form-control"
             id="expense-value"
             onChange={handleOnChangeValue}
-            value={value}
+            value={value ?? 0}
           />
         </div>
         <div className="mb-2">

@@ -1,13 +1,10 @@
 import { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
-import queryString from 'query-string';
 
 import { GlobalContext } from '../../contexts/globalContext';
 
 export const SearchComponent = memo(() => {
   const [t] = useTranslation();
-  const history = useHistory();
   const global = useContext(GlobalContext);
 
   const [months] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
@@ -59,15 +56,8 @@ export const SearchComponent = memo(() => {
     setYear(+event.target.value);
   }, []);
   const handleOnSearch = useCallback(() => {
-    history.push({
-      pathname: history.location.pathname,
-      search: queryString.stringify({
-        group: group,
-        month: month,
-        year: year
-      })
-    });
-  }, [history, group, month, year]);
+    global.onChange(group, month, year);
+  }, [global, group, month, year]);
 
   return (
     <div className="mb-2">

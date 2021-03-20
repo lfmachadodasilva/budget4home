@@ -1,24 +1,28 @@
-import { GroupModel } from "./groupModel";
+import { GroupModel } from './groupModel';
 
 export interface GlobalModel {
-    isLoading: boolean;
+  isLoading: boolean;
 
-    groups: GroupModel[];
-    years: number[];
+  groups: GroupModel[];
+  years: number[];
 
-    group: number;
-    month: number;
-    year: number;
+  group: number;
+  month: number;
+  year: number;
+
+  onChange: (group: number, month: number, year: number) => void;
 }
 
 const today = new Date();
 export const defaultGlobalModel: GlobalModel = {
-    isLoading: true,
+  isLoading: true,
 
-    groups: [],
-    years: [],
+  groups: [],
+  years: [],
 
-    group: 1,
-    month: today.getMonth() + 1,
-    year: today.getFullYear(),
+  group: 1,
+  month: today.getMonth() + 1,
+  year: today.getFullYear(),
+
+  onChange: () => {}
 };

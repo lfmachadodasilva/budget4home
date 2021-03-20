@@ -47,27 +47,29 @@ export const GroupPage = memo(() => {
   const groupsItems = useMemo(
     () =>
       groups.map(g => (
-        <ItemComponent key={g.id} id={g.id} title={g.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
-          <div className="d-flex">
-            {g.users.map((u, index) => {
-              return (
-                <div key={index} className="m-1">
-                  {u.photoUrl ? (
-                    <img
-                      src={u.photoUrl + '?width=16&height=16'}
-                      alt="user"
-                      className="me-1"
-                      style={{ borderRadius: '40%' }}
-                    />
-                  ) : (
-                    <i className="bi bi-person-circle me-1" />
-                  )}
-                  <small>{getUserDisplayName(u)}</small>
-                </div>
-              );
-            })}
-          </div>
-        </ItemComponent>
+        <div key={g.id}>
+          <ItemComponent id={g.id} title={g.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
+            <div className="d-flex">
+              {g.users.map((u, index) => {
+                return (
+                  <div key={index} className="m-1">
+                    {u.photoUrl ? (
+                      <img
+                        src={u.photoUrl + '?width=16&height=16'}
+                        alt="user"
+                        className="me-1"
+                        style={{ borderRadius: '40%' }}
+                      />
+                    ) : (
+                      <i className="bi bi-person-circle me-1" />
+                    )}
+                    <small>{getUserDisplayName(u)}</small>
+                  </div>
+                );
+              })}
+            </div>
+          </ItemComponent>
+        </div>
       )),
     [groups, handleOnEdit, handleOnDelete]
   );

@@ -53,25 +53,27 @@ export const ExpensePage = memo(() => {
   const labelsItems = useMemo(
     () =>
       expenses.map(e => (
-        <ItemComponent id={e.id} title={e.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
-          <div className="d-flex justify-content-between">
-            <div className="m-1">
-              <small>{t('DATE')}</small>
-              <br></br>
-              <strong>{format(new Date(e.date), t('DATE_FORMAT'))}</strong>
+        <div key={e.id}>
+          <ItemComponent id={e.id} title={e.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
+            <div className="d-flex justify-content-between">
+              <div className="m-1">
+                <small>{t('DATE')}</small>
+                <br></br>
+                <strong>{format(new Date(e.date), t('DATE_FORMAT'))}</strong>
+              </div>
+              <div className="m-1">
+                <small>{t('LABEL')}</small>
+                <br></br>
+                <strong>{e.labelName}</strong>
+              </div>
+              <div className="m-1">
+                <small>{t('VALUE')}</small>
+                <br></br>
+                <strong>{e.value}</strong>
+              </div>
             </div>
-            <div className="m-1">
-              <small>{t('LABEL')}</small>
-              <br></br>
-              <strong>{e.labelName}</strong>
-            </div>
-            <div className="m-1">
-              <small>{t('VALUE')}</small>
-              <br></br>
-              <strong>{e.value}</strong>
-            </div>
-          </div>
-        </ItemComponent>
+          </ItemComponent>
+        </div>
       )),
     [expenses, handleOnEdit, handleOnDelete, t]
   );

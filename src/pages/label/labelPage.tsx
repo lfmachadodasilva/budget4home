@@ -48,25 +48,27 @@ export const LabelPage = memo(() => {
   const labelsItems = useMemo(
     () =>
       labels.map(l => (
-        <ItemComponent id={l.id} title={l.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
-          <div className="d-flex justify-content-between">
-            <div className="m-1">
-              <small>{t('CURRENT_VALUE')}</small>
-              <br></br>
-              <strong>{l.currValue}</strong>
+        <div key={l.id}>
+          <ItemComponent id={l.id} title={l.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
+            <div className="d-flex justify-content-between">
+              <div className="m-1">
+                <small>{t('CURRENT_VALUE')}</small>
+                <br></br>
+                <strong>{l.currValue}</strong>
+              </div>
+              <div className="m-1">
+                <small>{t('LAST_VALUE')}</small>
+                <br></br>
+                <strong>{l.lastValue}</strong>
+              </div>
+              <div className="m-1">
+                <small>{t('AVERAGE_VALUE')}</small>
+                <br></br>
+                <strong>{l.avgValue}</strong>
+              </div>
             </div>
-            <div className="m-1">
-              <small>{t('LAST_VALUE')}</small>
-              <br></br>
-              <strong>{l.lastValue}</strong>
-            </div>
-            <div className="m-1">
-              <small>{t('AVERAGE_VALUE')}</small>
-              <br></br>
-              <strong>{l.avgValue}</strong>
-            </div>
-          </div>
-        </ItemComponent>
+          </ItemComponent>
+        </div>
       )),
     [labels, handleOnEdit, handleOnDelete, t]
   );
