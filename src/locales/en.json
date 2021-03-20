@@ -14,7 +14,8 @@
     "12": "December"
   },
   "WAKE_SERVER": "server is sleeping, hang tight.",
-  "DATE_FORMAT": "dd/MM/yy",
+  "DATE_FORMAT": "dd/MM/yyyy",
+  "INPUT_DATE_FORMAT": "yyyy-MM-dd",
   "TITLE": "budget4home",
   "LABEL": "Label",
   "GROUP": "Group",

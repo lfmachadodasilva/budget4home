@@ -11,5 +11,7 @@ export class Routes {
   static labelAdd = '/label/add/:groupId';
   static labelEdit = '/label/edit/:id';
   static expense = '/expense';
-  static expenseManage = '/label/:groupId/:id';
+  static expenseManage = '/expense/:groupId/:id';
+  static expenseAdd = '/expense/:groupId';
+  static expenseEdit = '/expense/:groupId/:id';
 }
