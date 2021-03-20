@@ -161,7 +161,7 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
         onChange: handleOnChange
       }}
     >
-      {!isLoading && props.children}
+      {isReady && !isLoading && !isLoadingGroup && !isLoadingMonth && !isLoadingYear ? props.children : <>Loading...</>}
       {/* TODO add loading spinner */}
     </GlobalContext.Provider>
   );

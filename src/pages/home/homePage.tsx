@@ -1,5 +1,5 @@
 import { memo, useContext } from 'react';
-import { ConfigContext, ConfigContextProvider } from '../../contexts/configContext';
+import { ConfigContext } from '../../contexts/configContext';
 
 export const HomePage = memo(() => {
   const config = useContext(ConfigContext);
