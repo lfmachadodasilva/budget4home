@@ -8,26 +8,31 @@ import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { ItemComponent, ItemsComponent } from '../../components/items/items';
 import { SearchComponent } from '../../components/search/search';
 import { GlobalContext } from '../../contexts/globalContext';
-import { ExpenseModel } from '../../models/expenseModel';
+import { ExpenseModel, ExpenseType } from '../../models/expenseModel';
 import { deleteExpense, getAllExpenses } from '../../services/expenseService';
 import { redirectTo } from '../../helpers/redirectHelper';
 import { Routes } from '../routes';
+import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { TabsComponent } from '../../components/tabs/tabs';
+import { ExpenseSummaryPage } from './expenseSummary';
 
 export const ExpensePage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const { group, month, year } = useContext(GlobalContext);
   const [isLoading, setLoading] = useState(false);
-
   const [reload, setReload] = useState(false);
+  const [error, setError] = useState<string>();
   const [expenses, setExpenses] = useState<ExpenseModel[]>([]);
 
   useEffect(() => {
+    setError(undefined);
     setLoading(true);
     getAllExpenses(group, month, year)
       .then(value => setExpenses(value))
+      .catch(() => setError(t('ERROR_LOAD')))
       .finally(() => setLoading(false));
-  }, [group, month, year]);
+  }, [group, month, year, t]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.expenseAdd, ':groupId', group.toString()));
@@ -44,19 +49,17 @@ export const ExpensePage = memo(() => {
     (id: number | string) => {
       deleteExpense(id as number)
         .then(() => {})
-        .catch(() => {
-          // TODO error
-        })
+        .catch(() => setError(t('ERROR_DELETE')))
         .finally(() => {
           setReload(!reload);
         });
     },
-    [reload]
+    [reload, t]
   );
 
-  const labelsItems = useMemo(
-    () =>
-      expenses.map(e => (
+  const mapItems = useCallback(
+    (items: ExpenseModel[]) =>
+      items.map(e => (
         <div key={e.id}>
           <ItemComponent id={e.id} title={e.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
             <div className="d-flex justify-content-between">
@@ -79,14 +82,43 @@ export const ExpensePage = memo(() => {
           </ItemComponent>
         </div>
       )),
-    [expenses, handleOnEdit, handleOnDelete, t]
+    [handleOnEdit, handleOnDelete, t]
   );
+
+  const [incoming, outcoming] = useMemo(() => {
+    let outcoming: ExpenseModel[] = [];
+    let incoming: ExpenseModel[] = [];
+
+    expenses.forEach(e => (e.type === ExpenseType.Incoming ? incoming.push(e) : outcoming.push(e)));
+
+    return [mapItems(incoming), mapItems(outcoming)];
+  }, [expenses, mapItems]);
 
   return (
     <>
       <SearchComponent />
-      <ItemHeaderComponent title={t('EXPENSE')} actionText={t('ADD')} onAction={handleOnAdd} />
-      <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <ItemHeaderComponent
+        title={t('EXPENSE')}
+        actionText={t('ADD')}
+        onAction={handleOnAdd}
+        disableAction={isLoading || error !== undefined}
+      />
+      <TabsComponent
+        items={[
+          { key: 'summary', title: t('SUMMARY'), body: <ExpenseSummaryPage items={expenses} /> },
+          {
+            key: 'incoming',
+            title: t('INCOMING'),
+            body: <ItemsComponent isLoading={isLoading}>{incoming}</ItemsComponent>
+          },
+          {
+            key: 'outcoming',
+            title: t('OUTCOMING'),
+            body: <ItemsComponent isLoading={isLoading}>{outcoming}</ItemsComponent>
+          }
+        ]}
+      />
     </>
   );
 });

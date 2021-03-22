@@ -11,6 +11,7 @@ import { redirectTo } from '../../helpers/redirectHelper';
 import { LabelFullModel } from '../../models/labelModel';
 import { deleteLabel, getFullAllLabels } from '../../services/labelService';
 import { Routes } from '../routes';
+import { AlertComponent, AlertTypes } from '../../components/alert/alert';
 
 export const LabelPage = memo(() => {
   const [t] = useTranslation();
@@ -18,14 +19,16 @@ export const LabelPage = memo(() => {
   const { group, month, year } = useContext(GlobalContext);
   const [isLoading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [error, setError] = useState<string>();
 
   const [labels, setLabels] = useState<LabelFullModel[]>([]);
   useEffect(() => {
     setLoading(true);
     getFullAllLabels(group, month, year)
       .then(value => setLabels(value))
+      .catch(() => setError(t('ERROR_LOAD')))
       .finally(() => setLoading(false));
-  }, [group, month, year, reload]);
+  }, [group, month, year, reload, t]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.labelAdd, ':groupId', group.toString()));
@@ -40,14 +43,12 @@ export const LabelPage = memo(() => {
     (id: number | string) => {
       deleteLabel(id as number)
         .then(() => {})
-        .catch(() => {
-          // TODO error
-        })
+        .catch(() => setError(t('ERROR_DELETE')))
         .finally(() => {
           setReload(!reload);
         });
     },
-    [reload]
+    [reload, t]
   );
   const labelsItems = useMemo(
     () =>
@@ -80,7 +81,13 @@ export const LabelPage = memo(() => {
   return (
     <>
       <SearchComponent />
-      <ItemHeaderComponent title={t('LABEL')} actionText={t('ADD')} onAction={handleOnAdd} />
+      <ItemHeaderComponent
+        title={t('LABEL')}
+        actionText={t('ADD')}
+        onAction={handleOnAdd}
+        disableAction={isLoading || error !== undefined}
+      />
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
     </>
   );

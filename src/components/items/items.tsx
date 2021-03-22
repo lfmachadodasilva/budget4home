@@ -1,6 +1,6 @@
 import React, { FC, memo, PropsWithChildren, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LoadingComponent } from '../loading/loadingComponent';
+import { LoadingComponent } from '../loading/loading';
 
 export type ItemsProps = {
   isLoading: boolean;
@@ -9,7 +9,7 @@ export type ItemsProps = {
 export const ItemsComponent: React.FC<PropsWithChildren<ItemsProps>> = React.memo(
   (props: PropsWithChildren<ItemsProps>) => {
     return (
-      <div className="list-group">
+      <div className="list-group mb-4">
         <LoadingComponent isLoading={props.isLoading}>{props.children}</LoadingComponent>
       </div>
     );

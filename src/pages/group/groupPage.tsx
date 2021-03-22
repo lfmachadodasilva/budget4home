@@ -10,19 +10,23 @@ import { getUserDisplayName } from '../../helpers/userHelper';
 import { GroupFullModel } from '../../models/groupModel';
 import { deleteGroup, getFullAllGroups } from '../../services/groupService';
 import { Routes } from '../routes';
+import { AlertComponent, AlertTypes } from '../../components/alert/alert';
 
 export const GroupPage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const [groups, setGroups] = useState<GroupFullModel[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const [reload, setReload] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     setLoading(true);
     getFullAllGroups()
       .then(value => setGroups(value))
+      .catch(() => setError(t('ERROR_LOAD')))
       .finally(() => setLoading(false));
-  }, []);
+  }, [reload, t]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.groupManage, ':id', '0'));
@@ -37,14 +41,12 @@ export const GroupPage = memo(() => {
     (id: number | string) => {
       deleteGroup(id as number)
         .then(() => {})
-        .catch(() => {
-          // TODO error
-        })
+        .catch(() => setError(t('ERROR_DELETE')))
         .finally(() => {
           setReload(!reload);
         });
     },
-    [reload]
+    [reload, t]
   );
 
   const groupsItems = useMemo(
@@ -79,7 +81,13 @@ export const GroupPage = memo(() => {
 
   return (
     <>
-      <ItemHeaderComponent title={t('GROUP')} actionText={t('ADD')} onAction={handleOnAdd} />
+      <ItemHeaderComponent
+        title={t('GROUP')}
+        actionText={t('ADD')}
+        onAction={handleOnAdd}
+        disableAction={isLoading || error !== undefined}
+      />
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <ItemsComponent isLoading={isLoading}>{groupsItems}</ItemsComponent>
     </>
   );
