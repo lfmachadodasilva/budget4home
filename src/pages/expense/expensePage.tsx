@@ -12,10 +12,14 @@ import { getAllExpenses } from '../../services/expenseService';
 export const ExpensePage = memo(() => {
   const [t] = useTranslation();
   const { group, month, year } = useContext(GlobalContext);
+  const [isLoading, setLoading] = useState(false);
 
   const [expenses, setExpenses] = useState<ExpenseModel[]>([]);
   useEffect(() => {
-    getAllExpenses(group, month, year).then(value => setExpenses(value));
+    setLoading(true);
+    getAllExpenses(group, month, year)
+      .then(value => setExpenses(value))
+      .finally(() => setLoading(false));
   }, [group, month, year]);
 
   const handleOnAdd = useCallback(() => {}, []);
@@ -52,7 +56,7 @@ export const ExpensePage = memo(() => {
     <>
       <SearchComponent />
       <ItemHeaderComponent title={t('EXPENSE')} actionText={t('ADD')} onAction={handleOnAdd} />
-      <ItemsComponent>{labelsItems}</ItemsComponent>
+      <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
     </>
   );
 });

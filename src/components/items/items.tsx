@@ -1,11 +1,18 @@
 import React, { FC, memo, PropsWithChildren, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LoadingComponent } from '../loading/loadingComponent';
 
-export interface ItemsProps {}
+export type ItemsProps = {
+  isLoading: boolean;
+};
 
 export const ItemsComponent: React.FC<PropsWithChildren<ItemsProps>> = React.memo(
   (props: PropsWithChildren<ItemsProps>) => {
-    return <div className="list-group">{props.children}</div>;
+    return (
+      <div className="list-group">
+        <LoadingComponent isLoading={props.isLoading}>{props.children}</LoadingComponent>
+      </div>
+    );
   }
 );
 

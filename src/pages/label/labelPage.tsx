@@ -16,10 +16,14 @@ export const LabelPage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const { group, month, year } = useContext(GlobalContext);
+  const [isLoading, setLoading] = useState(false);
 
   const [labels, setLabels] = useState<LabelFullModel[]>([]);
   useEffect(() => {
-    getFullAllLabels(group, month, year).then(value => setLabels(value));
+    setLoading(true);
+    getFullAllLabels(group, month, year)
+      .then(value => setLabels(value))
+      .finally(() => setLoading(false));
   }, [group, month, year]);
 
   const handleOnAdd = useCallback(() => {
@@ -63,7 +67,7 @@ export const LabelPage = memo(() => {
     <>
       <SearchComponent />
       <ItemHeaderComponent title={t('LABEL')} actionText={t('ADD')} onAction={handleOnAdd} />
-      <ItemsComponent>{labelsItems}</ItemsComponent>
+      <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
     </>
   );
 });

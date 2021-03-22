@@ -15,9 +15,13 @@ export const GroupPage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const [groups, setGroups] = useState<GroupFullModel[]>([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    getFullAllGroups().then(value => setGroups(value));
+    setLoading(true);
+    getFullAllGroups()
+      .then(value => setGroups(value))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleOnAdd = useCallback(() => {
@@ -62,7 +66,7 @@ export const GroupPage = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('GROUP')} actionText={t('ADD')} onAction={handleOnAdd} />
-      <ItemsComponent>{groupsItems}</ItemsComponent>
+      <ItemsComponent isLoading={isLoading}>{groupsItems}</ItemsComponent>
     </>
   );
 });
