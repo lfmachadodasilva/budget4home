@@ -6,7 +6,7 @@ import { difference, find, uniq } from 'lodash';
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { GlobalContext } from '../../contexts/globalContext';
 import { csvToExpenses } from '../../helpers/csvToExpenses';
-import { ExpenseModel, ExpenseType } from '../../models/expenseModel';
+import { ExpenseManageModel, ExpenseModel, ExpenseType } from '../../models/expenseModel';
 import { addLabel, getAllLabels } from '../../services/labelService';
 import { LabelModel } from '../../models/labelModel';
 import { addExpense } from '../../services/expenseService';
@@ -91,7 +91,10 @@ export const ImportPage = memo(() => {
       }
       status[index] = StatusType.PROCESSING;
       try {
-        await addExpense(selectedGroup, expense);
+        await addExpense(selectedGroup, {
+          ...expense,
+          schedule: 0
+        } as ExpenseManageModel);
         status[index] = StatusType.PROCESSED;
       } catch {
         status[index] = StatusType.ERROR;

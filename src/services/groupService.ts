@@ -1,4 +1,4 @@
-import { GET, POST, PUT } from './baseService';
+import { DELETE, GET, POST, PUT } from './baseService';
 import { GroupFullModel, GroupModel } from '../models/groupModel';
 
 export const getAllGroups = async (): Promise<GroupModel[]> => {
@@ -34,4 +34,8 @@ export const editGroup = async (group: GroupModel): Promise<number> => {
       users: group.users
     }
   );
+};
+
+export const deleteGroup = async (id: number): Promise<number> => {
+  return DELETE<number>('/api/group/' + id);
 };

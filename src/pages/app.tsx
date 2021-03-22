@@ -18,6 +18,7 @@ import { ImportPage } from './import/importPage';
 import { ExportPage } from './export/exportPage';
 import { GroupManagePage } from './group/groupManagePage';
 import { LabelManagePage } from './label/labelManagePage';
+import { ExpenseManage } from './expense/expenseManage';
 
 function App() {
   const [user, initialising] = useAuthState(firebase.auth());
@@ -48,13 +49,14 @@ function App() {
       <HashRouter basename={'/'}>
         <HeaderComponent />
         <div className="App-body container">
-          <GlobalContextProvider isReady={isReady}>
-            {isReady && user ? (
+          {isReady && user ? (
+            <GlobalContextProvider isReady={isReady}>
               <Switch>
                 <Route key={Routes.groupManage} path={Routes.groupManage} component={GroupManagePage} />
                 <Route key={Routes.group} path={Routes.group} component={GroupPage} />
                 <Route path={[Routes.labelAdd, Routes.labelEdit]} component={LabelManagePage} />
                 <Route key={Routes.label} path={Routes.label} component={LabelPage} />
+                <Route path={[Routes.expenseEdit, Routes.expenseAdd]} component={ExpenseManage} />
                 <Route key={Routes.expense} path={Routes.expense} component={ExpensePage} />
                 <Route key={Routes.import} path={Routes.import} component={ImportPage} />
                 <Route key={Routes.export} path={Routes.export} component={ExportPage} />
@@ -63,26 +65,26 @@ function App() {
                   <h1> 404 </h1>
                 </Route>
               </Switch>
-            ) : (
-              <>
-                {isLoading && (
-                  <div>
-                    <div className="spinner-border text-primary" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                    <br></br>
+            </GlobalContextProvider>
+          ) : (
+            <>
+              {isLoading && (
+                <div>
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
-                )}
-                <Switch>
-                  <Route key={Routes.auth} path={Routes.auth} component={AuthPage} />
-                  <Route key={Routes.home} path={Routes.home} component={HomePage} />
-                  <Route key={'*'} path="*">
-                    <h1> 404 </h1>
-                  </Route>
-                </Switch>
-              </>
-            )}
-          </GlobalContextProvider>
+                  <br></br>
+                </div>
+              )}
+              <Switch>
+                <Route key={Routes.auth} path={Routes.auth} component={AuthPage} />
+                <Route key={Routes.home} path={Routes.home} component={HomePage} />
+                <Route key={'*'} path="*">
+                  <h1> 404 </h1>
+                </Route>
+              </Switch>
+            </>
+          )}
         </div>
       </HashRouter>
     </div>

@@ -9,7 +9,7 @@ import { SearchComponent } from '../../components/search/search';
 import { GlobalContext } from '../../contexts/globalContext';
 import { redirectTo } from '../../helpers/redirectHelper';
 import { LabelFullModel } from '../../models/labelModel';
-import { getFullAllLabels } from '../../services/labelService';
+import { deleteLabel, getFullAllLabels } from '../../services/labelService';
 import { Routes } from '../routes';
 
 export const LabelPage = memo(() => {
@@ -17,6 +17,7 @@ export const LabelPage = memo(() => {
   const history = useHistory();
   const { group, month, year } = useContext(GlobalContext);
   const [isLoading, setLoading] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const [labels, setLabels] = useState<LabelFullModel[]>([]);
   useEffect(() => {
@@ -24,7 +25,7 @@ export const LabelPage = memo(() => {
     getFullAllLabels(group, month, year)
       .then(value => setLabels(value))
       .finally(() => setLoading(false));
-  }, [group, month, year]);
+  }, [group, month, year, reload]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.labelAdd, ':groupId', group.toString()));
@@ -35,30 +36,43 @@ export const LabelPage = memo(() => {
     },
     [history]
   );
-  const handleOnDelete = useCallback((id: number | string) => {}, []);
-
+  const handleOnDelete = useCallback(
+    (id: number | string) => {
+      deleteLabel(id as number)
+        .then(() => {})
+        .catch(() => {
+          // TODO error
+        })
+        .finally(() => {
+          setReload(!reload);
+        });
+    },
+    [reload]
+  );
   const labelsItems = useMemo(
     () =>
       labels.map(l => (
-        <ItemComponent id={l.id} title={l.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
-          <div className="d-flex justify-content-between">
-            <div className="m-1">
-              <small>{t('CURRENT_VALUE')}</small>
-              <br></br>
-              <strong>{l.currValue}</strong>
+        <div key={l.id}>
+          <ItemComponent id={l.id} title={l.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
+            <div className="d-flex justify-content-between">
+              <div className="m-1">
+                <small>{t('CURRENT_VALUE')}</small>
+                <br></br>
+                <strong>{l.currValue}</strong>
+              </div>
+              <div className="m-1">
+                <small>{t('LAST_VALUE')}</small>
+                <br></br>
+                <strong>{l.lastValue}</strong>
+              </div>
+              <div className="m-1">
+                <small>{t('AVERAGE_VALUE')}</small>
+                <br></br>
+                <strong>{l.avgValue}</strong>
+              </div>
             </div>
-            <div className="m-1">
-              <small>{t('LAST_VALUE')}</small>
-              <br></br>
-              <strong>{l.lastValue}</strong>
-            </div>
-            <div className="m-1">
-              <small>{t('AVERAGE_VALUE')}</small>
-              <br></br>
-              <strong>{l.avgValue}</strong>
-            </div>
-          </div>
-        </ItemComponent>
+          </ItemComponent>
+        </div>
       )),
     [labels, handleOnEdit, handleOnDelete, t]
   );

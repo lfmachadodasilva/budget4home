@@ -16,3 +16,16 @@ export interface ExpenseModel {
   labelId: number;
   labelName: string;
 }
+
+export interface ExpenseManageModel {
+  id: number;
+  type: ExpenseType;
+  name: string;
+  value: number;
+  date: Date;
+  comments?: string;
+  schedule: number;
+
+  /** relations */
+  labelId: number;
+}

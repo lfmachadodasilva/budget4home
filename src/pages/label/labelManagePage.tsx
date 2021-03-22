@@ -28,14 +28,9 @@ export const LabelManagePage: FC = memo(() => {
 
   const handleOnAction = useCallback(() => {
     const runAsync = async () => {
+      const label = { id: +id ?? 0, name } as LabelModel;
       if (isEditMode) {
-        editLabel(
-          {
-            id: +id,
-            name
-          } as LabelModel,
-          +groupId
-        )
+        editLabel(label, +groupId)
           .then(() => {
             redirectTo(history, Routes.label);
           })
@@ -43,13 +38,7 @@ export const LabelManagePage: FC = memo(() => {
             // TODO
           });
       } else {
-        addLabel(
-          {
-            id: 0,
-            name
-          } as LabelModel,
-          +groupId
-        )
+        addLabel(label, +groupId)
           .then(() => {
             redirectTo(history, Routes.label);
           })

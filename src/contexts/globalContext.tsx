@@ -1,5 +1,5 @@
 import { head } from 'lodash';
-import { createContext, memo, PropsWithChildren, useEffect, useState } from 'react';
+import { createContext, memo, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { defaultGlobalModel, GlobalModel } from '../models/globalModels';
 import { GroupModel } from '../models/groupModel';
 import { getAllGroups } from '../services/groupService';
@@ -13,15 +13,31 @@ export interface GlobalContextProviderProps {
 export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContextProviderProps>) => {
   const { isReady } = props;
   const [isLoading, setLoading] = useState(true);
+  const [isLoadingGroup, setLoadingGroup] = useState(true);
+  const [isLoadingMonth, setLoadingMonth] = useState(true);
+  const [isLoadingYear, setLoadingYear] = useState(true);
 
-  const today = new Date();
   const [group, setGroup] = useState<number>(defaultGlobalModel.group);
   const [month, setMonth] = useState<number>(defaultGlobalModel.month);
   const [year, setYear] = useState<number>(defaultGlobalModel.year);
 
   const [groups, setGroups] = useState<GroupModel[]>([]);
-  const [years, setYears] = useState<number[]>([2021, 2020, 2019]);
+  const [years] = useState<number[]>([2021, 2020, 2019]);
 
+  const groupKey = 'group';
+  const monthKey = 'month';
+  const yearKey = 'year';
+
+  const handleOnChange = useCallback((group: number, month: number, year: number) => {
+    setGroup(group);
+    setMonth(month);
+    setYear(year);
+    localStorage.setItem(groupKey, group.toString());
+    localStorage.setItem(monthKey, month.toString());
+    localStorage.setItem(yearKey, year.toString());
+  }, []);
+
+  // main load - load groups
   useEffect(() => {
     if (!isReady) {
       return;
@@ -33,12 +49,7 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
         try {
           const gs = await getAllGroups();
           setGroups(gs);
-          setGroup(head(gs)?.id || 0);
         } catch (error) {}
-        // define current group
-        // get all years
-        // define current year
-        // define current month
       } catch {
         // show error
       } finally {
@@ -48,9 +59,110 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
     runAsync();
   }, [isReady]);
 
+  // first load groups
+  useEffect(() => {
+    const defineTheFirstGroup = () => {
+      // first time - select the first form the list
+      const id = head(groups)?.id;
+      if (!id) {
+        // TODO error
+        return;
+      }
+      setGroup(id);
+      localStorage.setItem(groupKey, id.toString());
+    };
+
+    const localStorageGroup = localStorage.getItem(groupKey);
+    if (!localStorageGroup) {
+      defineTheFirstGroup();
+    } else {
+      if (isNaN(+localStorageGroup)) {
+        return defineTheFirstGroup();
+      }
+      const id = groups.find(g => g.id === +localStorageGroup)?.id;
+      if (!id) {
+        // does not exist any more
+        return defineTheFirstGroup();
+      }
+      setGroup(id);
+      localStorage.setItem(groupKey, id.toString());
+    }
+
+    setLoadingGroup(false);
+  }, [groups]);
+
+  // first load month
+  useEffect(() => {
+    const defineTheCurrentMonth = () => {
+      // first time - select the current month
+      setMonth(defaultGlobalModel.month);
+      localStorage.setItem(monthKey, defaultGlobalModel.month.toString());
+    };
+
+    const localStorageMonth = localStorage.getItem(monthKey);
+    if (!localStorageMonth) {
+      defineTheCurrentMonth();
+    } else {
+      if (isNaN(+localStorageMonth)) {
+        return defineTheCurrentMonth();
+      }
+      if (+localStorageMonth < 1 && +localStorageMonth > 12) {
+        // does not exist any more
+        return defineTheCurrentMonth();
+      }
+      setMonth(+localStorageMonth);
+      localStorage.setItem(monthKey, (+localStorageMonth).toString());
+    }
+
+    setLoadingMonth(false);
+  }, []);
+
+  // first load year
+  useEffect(() => {
+    const defineTheCurrentYear = () => {
+      // first time - select the first year
+      setYear(defaultGlobalModel.year);
+      localStorage.setItem(yearKey, defaultGlobalModel.year.toString());
+    };
+
+    const localStorageYear = localStorage.getItem(yearKey);
+    if (!localStorageYear) {
+      defineTheCurrentYear();
+    } else {
+      if (isNaN(+localStorageYear)) {
+        return defineTheCurrentYear();
+      }
+      const id = years.find(g => g === +localStorageYear);
+      if (!id) {
+        // does not exist any more
+        return defineTheCurrentYear();
+      }
+      setYear(id);
+      localStorage.setItem(yearKey, id.toString());
+    }
+
+    setLoadingYear(false);
+  }, [years]);
+
+  useEffect(() => {
+    // TODO load availables years
+  }, [group]);
+
   return (
-    <GlobalContext.Provider value={{ ...defaultGlobalModel, groups, years, group, month, year }}>
-      {props.children}
+    <GlobalContext.Provider
+      value={{
+        ...defaultGlobalModel,
+        groups,
+        years,
+        group,
+        month,
+        year,
+        isLoading: isLoading || isLoadingGroup || isLoadingMonth || isLoadingYear,
+        onChange: handleOnChange
+      }}
+    >
+      {isReady && !isLoading && !isLoadingGroup && !isLoadingMonth && !isLoadingYear ? props.children : <>Loading...</>}
+      {/* TODO add loading spinner */}
     </GlobalContext.Provider>
   );
 });
