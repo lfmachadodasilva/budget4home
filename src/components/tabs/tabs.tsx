@@ -2,7 +2,7 @@ import { FC, memo, useCallback, useMemo, useState } from 'react';
 
 export type TabProps = {
   key: string;
-  title: string;
+  title: string | JSX.Element;
   body: JSX.Element;
 };
 

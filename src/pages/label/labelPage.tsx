@@ -12,6 +12,8 @@ import { LabelFullModel } from '../../models/labelModel';
 import { deleteLabel, getFullAllLabels } from '../../services/labelService';
 import { Routes } from '../routes';
 import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { TabsComponent } from '../../components/tabs/tabs';
+import { LabelGraphPage } from './labelGraphPage';
 
 export const LabelPage = memo(() => {
   const [t] = useTranslation();
@@ -88,7 +90,20 @@ export const LabelPage = memo(() => {
         disableAction={isLoading || error !== undefined}
       />
       <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
-      <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
+      <TabsComponent
+        items={[
+          {
+            key: 'graph',
+            title: t('GRAPH'),
+            body: <LabelGraphPage isLoading={isLoading} items={labels} />
+          },
+          {
+            key: 'items',
+            title: t('ITEMS'),
+            body: <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
+          }
+        ]}
+      />
     </>
   );
 });
