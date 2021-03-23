@@ -81,6 +81,8 @@ export const ExpenseManage: FC = memo(() => {
       } else {
         addExpense(+groupId, expense)
           .then(() => {
+            // save this label to be used next time
+            labelId && localStorage.setItem('lastLabel', labelId.toString());
             redirectTo(history, Routes.expense);
           })
           .catch(() => {
@@ -136,7 +138,19 @@ export const ExpenseManage: FC = memo(() => {
             </option>
           ))
         );
-        !isEditMode && setLabelId(first(value)?.id);
+        if (!isEditMode) {
+          // check localstorage for the last label usedd
+          const lastLabel = localStorage.getItem('lastLabel');
+          if (lastLabel && value.find(x => x.id === +lastLabel)) {
+            // this label is valid
+            setLabelId(+lastLabel);
+          } else {
+            // select the first one available
+            const firstLabel = first(value)?.id;
+            setLabelId(firstLabel);
+            firstLabel && localStorage.setItem('lastLabel', firstLabel.toString());
+          }
+        }
       })
       .catch(() => {
         // TODO
