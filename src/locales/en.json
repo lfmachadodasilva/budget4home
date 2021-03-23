@@ -32,6 +32,8 @@
   "DELETE": "Delete",
   "ADD": "Add",
   "CURRENT_VALUE": "Value",
+  "CURRENT_MONTH": "This month",
+  "LAST_MONTH": "Last month",
   "LAST_VALUE": "Last",
   "AVERAGE_VALUE": "Average",
   "DATE": "Date",
