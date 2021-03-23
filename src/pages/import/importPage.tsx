@@ -93,7 +93,7 @@ export const ImportPage = memo(() => {
       try {
         await addExpense(selectedGroup, {
           ...expense,
-          schedule: 0
+          schedule: 1
         } as ExpenseManageModel);
         status[index] = StatusType.PROCESSED;
       } catch {

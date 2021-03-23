@@ -61,17 +61,17 @@ export const LabelPage = memo(() => {
               <div className="m-1">
                 <small>{t('CURRENT_VALUE')}</small>
                 <br></br>
-                <strong>{l.currValue}</strong>
+                <strong>{l.currValue.toFixed(2)}</strong>
               </div>
               <div className="m-1">
                 <small>{t('LAST_VALUE')}</small>
                 <br></br>
-                <strong>{l.lastValue}</strong>
+                <strong>{l.lastValue.toFixed(2)}</strong>
               </div>
               <div className="m-1">
                 <small>{t('AVERAGE_VALUE')}</small>
                 <br></br>
-                <strong>{l.avgValue}</strong>
+                <strong>{l.avgValue.toFixed(2)}</strong>
               </div>
             </div>
           </ItemComponent>
