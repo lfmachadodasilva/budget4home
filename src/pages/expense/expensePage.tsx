@@ -83,7 +83,7 @@ export const ExpensePage = memo(() => {
               <div className="m-1">
                 <small>{t('VALUE')}</small>
                 <br></br>
-                <strong>{e.value}</strong>
+                <strong>{e.value.toFixed(2)}</strong>
               </div>
             </div>
           </ItemComponent>
