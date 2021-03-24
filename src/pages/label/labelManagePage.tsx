@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 
@@ -8,6 +8,7 @@ import { redirectTo } from '../../helpers/redirectHelper';
 import { LabelModel } from '../../models/labelModel';
 import { addLabel, editLabel, getLabel } from '../../services/labelService';
 import { Routes } from '../routes';
+import { AlertComponent, AlertTypes } from '../../components/alert/alert';
 
 interface ManageProps {
   id: string;
@@ -21,8 +22,9 @@ export const LabelManagePage: FC = memo(() => {
   const { id, groupId } = useParams<ManageProps>();
   const [isEditMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
+  const [error, setError] = useState<string>();
 
-  const handleOnChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   }, []);
 
@@ -34,21 +36,17 @@ export const LabelManagePage: FC = memo(() => {
           .then(() => {
             redirectTo(history, Routes.label);
           })
-          .catch(() => {
-            // TODO
-          });
+          .catch(() => setError(t('ERROR_EDIT')));
       } else {
         addLabel(label, +groupId)
           .then(() => {
             redirectTo(history, Routes.label);
           })
-          .catch(() => {
-            // TODO
-          });
+          .catch(() => setError(t('ERROR_ADD')));
       }
     };
     runAsync();
-  }, [isEditMode, name, history, id, groupId]);
+  }, [isEditMode, name, history, id, groupId, t]);
 
   const handleOnCancel = useCallback(() => {
     redirectTo(history, Routes.label);
@@ -67,11 +65,13 @@ export const LabelManagePage: FC = memo(() => {
         try {
           var label = await getLabel(+id);
           setName(label.name);
-        } catch {}
+        } catch {
+          setError(t('ERROR_DELETE'));
+        }
       };
       runAsync();
     }
-  }, [id]);
+  }, [id, t]);
 
   const isActionDisabled = useMemo(() => {
     return name.length === 0;
@@ -80,6 +80,7 @@ export const LabelManagePage: FC = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('LABEL')} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <form>
         <div className="mb-2">
           <label htmlFor="group-name" className="form-label">

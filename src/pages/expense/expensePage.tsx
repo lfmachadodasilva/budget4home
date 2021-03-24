@@ -47,12 +47,13 @@ export const ExpensePage = memo(() => {
   );
   const handleOnDelete = useCallback(
     (id: number | string) => {
-      deleteExpense(id as number)
-        .then(() => {})
-        .catch(() => setError(t('ERROR_DELETE')))
-        .finally(() => {
-          setReload(!reload);
-        });
+      window.confirm(t('DELETE_EXPENSE')) &&
+        deleteExpense(id as number)
+          .then(() => {})
+          .catch(() => setError(t('ERROR_DELETE')))
+          .finally(() => {
+            setReload(!reload);
+          });
     },
     [reload, t]
   );

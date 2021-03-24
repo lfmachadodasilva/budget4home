@@ -58,9 +58,14 @@
   "SUMMARY": "Summary",
   "ERROR_LOAD": "Failed to load. Try again later.",
   "ERROR_DELETE": "Failed to delete. Try again later.",
+  "ERROR_ADD": "Failed to add. Try again later.",
+  "ERROR_EDIT": "Failed to edit. Try again later.",
   "TOTAL_INCOMING": "Total incoming",
   "TOTAL_OUTCOMING": "Total outcoming",
   "TOTAL_LEFT": "Total left",
   "GRAPH": "Graph",
-  "ITEMS": "Items"
+  "ITEMS": "Items",
+  "DELETE_GROUP": "Are you sure you want to delete this group?\n\nDeleting this group will delete all the connected labels and expenses.",
+  "DELETE_LABEL": "Are you sure you want to delete this label?\n\nDeleting this label will delete all the connected expenses.",
+  "DELETE_EXPENSE": "Are you sure you want to delete this expense?\n\nDeleting this expense will delete all the connected expenses."
 }

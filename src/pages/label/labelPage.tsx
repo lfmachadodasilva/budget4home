@@ -43,12 +43,13 @@ export const LabelPage = memo(() => {
   );
   const handleOnDelete = useCallback(
     (id: number | string) => {
-      deleteLabel(id as number)
-        .then(() => {})
-        .catch(() => setError(t('ERROR_DELETE')))
-        .finally(() => {
-          setReload(!reload);
-        });
+      window.confirm(t('DELETE_LABEL')) &&
+        deleteLabel(id as number)
+          .then(() => {})
+          .catch(() => setError(t('ERROR_DELETE')))
+          .finally(() => {
+            setReload(!reload);
+          });
     },
     [reload, t]
   );

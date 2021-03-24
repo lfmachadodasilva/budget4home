@@ -39,12 +39,13 @@ export const GroupPage = memo(() => {
   );
   const handleOnDelete = useCallback(
     (id: number | string) => {
-      deleteGroup(id as number)
-        .then(() => {})
-        .catch(() => setError(t('ERROR_DELETE')))
-        .finally(() => {
-          setReload(!reload);
-        });
+      window.confirm(t('DELETE_GROUP')) &&
+        deleteGroup(id as number)
+          .then(() => {})
+          .catch(() => setError(t('ERROR_DELETE')))
+          .finally(() => {
+            setReload(!reload);
+          });
     },
     [reload, t]
   );

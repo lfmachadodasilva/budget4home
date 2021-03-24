@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import { UserModel } from '../../models/userModel';
 import { addGroup, editGroup, getGroup } from '../../services/groupService';
 import { getAllUsers } from '../../services/userService';
 import { Routes } from '../routes';
+import { AlertComponent, AlertTypes } from '../../components/alert/alert';
 
 interface ManageProps {
   id: string;
@@ -24,8 +25,9 @@ export const GroupManagePage = memo(() => {
   const [name, setName] = useState('');
   const [users, setUsers] = useState<UserModel[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [error, setError] = useState<string>();
 
-  const handleOnChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   }, []);
   const handleOnChangeUser = useCallback(event => {
@@ -40,21 +42,17 @@ export const GroupManagePage = memo(() => {
           .then(() => {
             redirectTo(history, Routes.group);
           })
-          .catch(() => {
-            // TODO
-          });
+          .catch(() => setError(t('ERROR_EDIT')));
       } else {
         addGroup(group)
           .then(() => {
             redirectTo(history, Routes.group);
           })
-          .catch(() => {
-            // TODO
-          });
+          .catch(() => setError(t('ERROR_ADD')));
       }
     };
     runAsync();
-  }, [isEditMode, name, selectedUsers, history, id]);
+  }, [isEditMode, name, selectedUsers, history, id, t]);
   const handleOnCancel = useCallback(() => {
     redirectTo(history, Routes.group);
   }, [history]);
@@ -66,12 +64,10 @@ export const GroupManagePage = memo(() => {
         .then(value => {
           setUsers(value);
         })
-        .catch(() => {
-          // TODO
-        });
+        .catch(() => setError(t('ERROR_DELETE')));
     };
     runAsync();
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (isNaN(+id)) {
@@ -110,6 +106,7 @@ export const GroupManagePage = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('GROUP')} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <form>
         <div className="mb-2">
           <label htmlFor="group-name" className="form-label">

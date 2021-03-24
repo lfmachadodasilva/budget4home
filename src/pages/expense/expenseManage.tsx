@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { format, parse } from 'date-fns';
 import { first } from 'lodash';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,7 @@ import { ExpenseManageModel, ExpenseType } from '../../models/expenseModel';
 import { addExpense, editExpense, getExpense } from '../../services/expenseService';
 import { getAllLabels } from '../../services/labelService';
 import { Routes } from '../routes';
+import { AlertComponent, AlertTypes } from '../../components/alert/alert';
 
 interface ManageProps {
   id: string;
@@ -31,29 +32,30 @@ export const ExpenseManage: FC = memo(() => {
   const [labelId, setLabelId] = useState<number>();
   const [labels, setLabels] = useState<JSX.Element[]>([]);
   const [comments, setComments] = useState<string>();
+  const [error, setError] = useState<string>();
 
-  const handleOnChangeName = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeName = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   }, []);
-  const handleOnChangeValue = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChangeValue = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setValue(+event.target.value);
   }, []);
-  const handleOnChangeType = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleOnChangeType = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setType(+event.target.value);
   }, []);
   const handleOnChangeDate = useCallback(
-    (event: React.ChangeEvent<HTMLDataElement>) => {
+    (event: ChangeEvent<HTMLDataElement>) => {
       setDate(parse(event.target.value, t('INPUT_DATE_FORMAT'), new Date()));
     },
     [t]
   );
-  const handleOnChangeSchedule = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleOnChangeSchedule = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setSchedule(+event.target.value);
   }, []);
-  const handleOnChangeLabel = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleOnChangeLabel = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setLabelId(+event.target.value);
   }, []);
-  const handleOnChangeComments = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleOnChangeComments = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     setComments(event.target.value);
   }, []);
 
@@ -75,9 +77,7 @@ export const ExpenseManage: FC = memo(() => {
           .then(() => {
             redirectTo(history, Routes.expense);
           })
-          .catch(() => {
-            // TODO
-          });
+          .catch(() => setError(t('ERROR_EDIT')));
       } else {
         addExpense(+groupId, expense)
           .then(() => {
@@ -85,13 +85,11 @@ export const ExpenseManage: FC = memo(() => {
             labelId && localStorage.setItem('lastLabel', labelId.toString());
             redirectTo(history, Routes.expense);
           })
-          .catch(() => {
-            // TODO
-          });
+          .catch(() => setError(t('ERROR_ADD')));
       }
     };
     runAsync();
-  }, [isEditMode, name, history, id, groupId, date, labelId, schedule, type, value, comments]);
+  }, [isEditMode, name, history, id, groupId, date, labelId, schedule, type, value, comments, t]);
 
   const handleOnCancel = useCallback(() => {
     redirectTo(history, Routes.expense);
@@ -152,10 +150,8 @@ export const ExpenseManage: FC = memo(() => {
           }
         }
       })
-      .catch(() => {
-        // TODO
-      });
-  }, [isEditMode, groupId]);
+      .catch(() => setError(t('ERROR_DELETE')));
+  }, [isEditMode, groupId, t]);
 
   const isActionDisabled = useMemo(() => {
     return !name || name.length === 0 || !value || value < 0 || labels.length === 0 || !labelId;
@@ -164,6 +160,7 @@ export const ExpenseManage: FC = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('EXPENSE')} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <form>
         <div className="mb-2">
           <label htmlFor="expense-type" className="form-label">
