@@ -23,7 +23,7 @@ export const AlertComponent: FC<AlertProps> = memo((props: AlertProps) => {
     return <></>;
   }
   return (
-    <div className={`alert ${props.type.toString()}`} role="alert">
+    <div className={`alert ${props.type.toString()} mb-2`} role="alert">
       {props.title && <h4 className="alert-heading">{props.title}</h4>}
       {props.body}
     </div>

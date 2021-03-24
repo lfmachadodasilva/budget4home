@@ -94,14 +94,14 @@ export const LabelPage = memo(() => {
       <TabsComponent
         items={[
           {
-            key: 'graph',
-            title: t('GRAPH'),
-            body: <LabelGraphPage isLoading={isLoading} items={labels} />
-          },
-          {
             key: 'items',
             title: t('ITEMS'),
             body: <ItemsComponent isLoading={isLoading}>{labelsItems}</ItemsComponent>
+          },
+          {
+            key: 'graph',
+            title: t('GRAPH'),
+            body: <LabelGraphPage isLoading={isLoading} items={labels} />
           }
         ]}
       />

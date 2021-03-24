@@ -62,7 +62,13 @@ export const ExpensePage = memo(() => {
     (items: ExpenseModel[]) =>
       items.map(e => (
         <div key={e.id}>
-          <ItemComponent id={e.id} title={e.name} onEdit={handleOnEdit} onDelete={handleOnDelete}>
+          <ItemComponent
+            id={e.id}
+            title={e.name}
+            subTitle={e.scheduleTotal > 1 ? ` (${e.scheduleBy}/${e.scheduleTotal})` : undefined}
+            onEdit={handleOnEdit}
+            onDelete={handleOnDelete}
+          >
             <div className="d-flex justify-content-between">
               <div className="m-1">
                 <small>{t('DATE')}</small>

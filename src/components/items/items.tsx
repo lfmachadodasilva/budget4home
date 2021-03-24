@@ -18,14 +18,15 @@ export const ItemsComponent: React.FC<PropsWithChildren<ItemsProps>> = React.mem
 
 export interface ItemProps {
   id: string | number;
-  title: string;
+  title: string | JSX.Element;
+  subTitle?: string | JSX.Element;
   onDelete?: (id: string | number) => void;
   onEdit?: (id: string | number) => void;
 }
 
 export const ItemComponent: FC<PropsWithChildren<ItemProps>> = memo((props: PropsWithChildren<ItemProps>) => {
   const [t] = useTranslation();
-  const { id, title, children, onDelete, onEdit } = props;
+  const { id, title, subTitle, children, onDelete, onEdit } = props;
 
   const handleOnEdit = useCallback(
     (id: number | string) => {
@@ -41,9 +42,12 @@ export const ItemComponent: FC<PropsWithChildren<ItemProps>> = memo((props: Prop
   );
 
   return (
-    <div key={id} className="list-group-item">
+    <div key={id} className="list-group-item px-2">
       <div className="d-flex justify-content-between">
-        <h5 className="mb-1">{title}</h5>
+        <div className="d-flex justify-content-start align-items-center">
+          <h5 className="mb-2">{title}</h5>
+          {subTitle && <small className="mb-1 mx-2">{subTitle}</small>}
+        </div>
         <div className="dropdown">
           <button className="btn btn-secondary btn-sm dropdown-toggle" id="dropdown-menu" data-bs-toggle="dropdown" />
 

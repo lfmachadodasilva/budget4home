@@ -48,7 +48,7 @@ function App() {
     <div className="App">
       <HashRouter basename={'/'}>
         <HeaderComponent />
-        <div className="App-body container">
+        <div className="App-body container px-2">
           {isReady && user ? (
             <GlobalContextProvider isReady={isReady}>
               <Switch>
