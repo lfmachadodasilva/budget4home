@@ -84,13 +84,13 @@ export const LabelPage = memo(() => {
   return (
     <>
       <SearchComponent />
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <ItemHeaderComponent
         title={t('LABEL')}
         actionText={t('ADD')}
         onAction={handleOnAdd}
         disableAction={isLoading || error !== undefined}
       />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <TabsComponent
         items={[
           {

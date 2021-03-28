@@ -11,6 +11,7 @@ export interface GlobalModel {
   year: number;
 
   onChange: (group: number, month: number, year: number) => void;
+  onReload: () => void;
 }
 
 const today = new Date();
@@ -24,5 +25,6 @@ export const defaultGlobalModel: GlobalModel = {
   month: today.getMonth() + 1,
   year: today.getFullYear(),
 
-  onChange: () => {}
+  onChange: () => {},
+  onReload: () => {}
 };

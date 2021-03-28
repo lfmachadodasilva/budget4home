@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { addGroup, editGroup, getGroup } from '../../services/groupService';
 import { getAllUsers } from '../../services/userService';
 import { Routes } from '../routes';
 import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { GlobalContext } from '../../contexts/globalContext';
 
 interface ManageProps {
   id: string;
@@ -21,6 +22,8 @@ export const GroupManagePage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
   const { id } = useParams<ManageProps>();
+  const { onReload } = useContext(GlobalContext);
+
   const [isEditMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
   const [users, setUsers] = useState<UserModel[]>([]);
@@ -40,19 +43,21 @@ export const GroupManagePage = memo(() => {
       if (isEditMode) {
         editGroup(group)
           .then(() => {
+            onReload();
             redirectTo(history, Routes.group);
           })
           .catch(() => setError(t('ERROR_EDIT')));
       } else {
         addGroup(group)
           .then(() => {
+            onReload();
             redirectTo(history, Routes.group);
           })
           .catch(() => setError(t('ERROR_ADD')));
       }
     };
     runAsync();
-  }, [isEditMode, name, selectedUsers, history, id, t]);
+  }, [isEditMode, name, selectedUsers, history, id, t, onReload]);
   const handleOnCancel = useCallback(() => {
     redirectTo(history, Routes.group);
   }, [history]);

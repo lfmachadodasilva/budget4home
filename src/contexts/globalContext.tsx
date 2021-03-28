@@ -13,6 +13,7 @@ export interface GlobalContextProviderProps {
 
 export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContextProviderProps>) => {
   const { isReady } = props;
+  const [reload, setReload] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [isLoadingGroup, setLoadingGroup] = useState(true);
   const [isLoadingMonth, setLoadingMonth] = useState(true);
@@ -37,6 +38,10 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
     localStorage.setItem(monthKey, month.toString());
     localStorage.setItem(yearKey, year.toString());
   }, []);
+
+  const handleOnReload = useCallback(() => {
+    setReload(!reload);
+  }, [reload]);
 
   // main load - load groups and years
   useEffect(() => {
@@ -69,7 +74,7 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
 
     runYearsAsync();
     runGroupAsync();
-  }, [isReady]);
+  }, [isReady, reload]);
 
   // first load groups
   useEffect(() => {
@@ -156,12 +161,6 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
     setLoadingYear(false);
   }, [years]);
 
-  useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-  }, []);
-
   return (
     <GlobalContext.Provider
       value={{
@@ -172,7 +171,8 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
         month,
         year,
         isLoading: isLoading || isLoadingGroup || isLoadingMonth || isLoadingYear,
-        onChange: handleOnChange
+        onChange: handleOnChange,
+        onReload: handleOnReload
       }}
     >
       {isReady && !isLoading && !isLoadingGroup && !isLoadingMonth && !isLoadingYear ? props.children : <>Loading...</>}

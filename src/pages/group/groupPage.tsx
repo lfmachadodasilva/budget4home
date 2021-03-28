@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { replace } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
@@ -11,10 +11,13 @@ import { GroupFullModel } from '../../models/groupModel';
 import { deleteGroup, getFullAllGroups } from '../../services/groupService';
 import { Routes } from '../routes';
 import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { GlobalContext } from '../../contexts/globalContext';
 
 export const GroupPage = memo(() => {
   const [t] = useTranslation();
   const history = useHistory();
+  const { onReload } = useContext(GlobalContext);
+
   const [groups, setGroups] = useState<GroupFullModel[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -41,13 +44,13 @@ export const GroupPage = memo(() => {
     (id: number | string) => {
       window.confirm(t('DELETE_GROUP')) &&
         deleteGroup(id as number)
-          .then(() => {})
+          .then(() => onReload())
           .catch(() => setError(t('ERROR_DELETE')))
           .finally(() => {
             setReload(!reload);
           });
     },
-    [reload, t]
+    [reload, t, onReload]
   );
 
   const groupsItems = useMemo(
@@ -82,13 +85,13 @@ export const GroupPage = memo(() => {
 
   return (
     <>
+      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <ItemHeaderComponent
         title={t('GROUP')}
         actionText={t('ADD')}
         onAction={handleOnAdd}
         disableAction={isLoading || error !== undefined}
       />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
       <ItemsComponent isLoading={isLoading}>{groupsItems}</ItemsComponent>
     </>
   );
