@@ -13,6 +13,10 @@ export const getExpense = async (id: number): Promise<ExpenseModel> => {
   return GET<ExpenseModel>('/api/expense/' + id);
 };
 
+export const getExpenseYears = async (): Promise<number[]> => {
+  return GET<number[]>('/api/expense/years');
+};
+
 export const addExpense = async (group: number, expense: ExpenseManageModel): Promise<number> => {
   return POST<number>(
     '/api/expense',

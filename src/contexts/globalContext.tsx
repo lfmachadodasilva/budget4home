@@ -2,6 +2,7 @@ import { head } from 'lodash';
 import { createContext, memo, PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { defaultGlobalModel, GlobalModel } from '../models/globalModels';
 import { GroupModel } from '../models/groupModel';
+import { getExpenseYears } from '../services/expenseService';
 import { getAllGroups } from '../services/groupService';
 
 export const GlobalContext = createContext<GlobalModel>(defaultGlobalModel);
@@ -22,7 +23,7 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
   const [year, setYear] = useState<number>(defaultGlobalModel.year);
 
   const [groups, setGroups] = useState<GroupModel[]>([]);
-  const [years] = useState<number[]>([2021, 2020, 2019]);
+  const [years, setYears] = useState<number[]>([defaultGlobalModel.year]);
 
   const groupKey = 'group';
   const monthKey = 'month';
@@ -37,26 +38,37 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
     localStorage.setItem(yearKey, year.toString());
   }, []);
 
-  // main load - load groups
+  // main load - load groups and years
   useEffect(() => {
     if (!isReady) {
       return;
     }
 
-    const runAsync = async () => {
+    const runGroupAsync = async () => {
       try {
         // get all groups
-        try {
-          const gs = await getAllGroups();
-          setGroups(gs);
-        } catch (error) {}
+        const gs = await getAllGroups();
+        setGroups(gs);
       } catch {
         // show error
       } finally {
         setLoading(false);
       }
     };
-    runAsync();
+    const runYearsAsync = async () => {
+      // get all years
+      try {
+        const results = await getExpenseYears();
+        setYears(results);
+      } catch {
+        // show error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    runYearsAsync();
+    runGroupAsync();
   }, [isReady]);
 
   // first load groups
@@ -145,8 +157,10 @@ export const GlobalContextProvider = memo((props: PropsWithChildren<GlobalContex
   }, [years]);
 
   useEffect(() => {
-    // TODO load availables years
-  }, [group]);
+    if (!isReady) {
+      return;
+    }
+  }, []);
 
   return (
     <GlobalContext.Provider
