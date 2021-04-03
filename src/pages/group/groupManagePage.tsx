@@ -111,7 +111,7 @@ export const GroupManagePage = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('GROUP')} />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} />
       <form>
         <div className="mb-2">
           <label htmlFor="group-name" className="form-label">

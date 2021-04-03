@@ -32,7 +32,7 @@ export const ExpensePage = memo(() => {
       .then(value => setExpenses(value))
       .catch(() => setError(t('ERROR_LOAD')))
       .finally(() => setLoading(false));
-  }, [group, month, year, t]);
+  }, [group, month, year, t, reload]);
 
   const handleOnAdd = useCallback(() => {
     redirectTo(history, replace(Routes.expenseAdd, ':groupId', group.toString()));
@@ -51,9 +51,7 @@ export const ExpensePage = memo(() => {
         deleteExpense(id as number)
           .then(() => {})
           .catch(() => setError(t('ERROR_DELETE')))
-          .finally(() => {
-            setReload(!reload);
-          });
+          .finally(() => setReload(!reload));
     },
     [reload, t]
   );
@@ -104,7 +102,7 @@ export const ExpensePage = memo(() => {
   return (
     <>
       <SearchComponent />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} />
       <ItemHeaderComponent
         title={t('EXPENSE')}
         actionText={t('ADD')}

@@ -15,17 +15,19 @@ export type AlertProps = {
   show: boolean;
   title?: string;
   body: string | JSX.Element;
-  type: AlertTypes;
+  type?: AlertTypes;
 };
 
 export const AlertComponent: FC<AlertProps> = memo((props: AlertProps) => {
-  if (!props.show) {
+  const { show, title, body, type = AlertTypes.Danger } = props;
+
+  if (!show) {
     return <></>;
   }
   return (
-    <div className={`alert ${props.type.toString()} mb-2`} role="alert">
-      {props.title && <h4 className="alert-heading">{props.title}</h4>}
-      {props.body}
+    <div className={`alert ${type.toString()} mb-2`} role="alert">
+      {title && <h4 className="alert-heading">{title}</h4>}
+      {body}
     </div>
   );
 });

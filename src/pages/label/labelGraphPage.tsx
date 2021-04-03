@@ -7,7 +7,7 @@ import './labelGraphPage.scss';
 
 import { LoadingComponent } from '../../components/loading/loading';
 import { LabelFullModel } from '../../models/labelModel';
-import { TabsComponent, TabTitlePosition, TabTitleSize } from '../../components/tabs/tabs';
+import { TabsComponent, TabTitleSize } from '../../components/tabs/tabs';
 
 export type LabelGraphProps = {
   items: LabelFullModel[];

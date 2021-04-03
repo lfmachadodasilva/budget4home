@@ -46,9 +46,7 @@ export const GroupPage = memo(() => {
         deleteGroup(id as number)
           .then(() => onReload())
           .catch(() => setError(t('ERROR_DELETE')))
-          .finally(() => {
-            setReload(!reload);
-          });
+          .finally(() => setReload(!reload));
     },
     [reload, t, onReload]
   );
@@ -85,7 +83,7 @@ export const GroupPage = memo(() => {
 
   return (
     <>
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} />
       <ItemHeaderComponent
         title={t('GROUP')}
         actionText={t('ADD')}

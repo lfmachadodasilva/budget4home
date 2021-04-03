@@ -35,14 +35,14 @@ jobs:
           envsubst < util/.env.template > .env
           npm run build
 
-      # - name: Test 🔌
-      #   run: npm run test:coverage
+      - name: Test 🔌
+        run: npm run test:coverage
 
-      # - name: Publish Codecov 📈
-      #   uses: codecov/codecov-action@v1
-      #   with:
-      #     token: ${{ secrets.CODECOV_TOKEN }}
-      #     file: coverage/*
+      - name: Publish Codecov 📈
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage/*
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3

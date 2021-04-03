@@ -53,5 +53,5 @@ export const editExpense = async (group: number, expense: ExpenseManageModel): P
 };
 
 export const deleteExpense = async (id: number): Promise<number> => {
-  return DELETE<number>('/api/expense/' + id);
+  return DELETE<number>('/api/expense/' + id, { includeSchedule: true });
 };

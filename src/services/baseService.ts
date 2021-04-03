@@ -77,7 +77,7 @@ export async function PUT<TResponse>(url: string, params?: { [key: string]: any 
   }
 }
 
-export async function DELETE<TResponse>(url: string): Promise<TResponse> {
+export async function DELETE<TResponse>(url: string, params?: { [key: string]: any }): Promise<TResponse> {
   try {
     const response = await axios.delete(url, {
       baseURL: axios.defaults.baseURL,
@@ -85,7 +85,8 @@ export async function DELETE<TResponse>(url: string): Promise<TResponse> {
       headers: {
         Accept: 'application/json; charset=utf=8',
         Authorization: 'Bearer ' + axios.defaults.headers.common.Authorization
-      }
+      },
+      params
     });
     return response.data as Promise<TResponse>;
   } catch (error) {

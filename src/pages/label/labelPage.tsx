@@ -47,9 +47,7 @@ export const LabelPage = memo(() => {
         deleteLabel(id as number)
           .then(() => {})
           .catch(() => setError(t('ERROR_DELETE')))
-          .finally(() => {
-            setReload(!reload);
-          });
+          .finally(() => setReload(!reload));
     },
     [reload, t]
   );
@@ -84,7 +82,7 @@ export const LabelPage = memo(() => {
   return (
     <>
       <SearchComponent />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} />
       <ItemHeaderComponent
         title={t('LABEL')}
         actionText={t('ADD')}

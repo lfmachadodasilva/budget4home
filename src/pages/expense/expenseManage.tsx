@@ -160,7 +160,7 @@ export const ExpenseManage: FC = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('EXPENSE')} />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} />
       <form>
         <div className="mb-2">
           <label htmlFor="expense-type" className="form-label">
