@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { format, parse } from 'date-fns';
-import { first } from 'lodash';
+import { first, trim } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
 
@@ -11,7 +11,7 @@ import { ExpenseManageModel, ExpenseType } from '../../models/expenseModel';
 import { addExpense, editExpense, getExpense } from '../../services/expenseService';
 import { getAllLabels } from '../../services/labelService';
 import { Routes } from '../routes';
-import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { AlertComponent } from '../../components/alert/alert';
 
 interface ManageProps {
   id: string;
@@ -64,7 +64,7 @@ export const ExpenseManage: FC = memo(() => {
       const expense = {
         id: +id ?? 0,
         type: type,
-        name: name ?? '',
+        name: trim(name) ?? '',
         value: value,
         date: date,
         schedule: schedule,

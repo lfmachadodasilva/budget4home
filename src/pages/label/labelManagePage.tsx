@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router';
+import { trim } from 'lodash';
 
 import { ItemFooterComponent } from '../../components/itemFooter/itemFooter';
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
@@ -8,7 +9,7 @@ import { redirectTo } from '../../helpers/redirectHelper';
 import { LabelModel } from '../../models/labelModel';
 import { addLabel, editLabel, getLabel } from '../../services/labelService';
 import { Routes } from '../routes';
-import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { AlertComponent } from '../../components/alert/alert';
 
 interface ManageProps {
   id: string;
@@ -30,7 +31,7 @@ export const LabelManagePage: FC = memo(() => {
 
   const handleOnAction = useCallback(() => {
     const runAsync = async () => {
-      const label = { id: +id ?? 0, name } as LabelModel;
+      const label = { id: +id ?? 0, name: trim(name) } as LabelModel;
       if (isEditMode) {
         editLabel(label, +groupId)
           .then(() => {
@@ -80,7 +81,7 @@ export const LabelManagePage: FC = memo(() => {
   return (
     <>
       <ItemHeaderComponent title={t('LABEL')} />
-      <AlertComponent show={error !== undefined} body={error ?? ''} type={AlertTypes.Danger} />
+      <AlertComponent show={error !== undefined} body={error ?? ''} />
       <form>
         <div className="mb-2">
           <label htmlFor="group-name" className="form-label">

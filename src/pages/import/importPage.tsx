@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { difference, find, uniq } from 'lodash';
+import { difference, find, trim, uniq } from 'lodash';
 
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
 import { GlobalContext } from '../../contexts/globalContext';
@@ -75,7 +75,7 @@ export const ImportPage = memo(() => {
     // add labels
     try {
       for (const name of labelNamesToAdd) {
-        const id = await addLabel({ name } as LabelModel, selectedGroup);
+        const id = await addLabel({ name: trim(name) } as LabelModel, selectedGroup);
         labels = [...labels, { id, name } as LabelModel];
       }
     } catch {

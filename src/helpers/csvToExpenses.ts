@@ -1,4 +1,5 @@
 import { parse } from 'date-fns';
+import { trim } from 'lodash';
 import { ExpenseModel, ExpenseType } from '../models/expenseModel';
 
 export const csvToExpenses = (
@@ -20,7 +21,7 @@ export const csvToExpenses = (
       tmpExpenses.push({
         id: 0,
         type: +col[0] as ExpenseType,
-        name: col[1],
+        name: trim(col[1]),
         value: +col[2],
         date: parse(col[3], dateFormat, new Date()),
         labelId: 0,

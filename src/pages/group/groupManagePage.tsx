@@ -1,6 +1,7 @@
 import { ChangeEvent, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory, useParams } from 'react-router-dom';
+import { trim } from 'lodash';
 
 import { ItemFooterComponent } from '../../components/itemFooter/itemFooter';
 import { ItemHeaderComponent } from '../../components/itemHeader/itemHeader';
@@ -11,7 +12,7 @@ import { UserModel } from '../../models/userModel';
 import { addGroup, editGroup, getGroup } from '../../services/groupService';
 import { getAllUsers } from '../../services/userService';
 import { Routes } from '../routes';
-import { AlertComponent, AlertTypes } from '../../components/alert/alert';
+import { AlertComponent } from '../../components/alert/alert';
 import { GlobalContext } from '../../contexts/globalContext';
 
 interface ManageProps {
@@ -39,7 +40,7 @@ export const GroupManagePage = memo(() => {
 
   const handleOnAction = useCallback(() => {
     const runAsync = async () => {
-      const group = { id: +id ?? 0, name, users: selectedUsers } as GroupModel;
+      const group = { id: +id ?? 0, name: trim(name), users: selectedUsers } as GroupModel;
       if (isEditMode) {
         editGroup(group)
           .then(() => {
