@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@budget4home/locale": "*",
     "@budget4home/repositories": "*",
     "@budget4home/web-components": "*",
     "next": "13.1.0",

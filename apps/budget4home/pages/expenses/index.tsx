@@ -1,14 +1,14 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { B4hHeader } from '../../components/header';
 
-interface GroupsProps {
+interface ExpensesProps {
   pokemons: string;
 }
 
-export default function Groups(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Expenses(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
-      <h5>Groups</h5>
+      <h5>Expenses</h5>
       <B4hHeader />
       <br></br>
       {props.pokemons}
@@ -16,7 +16,7 @@ export default function Groups(props: InferGetServerSidePropsType<typeof getServ
   );
 }
 
-export const getServerSideProps: GetServerSideProps<GroupsProps> = async context => {
+export const getServerSideProps: GetServerSideProps<ExpensesProps> = async context => {
   const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20', { cache: 'force-cache' });
 
   return {
