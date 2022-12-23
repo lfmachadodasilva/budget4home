@@ -1,0 +1,33 @@
+name: budget4home-app
+
+on:
+  push:
+    branches:
+      - main
+      - 'dev-*'
+    paths:
+      - 'apps/budget4home/**'
+      - 'packages/**'
+      - '.github/actions/**'
+      - '.github/workflows/budget4home-app.yml'
+      - 'package.json'
+
+jobs:
+  dev:
+    name: build 🛠️
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies 🧰
+        run: yarn install
+      - name: Build 🛠️
+        run: yarn build
+      # - name: Test 🧪
+      #   run: yarn test b4h-next
