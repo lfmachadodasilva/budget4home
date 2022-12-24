@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@budget4home/repositories": "*",
     "@budget4home/web-components": "*",
     "date-fns": "^2.29.3",
     "firebase": "^9.15.0",
