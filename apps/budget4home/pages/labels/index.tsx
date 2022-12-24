@@ -1,27 +1,33 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { B4hHeader } from '../../components/header';
+import { GetServerSideProps } from 'next';
+import { Group } from '../../modals/group';
+import { firebaseAdminFirestore } from '../../util/firebaseAdmin';
 
-interface LabelsProps {
-  pokemons: string;
+export default function Labels() {
+  return <></>;
 }
 
-export default function Labels(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  return (
-    <>
-      <h5>Labels</h5>
-      <B4hHeader />
-      <br></br>
-      {props.pokemons}
-    </>
-  );
-}
+export const getServerSideProps: GetServerSideProps = async context => {
+  let group: Group;
 
-export const getServerSideProps: GetServerSideProps<LabelsProps> = async context => {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20', { cache: 'force-cache' });
+  try {
+    const b4hCollections = await firebaseAdminFirestore.collection(`budget4home`).limit(1).get();
+
+    b4hCollections.forEach(doc => {
+      group = {
+        id: doc.id,
+        name: doc.data().name
+      };
+    });
+  } catch (e: any) {
+    group = null;
+    console.error('Fail to fetch labels', e);
+  }
 
   return {
-    props: {
-      pokemons: JSON.stringify(await response.json())
-    }
+    redirect: {
+      permanent: false,
+      destination: `/groups/${group.id}/labels`
+    },
+    props: {}
   };
 };
