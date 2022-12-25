@@ -1,7 +1,7 @@
-import { GetServerSideProps } from "next/types";
-import { Label } from "../../../modals/label";
-import { FirestoreCollections } from "../../../repositories/collections";
-import { firebaseAdminFirestore } from "../../../util/firebaseAdmin";
+import { GetServerSideProps } from 'next/types';
+import { Label } from '../../../modals/label';
+import { getAllLabels } from '../../../repositories/label';
+import { firebaseAdminFirestore } from '../../../util/firebaseAdmin';
 
 interface LabelsProps {
   labels: Label[];
@@ -10,15 +10,13 @@ interface LabelsProps {
 export const getServerSideProps: GetServerSideProps<LabelsProps> = async context => {
   const labels: Label[] = [];
   try {
-    const b4hCollections = await firebaseAdminFirestore
-      .collection(FirestoreCollections.labels(context.query.groupId as string))
-      .get();
+    const labelsEntity = await getAllLabels(firebaseAdminFirestore, '', context.query.groupId as string);
 
-    b4hCollections.forEach(doc => {
+    labelsEntity.forEach(entity => {
       labels.push({
-        id: doc.id,
-        name: doc.data().name
-      });
+        id: entity.id,
+        name: entity.name
+      } as Label);
     });
   } catch (e: any) {
     console.error('Fail to fetch labels', e);

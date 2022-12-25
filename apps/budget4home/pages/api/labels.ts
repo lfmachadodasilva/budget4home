@@ -1,18 +1,18 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { Group } from '../../modals/group';
-import { addGroup, deleteGroup, updateGroup } from '../../repositories/groups';
+import { Label } from '../../modals/label';
+import { addLabel, deleteLabel, updateLabel } from '../../repositories/label';
 import { firebaseAdminFirestore } from '../../util/firebaseAdmin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const group = req.body as Group;
+  const label = req.body as Label;
 
   try {
     if (req.method === 'POST') {
-      await addGroup(firebaseAdminFirestore, '', group);
+      await addLabel(firebaseAdminFirestore, '', label.groupId, label);
     } else if (req.method === 'PUT') {
-      await updateGroup(firebaseAdminFirestore, '', group);
+      await updateLabel(firebaseAdminFirestore, '', label.groupId, label);
     } else if (req.method === 'DELETE') {
-      await deleteGroup(firebaseAdminFirestore, '', group.id);
+      await deleteLabel(firebaseAdminFirestore, '', label.groupId, label.id);
     }
 
     res.status(200).end();
