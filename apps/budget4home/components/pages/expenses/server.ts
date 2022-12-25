@@ -1,41 +1,17 @@
-import { GetServerSideProps } from "next/types";
-import { Expense } from "../../../modals/expense";
-import { Label } from "../../../modals/label";
-import { FirestoreCollections } from "../../../repositories/collections";
-import { firebaseAdminFirestore } from "../../../util/firebaseAdmin";
+import { GetServerSideProps } from 'next/types';
+import { Expense } from '../../../modals/expense';
+import { getAllExpenses } from '../../../repositories/expenses';
+import { firebaseAdminFirestore } from '../../../util/firebaseAdmin';
 
 interface ExpensesProps {
   expenses: Expense[];
 }
 
 export const getServerSideProps: GetServerSideProps<ExpensesProps> = async context => {
-  const expenses: Expense[] = [];
+  let expenses: Expense[] = [];
 
   try {
-    const b4hCollections = await firebaseAdminFirestore
-      .collection(FirestoreCollections.expeses(context.query.groupId as string))
-      .get();
-
-    for await (let doc of b4hCollections.docs) {
-      const data = doc.data();
-
-      let labelRef: Label = null;
-      if (data.labelRef) {
-        const labelDoc = await data.labelRef.get();
-        labelRef = {
-          id: labelDoc.id,
-          name: labelDoc.data().name
-        };
-      }
-
-      expenses.push({
-        id: doc.id,
-        name: data.name,
-        value: data.value,
-        date: new Date(data.date.seconds).toISOString(),
-        label: labelRef
-      });
-    }
+    expenses = await getAllExpenses(firebaseAdminFirestore, '', context.query.groupId as string);
   } catch (e: any) {
     console.error('Fail to fetch expenses', e);
   }
@@ -46,7 +22,3 @@ export const getServerSideProps: GetServerSideProps<ExpensesProps> = async conte
     }
   };
 };
-
-const getAll = () => {
-
-}

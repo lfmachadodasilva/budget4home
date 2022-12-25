@@ -6,5 +6,6 @@ export const B4hRoutes = {
   labels: '/labels',
   labelAdd: '/labels/add',
   expenses: '/expenses',
+  expenseAdd: '/expenses/add',
   reports: '/reports'
 };
