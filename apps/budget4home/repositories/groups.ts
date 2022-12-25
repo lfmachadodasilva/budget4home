@@ -1,4 +1,3 @@
-
 import { Firestore } from 'firebase-admin/firestore';
 import { Group } from '../modals/group';
 import { FirestoreCollections } from './collections';
@@ -28,19 +27,35 @@ export const getFirstGroup = async (firestore: Firestore, userId: string): Promi
   } as Group;
 };
 
-export const getGroup = (firestore: Firestore, userId: string) => {
-  return 'test repository';
+export const getGroup = async (firestore: Firestore, userId: string, groupId: string): Promise<Group | null> => {
+  const doc = await firestore.doc(FirestoreCollections.group(groupId)).get();
+  const data = doc.data();
+
+  if (!data) {
+    return null;
+  }
+
+  return {
+    id: doc.id,
+    name: data.name
+  } as Group;
 };
 
-export const addGroup = (firestore: Firestore, userId: string) => {
-  return 'test repository';
+export const addGroup = async (firestore: Firestore, userId: string, group: Partial<Group>) => {
+  const doc = await firestore.collection(FirestoreCollections.groups).add({ name: group.name });
+  // const data = doc.data();
+  return {
+    id: doc.id
+    //  name: data.name
+  } as Group;
 };
 
-export const updateGroup = (firestore: Firestore, userId: string) => {
-  return 'test repository';
+export const updateGroup = async (firestore: Firestore, userId: string, group: Group) => {
+  const doc = await firestore.doc(FirestoreCollections.group(group.id)).set({ name: group.name });
+  return doc;
 };
 
-export const deleteGroup = (firestore: Firestore, userId: string) => {
-  return 'test repository';
+export const deleteGroup = async (firestore: Firestore, userId: string, groupId: string) => {
+  const doc = await firestore.doc(FirestoreCollections.group(groupId)).delete();
+  return doc;
 };
-

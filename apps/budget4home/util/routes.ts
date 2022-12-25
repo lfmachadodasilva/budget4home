@@ -1,7 +1,9 @@
 export const B4hRoutes = {
-  home: "/",
-  groups: "/groups",
-  labels: "/labels",
-  expenses: "/expenses",
-  reports: "/reports",
-}
+  api: '/api',
+  home: '/',
+  groups: '/groups',
+  groupAdd: '/groups/add',
+  labels: '/labels',
+  expenses: '/expenses',
+  reports: '/reports'
+};

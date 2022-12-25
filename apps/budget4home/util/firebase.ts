@@ -2,6 +2,7 @@ import getConfig from 'next/config';
 
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 
 
 const {
@@ -17,3 +18,4 @@ export const firebaseApp = initializeApp({
 });
 
 export const firebaseAuth = getAuth(firebaseApp);
+export const firebaseDatabase = getDatabase(firebaseApp);
