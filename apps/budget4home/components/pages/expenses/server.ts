@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next/types';
 import { Expense } from '../../../modals/expense';
-import { getAllExpenses } from '../../../repositories/expenses';
+import { getAllExpensesThisMonth } from '../../../repositories/expenses';
 import { firebaseAdminFirestore } from '../../../util/firebaseAdmin';
 
 interface ExpensesProps {
@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps<ExpensesProps> = async conte
   let expenses: Expense[] = [];
 
   try {
-    expenses = await getAllExpenses(firebaseAdminFirestore, '', context.query.groupId as string);
+    expenses = await getAllExpensesThisMonth(firebaseAdminFirestore, '', context.query.groupId as string);
   } catch (e: any) {
     console.error('Fail to fetch expenses', e);
   }

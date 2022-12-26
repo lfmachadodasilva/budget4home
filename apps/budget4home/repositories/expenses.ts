@@ -1,9 +1,32 @@
+import { addMonths, startOfMonth } from 'date-fns';
 import { Firestore, Timestamp } from 'firebase-admin/firestore';
 import { Expense, expenseToModel } from '../modals/expense';
 import { FirestoreCollections } from './collections';
 
 export const getAllExpenses = async (firestore: Firestore, _userId: string, groupId: string): Promise<Expense[]> => {
   const docs = await firestore.collection(FirestoreCollections.expeses(groupId)).get();
+
+  return await Promise.all(
+    docs.docs.map(async doc => {
+      return await expenseToModel(doc);
+    })
+  );
+};
+
+export const getAllExpensesThisMonth = async (
+  firestore: Firestore,
+  _userId: string,
+  groupId: string
+): Promise<Expense[]> => {
+  const now = new Date();
+  const startDay = startOfMonth(now);
+  const endDay = addMonths(startDay, 1);
+
+  const docs = await firestore
+    .collection(FirestoreCollections.expeses(groupId))
+    .where('date', '>=', Timestamp.fromDate(startDay))
+    .where('date', '<', Timestamp.fromDate(endDay))
+    .get();
 
   return await Promise.all(
     docs.docs.map(async doc => {
