@@ -7,6 +7,7 @@ export const B4hHead = () => {
   return (
     <Head>
       <title>{formatMessage('title', { default: 'title' })}</title>
+      <link rel="manifest" href="/manifest.json" />
     </Head>
   );
 };

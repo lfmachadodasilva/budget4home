@@ -9,15 +9,35 @@
       "sizes": "64x64"
     },
     {
+      "src": "logo16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "logo24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "logo32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "logo64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
       "src": "logo213.png",
       "type": "image/png",
       "sizes": "213x213"
     }
   ],
   "orientation": "portrait-primary",
-  "start_url": "./index.html",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#612F74",
-  "background_color": "#612F74",
-  "scope": "/"
+  "background_color": "#612F74"
 }
