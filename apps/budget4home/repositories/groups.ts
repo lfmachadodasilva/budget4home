@@ -4,7 +4,10 @@ import { Group } from '../modals/group';
 import { FirestoreCollections } from './collections';
 
 export const getAllGroups = async (firestore: Firestore, userId: string): Promise<Group[]> => {
-  const docs = await firestore.collection(FirestoreCollections.groups).where('userIds', 'array-contains', userId).get();
+  const docs = await firestore
+    .collection(FirestoreCollections.groups)
+    .where('userIds', 'array-contains', userId)
+    .get();
 
   return docs.docs.map(doc => {
     return {
@@ -14,11 +17,13 @@ export const getAllGroups = async (firestore: Firestore, userId: string): Promis
   });
 };
 
-export const getFirstGroup = async (firestore: Firestore, userId: string): Promise<Group | null> => {
+export const getFirstGroup = async (
+  firestore: Firestore,
+  userId: string
+): Promise<Group | null> => {
   const docs = await firestore
     .collection(FirestoreCollections.groups)
     .where('userIds', 'array-contains', userId)
-    .limit(1)
     .get();
 
   if (docs.docs.length === 0) {
@@ -34,7 +39,11 @@ export const getFirstGroup = async (firestore: Firestore, userId: string): Promi
   } as Group;
 };
 
-export const getGroup = async (firestore: Firestore, userId: string, groupId: string): Promise<Group | null> => {
+export const getGroup = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string
+): Promise<Group | null> => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
@@ -51,7 +60,9 @@ export const getGroup = async (firestore: Firestore, userId: string, groupId: st
 };
 
 export const addGroup = async (firestore: Firestore, userId: string, group: Partial<Group>) => {
-  const doc = await firestore.collection(FirestoreCollections.groups).add({ name: group.name, userIds: group.userIds });
+  const doc = await firestore
+    .collection(FirestoreCollections.groups)
+    .add({ name: group.name, userIds: group.userIds });
 
   return {
     id: doc.id

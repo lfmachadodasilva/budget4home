@@ -1,7 +1,11 @@
 export const B4hRoutes = {
   api: '/api',
-  home: '/',
+
   login: '/login',
+  notFound: '/404',
+
+  home: '/',
+
   groups: '/groups',
   groupAdd: '/groups/add',
   labels: '/labels',

@@ -1,11 +1,13 @@
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next/types';
 import { useRef } from 'react';
+import { useAuth } from '../../../contexts/auth';
 import { B4hRoutes } from '../../../util/routes';
 import { B4hHeader } from '../../header';
 import { getServerSideProps } from './server';
 
 export function Page(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { token } = useAuth();
   const { push, query } = useRouter();
 
   const nameRef = useRef<HTMLInputElement>();
@@ -19,7 +21,8 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
         await fetch(B4hRoutes.api + B4hRoutes.labels, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            authorization: token
           },
           body: JSON.stringify({ name: nameRef.current.value, groupId: query.groupId })
         });
@@ -27,7 +30,8 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
         await fetch(B4hRoutes.api + B4hRoutes.labels, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            authorization: token
           },
           body: JSON.stringify({ id: props.label.id, name: nameRef.current.value, groupId: query.groupId })
         });
@@ -42,7 +46,8 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
     await fetch(B4hRoutes.api + B4hRoutes.labels, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        authorization: token
       },
       body: JSON.stringify({ id: props.label.id, groupId: query.groupId })
     });

@@ -1,9 +1,16 @@
 import { addMonths, startOfMonth } from 'date-fns';
 import { Firestore, Timestamp } from 'firebase-admin/firestore';
+
 import { Expense, expenseToModel } from '../modals/expense';
 import { FirestoreCollections } from './collections';
+import { isInvalidGroup } from './groups';
 
-export const getAllExpenses = async (firestore: Firestore, _userId: string, groupId: string): Promise<Expense[]> => {
+export const getAllExpenses = async (firestore: Firestore, userId: string, groupId: string): Promise<Expense[]> => {
+  if (await isInvalidGroup(firestore, userId, groupId)) {
+    // TODO throw ex
+    return null;
+  }
+
   const docs = await firestore.collection(FirestoreCollections.expeses(groupId)).get();
 
   return await Promise.all(
@@ -15,9 +22,14 @@ export const getAllExpenses = async (firestore: Firestore, _userId: string, grou
 
 export const getAllExpensesThisMonth = async (
   firestore: Firestore,
-  _userId: string,
+  userId: string,
   groupId: string
 ): Promise<Expense[]> => {
+  if (await isInvalidGroup(firestore, userId, groupId)) {
+    // TODO throw ex
+    return null;
+  }
+
   const now = new Date();
   const startDay = startOfMonth(now);
   const endDay = addMonths(startDay, 1);
@@ -41,6 +53,11 @@ export const getExpense = async (
   groupId: string,
   expenseId: string
 ): Promise<Expense | null> => {
+  if (await isInvalidGroup(firestore, userId, groupId)) {
+    // TODO throw ex
+    return null;
+  }
+
   const doc = await firestore.doc(FirestoreCollections.expese(groupId, expenseId)).get();
   const data = doc.data();
 
@@ -52,6 +69,11 @@ export const getExpense = async (
 };
 
 export const addExpense = async (firestore: Firestore, userId: string, groupId: string, expense: Partial<Expense>) => {
+  if (await isInvalidGroup(firestore, userId, groupId)) {
+    // TODO throw ex
+    return null;
+  }
+
   const obj = await expenseToFirestore(firestore, expense as Expense);
   const doc = await firestore.collection(FirestoreCollections.expeses(groupId)).add(obj);
   return {
@@ -65,12 +87,22 @@ export const updateExpense = async (
   groupId: string,
   expense: Partial<Expense>
 ) => {
+  if (await isInvalidGroup(firestore, userId, groupId)) {
+    // TODO throw ex
+    return null;
+  }
+
   const obj = await expenseToFirestore(firestore, expense as Expense);
   const doc = await firestore.doc(FirestoreCollections.expese(groupId, expense.id)).set(obj);
   return doc;
 };
 
 export const deleteExpense = async (firestore: Firestore, userId: string, groupId: string, expenseId: string) => {
+  if (await isInvalidGroup(firestore, userId, groupId)) {
+    // TODO throw ex
+    return null;
+  }
+
   const doc = await firestore.doc(FirestoreCollections.expese(groupId, expenseId)).delete();
   return doc;
 };
