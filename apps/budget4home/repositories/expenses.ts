@@ -5,7 +5,11 @@ import { Expense, expenseToModel } from '../modals/expense';
 import { FirestoreCollections } from './collections';
 import { isInvalidGroup } from './groups';
 
-export const getAllExpenses = async (firestore: Firestore, userId: string, groupId: string): Promise<Expense[]> => {
+export const getAllExpenses = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string
+): Promise<Expense[]> => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
@@ -23,14 +27,15 @@ export const getAllExpenses = async (firestore: Firestore, userId: string, group
 export const getAllExpensesThisMonth = async (
   firestore: Firestore,
   userId: string,
-  groupId: string
+  groupId: string,
+  date?: Date
 ): Promise<Expense[]> => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
   }
 
-  const now = new Date();
+  const now = date ?? new Date();
   const startDay = startOfMonth(now);
   const endDay = addMonths(startDay, 1);
 
@@ -68,7 +73,12 @@ export const getExpense = async (
   return await expenseToModel(doc);
 };
 
-export const addExpense = async (firestore: Firestore, userId: string, groupId: string, expense: Partial<Expense>) => {
+export const addExpense = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string,
+  expense: Partial<Expense>
+) => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
@@ -97,7 +107,12 @@ export const updateExpense = async (
   return doc;
 };
 
-export const deleteExpense = async (firestore: Firestore, userId: string, groupId: string, expenseId: string) => {
+export const deleteExpense = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string,
+  expenseId: string
+) => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;

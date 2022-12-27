@@ -29,7 +29,17 @@ export const getServerSideProps: GetServerSideProps<ExpensesProps> = async conte
   let expenses: Expense[] = [];
 
   try {
-    expenses = await getAllExpensesThisMonth(firebaseAdminFirestore, uid, context.query.groupId as string);
+    const date = new Date();
+    date.setDate(1);
+    context.query.year && date.setFullYear(+context.query?.year);
+    context.query.month && date.setMonth(+context.query?.month - 1);
+
+    expenses = await getAllExpensesThisMonth(
+      firebaseAdminFirestore,
+      uid,
+      context.query.groupId as string,
+      date
+    );
   } catch (e: any) {
     console.error('Fail to fetch expenses', e);
   }
