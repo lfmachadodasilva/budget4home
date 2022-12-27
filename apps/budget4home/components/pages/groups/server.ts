@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next/types';
 import nookies from 'nookies';
 
-import { Group } from '../../../modals/group';
+import { Group } from '../../../models/group';
 import { getAllGroups } from '../../../repositories/groups';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../../util/firebaseAdmin';
 import { B4hRoutes } from '../../../util/routes';

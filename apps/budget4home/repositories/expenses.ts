@@ -1,7 +1,7 @@
 import { addMonths, startOfMonth } from 'date-fns';
 import { Firestore, Timestamp } from 'firebase-admin/firestore';
 
-import { Expense, expenseToModel } from '../modals/expense';
+import { Expense, expenseToModel } from '../models/expense';
 import { FirestoreCollections } from './collections';
 import { isInvalidGroup } from './groups';
 
@@ -127,7 +127,7 @@ const expenseToFirestore = async (firestore: Firestore, model: Expense) => {
     name: model.name,
     type: model.type,
     date: Timestamp.fromDate(new Date(model.date)),
-    value: model.value,
+    value: +model.value,
     labelRef: firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id))
   };
 };

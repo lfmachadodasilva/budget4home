@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
-import { Label } from '../../modals/label';
+import { Label } from '../../models/label';
 import { addLabel, deleteLabel, updateLabel } from '../../repositories/label';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../util/firebaseAdmin';
 

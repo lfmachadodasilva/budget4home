@@ -1,10 +1,14 @@
 import { Firestore } from 'firebase-admin/firestore';
 
-import { Label } from '../modals/label';
+import { Label } from '../models/label';
 import { FirestoreCollections } from './collections';
 import { isInvalidGroup } from './groups';
 
-export const getAllLabels = async (firestore: Firestore, userId: string, groupId: string): Promise<Label[]> => {
+export const getAllLabels = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string
+): Promise<Label[]> => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
@@ -44,13 +48,20 @@ export const getLabel = async (
   } as Label;
 };
 
-export const addLabel = async (firestore: Firestore, userId: string, groupId: string, label: Partial<Label>) => {
+export const addLabel = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string,
+  label: Partial<Label>
+) => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
   }
 
-  const doc = await firestore.collection(FirestoreCollections.labels(groupId)).add({ name: label.name });
+  const doc = await firestore
+    .collection(FirestoreCollections.labels(groupId))
+    .add({ name: label.name });
   // const data = doc.data();
   return {
     id: doc.id
@@ -58,17 +69,29 @@ export const addLabel = async (firestore: Firestore, userId: string, groupId: st
   } as Label;
 };
 
-export const updateLabel = async (firestore: Firestore, userId: string, groupId: string, label: Partial<Label>) => {
+export const updateLabel = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string,
+  label: Partial<Label>
+) => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;
   }
 
-  const doc = await firestore.doc(FirestoreCollections.label(groupId, label.id)).set({ name: label.name });
+  const doc = await firestore
+    .doc(FirestoreCollections.label(groupId, label.id))
+    .set({ name: label.name });
   return doc;
 };
 
-export const deleteLabel = async (firestore: Firestore, userId: string, groupId: string, labelId: string) => {
+export const deleteLabel = async (
+  firestore: Firestore,
+  userId: string,
+  groupId: string,
+  labelId: string
+) => {
   if (await isInvalidGroup(firestore, userId, groupId)) {
     // TODO throw ex
     return null;

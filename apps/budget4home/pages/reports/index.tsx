@@ -17,7 +17,9 @@ export default function Reports(props: InferGetServerSidePropsType<typeof getSer
 }
 
 export const getServerSideProps: GetServerSideProps<ReportsProps> = async context => {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20', { cache: 'force-cache' });
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20', {
+    cache: 'force-cache'
+  });
 
   return {
     props: {

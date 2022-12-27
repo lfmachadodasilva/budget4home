@@ -12,8 +12,12 @@ export const B4hHeader = () => {
   const { query } = useRouter();
   const { user } = useAuth();
 
-  const labelsHref = query.groupId ? `${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}` : B4hRoutes.labels;
-  const expensesHref = query.groupId ? `${B4hRoutes.groups}/${query.groupId}${B4hRoutes.expenses}` : B4hRoutes.expenses;
+  const labelsHref = query.groupId
+    ? `${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}`
+    : B4hRoutes.labels;
+  const expensesHref = query.groupId
+    ? `${B4hRoutes.groups}/${query.groupId}${B4hRoutes.expenses}`
+    : B4hRoutes.expenses;
 
   const handleOnLogout = async () => {
     await signOut(firebaseAuth);

@@ -33,7 +33,11 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
             'Content-Type': 'application/json',
             authorization: token
           },
-          body: JSON.stringify({ id: props.label.id, name: nameRef.current.value, groupId: query.groupId })
+          body: JSON.stringify({
+            id: props.label.id,
+            name: nameRef.current.value,
+            groupId: query.groupId
+          })
         });
       }
       await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}`);
@@ -43,16 +47,18 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
   };
 
   const handleOnDelete = async () => {
-    await fetch(B4hRoutes.api + B4hRoutes.labels, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token
-      },
-      body: JSON.stringify({ id: props.label.id, groupId: query.groupId })
-    });
+    if (confirm('Are you sure?')) {
+      await fetch(B4hRoutes.api + B4hRoutes.labels, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token
+        },
+        body: JSON.stringify({ id: props.label.id, groupId: query.groupId })
+      });
 
-    await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}`);
+      await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}`);
+    }
   };
 
   return (

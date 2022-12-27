@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next/types';
 import nookies from 'nookies';
 
-import { Expense } from '../../../modals/expense';
+import { Expense } from '../../../models/expense';
 import { getAllExpensesThisMonth } from '../../../repositories/expenses';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../../util/firebaseAdmin';
 import { B4hRoutes } from '../../../util/routes';

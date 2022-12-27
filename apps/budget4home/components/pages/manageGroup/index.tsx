@@ -34,7 +34,11 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
             'Content-Type': 'application/json',
             authorization: token
           },
-          body: JSON.stringify({ id: props.group.id, name: nameRef.current.value, userIds: userIdsRef.current })
+          body: JSON.stringify({
+            id: props.group.id,
+            name: nameRef.current.value,
+            userIds: userIdsRef.current
+          })
         });
       }
       await push(B4hRoutes.groups);
@@ -44,16 +48,18 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
   };
 
   const handleOnDelete = async () => {
-    await fetch(B4hRoutes.api + B4hRoutes.groups, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token
-      },
-      body: JSON.stringify({ id: props.group.id })
-    });
+    if (confirm('Are you sure?')) {
+      await fetch(B4hRoutes.api + B4hRoutes.groups, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token
+        },
+        body: JSON.stringify({ id: props.group.id })
+      });
 
-    await push(B4hRoutes.groups);
+      await push(B4hRoutes.groups);
+    }
   };
 
   const handleOnChangeUser = async (event: ChangeEvent<{ checked: boolean }>, id: string) => {

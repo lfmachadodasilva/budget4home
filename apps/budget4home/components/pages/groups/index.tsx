@@ -19,21 +19,22 @@ export function Groups(props: InferGetServerSidePropsType<typeof getServerSidePr
       <br></br>
       <br></br>
       <button onClick={handleOnAdd}>Add</button>
-      <br></br>
-      <br></br>
-      {props.groups.map(group => {
-        return (
-          <div key={group.id}>
-            <label>{group.id}</label> - <label>{group.name}</label>
-            {' - '}
-            <Link href={`${B4hRoutes.groups}/${group.id}`}>edit</Link>
-            {' - '}
-            <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.labels}`}>labels</Link>
-            {' - '}
-            <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenses}`}>expenses</Link>
-          </div>
-        );
-      })}
+
+      <ul>
+        {props.groups.map(group => {
+          return (
+            <li key={group.id}>
+              <label>{group.name}</label>
+              {' - '}
+              <Link href={`${B4hRoutes.groups}/${group.id}`}>edit</Link>
+              {' - '}
+              <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.labels}`}>labels</Link>
+              {' - '}
+              <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenses}`}>expenses</Link>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }

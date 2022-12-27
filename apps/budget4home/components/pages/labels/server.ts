@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next/types';
 import nookies from 'nookies';
 
-import { Label } from '../../../modals/label';
+import { Label } from '../../../models/label';
 import { getAllLabels } from '../../../repositories/label';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../../util/firebaseAdmin';
 import { B4hRoutes } from '../../../util/routes';
@@ -28,7 +28,11 @@ export const getServerSideProps: GetServerSideProps<LabelsProps> = async context
 
   const labels: Label[] = [];
   try {
-    const labelsEntity = await getAllLabels(firebaseAdminFirestore, uid, context.query.groupId as string);
+    const labelsEntity = await getAllLabels(
+      firebaseAdminFirestore,
+      uid,
+      context.query.groupId as string
+    );
 
     labelsEntity.forEach(entity => {
       labels.push({

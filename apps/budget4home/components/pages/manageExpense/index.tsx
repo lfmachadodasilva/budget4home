@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next/types';
 import { useRef } from 'react';
 import { useAuth } from '../../../contexts/auth';
-import { ExpenseType } from '../../../modals/expense';
+import { ExpenseType } from '../../../models/expense';
 import { B4hRoutes } from '../../../util/routes';
 import { B4hHeader } from '../../header';
 import { getServerSideProps } from './server';
@@ -66,16 +66,17 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
   };
 
   const handleOnDelete = async () => {
-    await fetch(B4hRoutes.api + B4hRoutes.expenses, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token
-      },
-      body: JSON.stringify({ id: props.expense.id, groupId: query.groupId })
-    });
-
-    await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.expenses}`);
+    if (confirm('Are you sure?')) {
+      await fetch(B4hRoutes.api + B4hRoutes.expenses, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token
+        },
+        body: JSON.stringify({ id: props.expense.id, groupId: query.groupId })
+      });
+      await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.expenses}`);
+    }
   };
 
   return (
@@ -116,7 +117,10 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
           <input
             type="date"
             ref={dateRef}
-            defaultValue={format(props.expense?.date ? new Date(props.expense?.date) : new Date(), 'yyyy-MM-dd')}
+            defaultValue={format(
+              props.expense?.date ? new Date(props.expense?.date) : new Date(),
+              'yyyy-MM-dd'
+            )}
           />
         </>
         <br></br>

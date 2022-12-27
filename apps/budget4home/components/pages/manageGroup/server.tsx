@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next/types';
 import nookies from 'nookies';
 
-import { Group } from '../../../modals/group';
-import { User } from '../../../modals/user';
+import { Group } from '../../../models/group';
+import { User } from '../../../models/user';
 import { getGroup } from '../../../repositories/groups';
 import { getAllUsers } from '../../../repositories/users';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../../util/firebaseAdmin';

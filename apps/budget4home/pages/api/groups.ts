@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
-import { Group } from '../../modals/group';
+import { Group } from '../../models/group';
 import { addGroup, deleteGroup, updateGroup } from '../../repositories/groups';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../util/firebaseAdmin';
 

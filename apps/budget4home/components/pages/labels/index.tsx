@@ -19,17 +19,20 @@ export function Labels(props: InferGetServerSidePropsType<typeof getServerSidePr
       <br></br>
       <br></br>
       <button onClick={handleOnAdd}>Add</button>
-      <br></br>
-      <br></br>
-      {props.labels.map(label => {
-        return (
-          <div key={label.id}>
-            <label>{label.id}</label> - <label>{label.name}</label>
-            {' - '}
-            <Link href={`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}/${label.id}`}>edit</Link>
-          </div>
-        );
-      })}
+
+      <ul>
+        {props.labels.map(label => {
+          return (
+            <li key={label.id}>
+              <label>{label.name}</label>
+              {' - '}
+              <Link href={`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}/${label.id}`}>
+                edit
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }

@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next/types';
 import nookies from 'nookies';
 
-import { Expense } from '../../../modals/expense';
-import { Label } from '../../../modals/label';
+import { Expense } from '../../../models/expense';
+import { Label } from '../../../models/label';
 import { getExpense } from '../../../repositories/expenses';
 import { getAllLabels } from '../../../repositories/label';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../../util/firebaseAdmin';

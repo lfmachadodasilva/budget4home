@@ -1,6 +1,6 @@
 import { FieldPath, Firestore } from 'firebase-admin/firestore';
 
-import { Group } from '../modals/group';
+import { Group } from '../models/group';
 import { FirestoreCollections } from './collections';
 
 export const getAllGroups = async (firestore: Firestore, userId: string): Promise<Group[]> => {
