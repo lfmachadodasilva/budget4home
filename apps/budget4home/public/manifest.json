@@ -1,0 +1,23 @@
+{
+  "short_name": "budget4home",
+  "name": "budget4home",
+  "description": "budget4home - Project to control my personal budget",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "64x64"
+    },
+    {
+      "src": "logo213.png",
+      "type": "image/png",
+      "sizes": "213x213"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#612F74",
+  "background_color": "#612F74",
+  "scope": "/"
+}
