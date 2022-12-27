@@ -8,6 +8,7 @@ export default function Home() {
     <>
       <h5>{formatMessage('title')}</h5>
       <B4hHeader />
+      <h5>Home</h5>
     </>
   );
 }

@@ -2,6 +2,7 @@ import { AppProps, NextWebVitalsMetric } from 'next/app';
 import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
 import { B4hBasicLayout } from '../components/layouts/basic';
+import { AuthProvider } from '../contexts/auth';
 import * as locales from '../locale';
 import { B4hRoutes } from '../util/routes';
 
@@ -19,9 +20,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <IntlProvider locale={locale ?? 'en'} defaultLocale={defaultLocale} messages={messages}>
-      <B4hBasicLayout>
-        <Component {...pageProps} />
-      </B4hBasicLayout>
+      <AuthProvider {...pageProps}>
+        <B4hBasicLayout>
+          <Component {...pageProps} />
+        </B4hBasicLayout>
+      </AuthProvider>
     </IntlProvider>
   );
 }

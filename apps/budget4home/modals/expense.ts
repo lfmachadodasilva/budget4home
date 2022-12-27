@@ -1,5 +1,3 @@
-import { Firestore } from 'firebase-admin/firestore';
-import { FirestoreCollections } from '../repositories/collections';
 import { Label } from './label';
 
 export const ExpenseType = {
@@ -39,14 +37,4 @@ export const expenseToModel = async (
     value: data.value,
     label: labelRef
   } as Expense;
-};
-
-export const expenseToFirestore = async (firestore: Firestore, model: Expense) => {
-  return {
-    name: model.name,
-    type: model.type,
-    // date: Timestamp.fromDate(new Date(model.date)),
-    value: model.value,
-    labelRef: firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id))
-  };
 };

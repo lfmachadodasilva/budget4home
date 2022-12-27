@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next/types';
 import { useRef } from 'react';
+import { useAuth } from '../../../contexts/auth';
 import { ExpenseType } from '../../../modals/expense';
 import { B4hRoutes } from '../../../util/routes';
 import { B4hHeader } from '../../header';
@@ -9,6 +10,7 @@ import { getServerSideProps } from './server';
 
 export function Page(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { push, query } = useRouter();
+  const { token } = useAuth();
 
   const typeRef = useRef<HTMLSelectElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -25,7 +27,8 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
         await fetch(B4hRoutes.api + B4hRoutes.expenses, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            authorization: token
           },
           body: JSON.stringify({
             type: typeRef.current.value,
@@ -41,7 +44,8 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
         await fetch(B4hRoutes.api + B4hRoutes.expenses, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            authorization: token
           },
           body: JSON.stringify({
             id: props.expense.id,
@@ -65,7 +69,8 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
     await fetch(B4hRoutes.api + B4hRoutes.expenses, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        authorization: token
       },
       body: JSON.stringify({ id: props.expense.id, groupId: query.groupId })
     });
