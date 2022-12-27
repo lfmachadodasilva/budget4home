@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     redirect: {
       permanent: false,
-      destination: `/groups/${group.id}/expenses`
+      destination: group ? `/groups/${group.id}/expenses` : B4hRoutes.notFound
     },
     props: {}
   };
