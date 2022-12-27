@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next/types';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
 import { useAuth } from '../../../contexts/auth';
 import { B4hRoutes } from '../../../util/routes';
 import { B4hHeader } from '../../header';
@@ -10,12 +11,15 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
   const { token } = useAuth();
   const { push, query } = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   const nameRef = useRef<HTMLInputElement>();
 
   const handleOnManage = async () => {
     // TODO validate name
     // TODO loading state
 
+    setLoading(true);
     try {
       if (!props.label?.id) {
         await fetch(B4hRoutes.api + B4hRoutes.labels, {
@@ -44,10 +48,12 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
     } catch {
       // TODO show error msg
     }
+    setLoading(false);
   };
 
   const handleOnDelete = async () => {
     if (confirm('Are you sure?')) {
+      setLoading(true);
       await fetch(B4hRoutes.api + B4hRoutes.labels, {
         method: 'DELETE',
         headers: {
@@ -58,6 +64,7 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
       });
 
       await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.labels}`);
+      setLoading(false);
     }
   };
 
@@ -85,8 +92,14 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
       <br></br>
       <br></br>
 
-      <button onClick={handleOnManage}>{props.label?.id ? 'Update' : 'Add'}</button>
-      {props.label?.id && <button onClick={handleOnDelete}>Delete</button>}
+      <button onClick={handleOnManage} disabled={loading}>
+        {props.label?.id ? 'Update' : 'Add'}
+      </button>
+      {props.label?.id && (
+        <button onClick={handleOnDelete} disabled={loading}>
+          Delete
+        </button>
+      )}
     </>
   );
 }

@@ -1,7 +1,8 @@
 import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next/types';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
 import { useAuth } from '../../../contexts/auth';
 import { ExpenseType } from '../../../models/expense';
 import { B4hRoutes } from '../../../util/routes';
@@ -11,6 +12,8 @@ import { getServerSideProps } from './server';
 export function Page(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { push, query } = useRouter();
   const { token } = useAuth();
+
+  const [loading, setLoading] = useState(false);
 
   const typeRef = useRef<HTMLSelectElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -22,6 +25,7 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
     // TODO validate name
     // TODO loading state
 
+    setLoading(true);
     try {
       if (!props.expense?.id) {
         await fetch(B4hRoutes.api + B4hRoutes.expenses, {
@@ -63,10 +67,12 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
     } catch {
       // TODO show error msg
     }
+    setLoading(false);
   };
 
   const handleOnDelete = async () => {
     if (confirm('Are you sure?')) {
+      setLoading(true);
       await fetch(B4hRoutes.api + B4hRoutes.expenses, {
         method: 'DELETE',
         headers: {
@@ -76,6 +82,7 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
         body: JSON.stringify({ id: props.expense.id, groupId: query.groupId })
       });
       await push(`${B4hRoutes.groups}/${query.groupId}${B4hRoutes.expenses}`);
+      setLoading(false);
     }
   };
 
@@ -140,7 +147,9 @@ export function Page(props: InferGetServerSidePropsType<typeof getServerSideProp
       <br></br>
       <br></br>
 
-      <button onClick={handleOnManage}>{props.expense?.id ? 'Update' : 'Add'}</button>
+      <button onClick={handleOnManage} disabled={loading}>
+        {props.expense?.id ? 'Update' : 'Add'}
+      </button>
       {props.expense?.id && <button onClick={handleOnDelete}>Delete</button>}
     </>
   );
