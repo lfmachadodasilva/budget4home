@@ -4,6 +4,7 @@ import nookies from 'nookies';
 import { Group } from '../../../modals/group';
 import { getAllGroups } from '../../../repositories/groups';
 import { firebaseAdminAuth, firebaseAdminFirestore } from '../../../util/firebaseAdmin';
+import { B4hRoutes } from '../../../util/routes';
 
 interface GroupsProps {
   groups: Group[];
@@ -12,6 +13,16 @@ interface GroupsProps {
 export const getServerSideProps: GetServerSideProps<GroupsProps> = async context => {
   const cookies = nookies.get(context);
   const token = cookies.token;
+
+  if (!token) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: B4hRoutes.login
+      },
+      props: {}
+    };
+  }
 
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 

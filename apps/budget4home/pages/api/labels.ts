@@ -1,18 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
+
 import { Label } from '../../modals/label';
 import { addLabel, deleteLabel, updateLabel } from '../../repositories/label';
-import { firebaseAdminFirestore } from '../../util/firebaseAdmin';
+import { firebaseAdminAuth, firebaseAdminFirestore } from '../../util/firebaseAdmin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const label = req.body as Label;
 
+  const token = req.headers.authorization;
+  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+
   try {
     if (req.method === 'POST') {
-      await addLabel(firebaseAdminFirestore, '', label.groupId, label);
+      await addLabel(firebaseAdminFirestore, uid, label.groupId, label);
     } else if (req.method === 'PUT') {
-      await updateLabel(firebaseAdminFirestore, '', label.groupId, label);
+      await updateLabel(firebaseAdminFirestore, uid, label.groupId, label);
     } else if (req.method === 'DELETE') {
-      await deleteLabel(firebaseAdminFirestore, '', label.groupId, label.id);
+      await deleteLabel(firebaseAdminFirestore, uid, label.groupId, label.id);
     }
 
     res.status(200).end();
