@@ -5,8 +5,9 @@
  **/
 module.exports = {
   reactStrictMode: true,
+  swcMinify: true,
   experimental: {
-    // appDir: true,
+    appDir: true
   },
   i18n: {
     locales: ['en'],

@@ -1,19 +1,17 @@
-import getConfig from 'next/config';
-
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 
-const {
-  publicRuntimeConfig: { firebase }
-} = getConfig();
+const firebaseKey: string = `AIzaSyDMDE7eTQbjwkQglMJf5KnFtMr48-pAoVM`; //`${process.env.FIREBASE_KEY}`;
+const firebaseProjectId: string = `${process.env.FIREBASE_PROJECT_ID}`;
+const firebaseDatabaseURL: string = `https://lfmachadodasilva-dev.firebaseio.com`; //`https://${firebaseProjectId}.firebaseio.com`;
 
 export const firebaseApp = initializeApp({
-  apiKey: firebase.key,
-  authDomain: `${firebase.projectId}.firebaseapp.com`,
-  databaseURL: `https://${firebase.projectId}.firebaseio.com`,
-  projectId: firebase.projectId,
-  storageBucket: `${firebase.projectId}.appspot.com`
+  apiKey: firebaseKey,
+  authDomain: `${firebaseProjectId}.firebaseapp.com`,
+  databaseURL: firebaseDatabaseURL,
+  projectId: firebaseProjectId,
+  storageBucket: `${firebaseProjectId}.appspot.com`
 });
 
 export const firebaseAuth = getAuth(firebaseApp);

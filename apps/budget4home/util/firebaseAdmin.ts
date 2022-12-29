@@ -1,25 +1,19 @@
-import getConfig from 'next/config';
-
 import * as admin from 'firebase-admin';
 import { App } from 'firebase-admin/app';
 import * as firestore from 'firebase-admin/firestore';
-
-const {
-  publicRuntimeConfig: { firebase }
-} = getConfig();
 
 export const firebaseAdminApp: App =
   admin.apps.length > 0
     ? (admin.apps[0] as App)
     : admin.initializeApp({
         credential: admin.credential.cert({
-          project_id: firebase.projectId,
-          client_email: firebase.clientEmail,
-          private_key_id: firebase.privateKeyId,
-          private_key: firebase.privateKey.replace(/\\n/g, '\n')
+          project_id: process.env.FIREBASE_PROJECT_ID, //firebase.projectId,
+          client_email: process.env.FIREBASE_CLIENT_EMAIL, //firebase.clientEmail,
+          private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID, //firebase.privateKeyId,
+          private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n') //firebase.privateKey.replace(/\\n/g, '\n')
         } as any),
-        projectId: firebase.projectId,
-        databaseURL: `https://${firebase.projectId}.firebaseio.com`
+        projectId: process.env.FIREBASE_PROJECT_ID, //firebase.projectId,
+        databaseURL: `https://${process.env.FIREBASE_PROJECT_ID}.firebaseio.com`
       });
 
 export const firebaseAdminFirestore = firestore.getFirestore(firebaseAdminApp);

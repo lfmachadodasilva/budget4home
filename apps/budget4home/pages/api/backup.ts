@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next/types';
 import { Expense } from '../../models/expense';
-import { addExpense, deleteExpense, updateExpense } from '../../repositories/expenses';
-import { firebaseAdminAuth, firebaseAdminFirestore } from '../../util/firebaseAdmin';
+import { firebaseAdminAuth } from '../../util/firebaseAdmin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const expense = req.body as Expense;
@@ -10,13 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
   try {
-    if (req.method === 'POST') {
-      await addExpense(firebaseAdminFirestore, uid, expense.groupId, expense);
-    } else if (req.method === 'PUT') {
-      await updateExpense(firebaseAdminFirestore, uid, expense.groupId, expense);
-    } else if (req.method === 'DELETE') {
-      await deleteExpense(firebaseAdminFirestore, uid, expense.groupId, expense.id);
-    }
+    // TODO
 
     res.status(200).end();
   } catch (e) {
