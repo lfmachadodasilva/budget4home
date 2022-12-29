@@ -2,14 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 
-const firebaseKey: string = `AIzaSyDMDE7eTQbjwkQglMJf5KnFtMr48-pAoVM`; //`${process.env.FIREBASE_KEY}`;
-const firebaseProjectId: string = `${process.env.FIREBASE_PROJECT_ID}`;
-const firebaseDatabaseURL: string = `https://lfmachadodasilva-dev.firebaseio.com`; //`https://${firebaseProjectId}.firebaseio.com`;
+const firebaseKey: string = process.env.NEXT_PUBLIC_FIREBASE_KEY;
+const firebaseProjectId: string = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
 
 export const firebaseApp = initializeApp({
   apiKey: firebaseKey,
   authDomain: `${firebaseProjectId}.firebaseapp.com`,
-  databaseURL: firebaseDatabaseURL,
+  databaseURL: `https://${firebaseProjectId}.firebaseio.com`,
   projectId: firebaseProjectId,
   storageBucket: `${firebaseProjectId}.appspot.com`
 });
