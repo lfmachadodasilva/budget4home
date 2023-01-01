@@ -6,7 +6,7 @@ export default function Head() {
 
       <link rel="shortcut icon" href="/favicon.ico" />
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-      <link rel="apple-touch-icon" href="/logo24.png"></link>
+      <link rel="apple-touch-icon" href="/logo213.png"></link>
       <link rel="manifest" href="/manifest.json" />
 
       <meta name="theme-color" content="#612F74" />
