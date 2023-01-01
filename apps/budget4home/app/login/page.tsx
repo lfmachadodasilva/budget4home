@@ -18,7 +18,6 @@ export default function () {
   const passwordRef = useRef<HTMLInputElement>();
 
   const handleOnLogin = () => {
-    console.log(emailRef.current.value, passwordRef.current.value);
     signInWithEmailAndPassword(
       emailRef.current.value,
       passwordRef.current.value
