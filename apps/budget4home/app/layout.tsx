@@ -1,3 +1,4 @@
+import { Header } from "./header";
 import { Providers } from "./provider";
 
 export default function RootLayout({
@@ -9,7 +10,10 @@ export default function RootLayout({
     <html>
       <head></head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );

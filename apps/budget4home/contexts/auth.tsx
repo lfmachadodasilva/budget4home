@@ -2,13 +2,7 @@ import { User } from "firebase/auth";
 import { usePathname, useRouter } from "next/navigation";
 
 import nookies from "nookies";
-import {
-  ComponentPropsWithoutRef,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { firebaseAuth } from "../util/firebase";
@@ -18,8 +12,6 @@ type AuthContextProps = {
   user: User;
   token?: string;
 };
-
-interface AuthProps extends ComponentPropsWithoutRef<"div"> {}
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,

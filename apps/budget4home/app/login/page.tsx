@@ -1,10 +1,12 @@
 "use client";
 
+import { B4hButton, B4hInput } from "@budget4home/ui-components";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useAuth } from "../../contexts/auth";
 import { firebaseAuth } from "../../util/firebase";
+import { B4hRoutes } from "../../util/routes";
 
 export default function () {
   const { user } = useAuth();
@@ -16,23 +18,14 @@ export default function () {
   const passwordRef = useRef<HTMLInputElement>();
 
   const handleOnLogin = () => {
-    // try {
-    //   await signInWithEmailAndPassword(emailRef.current.value, passwordRef.current.value);
-    // } catch (e) {
-    //   console.error('fail to login', e);
-    // }
+    console.log(emailRef.current.value, passwordRef.current.value);
     signInWithEmailAndPassword(
       emailRef.current.value,
       passwordRef.current.value
     ).then(() => {
-      // push(B4hRoutes.home);
+      push(B4hRoutes.home);
     });
   };
-
-  // if (user) {
-  //   replace(B4hRoutes.home);
-  //   // return <></>;
-  // }
 
   if (user) {
     return <h3>Welcome {user.displayName ?? user.email}</h3>;
@@ -43,18 +36,12 @@ export default function () {
       <h5>Login</h5>
       <br></br>
       <br></br>
-      <>
-        <label>email</label>
-        <input ref={emailRef} type={"email"} />
-      </>
+      <B4hInput ref={emailRef} type={"email"} label={"email"} />
       <br></br>
-      <>
-        <label>password</label>
-        <input ref={passwordRef} type={"password"} />
-      </>
+      <B4hInput ref={passwordRef} type={"password"} label={"password"} />
       <br></br>
       <br></br>
-      <button onClick={handleOnLogin}>Login</button>
+      <B4hButton onClick={handleOnLogin}>Login</B4hButton>
     </>
   );
 }
