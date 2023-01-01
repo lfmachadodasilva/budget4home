@@ -9,7 +9,7 @@ import { B4hRoutes } from "../../util/routes";
 
 export default async function () {
   const nextCookies = cookies();
-  const token = nextCookies.get("token");
+  const token = nextCookies.get("token").value;
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
   const groups = await getAllGroups(firebaseAdminFirestore, uid);
