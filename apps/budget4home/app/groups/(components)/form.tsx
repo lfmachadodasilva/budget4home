@@ -102,14 +102,14 @@ export const GroupForm = (props: GroupFormProps) => {
         <>
           {props.users?.map((x) => {
             return (
-              <p key={x.id}>
-                {x.id} - {x.email}
-                <input
+              <div key={x.id}>
+                <B4hInput
                   type={"checkbox"}
                   defaultChecked={props.group?.userIds?.includes(x.id) ?? false}
                   onChange={(event) => handleOnChangeUser(event, x.id)}
+                  label={`${x.displayName ?? ""} - ${x.email}`}
                 />
-              </p>
+              </div>
             );
           })}
         </>

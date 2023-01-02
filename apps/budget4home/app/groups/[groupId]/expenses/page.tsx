@@ -54,19 +54,14 @@ export default async function ({ params, searchParams }: any) {
       <br></br>
       <br></br>
       <ExpensesDate />
-      <br></br>
-      <br></br>
-      <>
-        <label>
-          <strong>Total used:</strong> {totalUsed.toFixed(2)}
-        </label>
-      </>
-      <br></br>
-      <>
-        <label>
-          <strong>Total left:</strong> {totalLeft.toFixed(2)}
-        </label>
-      </>
+
+      <p>
+        <strong>Total used:</strong> {totalUsed.toFixed(2)}
+      </p>
+      <p>
+        <strong>Total left:</strong> {totalLeft.toFixed(2)}
+      </p>
+
       <ul>
         {expenses.map((expense) => {
           return (
