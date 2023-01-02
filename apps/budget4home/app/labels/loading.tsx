@@ -1,1 +1,3 @@
-export { default } from "../groups/[groupId]/labels/loading";
+export default function Loading() {
+  return <h3>loading labels...</h3>;
+}
