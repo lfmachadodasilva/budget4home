@@ -45,9 +45,7 @@ export default async function ({ params, searchParams }: any) {
 
   return (
     <>
-      <h5>Expenses</h5>
-      <br></br>
-      <br></br>
+      <h3>Expenses</h3>
       <Link
         href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.expenseAdd}`}
       >
@@ -83,7 +81,7 @@ export default async function ({ params, searchParams }: any) {
               <label>{expense.label?.name}</label>
               {" - "}
               <Link
-                href={`${B4hRoutes.groups}/${expense.groupId}${B4hRoutes.expenses}/${expense.id}`}
+                href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.expenses}/${expense.id}`}
               >
                 edit
               </Link>

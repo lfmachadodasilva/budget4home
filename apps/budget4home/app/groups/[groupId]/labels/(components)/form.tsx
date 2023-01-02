@@ -1,5 +1,6 @@
 "use client";
 
+import { B4hButton, B4hInput } from "@budget4home/ui-components";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useAuth } from "../../../../../contexts/auth";
@@ -89,22 +90,24 @@ export function LabelForm(props: LabelFormProps) {
             <p>{props.label.id}</p>
           </>
         )}
-        <>
-          <label>Name</label>
-          <input ref={nameRef} defaultValue={props.label?.name} />
-        </>
+
+        <B4hInput
+          ref={nameRef}
+          defaultValue={props.label?.name}
+          label={"Name"}
+        />
       </>
 
       <br></br>
       <br></br>
 
-      <button onClick={handleOnManage} disabled={loading}>
+      <B4hButton onClick={handleOnManage} disabled={loading}>
         {props.label?.id ? "Update" : "Add"}
-      </button>
+      </B4hButton>
       {props.label?.id && (
-        <button onClick={handleOnDelete} disabled={loading}>
+        <B4hButton onClick={handleOnDelete} disabled={loading}>
           Delete
-        </button>
+        </B4hButton>
       )}
     </>
   );
