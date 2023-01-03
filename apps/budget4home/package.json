@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@budget4home/ui-components": "*",
+    "@budget4home/base": "*",
+    "@budget4home/firestore-repositories": "*",
     "date-fns": "^2.29.3",
     "encoding": "^0.1.13",
     "firebase": "^9.15.0",

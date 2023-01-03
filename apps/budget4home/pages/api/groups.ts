@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
 import { Group } from "../../models/group";
-import { addGroup, deleteGroup, updateGroup } from "../../repositories/groups";
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../../util/firebaseAdmin";
+import { groupRepository } from "../../repositories";
+import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,11 +15,11 @@ export default async function handler(
 
   try {
     if (req.method === "POST") {
-      await addGroup(firebaseAdminFirestore, uid, group);
+      await groupRepository.add(uid, group);
     } else if (req.method === "PUT") {
-      await updateGroup(firebaseAdminFirestore, uid, group);
+      await groupRepository.edit(uid, group);
     } else if (req.method === "DELETE") {
-      await deleteGroup(firebaseAdminFirestore, uid, group.id);
+      await groupRepository.delete(uid, group.id);
     }
 
     res.status(200).end();

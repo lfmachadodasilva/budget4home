@@ -1,10 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { getAllGroups } from "../../repositories/groups";
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../../util/firebaseAdmin";
+import { groupRepository } from "../../repositories";
+import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 import { B4hRoutes } from "../../util/routes";
 
 export default async function () {
@@ -12,7 +9,7 @@ export default async function () {
   const token = nextCookies.get("token").value;
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
-  const groups = await getAllGroups(firebaseAdminFirestore, uid);
+  const groups = await groupRepository.getAll(uid);
 
   return (
     <>
