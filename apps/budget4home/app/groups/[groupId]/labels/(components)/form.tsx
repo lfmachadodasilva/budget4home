@@ -92,6 +92,7 @@ export function LabelForm(props: LabelFormProps) {
         )}
 
         <B4hInput
+          id={"name"}
           ref={nameRef}
           defaultValue={props.label?.name}
           label={"Name"}

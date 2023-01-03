@@ -104,6 +104,7 @@ export const GroupForm = (props: GroupFormProps) => {
             return (
               <div key={x.id}>
                 <B4hInput
+                  id={x.id}
                   type={"checkbox"}
                   defaultChecked={props.group?.userIds?.includes(x.id) ?? false}
                   onChange={(event) => handleOnChangeUser(event, x.id)}

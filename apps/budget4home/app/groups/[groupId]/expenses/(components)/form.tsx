@@ -104,6 +104,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           </>
         )}
         <B4hSelect
+          id={"type"}
           ref={typeRef}
           defaultValue={props.expense?.type ?? ExpenseType.outcoming}
           options={[
@@ -115,12 +116,14 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <br></br>
 
         <B4hInput
+          id={"name"}
           ref={nameRef}
           defaultValue={props.expense?.name}
           label={"Name"}
         />
         <br></br>
         <B4hInput
+          id={"value"}
           type="number"
           ref={valueRef}
           defaultValue={props.expense?.value}
@@ -130,6 +133,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <br></br>
 
         <B4hInput
+          id={"date"}
           type="date"
           ref={dateRef}
           defaultValue={format(
@@ -140,6 +144,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
         />
         <br></br>
         <B4hSelect
+          id={"label"}
           ref={labelRef}
           defaultValue={props.expense?.label?.id ?? props.labels.at(0)?.id}
           options={props.labels.map((label) => {

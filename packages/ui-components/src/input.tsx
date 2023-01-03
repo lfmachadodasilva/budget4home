@@ -8,7 +8,7 @@ export const B4hInput = forwardRef(
   (props: B4hInputProp, ref: ForwardedRef<HTMLInputElement>) => {
     return (
       <>
-        {props.label ?? <label>{props.label}</label>}
+        {props.label ?? <label htmlFor={props.id}>{props.label}</label>}
         <input ref={ref} {...props} />
       </>
     );
