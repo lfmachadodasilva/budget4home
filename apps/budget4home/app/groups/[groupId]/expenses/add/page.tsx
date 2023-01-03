@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
 import { ExpenseForm } from "../(components)/form";
-import { groupRepository, labelRepository } from "../../../../../repositories";
 import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+import {
+  groupRepository,
+  labelRepository,
+} from "../../../../../util/repositories";
 
 export default async function ({ params }: any) {
   let groupId = params.groupId;

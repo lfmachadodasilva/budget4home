@@ -1,8 +1,8 @@
 import { Label } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { labelRepository } from "../../repositories";
 import { firebaseAdminAuth } from "../../util/firebaseAdmin";
+import { labelRepository } from "../../util/repositories";
 
 export default async function handler(
   req: NextApiRequest,

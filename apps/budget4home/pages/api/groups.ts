@@ -1,8 +1,8 @@
 import { Group } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { groupRepository } from "../../repositories";
 import { firebaseAdminAuth } from "../../util/firebaseAdmin";
+import { groupRepository } from "../../util/repositories";
 
 export default async function handler(
   req: NextApiRequest,

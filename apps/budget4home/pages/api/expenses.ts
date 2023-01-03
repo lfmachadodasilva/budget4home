@@ -1,7 +1,7 @@
 import { Expense } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
-import { expenseRepository } from "../../repositories";
 import { firebaseAdminAuth } from "../../util/firebaseAdmin";
+import { expenseRepository } from "../../util/repositories";
 
 export default async function handler(
   req: NextApiRequest,

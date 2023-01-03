@@ -1,10 +1,10 @@
 import { cookies } from "next/headers";
 import { ExpenseForm } from "../(components)/form";
+import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
 import {
   expenseRepository,
   labelRepository,
-} from "../../../../../repositories";
-import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+} from "../../../../../util/repositories";
 
 export default async function ({ params }: any) {
   const nextCookies = cookies();

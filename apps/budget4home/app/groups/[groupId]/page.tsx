@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { GroupForm } from "../(components)/form";
-import { groupRepository, userRepository } from "../../../repositories";
 import { firebaseAdminAuth } from "../../../util/firebaseAdmin";
+import { groupRepository, userRepository } from "../../../util/repositories";
 
 export default async function ({ params }: any) {
   const nextCookies = cookies();

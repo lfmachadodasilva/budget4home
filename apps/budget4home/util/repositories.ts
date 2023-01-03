@@ -11,10 +11,7 @@ import {
   UserRepository,
 } from "@budget4home/firestore-repositories";
 
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../util/firebaseAdmin";
+import { firebaseAdminAuth, firebaseAdminFirestore } from "./firebaseAdmin";
 
 export const groupRepository: IGroupRepository = new GroupRepository(
   firebaseAdminFirestore

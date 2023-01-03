@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { sum } from "lodash";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { expenseRepository } from "../../../../repositories";
 import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
+import { expenseRepository } from "../../../../util/repositories";
 import { B4hRoutes } from "../../../../util/routes";
 import { ExpensesDate } from "./(components)/date";
 

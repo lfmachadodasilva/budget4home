@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { LabelForm } from "../(components)/form";
-import { groupRepository } from "../../../../../repositories";
 import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+import { groupRepository } from "../../../../../util/repositories";
 
 export default async function ({ params }: any) {
   let groupId = params.groupId;

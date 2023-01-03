@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { LabelForm } from "../(components)/form";
-import { labelRepository } from "../../../../../repositories";
 import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+import { labelRepository } from "../../../../../util/repositories";
 
 export default async function ({ params }: any) {
   const nextCookies = cookies();

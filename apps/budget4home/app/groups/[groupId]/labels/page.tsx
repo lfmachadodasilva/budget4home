@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { labelRepository } from "../../../../repositories";
 import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
+import { labelRepository } from "../../../../util/repositories";
 import { B4hRoutes } from "../../../../util/routes";
 
 export default async function ({ params }: any) {
