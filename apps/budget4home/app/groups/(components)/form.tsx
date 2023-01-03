@@ -1,11 +1,10 @@
 "use client";
 
+import { Group, User } from "@budget4home/base";
 import { B4hButton, B4hInput } from "@budget4home/ui-components";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
 import { useAuth } from "../../../contexts/auth";
-import { Group } from "../../../models/group";
-import { User } from "../../../models/user";
 import { B4hRoutes } from "../../../util/routes";
 
 interface GroupFormProps {

@@ -1,6 +1,6 @@
+import { Group } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { Group } from "../../models/group";
 import { groupRepository } from "../../repositories";
 import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 

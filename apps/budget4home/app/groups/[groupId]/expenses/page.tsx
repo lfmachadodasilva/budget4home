@@ -1,8 +1,8 @@
+import { ExpenseType } from "@budget4home/base";
 import { format } from "date-fns";
 import { sum } from "lodash";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { ExpenseType } from "../../../../models/expense";
 import { expenseRepository } from "../../../../repositories";
 import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
 import { B4hRoutes } from "../../../../util/routes";

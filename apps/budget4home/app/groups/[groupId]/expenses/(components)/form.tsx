@@ -1,12 +1,11 @@
 "use client";
 
+import { Expense, ExpenseType, Label } from "@budget4home/base";
 import { B4hButton, B4hInput, B4hSelect } from "@budget4home/ui-components";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useAuth } from "../../../../../contexts/auth";
-import { Expense, ExpenseType } from "../../../../../models/expense";
-import { Label } from "../../../../../models/label";
 import { B4hRoutes } from "../../../../../util/routes";
 
 interface ExpenseFormProps {

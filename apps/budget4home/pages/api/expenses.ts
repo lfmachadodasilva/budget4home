@@ -1,5 +1,5 @@
+import { Expense } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
-import { Expense } from "../../models/expense";
 import { expenseRepository } from "../../repositories";
 import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 

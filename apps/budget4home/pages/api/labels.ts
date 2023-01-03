@@ -1,6 +1,6 @@
+import { Label } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { Label } from "../../models/label";
 import { labelRepository } from "../../repositories";
 import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 
