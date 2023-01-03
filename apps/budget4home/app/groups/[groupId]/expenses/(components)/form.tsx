@@ -5,6 +5,7 @@ import { B4hButton, B4hInput, B4hSelect } from "@budget4home/ui-components";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { ExpenseClient } from "../../../../../clients/expenses";
 import { useAuth } from "../../../../../contexts/auth";
 import { B4hRoutes } from "../../../../../util/routes";
 
@@ -33,39 +34,23 @@ export function ExpenseForm(props: ExpenseFormProps) {
     setLoading(true);
     try {
       if (!props.expense?.id) {
-        await fetch(B4hRoutes.api + B4hRoutes.expenses, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({
-            type: typeRef.current.value,
-            name: nameRef.current.value,
-            value: valueRef.current.value,
-            date: dateRef.current.value,
-            label: { id: labelRef.current.value },
-
-            groupId: props.groupId,
-          }),
+        await ExpenseClient.add(token, {
+          type: typeRef.current.value,
+          name: nameRef.current.value,
+          value: +valueRef.current.value,
+          date: dateRef.current.value,
+          label: { id: labelRef.current.value } as Label,
+          groupId: props.groupId,
         });
       } else {
-        await fetch(B4hRoutes.api + B4hRoutes.expenses, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({
-            id: props.expense.id,
-            type: typeRef.current.value,
-            name: nameRef.current.value,
-            value: valueRef.current.value,
-            date: dateRef.current.value,
-            label: { id: labelRef.current.value },
-
-            groupId: props.groupId,
-          }),
+        await ExpenseClient.edit(token, {
+          id: props.expense.id,
+          type: typeRef.current.value,
+          name: nameRef.current.value,
+          value: +valueRef.current.value,
+          date: dateRef.current.value,
+          label: { id: labelRef.current.value } as Label,
+          groupId: props.groupId,
         });
       }
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
@@ -78,14 +63,12 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const handleOnDelete = async () => {
     if (confirm("Are you sure?")) {
       setLoading(true);
-      await fetch(B4hRoutes.api + B4hRoutes.expenses, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: token,
-        },
-        body: JSON.stringify({ id: props.expense.id, groupId: props.groupId }),
+
+      await ExpenseClient.delete(token, {
+        id: props.expense.id,
+        groupId: props.groupId,
       });
+
       setLoading(false);
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
     }

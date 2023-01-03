@@ -4,6 +4,7 @@ import { Label } from "@budget4home/base";
 import { B4hButton, B4hInput } from "@budget4home/ui-components";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import { LabelClient } from "../../../../../clients";
 import { useAuth } from "../../../../../contexts/auth";
 import { B4hRoutes } from "../../../../../util/routes";
 
@@ -27,32 +28,19 @@ export function LabelForm(props: LabelFormProps) {
     setLoading(true);
     try {
       if (!props.label?.id) {
-        await fetch(B4hRoutes.api + B4hRoutes.labels, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({
-            name: nameRef.current.value,
-            groupId: props.groupId,
-          }),
+        await LabelClient.add(token, {
+          name: nameRef.current.value,
+          groupId: props.groupId,
         });
       } else {
-        await fetch(B4hRoutes.api + B4hRoutes.labels, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({
-            id: props.label.id,
-            name: nameRef.current.value,
-            groupId: props.groupId,
-          }),
+        await LabelClient.edit(token, {
+          id: props.label.id,
+          name: nameRef.current.value,
+          groupId: props.groupId,
         });
       }
-      await push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
+
+      push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
     } catch {
       // TODO show error msg
     }
@@ -62,16 +50,13 @@ export function LabelForm(props: LabelFormProps) {
   const handleOnDelete = async () => {
     if (confirm("Are you sure?")) {
       setLoading(true);
-      await fetch(B4hRoutes.api + B4hRoutes.labels, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: token,
-        },
-        body: JSON.stringify({ id: props.label.id, groupId: props.groupId }),
+
+      await LabelClient.delete(token, {
+        id: props.label.id,
+        groupId: props.groupId,
       });
 
-      await push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
+      push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
       setLoading(false);
     }
   };

@@ -4,6 +4,7 @@ import { Group, User } from "@budget4home/base";
 import { B4hButton, B4hInput } from "@budget4home/ui-components";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useRef, useState } from "react";
+import { GroupClient } from "../../../clients";
 import { useAuth } from "../../../contexts/auth";
 import { B4hRoutes } from "../../../util/routes";
 
@@ -28,29 +29,15 @@ export const GroupForm = (props: GroupFormProps) => {
     setLoading(true);
     try {
       if (!props.group?.id) {
-        await fetch(B4hRoutes.api + B4hRoutes.groups, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({
-            name: nameRef.current.value,
-            userIds: userIdsRef.current,
-          }),
+        await GroupClient.add(token, {
+          name: nameRef.current.value,
+          userIds: userIdsRef.current,
         });
       } else {
-        await fetch(B4hRoutes.api + B4hRoutes.groups, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: token,
-          },
-          body: JSON.stringify({
-            id: props.group.id,
-            name: nameRef.current.value,
-            userIds: userIdsRef.current,
-          }),
+        await GroupClient.edit(token, {
+          id: props.group.id,
+          name: nameRef.current.value,
+          userIds: userIdsRef.current,
         });
       }
       push(B4hRoutes.groups);
@@ -63,13 +50,9 @@ export const GroupForm = (props: GroupFormProps) => {
   const handleOnDelete = async () => {
     if (confirm("Are you sure?")) {
       setLoading(true);
-      await fetch(B4hRoutes.api + B4hRoutes.groups, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: token,
-        },
-        body: JSON.stringify({ id: props.group.id }),
+
+      await GroupClient.delete(token, {
+        id: props.group.id,
       });
 
       push(B4hRoutes.groups);
