@@ -1,11 +1,8 @@
+import { Label } from "@budget4home/base";
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-import { Label } from "../../models/label";
-import { addLabel, deleteLabel, updateLabel } from "../../repositories/labels";
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../../util/firebaseAdmin";
+import { labelRepository } from "../../repositories";
+import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,11 +15,11 @@ export default async function handler(
 
   try {
     if (req.method === "POST") {
-      await addLabel(firebaseAdminFirestore, uid, label.groupId, label);
+      await labelRepository.add(uid, label.groupId, label);
     } else if (req.method === "PUT") {
-      await updateLabel(firebaseAdminFirestore, uid, label.groupId, label);
+      await labelRepository.edit(uid, label.groupId, label);
     } else if (req.method === "DELETE") {
-      await deleteLabel(firebaseAdminFirestore, uid, label.groupId, label.id);
+      await labelRepository.delete(uid, label.groupId, label.id);
     }
 
     res.status(200).end();

@@ -1,11 +1,7 @@
 import { cookies } from "next/headers";
 import { ExpenseForm } from "../(components)/form";
-import { getFirstGroup } from "../../../../../repositories/groups";
-import { getAllLabels } from "../../../../../repositories/labels";
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../../../../../util/firebaseAdmin";
+import { groupRepository, labelRepository } from "../../../../../repositories";
+import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
 
 export default async function ({ params }: any) {
   let groupId = params.groupId;
@@ -15,14 +11,10 @@ export default async function ({ params }: any) {
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
   if (!groupId) {
-    groupId = await getFirstGroup(firebaseAdminFirestore, uid);
+    groupId = await groupRepository.getFirst(uid);
   }
 
-  const labels = await getAllLabels(
-    firebaseAdminFirestore,
-    uid,
-    params.groupId
-  );
+  const labels = await labelRepository.getAll(uid, params.groupId);
 
   return (
     <>

@@ -1,10 +1,10 @@
 "use client";
 
+import { Label } from "@budget4home/base";
 import { B4hButton, B4hInput } from "@budget4home/ui-components";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useAuth } from "../../../../../contexts/auth";
-import { Label } from "../../../../../models/label";
 import { B4hRoutes } from "../../../../../util/routes";
 
 interface LabelFormProps {
@@ -92,6 +92,7 @@ export function LabelForm(props: LabelFormProps) {
         )}
 
         <B4hInput
+          id={"name"}
           ref={nameRef}
           defaultValue={props.label?.name}
           label={"Name"}

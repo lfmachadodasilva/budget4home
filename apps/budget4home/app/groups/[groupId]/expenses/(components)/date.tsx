@@ -32,6 +32,7 @@ export const ExpensesDate = () => {
 
   return (
     <B4hInput
+      id={"month"}
       type={"month"}
       ref={dateRef}
       defaultValue={format(date, "yyyy-MM")}

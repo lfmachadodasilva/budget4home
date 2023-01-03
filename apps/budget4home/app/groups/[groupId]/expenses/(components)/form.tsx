@@ -1,12 +1,11 @@
 "use client";
 
+import { Expense, ExpenseType, Label } from "@budget4home/base";
 import { B4hButton, B4hInput, B4hSelect } from "@budget4home/ui-components";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useAuth } from "../../../../../contexts/auth";
-import { Expense, ExpenseType } from "../../../../../models/expense";
-import { Label } from "../../../../../models/label";
 import { B4hRoutes } from "../../../../../util/routes";
 
 interface ExpenseFormProps {
@@ -104,6 +103,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           </>
         )}
         <B4hSelect
+          id={"type"}
           ref={typeRef}
           defaultValue={props.expense?.type ?? ExpenseType.outcoming}
           options={[
@@ -115,12 +115,14 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <br></br>
 
         <B4hInput
+          id={"name"}
           ref={nameRef}
           defaultValue={props.expense?.name}
           label={"Name"}
         />
         <br></br>
         <B4hInput
+          id={"value"}
           type="number"
           ref={valueRef}
           defaultValue={props.expense?.value}
@@ -130,6 +132,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <br></br>
 
         <B4hInput
+          id={"date"}
           type="date"
           ref={dateRef}
           defaultValue={format(
@@ -140,6 +143,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
         />
         <br></br>
         <B4hSelect
+          id={"label"}
           ref={labelRef}
           defaultValue={props.expense?.label?.id ?? props.labels.at(0)?.id}
           options={props.labels.map((label) => {

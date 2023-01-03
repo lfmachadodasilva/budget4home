@@ -1,10 +1,7 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { getAllLabels } from "../../../../repositories/labels";
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../../../../util/firebaseAdmin";
+import { labelRepository } from "../../../../repositories";
+import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
 import { B4hRoutes } from "../../../../util/routes";
 
 export default async function ({ params }: any) {
@@ -12,11 +9,7 @@ export default async function ({ params }: any) {
   const token = nextCookies.get("token").value;
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
-  const labels = await getAllLabels(
-    firebaseAdminFirestore,
-    uid,
-    params?.groupId
-  );
+  const labels = await labelRepository.getAll(uid, params?.groupId);
 
   return (
     <>

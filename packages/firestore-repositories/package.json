@@ -1,0 +1,21 @@
+{
+  "name": "@budget4home/firestore-repositories",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "TIMING=1 eslint \"**/*.ts*\""
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "tsconfig": "*",
+    "@budget4home/base": "*",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.29.3",
+    "firebase-admin": "^11.4.1"
+  }
+}

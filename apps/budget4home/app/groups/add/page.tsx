@@ -1,8 +1,8 @@
 import { GroupForm } from "../(components)/form";
-import { getAllUsers } from "../../../repositories/users";
+import { userRepository } from "../../../repositories";
 
 export default async function () {
-  const users = await getAllUsers();
+  const users = await userRepository.getAll();
 
   return (
     <>

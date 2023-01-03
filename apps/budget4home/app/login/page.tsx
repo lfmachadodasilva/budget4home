@@ -35,9 +35,14 @@ export default function () {
       <h5>Login</h5>
       <br></br>
       <br></br>
-      <B4hInput ref={emailRef} type={"email"} label={"email"} />
+      <B4hInput id="email" ref={emailRef} type={"email"} label={"email"} />
       <br></br>
-      <B4hInput ref={passwordRef} type={"password"} label={"password"} />
+      <B4hInput
+        id="password"
+        ref={passwordRef}
+        type={"password"}
+        label={"password"}
+      />
       <br></br>
       <br></br>
       <B4hButton onClick={handleOnLogin}>Login</B4hButton>

@@ -15,7 +15,7 @@ export const B4hSelect = forwardRef(
     Object.keys(props.options);
     return (
       <>
-        {props.label ?? <label>{props.label}</label>}
+        {props.label ?? <label htmlFor={props.id}>{props.label}</label>}
         <select ref={ref} {...props}>
           {props.options.map((option) => {
             return (
