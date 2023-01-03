@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { GroupForm } from "../(components)/form";
-import { groupRepository } from "../../../repositories";
-import { getAllUsers } from "../../../repositories/users";
+import { groupRepository, userRepository } from "../../../repositories";
 import { firebaseAdminAuth } from "../../../util/firebaseAdmin";
 
 export default async function ({ params }: any) {
@@ -10,7 +9,7 @@ export default async function ({ params }: any) {
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
   const groupPromise = groupRepository.get(uid, params.groupId);
-  const usersPromise = getAllUsers();
+  const usersPromise = userRepository.getAll();
 
   const [group, users] = await Promise.all([groupPromise, usersPromise]);
 

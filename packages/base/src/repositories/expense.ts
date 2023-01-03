@@ -7,20 +7,16 @@ export interface IExpenseRepository {
     groupId: string,
     date?: Date
   ) => Promise<Expense[]>;
-  get: (
-    userId: string,
-    groupId: string,
-    expenseId: string
-  ) => Promise<Expense[]>;
+  get: (userId: string, groupId: string, expenseId: string) => Promise<Expense>;
   add: (
     userId: string,
     groupId: string,
     expense: Partial<Expense>
-  ) => Promise<Expense[]>;
+  ) => Promise<Expense>;
   edit: (
     userId: string,
     groupId: string,
     expense: Partial<Expense>
-  ) => Promise<Expense[]>;
+  ) => Promise<Expense>;
   delete: (userId: string, groupId: string, expenseId: string) => Promise<void>;
 }

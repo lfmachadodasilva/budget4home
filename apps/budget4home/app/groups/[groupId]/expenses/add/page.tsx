@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { ExpenseForm } from "../(components)/form";
+import { labelRepository } from "../../../../../repositories";
 import { getFirstGroup } from "../../../../../repositories/groups";
-import { getAllLabels } from "../../../../../repositories/labels";
 import {
   firebaseAdminAuth,
   firebaseAdminFirestore,
@@ -18,11 +18,7 @@ export default async function ({ params }: any) {
     groupId = await getFirstGroup(firebaseAdminFirestore, uid);
   }
 
-  const labels = await getAllLabels(
-    firebaseAdminFirestore,
-    uid,
-    params.groupId
-  );
+  const labels = await labelRepository.getAll(uid, params.groupId);
 
   return (
     <>

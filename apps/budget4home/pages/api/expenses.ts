@@ -1,14 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 import { Expense } from "../../models/expense";
-import {
-  addExpense,
-  deleteExpense,
-  updateExpense,
-} from "../../repositories/expenses";
-import {
-  firebaseAdminAuth,
-  firebaseAdminFirestore,
-} from "../../util/firebaseAdmin";
+import { expenseRepository } from "../../repositories";
+import { firebaseAdminAuth } from "../../util/firebaseAdmin";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,21 +14,11 @@ export default async function handler(
 
   try {
     if (req.method === "POST") {
-      await addExpense(firebaseAdminFirestore, uid, expense.groupId, expense);
+      await expenseRepository.add(uid, expense.groupId, expense);
     } else if (req.method === "PUT") {
-      await updateExpense(
-        firebaseAdminFirestore,
-        uid,
-        expense.groupId,
-        expense
-      );
+      await expenseRepository.edit(uid, expense.groupId, expense);
     } else if (req.method === "DELETE") {
-      await deleteExpense(
-        firebaseAdminFirestore,
-        uid,
-        expense.groupId,
-        expense.id
-      );
+      await expenseRepository.delete(uid, expense.groupId, expense.id);
     }
 
     res.status(200).end();
