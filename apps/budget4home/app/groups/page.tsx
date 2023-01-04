@@ -36,6 +36,10 @@ export default async function () {
               <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.export}`}>
                 export
               </Link>
+              {" - "}
+              <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.import}`}>
+                import
+              </Link>
             </li>
           );
         })}
