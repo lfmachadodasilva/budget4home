@@ -13,4 +13,6 @@ export const B4hRoutes = {
   expenses: "/expenses",
   expenseAdd: "/expenses/add",
   reports: "/reports",
+
+  export: "/export",
 };
