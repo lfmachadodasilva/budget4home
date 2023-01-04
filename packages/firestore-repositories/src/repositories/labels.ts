@@ -1,11 +1,17 @@
-import { IGroupRepository, ILabelRepository, Label } from "@budget4home/base";
+import {
+  IExpenseRepository,
+  IGroupRepository,
+  ILabelRepository,
+  Label,
+} from "@budget4home/base";
 import { Firestore } from "firebase-admin/firestore";
 import { FirestoreCollections } from "./collections";
 
 export class LabelRepository implements ILabelRepository {
   constructor(
     private firestore: Firestore,
-    private groupRepository: IGroupRepository
+    private groupRepository: IGroupRepository,
+    private expenseRepository: IExpenseRepository
   ) {}
 
   getAll = async (userId: string, groupId: string) => {
@@ -88,9 +94,17 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const doc = await this.firestore
+    const docPromise = this.firestore
       .doc(FirestoreCollections.label(groupId, labelId))
       .delete();
+
+    const docExpensesPromise = this.expenseRepository.deleteByLabel(
+      userId,
+      groupId,
+      labelId
+    );
+
+    await Promise.all([docPromise, docExpensesPromise]);
 
     return Promise.resolve();
   };

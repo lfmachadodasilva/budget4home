@@ -19,4 +19,9 @@ export interface IExpenseRepository {
     expense: Partial<Expense>
   ) => Promise<Expense>;
   delete: (userId: string, groupId: string, expenseId: string) => Promise<void>;
+  deleteByLabel: (
+    userId: string,
+    groupId: string,
+    labelId: string
+  ) => Promise<void>;
 }

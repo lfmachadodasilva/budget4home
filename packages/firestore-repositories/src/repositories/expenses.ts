@@ -20,12 +20,12 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const docs = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.expeses(groupId))
       .get();
 
     return await Promise.all(
-      docs.docs.map(async (doc) => {
+      col.docs.map(async (doc) => {
         return await this.expenseToModel(doc);
       })
     );
@@ -41,14 +41,14 @@ export class ExpenseRepository implements IExpenseRepository {
     const startDay = startOfMonth(now);
     const endDay = addMonths(startDay, 1);
 
-    const docs = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.expeses(groupId))
       .where("date", ">=", Timestamp.fromDate(startDay))
       .where("date", "<", Timestamp.fromDate(endDay))
       .get();
 
     return await Promise.all(
-      docs.docs.map(async (doc) => {
+      col.docs.map(async (doc) => {
         return await this.expenseToModel(doc);
       })
     );
@@ -79,13 +79,13 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const obj = await this.expenseToFirestore(expense as Expense);
-    const doc = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.expeses(groupId))
       .add(obj);
 
     return {
       ...expense,
-      id: doc.id,
+      id: col.id,
     } as Expense;
   };
 
@@ -114,6 +114,26 @@ export class ExpenseRepository implements IExpenseRepository {
     const doc = await this.firestore
       .doc(FirestoreCollections.expese(groupId, expenseId))
       .delete();
+
+    return Promise.resolve();
+  };
+
+  deleteByLabel = async (userId: string, groupId: string, labelId: string) => {
+    if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
+      // TODO throw ex
+      return null;
+    }
+
+    const col = await this.firestore
+      .collection(FirestoreCollections.expeses(groupId))
+      .where(
+        "labelRef",
+        "==",
+        this.firestore.doc(FirestoreCollections.label(groupId, labelId))
+      )
+      .get();
+
+    await Promise.all(col.docs.map((x) => x.ref.delete()));
 
     return Promise.resolve();
   };
