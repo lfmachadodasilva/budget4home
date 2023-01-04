@@ -92,15 +92,9 @@ export class GroupRepository implements IGroupRepository {
       return null;
     }
 
-    const docPromise = this.firestore
-      .doc(FirestoreCollections.group(groupId))
-      .delete();
-    const colPromise = this.firestore
-      .collection(FirestoreCollections.group(groupId))
-      .doc()
-      .delete();
-
-    await Promise.all([docPromise, colPromise]);
+    await this.firestore.recursiveDelete(
+      this.firestore.doc(FirestoreCollections.group(groupId))
+    );
 
     return Promise.resolve();
   };
