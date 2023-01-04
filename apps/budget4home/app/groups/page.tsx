@@ -32,6 +32,10 @@ export default async function () {
               >
                 expenses
               </Link>
+              {" - "}
+              <Link href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.export}`}>
+                export
+              </Link>
             </li>
           );
         })}
