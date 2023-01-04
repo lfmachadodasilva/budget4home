@@ -13,16 +13,18 @@ export default async function handler(
   const token = req.headers.authorization;
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
+  let response: any = null;
+
   try {
     if (req.method === "POST") {
-      await labelRepository.add(uid, label.groupId, label);
+      response = await labelRepository.add(uid, label.groupId, label);
     } else if (req.method === "PUT") {
-      await labelRepository.edit(uid, label.groupId, label);
+      response = await labelRepository.edit(uid, label.groupId, label);
     } else if (req.method === "DELETE") {
-      await labelRepository.delete(uid, label.groupId, label.id);
+      response = await labelRepository.delete(uid, label.groupId, label.id);
     }
 
-    res.status(200).end();
+    res.status(200).send(response);
   } catch (e) {
     console.error(e);
     res.status(400).end();

@@ -15,12 +15,12 @@ interface GroupFormProps {
 
 export const GroupForm = (props: GroupFormProps) => {
   const { push } = useRouter();
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   const [loading, setLoading] = useState(false);
 
   const nameRef = useRef<HTMLInputElement>();
-  const userIdsRef = useRef<string[]>(props.group?.userIds ?? []);
+  const userIdsRef = useRef<string[]>(props.group?.userIds ?? [user?.uid]);
 
   const handleOnManage = async () => {
     // TODO validate name
@@ -88,7 +88,7 @@ export const GroupForm = (props: GroupFormProps) => {
                 <B4hInput
                   id={x.id}
                   type={"checkbox"}
-                  defaultChecked={props.group?.userIds?.includes(x.id) ?? false}
+                  defaultChecked={userIdsRef.current?.includes(x.id) ?? false}
                   onChange={(event) => handleOnChangeUser(event, x.id)}
                   label={`${x.displayName ?? ""} - ${x.email}`}
                 />
