@@ -32,9 +32,16 @@ export const ImportUi = (props: ImportUiProps) => {
   const dataRef = useRef<HTMLTextAreaElement>();
   const [data, setData] = useState<ImportItem[]>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   const handleOnProcess = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setData(splitItems(event.target.value, props.labels, props.group.id));
+    try {
+      setError(null);
+      setData(splitItems(event.target.value, props.labels, props.group.id));
+    } catch {
+      setError("Fail to process your data");
+      setData([]);
+    }
   };
 
   const handleOnImport = useCallback(async () => {
@@ -118,6 +125,7 @@ export const ImportUi = (props: ImportUiProps) => {
         rows={5}
         onChange={handleOnProcess}
       />
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <B4hButton onClick={handleOnImport} disabled={loading}>
         import
       </B4hButton>
