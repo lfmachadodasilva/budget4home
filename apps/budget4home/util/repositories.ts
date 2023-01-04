@@ -24,7 +24,8 @@ export const expenseRepository: IExpenseRepository = new ExpenseRepository(
 
 export const labelRepository: ILabelRepository = new LabelRepository(
   firebaseAdminFirestore,
-  groupRepository
+  groupRepository,
+  expenseRepository
 );
 
 export const userRepository: IUserRepository = new UserRepository(

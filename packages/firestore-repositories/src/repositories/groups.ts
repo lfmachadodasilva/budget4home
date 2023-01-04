@@ -7,12 +7,12 @@ export class GroupRepository implements IGroupRepository {
   constructor(private firestore: Firestore) {}
 
   getAll = async (userId: string) => {
-    const docs = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.groups)
       .where("userIds", "array-contains", userId)
       .get();
 
-    return docs.docs.map((doc) => {
+    return col.docs.map((doc) => {
       return {
         id: doc.id,
         name: doc.data().name,
@@ -21,16 +21,16 @@ export class GroupRepository implements IGroupRepository {
   };
 
   getFirst = async (userId: string) => {
-    const docs = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.groups)
       .where("userIds", "array-contains", userId)
       .get();
 
-    if (docs.docs.length === 0) {
+    if (col.docs.length === 0) {
       return null;
     }
 
-    const doc = docs.docs[0];
+    const doc = col.docs[0];
     const data = doc.data();
     return {
       id: doc.id,
@@ -58,12 +58,12 @@ export class GroupRepository implements IGroupRepository {
   };
 
   add = async (userId: string, group: Partial<Group>) => {
-    const doc = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.groups)
       .add({ name: group.name, userIds: group.userIds });
 
     return {
-      id: doc.id,
+      id: col.id,
       name: group.name,
       userIds: group.userIds,
     } as Group;
@@ -92,20 +92,26 @@ export class GroupRepository implements IGroupRepository {
       return null;
     }
 
-    const doc = await this.firestore
+    const docPromise = this.firestore
       .doc(FirestoreCollections.group(groupId))
       .delete();
+    const colPromise = this.firestore
+      .collection(FirestoreCollections.group(groupId))
+      .doc()
+      .delete();
+
+    await Promise.all([docPromise, colPromise]);
 
     return Promise.resolve();
   };
 
   isInvalidGroup = async (userId: string, groupId: string) => {
-    const doc = await this.firestore
+    const col = await this.firestore
       .collection(FirestoreCollections.groups)
       .where("userIds", "array-contains", userId)
       .where(FieldPath.documentId(), "==", groupId)
       .count()
       .get();
-    return doc.data().count !== 1;
+    return col.data().count !== 1;
   };
 }
