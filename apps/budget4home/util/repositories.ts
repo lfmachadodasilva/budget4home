@@ -2,20 +2,18 @@ import {
   IExpenseRepository,
   IGroupRepository,
   ILabelRepository,
-  IUserRepository,
-} from "@budget4home/base";
+  IUserRepository
+} from '@budget4home/base';
 import {
   ExpenseRepository,
   GroupRepository,
   LabelRepository,
-  UserRepository,
-} from "@budget4home/firestore-repositories";
+  UserRepository
+} from '@budget4home/firestore-repositories';
 
-import { firebaseAdminAuth, firebaseAdminFirestore } from "./firebaseAdmin";
+import { firebaseAdminAuth, firebaseAdminFirestore } from './firebaseAdmin';
 
-export const groupRepository: IGroupRepository = new GroupRepository(
-  firebaseAdminFirestore
-);
+export const groupRepository: IGroupRepository = new GroupRepository(firebaseAdminFirestore);
 
 export const expenseRepository: IExpenseRepository = new ExpenseRepository(
   firebaseAdminFirestore,
@@ -28,6 +26,4 @@ export const labelRepository: ILabelRepository = new LabelRepository(
   expenseRepository
 );
 
-export const userRepository: IUserRepository = new UserRepository(
-  firebaseAdminAuth
-);
+export const userRepository: IUserRepository = new UserRepository(firebaseAdminAuth);

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Expense, ExpenseType, Label } from "@budget4home/base";
-import { B4hButton, B4hInput, B4hSelect } from "@budget4home/ui-components";
-import { format } from "date-fns";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { ExpenseClient } from "../../../../../clients/expenses";
-import { useAuth } from "../../../../../contexts/auth";
-import { B4hRoutes } from "../../../../../util/routes";
+import { Expense, ExpenseType, Label } from '@budget4home/base';
+import { B4hButton, B4hInput, B4hSelect } from '@budget4home/ui-components';
+import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
+import { ExpenseClient } from '../../../../../clients/expenses';
+import { useAuth } from '../../../../../contexts/auth';
+import { B4hRoutes } from '../../../../../util/routes';
 
 interface ExpenseFormProps {
   expense?: Expense;
@@ -40,7 +40,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           value: +valueRef.current.value,
           date: dateRef.current.value,
           label: { id: labelRef.current.value } as Label,
-          groupId: props.groupId,
+          groupId: props.groupId
         });
       } else {
         await ExpenseClient.edit(token, {
@@ -50,7 +50,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           value: +valueRef.current.value,
           date: dateRef.current.value,
           label: { id: labelRef.current.value } as Label,
-          groupId: props.groupId,
+          groupId: props.groupId
         });
       }
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
@@ -61,12 +61,12 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const handleOnDelete = async () => {
-    if (confirm("Are you sure?")) {
+    if (confirm('Are you sure?')) {
       setLoading(true);
 
       await ExpenseClient.delete(token, {
         id: props.expense.id,
-        groupId: props.groupId,
+        groupId: props.groupId
       });
 
       setLoading(false);
@@ -86,56 +86,51 @@ export function ExpenseForm(props: ExpenseFormProps) {
           </>
         )}
         <B4hSelect
-          id={"type"}
+          id={'type'}
           ref={typeRef}
           defaultValue={props.expense?.type ?? ExpenseType.outcoming}
           options={[
             { key: ExpenseType.outcoming, value: ExpenseType.outcoming },
-            { key: ExpenseType.incoming, value: ExpenseType.incoming },
+            { key: ExpenseType.incoming, value: ExpenseType.incoming }
           ]}
-          label={"Type"}
+          label={'Type'}
         />
         <br></br>
 
-        <B4hInput
-          id={"name"}
-          ref={nameRef}
-          defaultValue={props.expense?.name}
-          label={"Name"}
-        />
+        <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
         <br></br>
         <B4hInput
-          id={"value"}
+          id={'value'}
           type="number"
           ref={valueRef}
           defaultValue={props.expense?.value}
-          label={"Value"}
+          label={'Value'}
         />
 
         <br></br>
 
         <B4hInput
-          id={"date"}
+          id={'date'}
           type="date"
           ref={dateRef}
           defaultValue={format(
             props.expense?.date ? new Date(props.expense?.date) : new Date(),
-            "yyyy-MM-dd"
+            'yyyy-MM-dd'
           )}
-          label={"Date"}
+          label={'Date'}
         />
         <br></br>
         <B4hSelect
-          id={"label"}
+          id={'label'}
           ref={labelRef}
           defaultValue={props.expense?.label?.id ?? props.labels.at(0)?.id}
-          options={props.labels.map((label) => {
+          options={props.labels.map(label => {
             return {
               key: label.id,
-              value: label.name,
+              value: label.name
             };
           })}
-          label={"Label"}
+          label={'Label'}
         />
         <br></br>
       </>
@@ -143,11 +138,9 @@ export function ExpenseForm(props: ExpenseFormProps) {
       <br></br>
 
       <B4hButton onClick={handleOnManage} disabled={loading}>
-        {props.expense?.id ? "Update" : "Add"}
+        {props.expense?.id ? 'Update' : 'Add'}
       </B4hButton>
-      {props.expense?.id && (
-        <B4hButton onClick={handleOnDelete}>Delete</B4hButton>
-      )}
+      {props.expense?.id && <B4hButton onClick={handleOnDelete}>Delete</B4hButton>}
     </>
   );
 }

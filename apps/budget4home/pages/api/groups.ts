@@ -1,13 +1,10 @@
-import { Group } from "@budget4home/base";
-import { NextApiRequest, NextApiResponse } from "next/types";
+import { Group } from '@budget4home/base';
+import { NextApiRequest, NextApiResponse } from 'next/types';
 
-import { firebaseAdminAuth } from "../../util/firebaseAdmin";
-import { groupRepository } from "../../util/repositories";
+import { firebaseAdminAuth } from '../../util/firebaseAdmin';
+import { groupRepository } from '../../util/repositories';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const group = req.body as Group;
 
   const token = req.headers.authorization;
@@ -16,11 +13,11 @@ export default async function handler(
   let response: any = null;
 
   try {
-    if (req.method === "POST") {
+    if (req.method === 'POST') {
       response = await groupRepository.add(uid, group);
-    } else if (req.method === "PUT") {
+    } else if (req.method === 'PUT') {
       response = await groupRepository.edit(uid, group);
-    } else if (req.method === "DELETE") {
+    } else if (req.method === 'DELETE') {
       response = await groupRepository.delete(uid, group.id);
     }
 

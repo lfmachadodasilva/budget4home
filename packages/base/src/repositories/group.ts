@@ -1,4 +1,4 @@
-import { Group } from "../models/group";
+import { Group } from '../models/group';
 
 export interface IGroupRepository {
   getAll: (userId: string) => Promise<Group[]>;

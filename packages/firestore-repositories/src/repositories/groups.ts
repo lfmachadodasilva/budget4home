@@ -1,7 +1,7 @@
-import { Group, IGroupRepository } from "@budget4home/base";
+import { Group, IGroupRepository } from '@budget4home/base';
 
-import { FieldPath, Firestore } from "firebase-admin/firestore";
-import { FirestoreCollections } from "./collections";
+import { FieldPath, Firestore } from 'firebase-admin/firestore';
+import { FirestoreCollections } from './collections';
 
 export class GroupRepository implements IGroupRepository {
   constructor(private firestore: Firestore) {}
@@ -9,13 +9,13 @@ export class GroupRepository implements IGroupRepository {
   getAll = async (userId: string) => {
     const col = await this.firestore
       .collection(FirestoreCollections.groups)
-      .where("userIds", "array-contains", userId)
+      .where('userIds', 'array-contains', userId)
       .get();
 
-    return col.docs.map((doc) => {
+    return col.docs.map(doc => {
       return {
         id: doc.id,
-        name: doc.data().name,
+        name: doc.data().name
       } as Group;
     });
   };
@@ -23,7 +23,7 @@ export class GroupRepository implements IGroupRepository {
   getFirst = async (userId: string) => {
     const col = await this.firestore
       .collection(FirestoreCollections.groups)
-      .where("userIds", "array-contains", userId)
+      .where('userIds', 'array-contains', userId)
       .get();
 
     if (col.docs.length === 0) {
@@ -35,7 +35,7 @@ export class GroupRepository implements IGroupRepository {
     return {
       id: doc.id,
       name: data.name,
-      userIds: data.userIds,
+      userIds: data.userIds
     } as Group;
   };
 
@@ -45,15 +45,13 @@ export class GroupRepository implements IGroupRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .doc(FirestoreCollections.group(groupId))
-      .get();
+    const doc = await this.firestore.doc(FirestoreCollections.group(groupId)).get();
     const data = doc.data();
 
     return {
       id: doc.id,
       name: data.name,
-      userIds: data.userIds,
+      userIds: data.userIds
     } as Group;
   };
 
@@ -65,7 +63,7 @@ export class GroupRepository implements IGroupRepository {
     return {
       id: col.id,
       name: group.name,
-      userIds: group.userIds,
+      userIds: group.userIds
     } as Group;
   };
 
@@ -82,7 +80,7 @@ export class GroupRepository implements IGroupRepository {
     return {
       id: group.id,
       name: group.name,
-      userIds: group.userIds,
+      userIds: group.userIds
     } as Group;
   };
 
@@ -92,9 +90,7 @@ export class GroupRepository implements IGroupRepository {
       return null;
     }
 
-    await this.firestore.recursiveDelete(
-      this.firestore.doc(FirestoreCollections.group(groupId))
-    );
+    await this.firestore.recursiveDelete(this.firestore.doc(FirestoreCollections.group(groupId)));
 
     return Promise.resolve();
   };
@@ -102,8 +98,8 @@ export class GroupRepository implements IGroupRepository {
   isInvalidGroup = async (userId: string, groupId: string) => {
     const col = await this.firestore
       .collection(FirestoreCollections.groups)
-      .where("userIds", "array-contains", userId)
-      .where(FieldPath.documentId(), "==", groupId)
+      .where('userIds', 'array-contains', userId)
+      .where(FieldPath.documentId(), '==', groupId)
       .count()
       .get();
     return col.data().count !== 1;

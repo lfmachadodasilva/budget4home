@@ -1,13 +1,10 @@
-import { Label } from "@budget4home/base";
-import { NextApiRequest, NextApiResponse } from "next/types";
+import { Label } from '@budget4home/base';
+import { NextApiRequest, NextApiResponse } from 'next/types';
 
-import { firebaseAdminAuth } from "../../util/firebaseAdmin";
-import { labelRepository } from "../../util/repositories";
+import { firebaseAdminAuth } from '../../util/firebaseAdmin';
+import { labelRepository } from '../../util/repositories';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const label = req.body as Label;
 
   const token = req.headers.authorization;
@@ -16,11 +13,11 @@ export default async function handler(
   let response: any = null;
 
   try {
-    if (req.method === "POST") {
+    if (req.method === 'POST') {
       response = await labelRepository.add(uid, label.groupId, label);
-    } else if (req.method === "PUT") {
+    } else if (req.method === 'PUT') {
       response = await labelRepository.edit(uid, label.groupId, label);
-    } else if (req.method === "DELETE") {
+    } else if (req.method === 'DELETE') {
       response = await labelRepository.delete(uid, label.groupId, label.id);
     }
 

@@ -1,9 +1,6 @@
-import { getUserId } from "../../../../util/getUserId";
-import {
-  groupRepository,
-  labelRepository,
-} from "../../../../util/repositories";
-import { ImportUi } from "./(components)/ui";
+import { getUserId } from '../../../../util/getUserId';
+import { groupRepository, labelRepository } from '../../../../util/repositories';
+import { ImportUi } from './(components)/ui';
 
 export default async function ({ params }: any) {
   const userId = await getUserId();

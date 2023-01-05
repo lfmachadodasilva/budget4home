@@ -1,11 +1,7 @@
-import { Header } from "./header";
-import { Providers } from "./provider";
+import { Header } from './header';
+import { Providers } from './provider';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <head></head>

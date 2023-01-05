@@ -1,12 +1,12 @@
-import { User } from "firebase/auth";
-import { usePathname, useRouter } from "next/navigation";
+import { User } from 'firebase/auth';
+import { usePathname, useRouter } from 'next/navigation';
 
-import nookies from "nookies";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import nookies from 'nookies';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { firebaseAuth } from "../util/firebase";
-import { B4hRoutes } from "../util/routes";
+import { firebaseAuth } from '../util/firebase';
+import { B4hRoutes } from '../util/routes';
 
 type AuthContextProps = {
   user: User;
@@ -15,7 +15,7 @@ type AuthContextProps = {
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
-  token: null,
+  token: null
 });
 
 export function AuthProvider(props: any) {
@@ -27,8 +27,8 @@ export function AuthProvider(props: any) {
   useEffect(() => {
     user?.getIdToken(true).then((token: string) => {
       setToken(token);
-      nookies.set(undefined, "uid", user.uid, { path: "/" });
-      nookies.set(undefined, "token", token, { path: "/" });
+      nookies.set(undefined, 'uid', user.uid, { path: '/' });
+      nookies.set(undefined, 'token', token, { path: '/' });
     });
   }, [user]);
 
@@ -36,13 +36,13 @@ export function AuthProvider(props: any) {
     return <></>;
   }
   if (error) {
-    nookies.set(undefined, "uid", null, { path: "/" });
-    nookies.set(undefined, "token", null, { path: "/" });
+    nookies.set(undefined, 'uid', null, { path: '/' });
+    nookies.set(undefined, 'token', null, { path: '/' });
     return <>fail {error}</>;
   }
   if (!user && pathname !== B4hRoutes.login) {
-    nookies.set(undefined, "uid", null, { path: "/" });
-    nookies.set(undefined, "token", null, { path: "/" });
+    nookies.set(undefined, 'uid', null, { path: '/' });
+    nookies.set(undefined, 'token', null, { path: '/' });
     push(B4hRoutes.login);
     return <></>;
   }
@@ -51,7 +51,7 @@ export function AuthProvider(props: any) {
     <AuthContext.Provider
       value={{
         user,
-        token,
+        token
       }}
     >
       {props.children}

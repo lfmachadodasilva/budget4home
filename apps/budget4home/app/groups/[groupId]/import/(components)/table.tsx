@@ -1,4 +1,4 @@
-import { ImportItem } from "./ui";
+import { ImportItem } from './ui';
 
 interface ImportTableProps {
   items: ImportItem[];

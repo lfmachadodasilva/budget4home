@@ -1,11 +1,8 @@
-import { B4hTextarea } from "@budget4home/ui-components";
-import { format } from "date-fns";
-import { getUserId } from "../../../../util/getUserId";
+import { B4hTextarea } from '@budget4home/ui-components';
+import { format } from 'date-fns';
+import { getUserId } from '../../../../util/getUserId';
 
-import {
-  expenseRepository,
-  groupRepository,
-} from "../../../../util/repositories";
+import { expenseRepository, groupRepository } from '../../../../util/repositories';
 
 export default async function ({ params }: any) {
   const userId = await getUserId();
@@ -15,19 +12,19 @@ export default async function ({ params }: any) {
 
   const [group, expenses] = await Promise.all([groupPromise, expensesPromise]);
 
-  const separator = "|";
+  const separator = '|';
   const expensesValue = expenses
-    .map((expense) => {
+    .map(expense => {
       const line = [
-        format(new Date(expense.date), "yyyy-MM-dd"),
+        format(new Date(expense.date), 'yyyy-MM-dd'),
         expense.type,
         expense.name,
         expense.value,
-        expense.label.name,
+        expense.label.name
       ];
       return line.join(separator);
     })
-    .join("\n");
+    .join('\n');
 
   return (
     <>
@@ -39,7 +36,7 @@ export default async function ({ params }: any) {
       <B4hTextarea
         defaultValue={expensesValue}
         disabled
-        style={{ height: "200px", width: "100%" }}
+        style={{ height: '200px', width: '100%' }}
       />
     </>
   );

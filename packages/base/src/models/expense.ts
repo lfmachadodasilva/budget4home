@@ -1,8 +1,8 @@
-import { Label } from "./label";
+import { Label } from './label';
 
 export const ExpenseType = {
-  incoming: "incoming",
-  outcoming: "outcoming",
+  incoming: 'incoming',
+  outcoming: 'outcoming'
 };
 
 export interface Expense {

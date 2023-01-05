@@ -1,6 +1,6 @@
-import * as admin from "firebase-admin";
-import { App } from "firebase-admin/app";
-import * as firestore from "firebase-admin/firestore";
+import * as admin from 'firebase-admin';
+import { App } from 'firebase-admin/app';
+import * as firestore from 'firebase-admin/firestore';
 
 export const firebaseAdminApp: App =
   admin.apps.length > 0
@@ -10,10 +10,10 @@ export const firebaseAdminApp: App =
           project_id: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
           client_email: process.env.FIREBASE_CLIENT_EMAIL,
           private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-          private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+          private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
         } as any),
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-        databaseURL: `https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseio.com`,
+        databaseURL: `https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseio.com`
       });
 
 export const firebaseAdminFirestore = firestore.getFirestore(firebaseAdminApp);

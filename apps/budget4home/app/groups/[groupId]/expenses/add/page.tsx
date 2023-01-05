@@ -1,9 +1,6 @@
-import { ExpenseForm } from "../(components)/form";
-import { getUserId } from "../../../../../util/getUserId";
-import {
-  groupRepository,
-  labelRepository,
-} from "../../../../../util/repositories";
+import { ExpenseForm } from '../(components)/form';
+import { getUserId } from '../../../../../util/getUserId';
+import { groupRepository, labelRepository } from '../../../../../util/repositories';
 
 export default async function ({ params }: any) {
   let groupId = params.groupId;

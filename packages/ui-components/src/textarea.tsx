@@ -1,6 +1,6 @@
-import { ComponentPropsWithRef, ForwardedRef, forwardRef } from "react";
+import { ComponentPropsWithRef, ForwardedRef, forwardRef } from 'react';
 
-interface B4hTextareaProp extends ComponentPropsWithRef<"textarea"> {
+interface B4hTextareaProp extends ComponentPropsWithRef<'textarea'> {
   label?: string;
 }
 

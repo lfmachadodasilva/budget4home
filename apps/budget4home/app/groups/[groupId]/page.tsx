@@ -1,6 +1,6 @@
-import { GroupForm } from "../(components)/form";
-import { getUserId } from "../../../util/getUserId";
-import { groupRepository, userRepository } from "../../../util/repositories";
+import { GroupForm } from '../(components)/form';
+import { getUserId } from '../../../util/getUserId';
+import { groupRepository, userRepository } from '../../../util/repositories';
 
 export default async function ({ params }: any) {
   const userId = await getUserId();

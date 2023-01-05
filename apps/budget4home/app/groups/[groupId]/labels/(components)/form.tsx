@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Label } from "@budget4home/base";
-import { B4hButton, B4hInput } from "@budget4home/ui-components";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { LabelClient } from "../../../../../clients";
-import { useAuth } from "../../../../../contexts/auth";
-import { B4hRoutes } from "../../../../../util/routes";
+import { Label } from '@budget4home/base';
+import { B4hButton, B4hInput } from '@budget4home/ui-components';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
+import { LabelClient } from '../../../../../clients';
+import { useAuth } from '../../../../../contexts/auth';
+import { B4hRoutes } from '../../../../../util/routes';
 
 interface LabelFormProps {
   label?: Label;
@@ -30,13 +30,13 @@ export function LabelForm(props: LabelFormProps) {
       if (!props.label?.id) {
         await LabelClient.add(token, {
           name: nameRef.current.value,
-          groupId: props.groupId,
+          groupId: props.groupId
         });
       } else {
         await LabelClient.edit(token, {
           id: props.label.id,
           name: nameRef.current.value,
-          groupId: props.groupId,
+          groupId: props.groupId
         });
       }
 
@@ -48,12 +48,12 @@ export function LabelForm(props: LabelFormProps) {
   };
 
   const handleOnDelete = async () => {
-    if (confirm("Are you sure?")) {
+    if (confirm('Are you sure?')) {
       setLoading(true);
 
       await LabelClient.delete(token, {
         id: props.label.id,
-        groupId: props.groupId,
+        groupId: props.groupId
       });
 
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
@@ -76,19 +76,14 @@ export function LabelForm(props: LabelFormProps) {
           </>
         )}
 
-        <B4hInput
-          id={"name"}
-          ref={nameRef}
-          defaultValue={props.label?.name}
-          label={"Name"}
-        />
+        <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
       </>
 
       <br></br>
       <br></br>
 
       <B4hButton onClick={handleOnManage} disabled={loading}>
-        {props.label?.id ? "Update" : "Add"}
+        {props.label?.id ? 'Update' : 'Add'}
       </B4hButton>
       {props.label?.id && (
         <B4hButton onClick={handleOnDelete} disabled={loading}>

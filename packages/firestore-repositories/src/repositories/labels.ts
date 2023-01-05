@@ -1,11 +1,6 @@
-import {
-  IExpenseRepository,
-  IGroupRepository,
-  ILabelRepository,
-  Label,
-} from "@budget4home/base";
-import { Firestore } from "firebase-admin/firestore";
-import { FirestoreCollections } from "./collections";
+import { IExpenseRepository, IGroupRepository, ILabelRepository, Label } from '@budget4home/base';
+import { Firestore } from 'firebase-admin/firestore';
+import { FirestoreCollections } from './collections';
 
 export class LabelRepository implements ILabelRepository {
   constructor(
@@ -22,14 +17,12 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const docs = await this.firestore
-      .collection(FirestoreCollections.labels(groupId))
-      .get();
+    const docs = await this.firestore.collection(FirestoreCollections.labels(groupId)).get();
 
-    return docs.docs.map((doc) => {
+    return docs.docs.map(doc => {
       return {
         id: doc.id,
-        name: doc.data().name,
+        name: doc.data().name
       } as Label;
     });
   };
@@ -40,9 +33,7 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .doc(FirestoreCollections.label(groupId, labelId))
-      .get();
+    const doc = await this.firestore.doc(FirestoreCollections.label(groupId, labelId)).get();
     const data = doc.data();
 
     if (!data) {
@@ -51,7 +42,7 @@ export class LabelRepository implements ILabelRepository {
 
     return {
       id: doc.id,
-      name: data.name,
+      name: data.name
     } as Label;
   };
 
@@ -66,7 +57,7 @@ export class LabelRepository implements ILabelRepository {
       .add({ name: label.name });
 
     return {
-      id: doc.id,
+      id: doc.id
       //  name: data.name
     } as Label;
   };
@@ -84,7 +75,7 @@ export class LabelRepository implements ILabelRepository {
     return {
       id: label.id,
       name: label.name,
-      groupId: label.groupId,
+      groupId: label.groupId
     } as Label;
   };
 
@@ -94,15 +85,9 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const docPromise = this.firestore
-      .doc(FirestoreCollections.label(groupId, labelId))
-      .delete();
+    const docPromise = this.firestore.doc(FirestoreCollections.label(groupId, labelId)).delete();
 
-    const docExpensesPromise = this.expenseRepository.deleteByLabel(
-      userId,
-      groupId,
-      labelId
-    );
+    const docExpensesPromise = this.expenseRepository.deleteByLabel(userId, groupId, labelId);
 
     await Promise.all([docPromise, docExpensesPromise]);
 

@@ -1,18 +1,10 @@
-import {
-  Expense,
-  IExpenseRepository,
-  IGroupRepository,
-  Label,
-} from "@budget4home/base";
-import { addMonths, startOfMonth } from "date-fns";
-import { Firestore, Timestamp } from "firebase-admin/firestore";
-import { FirestoreCollections } from "./collections";
+import { Expense, IExpenseRepository, IGroupRepository, Label } from '@budget4home/base';
+import { addMonths, startOfMonth } from 'date-fns';
+import { Firestore, Timestamp } from 'firebase-admin/firestore';
+import { FirestoreCollections } from './collections';
 
 export class ExpenseRepository implements IExpenseRepository {
-  constructor(
-    private firestore: Firestore,
-    private groupRepository: IGroupRepository
-  ) {}
+  constructor(private firestore: Firestore, private groupRepository: IGroupRepository) {}
 
   getAll = async (userId: string, groupId: string): Promise<Expense[]> => {
     if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
@@ -20,12 +12,10 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const col = await this.firestore
-      .collection(FirestoreCollections.expeses(groupId))
-      .get();
+    const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).get();
 
     return await Promise.all(
-      col.docs.map(async (doc) => {
+      col.docs.map(async doc => {
         return await this.expenseToModel(doc);
       })
     );
@@ -43,12 +33,12 @@ export class ExpenseRepository implements IExpenseRepository {
 
     const col = await this.firestore
       .collection(FirestoreCollections.expeses(groupId))
-      .where("date", ">=", Timestamp.fromDate(startDay))
-      .where("date", "<", Timestamp.fromDate(endDay))
+      .where('date', '>=', Timestamp.fromDate(startDay))
+      .where('date', '<', Timestamp.fromDate(endDay))
       .get();
 
     return await Promise.all(
-      col.docs.map(async (doc) => {
+      col.docs.map(async doc => {
         return await this.expenseToModel(doc);
       })
     );
@@ -60,9 +50,7 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .doc(FirestoreCollections.expese(groupId, expenseId))
-      .get();
+    const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expenseId)).get();
     const data = doc.data();
 
     if (!data) {
@@ -79,13 +67,11 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const obj = await this.expenseToFirestore(expense as Expense);
-    const col = await this.firestore
-      .collection(FirestoreCollections.expeses(groupId))
-      .add(obj);
+    const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).add(obj);
 
     return {
       ...expense,
-      id: col.id,
+      id: col.id
     } as Expense;
   };
 
@@ -96,12 +82,10 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const obj = await this.expenseToFirestore(expense as Expense);
-    const doc = await this.firestore
-      .doc(FirestoreCollections.expese(groupId, expense.id))
-      .set(obj);
+    const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expense.id)).set(obj);
 
     return {
-      ...expense,
+      ...expense
     } as Expense;
   };
 
@@ -111,9 +95,7 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .doc(FirestoreCollections.expese(groupId, expenseId))
-      .delete();
+    const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expenseId)).delete();
 
     return Promise.resolve();
   };
@@ -126,14 +108,10 @@ export class ExpenseRepository implements IExpenseRepository {
 
     const col = await this.firestore
       .collection(FirestoreCollections.expeses(groupId))
-      .where(
-        "labelRef",
-        "==",
-        this.firestore.doc(FirestoreCollections.label(groupId, labelId))
-      )
+      .where('labelRef', '==', this.firestore.doc(FirestoreCollections.label(groupId, labelId)))
       .get();
 
-    await Promise.all(col.docs.map((x) => x.ref.delete()));
+    await Promise.all(col.docs.map(x => x.ref.delete()));
 
     return Promise.resolve();
   };
@@ -148,7 +126,7 @@ export class ExpenseRepository implements IExpenseRepository {
       const labelDoc = await data.labelRef.get();
       labelRef = {
         id: labelDoc.id,
-        name: labelDoc.data().name,
+        name: labelDoc.data().name
       } as Label;
     }
 
@@ -158,7 +136,7 @@ export class ExpenseRepository implements IExpenseRepository {
       type: data.type,
       date: new Date(data.date.toDate()).toISOString(),
       value: data.value,
-      label: labelRef,
+      label: labelRef
     } as Expense;
   };
 
@@ -168,9 +146,7 @@ export class ExpenseRepository implements IExpenseRepository {
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
-      labelRef: this.firestore.doc(
-        FirestoreCollections.label(model.groupId, model.label?.id)
-      ),
+      labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id))
     };
   };
 }

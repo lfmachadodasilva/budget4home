@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { Expense, Group, Label } from "@budget4home/base";
-import { B4hButton, B4hTextarea } from "@budget4home/ui-components";
-import { useCallback, useRef, useState } from "react";
-import { LabelClient } from "../../../../../clients";
-import { ExpenseClient } from "../../../../../clients/expenses";
-import { useAuth } from "../../../../../contexts/auth";
-import { splitItems } from "./split";
-import { ImportTable } from "./table";
+import { Expense, Group, Label } from '@budget4home/base';
+import { B4hButton, B4hTextarea } from '@budget4home/ui-components';
+import { useCallback, useRef, useState } from 'react';
+import { LabelClient } from '../../../../../clients';
+import { ExpenseClient } from '../../../../../clients/expenses';
+import { useAuth } from '../../../../../contexts/auth';
+import { splitItems } from './split';
+import { ImportTable } from './table';
 
 export const ImportItemStatus = {
-  new: "New",
-  processing: "Processing",
-  done: "Done",
-  addLabel: "Add Label",
-  addLabelFail: "fail add Label",
-  fail: "Fail",
+  new: 'New',
+  processing: 'Processing',
+  done: 'Done',
+  addLabel: 'Add Label',
+  addLabelFail: 'fail add Label',
+  fail: 'Fail'
 };
 
 export interface ImportItem extends Expense {
@@ -39,7 +39,7 @@ export const ImportUi = (props: ImportUiProps) => {
       setError(null);
       setData(splitItems(event.target.value, props.labels, props.group.id));
     } catch {
-      setError("Fail to process your data");
+      setError('Fail to process your data');
       setData([]);
     }
   };
@@ -63,7 +63,7 @@ export const ImportUi = (props: ImportUiProps) => {
       try {
         const response = await LabelClient.add(token, {
           name: dataCopy[i].label.name,
-          groupId: dataCopy[i].groupId,
+          groupId: dataCopy[i].groupId
         });
         newLabel = await response.json();
       } catch (err) {
@@ -121,11 +121,11 @@ export const ImportUi = (props: ImportUiProps) => {
     <>
       <B4hTextarea
         ref={dataRef}
-        style={{ height: "200px", width: "100%" }}
+        style={{ height: '200px', width: '100%' }}
         rows={5}
         onChange={handleOnProcess}
       />
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <B4hButton onClick={handleOnImport} disabled={loading}>
         import
       </B4hButton>

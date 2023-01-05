@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Group, User } from "@budget4home/base";
-import { B4hButton, B4hInput } from "@budget4home/ui-components";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useRef, useState } from "react";
-import { GroupClient } from "../../../clients";
-import { useAuth } from "../../../contexts/auth";
-import { B4hRoutes } from "../../../util/routes";
+import { Group, User } from '@budget4home/base';
+import { B4hButton, B4hInput } from '@budget4home/ui-components';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, useRef, useState } from 'react';
+import { GroupClient } from '../../../clients';
+import { useAuth } from '../../../contexts/auth';
+import { B4hRoutes } from '../../../util/routes';
 
 interface GroupFormProps {
   group?: Group;
@@ -31,13 +31,13 @@ export const GroupForm = (props: GroupFormProps) => {
       if (!props.group?.id) {
         await GroupClient.add(token, {
           name: nameRef.current.value,
-          userIds: userIdsRef.current,
+          userIds: userIdsRef.current
         });
       } else {
         await GroupClient.edit(token, {
           id: props.group.id,
           name: nameRef.current.value,
-          userIds: userIdsRef.current,
+          userIds: userIdsRef.current
         });
       }
       push(B4hRoutes.groups);
@@ -48,11 +48,11 @@ export const GroupForm = (props: GroupFormProps) => {
   };
 
   const handleOnDelete = async () => {
-    if (confirm("Are you sure?")) {
+    if (confirm('Are you sure?')) {
       setLoading(true);
 
       await GroupClient.delete(token, {
-        id: props.group.id,
+        id: props.group.id
       });
 
       push(B4hRoutes.groups);
@@ -60,14 +60,11 @@ export const GroupForm = (props: GroupFormProps) => {
     }
   };
 
-  const handleOnChangeUser = async (
-    event: ChangeEvent<{ checked: boolean }>,
-    id: string
-  ) => {
+  const handleOnChangeUser = async (event: ChangeEvent<{ checked: boolean }>, id: string) => {
     if (event.target.checked) {
       userIdsRef.current.push(id);
     } else {
-      userIdsRef.current = userIdsRef.current.filter((x) => x !== id);
+      userIdsRef.current = userIdsRef.current.filter(x => x !== id);
     }
   };
 
@@ -82,15 +79,15 @@ export const GroupForm = (props: GroupFormProps) => {
         )}
         <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
         <>
-          {props.users?.map((x) => {
+          {props.users?.map(x => {
             return (
               <div key={x.id}>
                 <B4hInput
                   id={x.id}
-                  type={"checkbox"}
+                  type={'checkbox'}
                   defaultChecked={userIdsRef.current?.includes(x.id) ?? false}
-                  onChange={(event) => handleOnChangeUser(event, x.id)}
-                  label={`${x.displayName ?? ""} - ${x.email}`}
+                  onChange={event => handleOnChangeUser(event, x.id)}
+                  label={`${x.displayName ?? ''} - ${x.email}`}
                 />
               </div>
             );
@@ -101,7 +98,7 @@ export const GroupForm = (props: GroupFormProps) => {
       <br></br>
 
       <B4hButton onClick={handleOnManage} disabled={loading}>
-        {props.group?.id ? "Update" : "Add"}
+        {props.group?.id ? 'Update' : 'Add'}
       </B4hButton>
       {props.group?.id && (
         <B4hButton onClick={handleOnDelete} disabled={loading}>
