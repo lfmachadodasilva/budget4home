@@ -1,6 +1,5 @@
-import { cookies } from "next/headers";
 import { ExpenseForm } from "../(components)/form";
-import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+import { getUserId } from "../../../../../util/getUserId";
 import {
   groupRepository,
   labelRepository,
@@ -9,15 +8,13 @@ import {
 export default async function ({ params }: any) {
   let groupId = params.groupId;
 
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
   if (!groupId) {
-    groupId = await groupRepository.getFirst(uid);
+    groupId = await groupRepository.getFirst(userId);
   }
 
-  const labels = await labelRepository.getAll(uid, params.groupId);
+  const labels = await labelRepository.getAll(userId, params.groupId);
 
   return (
     <>

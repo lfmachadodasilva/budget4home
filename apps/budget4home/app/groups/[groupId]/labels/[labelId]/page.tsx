@@ -1,14 +1,15 @@
-import { cookies } from "next/headers";
 import { LabelForm } from "../(components)/form";
-import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+import { getUserId } from "../../../../../util/getUserId";
 import { labelRepository } from "../../../../../util/repositories";
 
 export default async function ({ params }: any) {
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
-  const label = await labelRepository.get(uid, params.groupId, params.labelId);
+  const label = await labelRepository.get(
+    userId,
+    params.groupId,
+    params.labelId
+  );
 
   return (
     <>

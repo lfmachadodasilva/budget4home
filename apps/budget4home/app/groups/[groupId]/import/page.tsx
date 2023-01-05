@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
-
-import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
+import { getUserId } from "../../../../util/getUserId";
 import {
   groupRepository,
   labelRepository,
@@ -8,12 +6,10 @@ import {
 import { ImportUi } from "./(components)/ui";
 
 export default async function ({ params }: any) {
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
-  const groupPromise = groupRepository.get(uid, params.groupId);
-  const labelsPromise = labelRepository.getAll(uid, params.groupId);
+  const groupPromise = groupRepository.get(userId, params.groupId);
+  const labelsPromise = labelRepository.getAll(userId, params.groupId);
 
   const [group, labels] = await Promise.all([groupPromise, labelsPromise]);
 

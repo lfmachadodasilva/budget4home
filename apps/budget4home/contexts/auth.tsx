@@ -21,7 +21,6 @@ export const AuthContext = createContext<AuthContextProps>({
 export function AuthProvider(props: any) {
   const { push } = useRouter();
   const pathname = usePathname();
-  // const nextCookies = cookies();
   const [user, loading, error] = useAuthState(firebaseAuth);
   const [token, setToken] = useState<string>();
 
@@ -30,10 +29,6 @@ export function AuthProvider(props: any) {
       setToken(token);
       nookies.set(undefined, "uid", user.uid, { path: "/" });
       nookies.set(undefined, "token", token, { path: "/" });
-      // nextCookies.set({
-      //   name: 'uid',
-      //   value: user?.uid
-      // });
     });
   }, [user]);
 

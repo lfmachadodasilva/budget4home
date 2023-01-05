@@ -1,20 +1,17 @@
 import { B4hTextarea } from "@budget4home/ui-components";
 import { format } from "date-fns";
-import { cookies } from "next/headers";
+import { getUserId } from "../../../../util/getUserId";
 
-import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
 import {
   expenseRepository,
   groupRepository,
 } from "../../../../util/repositories";
 
 export default async function ({ params }: any) {
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
-  const groupPromise = groupRepository.get(uid, params.groupId);
-  const expensesPromise = expenseRepository.getAll(uid, params.groupId);
+  const groupPromise = groupRepository.get(userId, params.groupId);
+  const expensesPromise = expenseRepository.getAll(userId, params.groupId);
 
   const [group, expenses] = await Promise.all([groupPromise, expensesPromise]);
 

@@ -1,15 +1,12 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { firebaseAdminAuth } from "../../util/firebaseAdmin";
+import { getUserId } from "../../util/getUserId";
 import { groupRepository } from "../../util/repositories";
 import { B4hRoutes } from "../../util/routes";
 
 export default async function () {
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
-  const group = await groupRepository.getFirst(uid);
+  const group = await groupRepository.getFirst(userId);
 
   redirect(`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenses}`);
 }

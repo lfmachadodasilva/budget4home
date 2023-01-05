@@ -1,23 +1,20 @@
-import { cookies } from "next/headers";
 import { ExpenseForm } from "../(components)/form";
-import { firebaseAdminAuth } from "../../../../../util/firebaseAdmin";
+import { getUserId } from "../../../../../util/getUserId";
 import {
   expenseRepository,
   labelRepository,
 } from "../../../../../util/repositories";
 
 export default async function ({ params }: any) {
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
   const expensePromise = expenseRepository.get(
-    uid,
+    userId,
     params.groupId,
     params.expenseId
   );
 
-  const labelsPromise = labelRepository.getAll(uid, params.groupId);
+  const labelsPromise = labelRepository.getAll(userId, params.groupId);
 
   const [expense, labels] = await Promise.all([expensePromise, labelsPromise]);
 

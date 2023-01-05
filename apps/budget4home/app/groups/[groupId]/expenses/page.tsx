@@ -1,17 +1,14 @@
 import { ExpenseType } from "@budget4home/base";
 import { format } from "date-fns";
 import { sum } from "lodash";
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { firebaseAdminAuth } from "../../../../util/firebaseAdmin";
+import { getUserId } from "../../../../util/getUserId";
 import { expenseRepository } from "../../../../util/repositories";
 import { B4hRoutes } from "../../../../util/routes";
 import { ExpensesDate } from "./(components)/date";
 
 export default async function ({ params, searchParams }: any) {
-  const nextCookies = cookies();
-  const token = nextCookies.get("token").value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
+  const userId = await getUserId();
 
   const date = new Date();
   date.setDate(1);
@@ -19,7 +16,7 @@ export default async function ({ params, searchParams }: any) {
   searchParams.month && date.setMonth(+searchParams?.month - 1);
 
   const expenses = await expenseRepository.getThisMonth(
-    uid,
+    userId,
     params?.groupId,
     date
   );
