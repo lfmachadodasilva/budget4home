@@ -1,6 +1,6 @@
 'use client';
 
-import { B4hButton, B4hDropdown, B4hForm, B4hInput } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -37,14 +37,6 @@ export default function () {
     >
       <B4hInput id="email" ref={emailRef} type={'email'} label={'email'} />
       <B4hInput id="password" ref={passwordRef} type={'password'} label={'password'} />
-
-      <B4hDropdown
-        options={[
-          { key: '1', value: 'Item 1' },
-          { key: '2', value: 'Item 2' }
-        ]}
-        trigger={<button>t</button>}
-      />
     </B4hForm>
   );
 }
