@@ -19,6 +19,7 @@ export const Header = () => {
     <div
       style={{
         display: 'flex',
+        flexWrap: 'wrap',
         gap: '8px'
       }}
     >
