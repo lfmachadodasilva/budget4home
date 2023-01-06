@@ -12,7 +12,6 @@ export default async function ({ params }: any) {
 
   return (
     <>
-      <h3>group</h3>
       <GroupForm users={users} group={group} />
     </>
   );

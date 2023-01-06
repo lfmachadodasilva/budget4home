@@ -9,7 +9,6 @@ export default async function ({ params }: any) {
 
   return (
     <>
-      <h3>label</h3>
       <LabelForm label={label} groupId={params.groupId} />
     </>
   );

@@ -6,7 +6,6 @@ export default async function () {
 
   return (
     <>
-      <h3>group</h3>
       <GroupForm users={users} />
     </>
   );

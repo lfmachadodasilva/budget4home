@@ -1,7 +1,7 @@
 'use client';
 
 import { Expense, ExpenseType, Label } from '@budget4home/base';
-import { B4hButton, B4hInput, B4hSelect } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput, B4hSelect } from '@budget4home/ui-components';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -15,7 +15,6 @@ interface ExpenseFormProps {
   groupId: string;
 }
 export function ExpenseForm(props: ExpenseFormProps) {
-  console.log(props);
   const { push } = useRouter();
   const { token } = useAuth();
 
@@ -74,68 +73,75 @@ export function ExpenseForm(props: ExpenseFormProps) {
     }
   };
 
-  return (
+  const formLabel = (
     <>
-      <h5>Expense</h5>
-
-      <>
-        {props.expense?.id && (
-          <>
-            <label>Id</label>
-            <p>{props.expense.id}</p>
-          </>
-        )}
-
-        <B4hSelect
-          id={'type'}
-          ref={typeRef}
-          defaultValue={props.expense?.type ?? ExpenseType.outcoming}
-          options={[
-            { key: ExpenseType.outcoming, value: ExpenseType.outcoming },
-            { key: ExpenseType.incoming, value: ExpenseType.incoming }
-          ]}
-          label={'Type'}
-        />
-
-        <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
-
-        <B4hInput
-          id={'value'}
-          type="number"
-          ref={valueRef}
-          defaultValue={props.expense?.value}
-          label={'Value'}
-        />
-
-        <B4hInput
-          id={'date'}
-          type="date"
-          ref={dateRef}
-          defaultValue={format(
-            props.expense?.date ? new Date(props.expense?.date) : new Date(),
-            'yyyy-MM-dd'
-          )}
-          label={'Date'}
-        />
-
-        <B4hSelect
-          id={'label'}
-          ref={labelRef}
-          defaultValue={props.expense?.label?.id ?? props.labels.at(0)?.id}
-          options={props.labels.map(label => {
-            return {
-              key: label.id,
-              value: label.name
-            };
-          })}
-          label={'Label'}
-        />
-      </>
-
+      {props.expense?.id && (
+        <>
+          <h3>Expense: {props.expense.id}</h3>
+        </>
+      )}
+      {!props.expense?.id && (
+        <>
+          <h3>Add new expense</h3>
+        </>
+      )}
+    </>
+  );
+  const formFooter = [
+    <>
       <B4hButton onClick={handleOnManage} disabled={loading}>
         {props.expense?.id ? 'Update' : 'Add'}
       </B4hButton>
       {props.expense?.id && <B4hButton onClick={handleOnDelete}>Delete</B4hButton>}
     </>
+  ];
+
+  return (
+    <B4hForm label={formLabel} footer={formFooter}>
+      <B4hSelect
+        id={'type'}
+        ref={typeRef}
+        defaultValue={props.expense?.type ?? ExpenseType.outcoming}
+        options={[
+          { key: ExpenseType.outcoming, value: ExpenseType.outcoming },
+          { key: ExpenseType.incoming, value: ExpenseType.incoming }
+        ]}
+        label={'Type'}
+      />
+
+      <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
+
+      <B4hInput
+        id={'value'}
+        type="number"
+        ref={valueRef}
+        defaultValue={props.expense?.value}
+        label={'Value'}
+      />
+
+      <B4hInput
+        id={'date'}
+        type="date"
+        ref={dateRef}
+        defaultValue={format(
+          props.expense?.date ? new Date(props.expense?.date) : new Date(),
+          'yyyy-MM-dd'
+        )}
+        label={'Date'}
+      />
+
+      <B4hSelect
+        id={'label'}
+        ref={labelRef}
+        defaultValue={props.expense?.label?.id ?? props.labels.at(0)?.id}
+        options={props.labels.map(label => {
+          return {
+            key: label.id,
+            value: label.name
+          };
+        })}
+        label={'Label'}
+      />
+    </B4hForm>
   );
 }

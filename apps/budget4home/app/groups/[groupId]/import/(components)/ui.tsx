@@ -1,7 +1,7 @@
 'use client';
 
 import { Expense, Group, Label } from '@budget4home/base';
-import { B4hButton, B4hTextarea } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hTextarea } from '@budget4home/ui-components';
 import { useCallback, useRef, useState } from 'react';
 import { LabelClient } from '../../../../../clients';
 import { ExpenseClient } from '../../../../../clients/expenses';
@@ -117,18 +117,23 @@ export const ImportUi = (props: ImportUiProps) => {
     setLoading(false);
   }, [token, data]);
 
+  const formFooter = (
+    <B4hButton onClick={handleOnImport} disabled={loading}>
+      import
+    </B4hButton>
+  );
+
   return (
     <>
-      <B4hTextarea
-        ref={dataRef}
-        style={{ height: '200px', width: '100%' }}
-        rows={5}
-        onChange={handleOnProcess}
-      />
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <B4hButton onClick={handleOnImport} disabled={loading}>
-        import
-      </B4hButton>
+      <B4hForm label={'Import'} footer={formFooter}>
+        <B4hTextarea
+          ref={dataRef}
+          style={{ height: '200px', width: '100%' }}
+          rows={5}
+          onChange={handleOnProcess}
+        />
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </B4hForm>
       <p>
         Format:
         <strong>2022-12-31|incoming|Uo|200000|salary</strong>

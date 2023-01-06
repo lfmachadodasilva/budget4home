@@ -85,13 +85,12 @@ export const GroupForm = (props: GroupFormProps) => {
     <>
       {props.group?.id && (
         <>
-          <label>Id</label>
-          <p>{props.group.id}</p>
+          <h3>Group: {props.group.id}</h3>
         </>
       )}
       {!props.group?.id && (
         <>
-          <label>Add new group</label>
+          <h3>Add new group</h3>
         </>
       )}
     </>
@@ -100,10 +99,10 @@ export const GroupForm = (props: GroupFormProps) => {
   return (
     <B4hForm label={formLabel} footer={formFooter}>
       <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
-      <>
+      <ul>
         {props.users?.map(x => {
           return (
-            <div key={x.id}>
+            <li key={x.id}>
               <B4hInput
                 id={x.id}
                 type={'checkbox'}
@@ -111,10 +110,10 @@ export const GroupForm = (props: GroupFormProps) => {
                 onChange={event => handleOnChangeUser(event, x.id)}
                 label={`${x.displayName ?? ''} - ${x.email}`}
               />
-            </div>
+            </li>
           );
         })}
-      </>
+      </ul>
     </B4hForm>
   );
 };
