@@ -17,25 +17,19 @@ export default async function ({ params, searchParams }: any) {
 
   const expenses = await expenseRepository.getThisMonth(userId, params?.groupId, date);
 
-  const totalUsed =
-    sum(expenses.filter(x => x.type === ExpenseType.outcoming).map(x => x.value)) / 100;
+  const totalUsed = sum(expenses.filter(x => x.type === ExpenseType.outcoming).map(x => x.value));
   const totalLeft =
-    (sum(expenses.filter(x => x.type === ExpenseType.incoming).map(x => x.value)) - totalUsed) /
-    100;
-
+    sum(expenses.filter(x => x.type === ExpenseType.incoming).map(x => x.value)) - totalUsed;
   return (
     <>
       <h3>Expenses</h3>
       <Link href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.expenseAdd}`}>add</Link>
-      <br></br>
-      <br></br>
       <ExpensesDate />
-
       <p>
-        <strong>Total used:</strong> {totalUsed.toFixed(2)}
+        <strong>Total used:</strong> {(totalUsed / 100).toFixed(2)}
       </p>
       <p>
-        <strong>Total left:</strong> {totalLeft.toFixed(2)}
+        <strong>Total left:</strong> {(totalLeft / 100).toFixed(2)}
       </p>
 
       <ul>
