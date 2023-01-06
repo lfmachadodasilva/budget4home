@@ -1,10 +1,18 @@
 .button {
   border: none;
-  margin: var(--sizeXS);
+
+  margin-bottom: var(--sizeS);
   padding: var(--sizeXS);
+
   background-color: var(--primaryColor);
   color: var(--fgColor);
+
   cursor: pointer;
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--sizeM);
 }
 
 .button:hover {

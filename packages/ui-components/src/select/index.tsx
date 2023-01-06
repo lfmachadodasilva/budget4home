@@ -1,6 +1,5 @@
 import { ComponentPropsWithRef, ForwardedRef, forwardRef } from 'react';
 
-import formStyles from '../styles/form.module.scss';
 import styles from './index.module.scss';
 
 export interface B4hSelectOptions {
@@ -17,7 +16,7 @@ export const B4hSelect = forwardRef(
   (props: B4hSelectProp, ref: ForwardedRef<HTMLSelectElement>) => {
     Object.keys(props.options);
     return (
-      <div className={formStyles.container}>
+      <div className={styles.container}>
         <label className={styles.label} htmlFor={props.id}>
           {props.label}
         </label>

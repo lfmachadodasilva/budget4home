@@ -1,4 +1,20 @@
+.container {
+  margin-bottom: var(--sizeS);
+}
+
 .select {
+  border: none;
+
+  min-width: var(--minWidth);
+
+  background-color: var(--fgColor);
+
+  padding: var(--sizeXS);
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--sizeM);
 }
 
 .label {

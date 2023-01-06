@@ -9,8 +9,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head></head>
       <body>
         <Providers>
-          <Header />
-          {children}
+          <main>
+            <Header />
+            {children}
+          </main>
         </Providers>
       </body>
     </html>
