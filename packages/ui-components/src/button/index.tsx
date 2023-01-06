@@ -1,6 +1,6 @@
 import { ComponentPropsWithoutRef } from 'react';
 
-import styles from './button.module.scss';
+import styles from './index.module.scss';
 
 interface B4hButtonProps extends ComponentPropsWithoutRef<'button'> {}
 

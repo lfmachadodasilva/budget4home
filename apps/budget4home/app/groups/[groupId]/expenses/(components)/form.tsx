@@ -85,6 +85,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
             <p>{props.expense.id}</p>
           </>
         )}
+
         <B4hSelect
           id={'type'}
           ref={typeRef}
@@ -95,10 +96,9 @@ export function ExpenseForm(props: ExpenseFormProps) {
           ]}
           label={'Type'}
         />
-        <br></br>
 
         <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
-        <br></br>
+
         <B4hInput
           id={'value'}
           type="number"
@@ -106,8 +106,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
           defaultValue={props.expense?.value}
           label={'Value'}
         />
-
-        <br></br>
 
         <B4hInput
           id={'date'}
@@ -119,7 +117,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           )}
           label={'Date'}
         />
-        <br></br>
+
         <B4hSelect
           id={'label'}
           ref={labelRef}
@@ -132,10 +130,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           })}
           label={'Label'}
         />
-        <br></br>
       </>
-
-      <br></br>
 
       <B4hButton onClick={handleOnManage} disabled={loading}>
         {props.expense?.id ? 'Update' : 'Add'}

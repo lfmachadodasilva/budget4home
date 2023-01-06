@@ -1,5 +1,8 @@
 import { ComponentPropsWithRef, ForwardedRef, forwardRef } from 'react';
 
+import formStyles from '../styles/form.module.scss';
+import styles from './index.module.scss';
+
 export interface B4hSelectOptions {
   key: string;
   value: string;
@@ -14,9 +17,12 @@ export const B4hSelect = forwardRef(
   (props: B4hSelectProp, ref: ForwardedRef<HTMLSelectElement>) => {
     Object.keys(props.options);
     return (
-      <>
-        {props.label ?? <label htmlFor={props.id}>{props.label}</label>}
-        <select ref={ref} {...props}>
+      <div className={formStyles.container}>
+        <label className={styles.label} htmlFor={props.id}>
+          {props.label}
+        </label>
+        <br />
+        <select className={styles.select} ref={ref} {...props}>
           {props.options.map(option => {
             return (
               <option key={option.key} value={option.key}>
@@ -25,7 +31,7 @@ export const B4hSelect = forwardRef(
             );
           })}
         </select>
-      </>
+      </div>
     );
   }
 );
