@@ -12,7 +12,7 @@ export const B4hInput = forwardRef((props: B4hInputProp, ref: ForwardedRef<HTMLI
       <label className={styles.label} htmlFor={props.id}>
         {props.label}
       </label>
-      <br />
+      {props.type !== 'checkbox' && <br />}
       <input className={styles.input} ref={ref} {...props} />
     </div>
   );

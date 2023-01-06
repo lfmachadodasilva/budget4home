@@ -17,5 +17,9 @@
   font-size: var(--sizeM);
 }
 
+.input[type='checkbox'] {
+  min-width: auto;
+}
+
 .label {
 }

@@ -28,7 +28,7 @@ export default function () {
 
   return (
     <B4hForm
-      title="Login"
+      label="Login"
       footer={
         <B4hButton type="button" onClick={handleOnLogin}>
           Login

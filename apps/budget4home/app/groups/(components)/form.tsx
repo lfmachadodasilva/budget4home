@@ -1,7 +1,7 @@
 'use client';
 
 import { Group, User } from '@budget4home/base';
-import { B4hButton, B4hInput } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useRef, useState } from 'react';
 import { GroupClient } from '../../../clients';
@@ -68,35 +68,8 @@ export const GroupForm = (props: GroupFormProps) => {
     }
   };
 
-  return (
+  const formFooter = (
     <>
-      <>
-        {props.group?.id && (
-          <>
-            <label>Id</label>
-            <p>{props.group.id}</p>
-          </>
-        )}
-        <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
-        <>
-          {props.users?.map(x => {
-            return (
-              <div key={x.id}>
-                <B4hInput
-                  id={x.id}
-                  type={'checkbox'}
-                  defaultChecked={userIdsRef.current?.includes(x.id) ?? false}
-                  onChange={event => handleOnChangeUser(event, x.id)}
-                  label={`${x.displayName ?? ''} - ${x.email}`}
-                />
-              </div>
-            );
-          })}
-        </>
-      </>
-
-      <br></br>
-
       <B4hButton onClick={handleOnManage} disabled={loading}>
         {props.group?.id ? 'Update' : 'Add'}
       </B4hButton>
@@ -106,5 +79,42 @@ export const GroupForm = (props: GroupFormProps) => {
         </B4hButton>
       )}
     </>
+  );
+
+  const formLabel = (
+    <>
+      {props.group?.id && (
+        <>
+          <label>Id</label>
+          <p>{props.group.id}</p>
+        </>
+      )}
+      {!props.group?.id && (
+        <>
+          <label>Add new group</label>
+        </>
+      )}
+    </>
+  );
+
+  return (
+    <B4hForm label={formLabel} footer={formFooter}>
+      <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
+      <>
+        {props.users?.map(x => {
+          return (
+            <div key={x.id}>
+              <B4hInput
+                id={x.id}
+                type={'checkbox'}
+                defaultChecked={userIdsRef.current?.includes(x.id) ?? false}
+                onChange={event => handleOnChangeUser(event, x.id)}
+                label={`${x.displayName ?? ''} - ${x.email}`}
+              />
+            </div>
+          );
+        })}
+      </>
+    </B4hForm>
   );
 };
