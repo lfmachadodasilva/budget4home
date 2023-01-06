@@ -1,0 +1,12 @@
+.button {
+  border: none;
+  margin: var(--sizeXS);
+  padding: var(--sizeXS);
+  background-color: var(--primaryColor);
+  color: var(--fgColor);
+  cursor: pointer;
+}
+
+.button:hover {
+  background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
+}

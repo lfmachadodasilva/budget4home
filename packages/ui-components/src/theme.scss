@@ -1,0 +1,17 @@
+@use 'sass:color';
+
+:root {
+  --sizeXS: 4px;
+  --sizeS: 8px;
+  --sizeM: 16px;
+  --sizeL: 24px;
+  --sizeXL: 32px;
+  --sizeXXL: 64px;
+
+  --primaryColor: #612f74;
+
+  --bgColor: #0d1117;
+  --fgColor: #c9d1d9;
+
+  --font-family: Roboto, sans-serif;
+}

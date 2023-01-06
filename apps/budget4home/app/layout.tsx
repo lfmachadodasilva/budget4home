@@ -1,6 +1,8 @@
 import { Header } from './header';
 import { Providers } from './provider';
 
+import '@budget4home/ui-components/src/global.scss';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
