@@ -1,0 +1,25 @@
+.container {
+  margin-bottom: var(--sizeS);
+}
+
+.input {
+  min-width: calc(var(--minWidth) - (2 * var(--sizeXS)));
+
+  padding: var(--sizeXS);
+
+  background-color: var(--fgColor);
+
+  border: none;
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--sizeM);
+}
+
+.input[type='checkbox'] {
+  min-width: auto;
+}
+
+.label {
+}

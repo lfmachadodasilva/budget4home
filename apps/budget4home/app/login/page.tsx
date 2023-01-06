@@ -1,6 +1,6 @@
 'use client';
 
-import { B4hButton, B4hInput } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -27,16 +27,16 @@ export default function () {
   }
 
   return (
-    <>
-      <h5>Login</h5>
-      <br></br>
-      <br></br>
+    <B4hForm
+      label="Login"
+      footer={
+        <B4hButton type="button" onClick={handleOnLogin}>
+          Login
+        </B4hButton>
+      }
+    >
       <B4hInput id="email" ref={emailRef} type={'email'} label={'email'} />
-      <br></br>
       <B4hInput id="password" ref={passwordRef} type={'password'} label={'password'} />
-      <br></br>
-      <br></br>
-      <B4hButton onClick={handleOnLogin}>Login</B4hButton>
-    </>
+    </B4hForm>
   );
 }

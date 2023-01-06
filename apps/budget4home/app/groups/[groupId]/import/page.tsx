@@ -12,7 +12,6 @@ export default async function ({ params }: any) {
 
   return (
     <>
-      <h3>Import</h3>
       <ImportUi labels={labels} group={group} />
     </>
   );

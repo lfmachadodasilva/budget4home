@@ -1,7 +1,7 @@
 'use client';
 
 import { Label } from '@budget4home/base';
-import { B4hButton, B4hInput } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { LabelClient } from '../../../../../clients';
@@ -61,35 +61,32 @@ export function LabelForm(props: LabelFormProps) {
     }
   };
 
-  return (
+  const formLabel = (
     <>
-      <h5>Label</h5>
-
-      <br></br>
-      <br></br>
-
-      <>
-        {props.label?.id && (
-          <>
-            <label>Id</label>
-            <p>{props.label.id}</p>
-          </>
-        )}
-
-        <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
-      </>
-
-      <br></br>
-      <br></br>
-
+      {props.label?.id && (
+        <>
+          <h3>Label: {props.label.id}</h3>
+        </>
+      )}
+      {!props.label?.id && (
+        <>
+          <h3>Add new label</h3>
+        </>
+      )}
+    </>
+  );
+  const formFooter = [
+    <>
       <B4hButton onClick={handleOnManage} disabled={loading}>
         {props.label?.id ? 'Update' : 'Add'}
       </B4hButton>
-      {props.label?.id && (
-        <B4hButton onClick={handleOnDelete} disabled={loading}>
-          Delete
-        </B4hButton>
-      )}
+      {props.label?.id && <B4hButton onClick={handleOnDelete}>Delete</B4hButton>}
     </>
+  ];
+
+  return (
+    <B4hForm label={formLabel} footer={formFooter}>
+      <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
+    </B4hForm>
   );
 }

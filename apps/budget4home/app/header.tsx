@@ -1,5 +1,6 @@
 'use client';
 
+import { B4hButton } from '@budget4home/ui-components';
 import { signOut } from 'firebase/auth';
 import Link from 'next/link';
 import { useAuth } from '../contexts/auth';
@@ -15,16 +16,21 @@ export const Header = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '8px'
+      }}
+    >
+      <img src="/logo24.png" style={{ width: '24px', height: '24px' }} />
       <Link href={B4hRoutes.home}>home</Link>
-      <br></br>
       <Link href={B4hRoutes.groups}>groups</Link>
-      <br></br>
       <Link href={B4hRoutes.labels}>labels</Link>
-      <br></br>
       <Link href={B4hRoutes.expenses}>expenses</Link>
-      <br></br>
-      {user && <button onClick={handleOnLogout}>Logout</button>}
-    </>
+      <Link href={B4hRoutes.import}>import</Link>
+      <Link href={B4hRoutes.export}>export</Link>
+      {user && <B4hButton onClick={handleOnLogout}>Logout</B4hButton>}
+    </div>
   );
 };

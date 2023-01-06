@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@budget4home/ui-components": "*",
     "@budget4home/base": "*",
     "@budget4home/firestore-repositories": "*",
+    "@budget4home/ui-components": "*",
     "date-fns": "^2.29.3",
     "encoding": "^0.1.13",
     "firebase": "^9.15.0",
@@ -22,7 +22,8 @@
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-firebase-hooks": "^5.1.1"
+    "react-firebase-hooks": "^5.1.1",
+    "sass": "^1.57.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
