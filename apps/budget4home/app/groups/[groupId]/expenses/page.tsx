@@ -24,7 +24,9 @@ export default async function ({ params, searchParams }: any) {
     <>
       <h3>Expenses</h3>
       <Link href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.expenseAdd}`}>add</Link>
+
       <ExpensesDate />
+
       <p>
         <strong>Total used:</strong> {(totalUsed / 100).toFixed(2)}
       </p>
@@ -32,6 +34,7 @@ export default async function ({ params, searchParams }: any) {
         <strong>Total left:</strong> {(totalLeft / 100).toFixed(2)}
       </p>
 
+      {expenses.length <= 0 && <h4>Empty list of expenses.</h4>}
       <ul>
         {expenses.map(expense => {
           return (

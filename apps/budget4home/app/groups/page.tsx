@@ -13,6 +13,7 @@ export default async function () {
     <>
       <h3>groups</h3>
       <Link href={B4hRoutes.groupAdd}>add</Link>
+      {groups.length <= 0 && <h4>Empty list of group.</h4>}
       <ul>
         {groups.map(group => {
           return (

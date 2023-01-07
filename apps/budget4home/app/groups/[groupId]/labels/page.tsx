@@ -15,6 +15,7 @@ export default async function ({ params }: any) {
     <>
       <h3>labels</h3>
       <Link href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.labelAdd}`}>add</Link>
+      {labels.length <= 0 && <h4>Empty list of label.</h4>}
       <ul>
         {labels.map(label => {
           return (
