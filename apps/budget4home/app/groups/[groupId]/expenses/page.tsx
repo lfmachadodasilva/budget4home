@@ -5,7 +5,7 @@ import { getUserId } from '../../../../util/getUserId';
 import { expenseRepository } from '../../../../util/repositories';
 import { B4hRoutes } from '../../../../util/routes';
 import { ExpensesDate } from './(components)/date';
-import { ExpenseItem } from './(components)/item';
+import { ExpenseItems } from './(components)/items';
 
 export default async function ({ params, searchParams }: any) {
   const userId = await getUserId();
@@ -37,29 +37,16 @@ export default async function ({ params, searchParams }: any) {
       {expenses.length <= 0 && <h4>Empty list of expenses.</h4>}
 
       <h5>{ExpenseType.incoming}</h5>
-      <ul>
-        {expenses
-          .filter(x => x.type === ExpenseType.incoming)
-          .map(expense => {
-            return (
-              <li key={expense.id}>
-                <ExpenseItem expense={expense} groupId={params.groupId} />
-              </li>
-            );
-          })}
-      </ul>
+      <ExpenseItems
+        expenses={expenses.filter(x => x.type === ExpenseType.incoming)}
+        groupId={params.groupId}
+      />
+
       <h5>{ExpenseType.outcoming}</h5>
-      <ul>
-        {expenses
-          .filter(x => x.type === ExpenseType.outcoming)
-          .map(expense => {
-            return (
-              <li key={expense.id}>
-                <ExpenseItem expense={expense} groupId={params.groupId} />
-              </li>
-            );
-          })}
-      </ul>
+      <ExpenseItems
+        expenses={expenses.filter(x => x.type === ExpenseType.outcoming)}
+        groupId={params.groupId}
+      />
     </>
   );
 }

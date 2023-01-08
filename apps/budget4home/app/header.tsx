@@ -20,16 +20,15 @@ export const Header = () => {
       style={{
         display: 'flex',
         flexWrap: 'wrap',
+        alignItems: 'center',
         gap: '8px'
       }}
     >
-      <img src="/logo24.png" style={{ width: '24px', height: '24px' }} />
+      <img src="/logo32.png" style={{ width: '32px', height: '32px' }} />
       <Link href={B4hRoutes.home}>home</Link>
       <Link href={B4hRoutes.groups}>groups</Link>
       <Link href={B4hRoutes.labels}>labels</Link>
       <Link href={B4hRoutes.expenses}>expenses</Link>
-      <Link href={B4hRoutes.import}>import</Link>
-      <Link href={B4hRoutes.export}>export</Link>
       {user && <B4hButton onClick={handleOnLogout}>Logout</B4hButton>}
     </div>
   );
