@@ -1,6 +1,6 @@
 import { Group, IGroupRepository } from '@budget4home/base';
 
-import { FieldPath, Firestore } from 'firebase-admin/firestore';
+import { FieldPath, Firestore, Timestamp } from 'firebase-admin/firestore';
 import { FirestoreCollections } from './collections';
 
 export class GroupRepository implements IGroupRepository {
@@ -56,9 +56,14 @@ export class GroupRepository implements IGroupRepository {
   };
 
   add = async (userId: string, group: Partial<Group>) => {
-    const col = await this.firestore
-      .collection(FirestoreCollections.groups)
-      .add({ name: group.name, userIds: group.userIds });
+    const col = await this.firestore.collection(FirestoreCollections.groups).add({
+      name: group.name,
+      userIds: group.userIds,
+      createdBy: userId,
+      createdAt: Timestamp.fromDate(new Date()),
+      updatedby: userId,
+      updatedAt: Timestamp.fromDate(new Date())
+    });
 
     return {
       id: col.id,
@@ -73,9 +78,15 @@ export class GroupRepository implements IGroupRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .doc(FirestoreCollections.group(group.id))
-      .set({ name: group.name, userIds: group.userIds });
+    const doc = await this.firestore.doc(FirestoreCollections.group(group.id)).set(
+      {
+        name: group.name,
+        userIds: group.userIds,
+        updatedby: userId,
+        updatedAt: Timestamp.fromDate(new Date())
+      },
+      { merge: true }
+    );
 
     return {
       id: group.id,

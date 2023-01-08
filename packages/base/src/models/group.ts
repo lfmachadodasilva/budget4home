@@ -1,5 +1,5 @@
-export interface Group {
-  id: string;
-  name: string;
+import { Base } from './base';
+
+export interface Group extends Base {
   userIds: string[];
 }

@@ -96,8 +96,6 @@ export const GroupForm = (props: GroupFormProps) => {
     </>
   );
 
-  console.log(props.users);
-
   return (
     <B4hForm label={formLabel} footer={formFooter}>
       <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
@@ -105,7 +103,6 @@ export const GroupForm = (props: GroupFormProps) => {
         {props.users?.map(x => {
           return (
             <li key={x.id}>
-              <img src={x.photoUrl} />
               <B4hInput
                 id={x.id}
                 type={'checkbox'}

@@ -1,3 +1,4 @@
+import { Base } from './base';
 import { Label } from './label';
 
 export const ExpenseType = {
@@ -5,10 +6,8 @@ export const ExpenseType = {
   outcoming: 'outcoming'
 };
 
-export interface Expense {
-  id: string;
+export interface Expense extends Base {
   type: string;
-  name: string;
   value: number;
   date: string;
   label?: Label;
