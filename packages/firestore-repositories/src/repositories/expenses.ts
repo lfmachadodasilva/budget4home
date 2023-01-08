@@ -66,12 +66,13 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const obj = await this.expenseToFirestore(expense as Expense);
+    const obj = await this.expenseToFirestore(userId, expense as Expense);
     const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).add(obj);
 
     return {
       ...expense,
-      id: col.id
+      id: col.id,
+      groupId: groupId
     } as Expense;
   };
 
@@ -81,11 +82,14 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const obj = await this.expenseToFirestore(expense as Expense);
-    const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expense.id)).set(obj);
+    const obj = await this.expenseToFirestore(userId, expense as Expense);
+    const doc = await this.firestore
+      .doc(FirestoreCollections.expese(groupId, expense.id))
+      .set(obj, { merge: true });
 
     return {
-      ...expense
+      ...expense,
+      groupId: groupId
     } as Expense;
   };
 
@@ -140,13 +144,18 @@ export class ExpenseRepository implements IExpenseRepository {
     } as Expense;
   };
 
-  private expenseToFirestore = async (model: Expense) => {
+  private expenseToFirestore = async (userId: string, model: Expense) => {
     return {
       name: model.name,
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
-      labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id))
+      labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
+
+      createdBy: userId,
+      createdAt: Timestamp.fromDate(new Date()),
+      updatedby: userId,
+      updatedAt: Timestamp.fromDate(new Date())
     };
   };
 }

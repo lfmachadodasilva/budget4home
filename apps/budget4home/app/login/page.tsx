@@ -6,8 +6,7 @@ import { useRef } from 'react';
 import {
   useCreateUserWithEmailAndPassword,
   useSendPasswordResetEmail,
-  useSignInWithEmailAndPassword,
-  useSignInWithFacebook
+  useSignInWithEmailAndPassword
 } from 'react-firebase-hooks/auth';
 import { useAuth } from '../../contexts/auth';
 import { firebaseAuth } from '../../util/firebase';
@@ -19,16 +18,16 @@ export default function () {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(firebaseAuth);
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(firebaseAuth);
   const [sendPasswordResetEmail] = useSendPasswordResetEmail(firebaseAuth);
-  const [signInWithFacebook] = useSignInWithFacebook(firebaseAuth);
+  // const [signInWithFacebook] = useSignInWithFacebook(firebaseAuth);
 
   const emailRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
 
-  const handleOnFacebook = () => {
-    signInWithFacebook().then(() => {
-      push(B4hRoutes.home);
-    });
-  };
+  // const handleOnFacebook = () => {
+  //   signInWithFacebook().then(() => {
+  //     push(B4hRoutes.home);
+  //   });
+  // };
 
   const handleOnLogin = () => {
     if (!emailRef.current.value || !passwordRef.current.value) {
@@ -70,9 +69,9 @@ export default function () {
     <B4hForm
       label="Login"
       footer={[
-        <B4hButton key="facebook" type="button" onClick={handleOnFacebook}>
-          facebook
-        </B4hButton>,
+        // <B4hButton key="facebook" type="button" onClick={handleOnFacebook}>
+        //   facebook
+        // </B4hButton>,
         <B4hButton key="login" type="button" onClick={handleOnLogin}>
           login
         </B4hButton>,

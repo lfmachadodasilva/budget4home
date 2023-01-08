@@ -1,5 +1,5 @@
 import { IExpenseRepository, IGroupRepository, ILabelRepository, Label } from '@budget4home/base';
-import { Firestore } from 'firebase-admin/firestore';
+import { Firestore, Timestamp } from 'firebase-admin/firestore';
 import { FirestoreCollections } from './collections';
 
 export class LabelRepository implements ILabelRepository {
@@ -52,13 +52,18 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .collection(FirestoreCollections.labels(groupId))
-      .add({ name: label.name });
+    const doc = await this.firestore.collection(FirestoreCollections.labels(groupId)).add({
+      name: label.name,
+      createdBy: userId,
+      createdAt: Timestamp.fromDate(new Date()),
+      updatedby: userId,
+      updatedAt: Timestamp.fromDate(new Date())
+    });
 
     return {
-      id: doc.id
-      //  name: data.name
+      id: doc.id,
+      name: label.name,
+      groupId: groupId
     } as Label;
   };
 
@@ -68,9 +73,14 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const doc = await this.firestore
-      .doc(FirestoreCollections.label(groupId, label.id))
-      .set({ name: label.name });
+    const doc = await this.firestore.doc(FirestoreCollections.label(groupId, label.id)).set(
+      {
+        name: label.name,
+        updatedby: userId,
+        updatedAt: Timestamp.fromDate(new Date())
+      },
+      { merge: true }
+    );
 
     return {
       id: label.id,
