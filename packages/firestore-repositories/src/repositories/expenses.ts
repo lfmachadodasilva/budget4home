@@ -12,7 +12,10 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).get();
+    const col = await this.firestore
+      .collection(FirestoreCollections.expeses(groupId))
+      .orderBy('date', 'desc')
+      .get();
 
     return await Promise.all(
       col.docs.map(async doc => {
@@ -35,6 +38,7 @@ export class ExpenseRepository implements IExpenseRepository {
       .collection(FirestoreCollections.expeses(groupId))
       .where('date', '>=', Timestamp.fromDate(startDay))
       .where('date', '<', Timestamp.fromDate(endDay))
+      .orderBy('date', 'desc')
       .get();
 
     return await Promise.all(

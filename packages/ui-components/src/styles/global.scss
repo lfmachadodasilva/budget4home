@@ -22,3 +22,7 @@ body {
 main {
   padding: var(--sizeS);
 }
+
+.error {
+  color: var(--errorColor);
+}
