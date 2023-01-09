@@ -1,7 +1,7 @@
 'use client';
 
 import { Expense, ExpenseType, Label } from '@budget4home/base';
-import { B4hButton, B4hForm, B4hInput, B4hSelect } from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput, B4hSelect, B4hTextarea } from '@budget4home/ui-components';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -30,6 +30,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const valueRef = useRef<HTMLInputElement>();
   const dateRef = useRef<HTMLInputElement>();
   const labelRef = useRef<HTMLSelectElement>();
+  const commentsRef = useRef<HTMLTextAreaElement>();
 
   const handleOnManage = async () => {
     // TODO validate name
@@ -41,6 +42,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
       value: +valueRef.current.value,
       date: dateRef.current.value,
       label: props.labels.find(x => x.id === labelRef.current.value),
+      comments: commentsRef.current.value,
       groupId: props.groupId
     } as Expense;
 
@@ -83,6 +85,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
       value: +valueRef.current.value,
       date: dateRef.current.value,
       label: props.labels.find(x => x.id === labelRef.current.value),
+      comments: commentsRef.current.value,
       groupId: props.groupId
     } as Expense;
 
@@ -183,6 +186,13 @@ export function ExpenseForm(props: ExpenseFormProps) {
             };
           })}
           label={'Label'}
+        />
+
+        <B4hTextarea
+          id={'comments'}
+          ref={commentsRef}
+          defaultValue={props.expense?.comments}
+          label={'Comments'}
         />
       </B4hForm>
       {!props.expense?.id && preview?.length > 0 && (

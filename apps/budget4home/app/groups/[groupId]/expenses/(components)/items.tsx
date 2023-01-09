@@ -18,7 +18,7 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
             {' - '}
             <label>{expense.name}</label> - <label>{(expense.value / 100).toFixed(2)}</label>
             {' - '}
-            <label>{expense.label?.name}</label>
+            <label>{expense.label?.icon ?? expense.label?.name}</label>
             {' - '}
             <Link href={`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}/${expense.id}`}>
               edit

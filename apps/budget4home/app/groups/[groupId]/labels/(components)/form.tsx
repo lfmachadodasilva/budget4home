@@ -20,23 +20,27 @@ export function LabelForm(props: LabelFormProps) {
   const [loading, setLoading] = useState(false);
 
   const nameRef = useRef<HTMLInputElement>();
+  const iconRef = useRef<HTMLInputElement>();
 
   const handleOnManage = async () => {
     // TODO validate name
     // TODO loading state
 
     setLoading(true);
+
+    const label = {
+      name: nameRef.current.value,
+      icon: iconRef.current.value,
+      groupId: props.groupId
+    } as Label;
+
     try {
       if (!props.label?.id) {
-        await LabelClient.add(token, {
-          name: nameRef.current.value,
-          groupId: props.groupId
-        });
+        await LabelClient.add(token, label);
       } else {
         await LabelClient.edit(token, {
-          id: props.label.id,
-          name: nameRef.current.value,
-          groupId: props.groupId
+          ...label,
+          id: props.label.id
         });
       }
 
@@ -83,6 +87,7 @@ export function LabelForm(props: LabelFormProps) {
   return (
     <B4hForm key="manage" label={formLabel} footer={formFooter}>
       <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
+      <B4hInput id={'icon'} ref={iconRef} defaultValue={props.label?.icon} label={'Icon'} />
     </B4hForm>
   );
 }

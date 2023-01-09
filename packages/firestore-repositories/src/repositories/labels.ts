@@ -20,9 +20,11 @@ export class LabelRepository implements ILabelRepository {
     const docs = await this.firestore.collection(FirestoreCollections.labels(groupId)).get();
 
     return docs.docs.map(doc => {
+      const data = doc.data();
       return {
         id: doc.id,
-        name: doc.data().name
+        name: data.name,
+        icon: data.icon
       } as Label;
     });
   };
@@ -42,7 +44,8 @@ export class LabelRepository implements ILabelRepository {
 
     return {
       id: doc.id,
-      name: data.name
+      name: data.name,
+      icon: data.icon
     } as Label;
   };
 
@@ -54,6 +57,7 @@ export class LabelRepository implements ILabelRepository {
 
     const doc = await this.firestore.collection(FirestoreCollections.labels(groupId)).add({
       name: label.name,
+      icon: label.icon,
       createdBy: userId,
       createdAt: Timestamp.fromDate(new Date()),
       updatedby: userId,
@@ -63,6 +67,7 @@ export class LabelRepository implements ILabelRepository {
     return {
       id: doc.id,
       name: label.name,
+      icon: label.icon,
       groupId: groupId
     } as Label;
   };
@@ -76,6 +81,7 @@ export class LabelRepository implements ILabelRepository {
     const doc = await this.firestore.doc(FirestoreCollections.label(groupId, label.id)).set(
       {
         name: label.name,
+        icon: label.icon,
         updatedby: userId,
         updatedAt: Timestamp.fromDate(new Date())
       },
@@ -85,6 +91,7 @@ export class LabelRepository implements ILabelRepository {
     return {
       id: label.id,
       name: label.name,
+      icon: label.icon,
       groupId: label.groupId
     } as Label;
   };

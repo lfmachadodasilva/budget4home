@@ -132,9 +132,11 @@ export class ExpenseRepository implements IExpenseRepository {
     let labelRef: Label = null;
     if (data.labelRef) {
       const labelDoc = await data.labelRef.get();
+      const labelData = labelDoc.data();
       labelRef = {
         id: labelDoc.id,
-        name: labelDoc.data().name
+        name: labelData.name,
+        icon: labelData.icon
       } as Label;
     }
 
@@ -144,6 +146,7 @@ export class ExpenseRepository implements IExpenseRepository {
       type: data.type,
       date: new Date(data.date.toDate()).toISOString(),
       value: data.value,
+      comments: data.comments,
       label: labelRef
     } as Expense;
   };
@@ -154,6 +157,7 @@ export class ExpenseRepository implements IExpenseRepository {
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
+      comments: model.comments,
       labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
 
       createdBy: userId,

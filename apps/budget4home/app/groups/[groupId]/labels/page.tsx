@@ -22,6 +22,12 @@ export default async function ({ params }: any) {
             <li key={label.id}>
               <label>{label.name}</label>
               {' - '}
+              {label.icon && (
+                <>
+                  <label>{label.icon}</label>
+                  {' - '}
+                </>
+              )}
               <Link href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.labels}/${label.id}`}>
                 edit
               </Link>

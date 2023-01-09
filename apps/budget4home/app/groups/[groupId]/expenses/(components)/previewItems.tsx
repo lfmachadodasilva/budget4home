@@ -17,7 +17,7 @@ export const ExpensePreviewItems = (props: ExpensePreviewItemsProps) => {
             {' - '}
             <label>{expense.name}</label> - <label>{(expense.value / 100).toFixed(2)}</label>
             {' - '}
-            <label>{expense.label?.name}</label>
+            <label>{expense.label?.icon ?? expense.label?.name}</label>
             {' - '}
             <B4hButton onClick={() => props.onDelete(expense.id)}>Delete</B4hButton>
           </li>

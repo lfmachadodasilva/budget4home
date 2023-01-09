@@ -11,5 +11,6 @@ export interface Expense extends Base {
   value: number;
   date: string;
   label?: Label;
+  comments?: string;
   groupId: string;
 }
