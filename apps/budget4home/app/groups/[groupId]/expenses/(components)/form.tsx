@@ -16,6 +16,7 @@ interface ExpenseFormProps {
   labels: Label[];
   groupId: string;
 }
+
 export function ExpenseForm(props: ExpenseFormProps) {
   const { push } = useRouter();
   const { token } = useAuth();
@@ -95,7 +96,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
     try {
       for (let i = 0; i < preview.length; i++) {
         const { id, ...previewData } = preview[i];
-        console.log(previewData);
         await ExpenseClient.add(token, previewData);
       }
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
