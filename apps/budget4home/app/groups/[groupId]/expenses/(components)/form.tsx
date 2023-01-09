@@ -35,7 +35,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
     // TODO loading state
 
     const expense = {
-      id: props.expense?.id ?? uuidv4(),
       type: typeRef.current.value,
       name: nameRef.current.value,
       value: +valueRef.current.value,
@@ -116,7 +115,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const formFooter = [
     <>
       {!props.expense?.id && (
-        <B4hButton key="action" onClick={handleOnPreviewAdd} disabled={loading}>
+        <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
           add
         </B4hButton>
       )}
@@ -188,6 +187,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
       </B4hForm>
       {!props.expense?.id && preview?.length > 0 && (
         <B4hForm
+          key="preview"
           label={'Preview'}
           footer={<B4hButton onClick={handleOnPreviewSubmit}>submit</B4hButton>}
         >

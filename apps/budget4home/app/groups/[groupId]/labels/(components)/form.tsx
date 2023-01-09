@@ -63,29 +63,25 @@ export function LabelForm(props: LabelFormProps) {
 
   const formLabel = (
     <>
-      {props.label?.id && (
-        <>
-          <h3>Label: {props.label.id}</h3>
-        </>
-      )}
-      {!props.label?.id && (
-        <>
-          <h3>Add new label</h3>
-        </>
-      )}
+      {props.label?.id && <h3>Label: {props.label.id}</h3>}
+      {!props.label?.id && <h3>Add new label</h3>}
     </>
   );
   const formFooter = [
     <>
-      <B4hButton onClick={handleOnManage} disabled={loading}>
+      <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
         {props.label?.id ? 'Update' : 'Add'}
       </B4hButton>
-      {props.label?.id && <B4hButton onClick={handleOnDelete}>Delete</B4hButton>}
+      {props.label?.id && (
+        <B4hButton key="delete" onClick={handleOnDelete}>
+          Delete
+        </B4hButton>
+      )}
     </>
   ];
 
   return (
-    <B4hForm label={formLabel} footer={formFooter}>
+    <B4hForm key="manage" label={formLabel} footer={formFooter}>
       <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
     </B4hForm>
   );
