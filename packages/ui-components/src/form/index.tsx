@@ -16,7 +16,9 @@ export const B4hForm = forwardRef((props: B4hFormProp, ref: ForwardedRef<HTMLFor
         props.label
       )}
       <form className={styles.form} ref={ref} {...props} />
-      <div className={styles.footer}>{props.footer}</div>
+      <div key="formKey" className={styles.footer}>
+        {props.footer}
+      </div>
     </>
   );
 });
