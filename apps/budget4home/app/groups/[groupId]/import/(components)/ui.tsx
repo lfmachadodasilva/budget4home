@@ -67,7 +67,7 @@ export const ImportUi = (props: ImportUiProps) => {
         });
         newLabel = await response.json();
       } catch (err) {
-        console.log(err);
+        console.error(err);
         // update table
         dataCopy[i].status = ImportItemStatus.addLabelFail;
         setData(dataCopy);
