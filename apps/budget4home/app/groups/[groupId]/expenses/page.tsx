@@ -30,7 +30,7 @@ export default async function ({ params, searchParams }: any) {
       <h4>
         <strong>Total used:</strong> {(totalUsed / 100).toFixed(2)}
       </h4>
-      <h4 className={totalLeft <= 0 && 'error'}>
+      <h4 className={totalLeft <= 0 ? 'error' : ''}>
         <strong>Total left:</strong> {(totalLeft / 100).toFixed(2)}
       </h4>
 
