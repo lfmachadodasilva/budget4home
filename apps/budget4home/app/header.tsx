@@ -24,8 +24,9 @@ export const Header = () => {
         gap: '8px'
       }}
     >
-      <img src="/logo32.png" style={{ width: '32px', height: '32px' }} />
-      <Link href={B4hRoutes.home}>home</Link>
+      <Link href={B4hRoutes.home}>
+        <img src="/logo32.png" style={{ width: '32px', height: '32px' }} />
+      </Link>
       <Link href={B4hRoutes.groups}>groups</Link>
       <Link href={B4hRoutes.labels}>labels</Link>
       <Link href={B4hRoutes.expenses}>expenses</Link>
