@@ -36,6 +36,16 @@ export function ExpenseForm(props: ExpenseFormProps) {
     // TODO validate name
     // TODO loading state
 
+    if (!nameRef.current?.value || !valueRef.current.value) {
+      alert('Name and value fields can not be empty');
+      return;
+    }
+
+    if (+valueRef.current.value <= 0) {
+      alert('Value can not be zero or negative');
+      return;
+    }
+
     const expense = {
       type: typeRef.current.value,
       name: nameRef.current.value,
@@ -78,6 +88,15 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const handleOnPreviewAdd = () => {
+    if (!nameRef.current?.value || !valueRef.current.value) {
+      alert('Name and value fields can not be empty');
+      return;
+    }
+    if (+valueRef.current.value <= 0) {
+      alert('Value can not be zero or negative');
+      return;
+    }
+
     const expense = {
       id: props.expense?.id ?? uuidv4(),
       type: typeRef.current.value,
