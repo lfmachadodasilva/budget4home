@@ -2,7 +2,7 @@
 
 import { Expense, ExpenseType, Label } from '@budget4home/base';
 import { B4hButton, B4hForm, B4hInput, B4hSelect, B4hTextarea } from '@budget4home/ui-components';
-import { format } from 'date-fns';
+import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,6 +31,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const dateRef = useRef<HTMLInputElement>();
   const labelRef = useRef<HTMLSelectElement>();
   const commentsRef = useRef<HTMLTextAreaElement>();
+  const autoRef = useRef<HTMLSelectElement>();
 
   const handleOnManage = async () => {
     // TODO validate name
@@ -59,7 +60,12 @@ export function ExpenseForm(props: ExpenseFormProps) {
     setLoading(true);
     try {
       if (!props.expense?.id) {
-        await ExpenseClient.add(token, { ...expense });
+        for (let i = 0; i < +autoRef.current.value; i++) {
+          await ExpenseClient.add(token, {
+            ...expense,
+            date: addMonths(new Date(dateRef.current.value), i).toISOString()
+          });
+        }
       } else {
         await ExpenseClient.edit(token, {
           id: props.expense.id,
@@ -97,18 +103,20 @@ export function ExpenseForm(props: ExpenseFormProps) {
       return;
     }
 
-    const expense = {
-      id: props.expense?.id ?? uuidv4(),
-      type: typeRef.current.value,
-      name: nameRef.current.value,
-      value: +valueRef.current.value,
-      date: dateRef.current.value,
-      label: props.labels.find(x => x.id === labelRef.current.value),
-      comments: commentsRef.current.value,
-      groupId: props.groupId
-    } as Expense;
+    for (let i = 0; i < +autoRef.current.value; i++) {
+      const expense = {
+        id: props.expense?.id ?? uuidv4(),
+        type: typeRef.current.value,
+        name: nameRef.current.value,
+        value: +valueRef.current.value,
+        date: addMonths(new Date(dateRef.current.value), i).toISOString(),
+        label: props.labels.find(x => x.id === labelRef.current.value),
+        comments: commentsRef.current.value,
+        groupId: props.groupId
+      } as Expense;
 
-    setPreview(x => [...x, expense]);
+      setPreview(x => [...x, expense]);
+    }
   };
   const handleOnPreviewDelete = (expenseId: string) => {
     setPreview(x => x.filter(y => y.id !== expenseId));
@@ -213,6 +221,21 @@ export function ExpenseForm(props: ExpenseFormProps) {
           defaultValue={props.expense?.comments}
           label={'Comments'}
         />
+
+        {!props.expense?.id && (
+          <B4hSelect
+            id={'auto'}
+            ref={autoRef}
+            defaultValue={'1'}
+            options={Array.from(Array(12).keys()).map((_, index: number) => {
+              return {
+                key: (index + 1).toString(),
+                value: `${index === 0 ? 'Current month' : (index + 1).toString() + '+ months'}`
+              };
+            })}
+            label={'Auto generate'}
+          />
+        )}
       </B4hForm>
       {!props.expense?.id && preview?.length > 0 && (
         <B4hForm

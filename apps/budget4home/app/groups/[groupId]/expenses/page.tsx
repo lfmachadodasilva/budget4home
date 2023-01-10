@@ -37,7 +37,7 @@ export default async function ({ params, searchParams }: any) {
       </h4>
       <h4 className={totalLeft <= 0 ? 'error' : ''}>
         <strong>Total left:</strong> {(totalLeft / 100).toFixed(2)}{' '}
-        <small>{((totalLeft / totalIncoming) * 100).toFixed(0)}%</small>
+        {totalIncoming > 0 && <small>{((totalLeft / totalIncoming) * 100).toFixed(0)}%</small>}
       </h4>
 
       {expenses.length <= 0 && <h4>Empty list of expenses.</h4>}
