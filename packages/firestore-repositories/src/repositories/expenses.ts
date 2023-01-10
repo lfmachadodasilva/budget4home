@@ -157,8 +157,11 @@ export class ExpenseRepository implements IExpenseRepository {
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
-      comments: model.comments ?? null,
+      comments: model.comments?.length > 0 ? model.comments.length : null,
       labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
+      parentRef: model.parent?.id
+        ? this.firestore.doc(FirestoreCollections.expese(model.groupId, model.parent?.id))
+        : null,
 
       createdBy: userId,
       createdAt: Timestamp.fromDate(new Date()),

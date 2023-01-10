@@ -60,11 +60,16 @@ export function ExpenseForm(props: ExpenseFormProps) {
     setLoading(true);
     try {
       if (!props.expense?.id) {
+        let parent: Expense = null;
         for (let i = 0; i < +autoRef.current.value; i++) {
           await ExpenseClient.add(token, {
             ...expense,
+            parent: parent,
             date: addMonths(new Date(dateRef.current.value), i).toISOString()
           });
+          if (i === 0) {
+            parent = expense;
+          }
         }
       } else {
         await ExpenseClient.edit(token, {
@@ -124,9 +129,14 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const handleOnPreviewSubmit = async () => {
     setLoading(true);
     try {
+      let parent: Expense = null;
       for (let i = 0; i < preview.length; i++) {
         const { id, ...previewData } = preview[i];
-        await ExpenseClient.add(token, previewData);
+        const newExpense = await ExpenseClient.add(token, { ...previewData, parent: parent });
+
+        if (i === 0) {
+          parent = await newExpense.json();
+        }
       }
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
     } catch (err) {
@@ -149,7 +159,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           add
         </B4hButton>
       )}
-      {!props.expense?.id && (
+      {!props.expense?.id && preview?.length === 0 && (
         <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
           add and submit
         </B4hButton>
