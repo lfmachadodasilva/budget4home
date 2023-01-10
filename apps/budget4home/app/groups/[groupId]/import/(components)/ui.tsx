@@ -1,12 +1,12 @@
 'use client';
 
 import { Expense, Group, Label } from '@budget4home/base';
-import { B4hButton, B4hForm, B4hTextarea } from '@budget4home/ui-components';
-import { useCallback, useRef, useState } from 'react';
+import { B4hButton, B4hForm, B4hSelect, B4hTextarea } from '@budget4home/ui-components';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import { LabelClient } from '../../../../../clients';
 import { ExpenseClient } from '../../../../../clients/expenses';
 import { useAuth } from '../../../../../contexts/auth';
-import { splitItems } from './split';
+import { splitItemsCsv } from './split';
 import { ImportTable } from './table';
 
 export const ImportItemStatus = {
@@ -19,7 +19,7 @@ export const ImportItemStatus = {
 };
 
 export interface ImportItem extends Expense {
-  status: string;
+  status?: string;
 }
 
 interface ImportUiProps {
@@ -33,11 +33,28 @@ export const ImportUi = (props: ImportUiProps) => {
   const [data, setData] = useState<ImportItem[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
+  const typeRef = useRef<HTMLSelectElement>();
 
-  const handleOnProcess = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleOnChangeType = (event: ChangeEvent<HTMLSelectElement>) => {
+    handleOnProcess({
+      target: {
+        value: dataRef.current.value
+      }
+    } as ChangeEvent<HTMLTextAreaElement>);
+  };
+
+  const handleOnProcess = (event: ChangeEvent<HTMLTextAreaElement>) => {
     try {
       setError(null);
-      setData(splitItems(event.target.value, props.labels, props.group.id));
+      setData(
+        typeRef.current.value === 'json'
+          ? (JSON.parse(event.target.value) as Expense[]).map(x => {
+              x.groupId = props.group.id;
+              x.label.groupId = props.group.id;
+              return x;
+            })
+          : splitItemsCsv(event.target.value, props.labels, props.group.id)
+      );
     } catch {
       setError('Fail to process your data');
       setData([]);
@@ -62,8 +79,10 @@ export const ImportUi = (props: ImportUiProps) => {
 
       try {
         const response = await LabelClient.add(token, {
-          name: dataCopy[i].label.name,
-          groupId: dataCopy[i].groupId
+          // name: dataCopy[i].label.name,
+          // icon: dataCopy[i].label.icon,
+          // groupId: dataCopy[i].groupId
+          ...dataCopy[i].label
         });
         newLabel = await response.json();
       } catch (err) {
@@ -126,6 +145,16 @@ export const ImportUi = (props: ImportUiProps) => {
   return (
     <>
       <B4hForm label={'Import'} footer={formFooter}>
+        <B4hSelect
+          ref={typeRef}
+          onChange={handleOnChangeType}
+          label="type"
+          defaultValue="json"
+          options={[
+            { key: 'json', value: 'json' },
+            { key: 'csv', value: 'csv' }
+          ]}
+        />
         <B4hTextarea
           ref={dataRef}
           style={{ height: '200px', width: '100%' }}
@@ -169,4 +198,21 @@ export const ImportUi = (props: ImportUiProps) => {
 2023-03-03|outcoming|copa|20000|pub
 2023-03-03|outcoming|Bebidinha|1000|pub
 2023-03-03|outcoming|bla|200|home 
+
+
+[
+  {
+    "id": "m5VE0c0SwRzVjU1sEfr9",
+    "name": "test",
+    "type": "outcoming",
+    "date": "2023-01-10T00:00:00.000Z",
+    "value": 125,
+    "label": {
+      "id": "1jiFcetIO53bgGYl2YW5",
+      "name": "market test",
+      "icon": "🛒"
+    }
+  }
+] 
+
 */
