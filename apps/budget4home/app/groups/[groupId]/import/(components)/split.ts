@@ -1,7 +1,7 @@
 import { Label } from '@budget4home/base';
 import { ImportItem, ImportItemStatus } from './ui';
 
-export const splitItems = (value: string, labels: Label[], groupId: string) => {
+export const splitItemsCsv = (value: string, labels: Label[], groupId: string) => {
   const newData: ImportItem[] = [];
 
   value.split('\n').forEach(row => {

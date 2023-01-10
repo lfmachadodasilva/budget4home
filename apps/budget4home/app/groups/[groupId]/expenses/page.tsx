@@ -17,9 +17,14 @@ export default async function ({ params, searchParams }: any) {
 
   const expenses = await expenseRepository.getThisMonth(userId, params?.groupId, date);
 
-  const totalUsed = sum(expenses.filter(x => x.type === ExpenseType.outcoming).map(x => x.value));
-  const totalLeft =
-    sum(expenses.filter(x => x.type === ExpenseType.incoming).map(x => x.value)) - totalUsed;
+  const totalOutcoming = sum(
+    expenses.filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
+  );
+  const totalIncoming = sum(
+    expenses.filter(x => x.type === ExpenseType.incoming).map(x => x.value)
+  );
+  const totalLeft = totalIncoming - totalOutcoming;
+
   return (
     <>
       <h3>Expenses</h3>
@@ -28,10 +33,11 @@ export default async function ({ params, searchParams }: any) {
       <ExpensesDate />
 
       <h4>
-        <strong>Total used:</strong> {(totalUsed / 100).toFixed(2)}
+        <strong>Total used:</strong> {(totalOutcoming / 100).toFixed(2)}
       </h4>
       <h4 className={totalLeft <= 0 ? 'error' : ''}>
-        <strong>Total left:</strong> {(totalLeft / 100).toFixed(2)}
+        <strong>Total left:</strong> {(totalLeft / 100).toFixed(2)}{' '}
+        <small>{((totalLeft / totalIncoming) * 100).toFixed(0)}%</small>
       </h4>
 
       {expenses.length <= 0 && <h4>Empty list of expenses.</h4>}
