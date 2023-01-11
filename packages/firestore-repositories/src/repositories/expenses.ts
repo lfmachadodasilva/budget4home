@@ -163,7 +163,8 @@ export class ExpenseRepository implements IExpenseRepository {
       value: data.value,
       comments: data.comments,
       label: labelRef,
-      parent: parentRef
+      parent: parentRef,
+      scheduled: data.scheduled
     } as Expense;
   };
 
@@ -177,7 +178,8 @@ export class ExpenseRepository implements IExpenseRepository {
       labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
       parentRef: model.parent?.id
         ? this.firestore.doc(FirestoreCollections.expese(model.groupId, model.parent?.id))
-        : null
+        : null,
+      scheduled: model.scheduled ?? null
     };
   };
 }

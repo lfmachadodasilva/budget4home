@@ -9,6 +9,7 @@ export interface B4hSelectOptions {
 
 interface B4hSelectProp extends ComponentPropsWithRef<'select'> {
   label?: string;
+  sublabel?: string;
   options: B4hSelectOptions[];
 }
 
@@ -18,7 +19,7 @@ export const B4hSelect = forwardRef(
     return (
       <div className={styles.container}>
         <label className={styles.label} htmlFor={props.id}>
-          {props.label}
+          {props.label} {props.sublabel && <small>{props.sublabel}</small>}
         </label>
         <br />
         <select className={styles.select} ref={ref} {...props}>

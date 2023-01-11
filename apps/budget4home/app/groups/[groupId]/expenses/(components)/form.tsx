@@ -33,17 +33,32 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const commentsRef = useRef<HTMLTextAreaElement>();
   const autoRef = useRef<HTMLSelectElement>();
 
-  const handleOnManage = async () => {
-    // TODO validate name
-    // TODO loading state
+  const isEditMode = () => {
+    return !!props.expense?.id;
+  };
+  const isAddMode = () => {
+    return !props.expense?.id;
+  };
 
+  const isFieldsValid = () => {
     if (!nameRef.current?.value || !valueRef.current.value) {
       alert('Name and value fields can not be empty');
-      return;
+      return false;
     }
 
     if (+valueRef.current.value <= 0) {
       alert('Value can not be zero or negative');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleOnManage = async () => {
+    // TODO validate name
+    // TODO loading state
+
+    if (!isFieldsValid()) {
       return;
     }
 
@@ -59,13 +74,14 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
     setLoading(true);
     try {
-      if (!props.expense?.id) {
+      if (isAddMode()) {
         let parent: Expense = null;
         for (let i = 0; i < +autoRef.current.value; i++) {
           await ExpenseClient.add(token, {
             ...expense,
             parent: parent,
-            date: addMonths(new Date(dateRef.current.value), i).toISOString()
+            date: addMonths(new Date(dateRef.current.value), i).toISOString(),
+            scheduled: +autoRef.current.value > 1 ? `${i + 1}/${autoRef.current.value}` : null
           });
           if (i === 0) {
             parent = expense;
@@ -99,25 +115,21 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const handleOnPreviewAdd = () => {
-    if (!nameRef.current?.value || !valueRef.current.value) {
-      alert('Name and value fields can not be empty');
-      return;
-    }
-    if (+valueRef.current.value <= 0) {
-      alert('Value can not be zero or negative');
+    if (!isFieldsValid()) {
       return;
     }
 
     for (let i = 0; i < +autoRef.current.value; i++) {
       const expense = {
-        id: props.expense?.id ?? uuidv4(),
+        id: uuidv4(),
         type: typeRef.current.value,
         name: nameRef.current.value,
         value: +valueRef.current.value,
         date: addMonths(new Date(dateRef.current.value), i).toISOString(),
         label: props.labels.find(x => x.id === labelRef.current.value),
         comments: commentsRef.current.value,
-        groupId: props.groupId
+        groupId: props.groupId,
+        scheduled: +autoRef.current.value > 1 ? `${i + 1}/${autoRef.current.value}` : null
       } as Expense;
 
       setPreview(x => [...x, expense]);
@@ -132,7 +144,10 @@ export function ExpenseForm(props: ExpenseFormProps) {
       let parent: Expense = null;
       for (let i = 0; i < preview.length; i++) {
         const { id, ...previewData } = preview[i];
-        const newExpense = await ExpenseClient.add(token, { ...previewData, parent: parent });
+        const newExpense = await ExpenseClient.add(token, {
+          ...previewData,
+          parent: parent
+        });
 
         if (i === 0) {
           parent = await newExpense.json();
@@ -148,31 +163,32 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
   const formLabel = (
     <>
-      {props.expense?.id && <h3>Expense: {props.expense.id}</h3>}
-      {!props.expense?.id && <h3>Add new expense</h3>}
+      {isEditMode() && <h3>Expense: {props.expense.id}</h3>}
+      {isAddMode() && <h3>Add new expense</h3>}
     </>
   );
   const formFooter = [
     <>
-      {!props.expense?.id && (
-        <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
-          add
-        </B4hButton>
+      {isAddMode() && (
+        <>
+          <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
+            add
+          </B4hButton>
+          <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+            add and submit
+          </B4hButton>
+        </>
       )}
-      {!props.expense?.id && preview?.length === 0 && (
-        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-          add and submit
-        </B4hButton>
-      )}
-      {props.expense?.id && (
-        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-          update
-        </B4hButton>
-      )}
-      {props.expense?.id && (
-        <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
-          delete
-        </B4hButton>
+
+      {isEditMode() && (
+        <>
+          <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+            update
+          </B4hButton>
+          <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
+            delete
+          </B4hButton>
+        </>
       )}
     </>
   ];
@@ -192,6 +208,15 @@ export function ExpenseForm(props: ExpenseFormProps) {
         />
 
         <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
+
+        {isEditMode() && props.expense?.scheduled && (
+          <B4hInput
+            disabled
+            id="scheduled"
+            label="Scheduled"
+            defaultValue={props.expense?.scheduled}
+          />
+        )}
 
         <B4hInput
           id={'value'}
@@ -219,7 +244,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           options={props.labels.map(label => {
             return {
               key: label.id,
-              value: label.name
+              value: `${label.icon ?? ''} ${label.name}`
             };
           })}
           label={'Label'}
@@ -230,9 +255,10 @@ export function ExpenseForm(props: ExpenseFormProps) {
           ref={commentsRef}
           defaultValue={props.expense?.comments}
           label={'Comments'}
+          sublabel={'(optional)'}
         />
 
-        {!props.expense?.id && (
+        {isAddMode() && (
           <B4hSelect
             id={'auto'}
             ref={autoRef}
@@ -247,7 +273,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           />
         )}
       </B4hForm>
-      {!props.expense?.id && preview?.length > 0 && (
+      {isAddMode() && preview?.length > 0 && (
         <B4hForm
           key="preview"
           label={'Preview'}

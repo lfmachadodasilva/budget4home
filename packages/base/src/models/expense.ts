@@ -14,4 +14,5 @@ export interface Expense extends Base {
   comments?: string;
   groupId: string;
   parent?: Expense;
+  scheduled?: string;
 }
