@@ -1,7 +1,8 @@
 import { Group, IGroupRepository } from '@budget4home/base';
 
-import { FieldPath, Firestore, Timestamp } from 'firebase-admin/firestore';
+import { FieldPath, Firestore } from 'firebase-admin/firestore';
 import { FirestoreCollections } from './collections';
+import { getAddFirebaseData, getUpdateFirebaseData } from './util';
 
 export class GroupRepository implements IGroupRepository {
   constructor(private firestore: Firestore) {}
@@ -59,10 +60,7 @@ export class GroupRepository implements IGroupRepository {
     const col = await this.firestore.collection(FirestoreCollections.groups).add({
       name: group.name,
       userIds: group.userIds,
-      createdBy: userId,
-      createdAt: Timestamp.fromDate(new Date()),
-      updatedby: userId,
-      updatedAt: Timestamp.fromDate(new Date())
+      ...getAddFirebaseData(userId)
     });
 
     return {
@@ -82,8 +80,7 @@ export class GroupRepository implements IGroupRepository {
       {
         name: group.name,
         userIds: group.userIds,
-        updatedby: userId,
-        updatedAt: Timestamp.fromDate(new Date())
+        ...getUpdateFirebaseData(userId)
       },
       { merge: true }
     );
