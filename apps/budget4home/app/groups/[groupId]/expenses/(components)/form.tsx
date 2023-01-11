@@ -2,7 +2,7 @@
 
 import { Expense, ExpenseType, Label } from '@budget4home/base';
 import { B4hButton, B4hForm, B4hInput, B4hSelect, B4hTextarea } from '@budget4home/ui-components';
-import { format } from 'date-fns';
+import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,18 +31,34 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const dateRef = useRef<HTMLInputElement>();
   const labelRef = useRef<HTMLSelectElement>();
   const commentsRef = useRef<HTMLTextAreaElement>();
+  const autoRef = useRef<HTMLSelectElement>();
+
+  const isEditMode = () => {
+    return !!props.expense?.id;
+  };
+  const isAddMode = () => {
+    return !props.expense?.id;
+  };
+
+  const isFieldsValid = () => {
+    if (!nameRef.current?.value || !valueRef.current.value) {
+      alert('Name and value fields can not be empty');
+      return false;
+    }
+
+    if (+valueRef.current.value <= 0) {
+      alert('Value can not be zero or negative');
+      return false;
+    }
+
+    return true;
+  };
 
   const handleOnManage = async () => {
     // TODO validate name
     // TODO loading state
 
-    if (!nameRef.current?.value || !valueRef.current.value) {
-      alert('Name and value fields can not be empty');
-      return;
-    }
-
-    if (+valueRef.current.value <= 0) {
-      alert('Value can not be zero or negative');
+    if (!isFieldsValid()) {
       return;
     }
 
@@ -58,8 +74,19 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
     setLoading(true);
     try {
-      if (!props.expense?.id) {
-        await ExpenseClient.add(token, { ...expense });
+      if (isAddMode()) {
+        let parent: Expense = null;
+        for (let i = 0; i < +autoRef.current.value; i++) {
+          await ExpenseClient.add(token, {
+            ...expense,
+            parent: parent,
+            date: addMonths(new Date(dateRef.current.value), i).toISOString(),
+            scheduled: +autoRef.current.value > 1 ? `${i + 1}/${autoRef.current.value}` : null
+          });
+          if (i === 0) {
+            parent = expense;
+          }
+        }
       } else {
         await ExpenseClient.edit(token, {
           id: props.expense.id,
@@ -88,27 +115,25 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const handleOnPreviewAdd = () => {
-    if (!nameRef.current?.value || !valueRef.current.value) {
-      alert('Name and value fields can not be empty');
-      return;
-    }
-    if (+valueRef.current.value <= 0) {
-      alert('Value can not be zero or negative');
+    if (!isFieldsValid()) {
       return;
     }
 
-    const expense = {
-      id: props.expense?.id ?? uuidv4(),
-      type: typeRef.current.value,
-      name: nameRef.current.value,
-      value: +valueRef.current.value,
-      date: dateRef.current.value,
-      label: props.labels.find(x => x.id === labelRef.current.value),
-      comments: commentsRef.current.value,
-      groupId: props.groupId
-    } as Expense;
+    for (let i = 0; i < +autoRef.current.value; i++) {
+      const expense = {
+        id: uuidv4(),
+        type: typeRef.current.value,
+        name: nameRef.current.value,
+        value: +valueRef.current.value,
+        date: addMonths(new Date(dateRef.current.value), i).toISOString(),
+        label: props.labels.find(x => x.id === labelRef.current.value),
+        comments: commentsRef.current.value,
+        groupId: props.groupId,
+        scheduled: +autoRef.current.value > 1 ? `${i + 1}/${autoRef.current.value}` : null
+      } as Expense;
 
-    setPreview(x => [...x, expense]);
+      setPreview(x => [...x, expense]);
+    }
   };
   const handleOnPreviewDelete = (expenseId: string) => {
     setPreview(x => x.filter(y => y.id !== expenseId));
@@ -116,9 +141,17 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const handleOnPreviewSubmit = async () => {
     setLoading(true);
     try {
+      let parent: Expense = null;
       for (let i = 0; i < preview.length; i++) {
         const { id, ...previewData } = preview[i];
-        await ExpenseClient.add(token, previewData);
+        const newExpense = await ExpenseClient.add(token, {
+          ...previewData,
+          parent: parent
+        });
+
+        if (i === 0) {
+          parent = await newExpense.json();
+        }
       }
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
     } catch (err) {
@@ -130,31 +163,32 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
   const formLabel = (
     <>
-      {props.expense?.id && <h3>Expense: {props.expense.id}</h3>}
-      {!props.expense?.id && <h3>Add new expense</h3>}
+      {isEditMode() && <h3>Expense: {props.expense.id}</h3>}
+      {isAddMode() && <h3>Add new expense</h3>}
     </>
   );
   const formFooter = [
     <>
-      {!props.expense?.id && (
-        <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
-          add
-        </B4hButton>
+      {isAddMode() && (
+        <>
+          <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
+            add
+          </B4hButton>
+          <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+            add and submit
+          </B4hButton>
+        </>
       )}
-      {!props.expense?.id && (
-        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-          add and submit
-        </B4hButton>
-      )}
-      {props.expense?.id && (
-        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-          update
-        </B4hButton>
-      )}
-      {props.expense?.id && (
-        <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
-          delete
-        </B4hButton>
+
+      {isEditMode() && (
+        <>
+          <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+            update
+          </B4hButton>
+          <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
+            delete
+          </B4hButton>
+        </>
       )}
     </>
   ];
@@ -174,6 +208,15 @@ export function ExpenseForm(props: ExpenseFormProps) {
         />
 
         <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
+
+        {isEditMode() && props.expense?.scheduled && (
+          <B4hInput
+            disabled
+            id="scheduled"
+            label="Scheduled"
+            defaultValue={props.expense?.scheduled}
+          />
+        )}
 
         <B4hInput
           id={'value'}
@@ -201,7 +244,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           options={props.labels.map(label => {
             return {
               key: label.id,
-              value: label.name
+              value: `${label.icon ?? ''} ${label.name}`
             };
           })}
           label={'Label'}
@@ -212,9 +255,25 @@ export function ExpenseForm(props: ExpenseFormProps) {
           ref={commentsRef}
           defaultValue={props.expense?.comments}
           label={'Comments'}
+          sublabel={'(optional)'}
         />
+
+        {isAddMode() && (
+          <B4hSelect
+            id={'auto'}
+            ref={autoRef}
+            defaultValue={'1'}
+            options={Array.from(Array(12).keys()).map((_, index: number) => {
+              return {
+                key: (index + 1).toString(),
+                value: `${index === 0 ? 'Current month' : (index + 1).toString() + '+ months'}`
+              };
+            })}
+            label={'Auto generate'}
+          />
+        )}
       </B4hForm>
-      {!props.expense?.id && preview?.length > 0 && (
+      {isAddMode() && preview?.length > 0 && (
         <B4hForm
           key="preview"
           label={'Preview'}

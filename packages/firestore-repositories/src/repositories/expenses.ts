@@ -2,6 +2,7 @@ import { Expense, IExpenseRepository, IGroupRepository, Label } from '@budget4ho
 import { addMonths, startOfMonth } from 'date-fns';
 import { Firestore, Timestamp } from 'firebase-admin/firestore';
 import { FirestoreCollections } from './collections';
+import { getAddFirebaseData, getUpdateFirebaseData } from './util';
 
 export class ExpenseRepository implements IExpenseRepository {
   constructor(private firestore: Firestore, private groupRepository: IGroupRepository) {}
@@ -61,7 +62,7 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    return await this.expenseToModel(doc);
+    return await this.expenseToModel(doc, true, true);
   };
 
   add = async (userId: string, groupId: string, expense: Partial<Expense>) => {
@@ -71,7 +72,10 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const obj = await this.expenseToFirestore(userId, expense as Expense);
-    const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).add(obj);
+    const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).add({
+      ...obj,
+      ...getAddFirebaseData(userId)
+    });
 
     return {
       ...expense,
@@ -87,9 +91,13 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const obj = await this.expenseToFirestore(userId, expense as Expense);
-    const doc = await this.firestore
-      .doc(FirestoreCollections.expese(groupId, expense.id))
-      .set(obj, { merge: true });
+    const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expense.id)).set(
+      {
+        ...obj,
+        ...getUpdateFirebaseData(userId)
+      },
+      { merge: true }
+    );
 
     return {
       ...expense,
@@ -104,7 +112,6 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expenseId)).delete();
-
     return Promise.resolve();
   };
 
@@ -125,12 +132,14 @@ export class ExpenseRepository implements IExpenseRepository {
   };
 
   private expenseToModel = async (
-    doc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>
+    doc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>,
+    loadLabel: boolean = true,
+    loadParent: boolean = false
   ): Promise<Expense> => {
     const data = doc.data();
 
     let labelRef: Label = null;
-    if (data.labelRef) {
+    if (loadLabel && data.labelRef) {
       const labelDoc = await data.labelRef.get();
       const labelData = labelDoc.data();
       labelRef = {
@@ -140,6 +149,12 @@ export class ExpenseRepository implements IExpenseRepository {
       } as Label;
     }
 
+    let parentRef: Expense = null;
+    if (loadParent && data.parentRef) {
+      const parentData = await data.parentRef.get();
+      parentRef = await this.expenseToModel(parentData);
+    }
+
     return {
       id: doc.id,
       name: data.name,
@@ -147,7 +162,9 @@ export class ExpenseRepository implements IExpenseRepository {
       date: new Date(data.date.toDate()).toISOString(),
       value: data.value,
       comments: data.comments,
-      label: labelRef
+      label: labelRef,
+      parent: parentRef,
+      scheduled: data.scheduled
     } as Expense;
   };
 
@@ -157,13 +174,12 @@ export class ExpenseRepository implements IExpenseRepository {
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
-      comments: model.comments ?? null,
+      comments: model.comments?.length > 0 ? model.comments.length : null,
       labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
-
-      createdBy: userId,
-      createdAt: Timestamp.fromDate(new Date()),
-      updatedby: userId,
-      updatedAt: Timestamp.fromDate(new Date())
+      parentRef: model.parent?.id
+        ? this.firestore.doc(FirestoreCollections.expese(model.groupId, model.parent?.id))
+        : null,
+      scheduled: model.scheduled ?? null
     };
   };
 }

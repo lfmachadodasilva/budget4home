@@ -4,6 +4,7 @@ import styles from './index.module.scss';
 
 interface B4hTextareaProp extends ComponentPropsWithRef<'textarea'> {
   label?: string;
+  sublabel?: string;
 }
 
 export const B4hTextarea = forwardRef(
@@ -12,7 +13,9 @@ export const B4hTextarea = forwardRef(
       <>
         {props.label && (
           <>
-            <label>{props.label}</label>
+            <label>
+              {props.label} {props.sublabel && <small>{props.sublabel}</small>}
+            </label>
             <br />
           </>
         )}

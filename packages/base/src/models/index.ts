@@ -1,3 +1,4 @@
+export * from './base';
 export * from './expense';
 export * from './group';
 export * from './label';

@@ -1,6 +1,7 @@
 import { IExpenseRepository, IGroupRepository, ILabelRepository, Label } from '@budget4home/base';
-import { Firestore, Timestamp } from 'firebase-admin/firestore';
+import { Firestore } from 'firebase-admin/firestore';
 import { FirestoreCollections } from './collections';
+import { getAddFirebaseData, getUpdateFirebaseData } from './util';
 
 export class LabelRepository implements ILabelRepository {
   constructor(
@@ -19,14 +20,7 @@ export class LabelRepository implements ILabelRepository {
 
     const docs = await this.firestore.collection(FirestoreCollections.labels(groupId)).get();
 
-    return docs.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        name: data.name,
-        icon: data.icon
-      } as Label;
-    });
+    return docs.docs.map(doc => this.labelToModel(doc));
   };
 
   get = async (userId: string, groupId: string, labelId: string) => {
@@ -36,17 +30,7 @@ export class LabelRepository implements ILabelRepository {
     }
 
     const doc = await this.firestore.doc(FirestoreCollections.label(groupId, labelId)).get();
-    const data = doc.data();
-
-    if (!data) {
-      return null;
-    }
-
-    return {
-      id: doc.id,
-      name: data.name,
-      icon: data.icon
-    } as Label;
+    return this.labelToModel(doc);
   };
 
   add = async (userId: string, groupId: string, label: Partial<Label>) => {
@@ -55,19 +39,15 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
+    const model = this.labelToFirestore(userId, label as Label);
     const doc = await this.firestore.collection(FirestoreCollections.labels(groupId)).add({
-      name: label.name,
-      icon: label.icon,
-      createdBy: userId,
-      createdAt: Timestamp.fromDate(new Date()),
-      updatedby: userId,
-      updatedAt: Timestamp.fromDate(new Date())
+      ...model,
+      ...getAddFirebaseData(userId)
     });
 
     return {
+      ...model,
       id: doc.id,
-      name: label.name,
-      icon: label.icon,
       groupId: groupId
     } as Label;
   };
@@ -78,21 +58,18 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
+    const model = this.labelToFirestore(userId, label as Label);
     const doc = await this.firestore.doc(FirestoreCollections.label(groupId, label.id)).set(
       {
-        name: label.name,
-        icon: label.icon,
-        updatedby: userId,
-        updatedAt: Timestamp.fromDate(new Date())
+        ...model,
+        ...getUpdateFirebaseData(userId)
       },
       { merge: true }
     );
 
     return {
-      id: label.id,
-      name: label.name,
-      icon: label.icon,
-      groupId: label.groupId
+      ...model,
+      groupId: groupId
     } as Label;
   };
 
@@ -109,5 +86,21 @@ export class LabelRepository implements ILabelRepository {
     await Promise.all([docPromise, docExpensesPromise]);
 
     return Promise.resolve();
+  };
+
+  labelToModel = (doc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      name: data.name,
+      icon: data.icon
+    } as Label;
+  };
+
+  labelToFirestore = (userId: string, model: Label) => {
+    return {
+      name: model.name,
+      icon: model.icon ?? null
+    } as Label;
   };
 }

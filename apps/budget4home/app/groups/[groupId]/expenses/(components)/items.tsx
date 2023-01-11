@@ -16,7 +16,11 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
           <li key={expense.id}>
             <label>{format(new Date(expense.date), 'yyyy-MM-dd')}</label>
             {' - '}
-            <label>{expense.name}</label> - <label>{(expense.value / 100).toFixed(2)}</label>
+            <label>
+              {expense.name} {expense.scheduled && <small>{expense.scheduled}</small>}
+            </label>
+            {' - '}
+            <label>{(expense.value / 100).toFixed(2)}</label>
             {' - '}
             <label>{expense.label?.icon ?? expense.label?.name}</label>
             {' - '}
