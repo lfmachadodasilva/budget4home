@@ -105,6 +105,34 @@ export class ExpenseRepository implements IExpenseRepository {
     } as Expense;
   };
 
+  editByParent = async (
+    userId: string,
+    groupId: string,
+    parentId: string,
+    expense: Partial<Expense>
+  ) => {
+    if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
+      // TODO throw ex
+      return null;
+    }
+
+    const col = await this.firestore
+      .collection(FirestoreCollections.expeses(groupId))
+      .where('parentRef', '==', this.firestore.doc(FirestoreCollections.expese(groupId, parentId)))
+      .get();
+
+    await Promise.all([
+      // update all children
+      ...col.docs.map(async x => {
+        await this.edit(userId, groupId, { ...expense, parent: { id: parentId } as Expense });
+      }),
+      // update parent
+      this.edit(userId, groupId, { ...expense, id: parentId, parent: null })
+    ]);
+
+    return Promise.resolve();
+  };
+
   delete = async (userId: string, groupId: string, expenseId: string) => {
     if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
       // TODO throw ex
@@ -127,6 +155,27 @@ export class ExpenseRepository implements IExpenseRepository {
       .get();
 
     await Promise.all(col.docs.map(x => x.ref.delete()));
+
+    return Promise.resolve();
+  };
+
+  deleteByParent = async (userId: string, groupId: string, parentId: string) => {
+    if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
+      // TODO throw ex
+      return null;
+    }
+
+    const col = await this.firestore
+      .collection(FirestoreCollections.expeses(groupId))
+      .where('parentRef', '==', this.firestore.doc(FirestoreCollections.expese(groupId, parentId)))
+      .get();
+
+    await Promise.all([
+      // delete all children
+      ...col.docs.map(x => x.ref.delete()),
+      // delete the parent
+      this.delete(userId, groupId, parentId)
+    ]);
 
     return Promise.resolve();
   };
