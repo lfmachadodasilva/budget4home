@@ -127,6 +127,7 @@ export class ExpenseRepository implements IExpenseRepository {
       const data = {
         name: expense.name,
         type: expense.type,
+        value: expense.value,
         labelRef: this.firestore.doc(
           FirestoreCollections.label(expense.groupId, expense.label?.id)
         ),

@@ -87,7 +87,13 @@ export function LabelForm(props: LabelFormProps) {
   return (
     <B4hForm key="manage" label={formLabel} footer={formFooter}>
       <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
-      <B4hInput id={'icon'} ref={iconRef} defaultValue={props.label?.icon} label={'Icon'} />
+      <B4hInput
+        id={'icon'}
+        ref={iconRef}
+        defaultValue={props.label?.icon}
+        label={'Icon'}
+        sublabel="(optional)"
+      />
     </B4hForm>
   );
 }

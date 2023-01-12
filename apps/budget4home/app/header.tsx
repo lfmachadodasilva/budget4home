@@ -60,7 +60,13 @@ export const Header = () => {
             { key: 'logout', value: 'logout' },
             { key: 'settings', value: 'settings' }
           ]}
-          trigger={<label style={{ cursor: 'pointer' }}>{getUserName()}</label>}
+          trigger={
+            user.photoURL ? (
+              <img src={user.photoURL} style={{ height: '32px', cursor: 'pointer' }} />
+            ) : (
+              <label style={{ cursor: 'pointer' }}>{getUserName()}</label>
+            )
+          }
         />
       )}
     </div>
