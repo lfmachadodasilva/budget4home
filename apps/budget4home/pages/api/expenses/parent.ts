@@ -1,7 +1,7 @@
 import { Expense } from '@budget4home/base';
 import { NextApiRequest, NextApiResponse } from 'next/types';
-import { firebaseAdminAuth } from '../../util/firebaseAdmin';
-import { expenseRepository } from '../../util/repositories';
+import { firebaseAdminAuth } from '../../../util/firebaseAdmin';
+import { expenseRepository } from '../../../util/repositories';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const expense = req.body as Expense;
@@ -11,13 +11,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   let response: any = null;
 
+  const parentId = expense.parent?.id ?? expense.id;
+
+  console.log('/expenses/parent', parentId, expense);
+
   try {
-    if (req.method === 'POST') {
-      response = await expenseRepository.add(uid, expense.groupId, expense);
-    } else if (req.method === 'PUT') {
-      response = await expenseRepository.edit(uid, expense.groupId, expense);
+    if (req.method === 'PUT') {
+      response = await expenseRepository.editByParent(uid, expense.groupId, parentId, expense);
     } else if (req.method === 'DELETE') {
-      response = await expenseRepository.delete(uid, expense.groupId, expense.id);
+      response = await expenseRepository.deleteByParent(uid, expense.groupId, parentId);
+    } else {
+      return res.status(404).end();
     }
 
     res.status(200).send(response);

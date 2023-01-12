@@ -121,14 +121,23 @@ export class ExpenseRepository implements IExpenseRepository {
       .where('parentRef', '==', this.firestore.doc(FirestoreCollections.expese(groupId, parentId)))
       .get();
 
-    await Promise.all([
-      // update all children
-      ...col.docs.map(async x => {
-        await this.edit(userId, groupId, { ...expense, parent: { id: parentId } as Expense });
-      }),
-      // update parent
-      this.edit(userId, groupId, { ...expense, id: parentId, parent: null })
-    ]);
+    const ids = [...col.docs.map(x => x.id), parentId];
+
+    for (let i = 0; i < ids.length; i++) {
+      const data = {
+        name: expense.name,
+        type: expense.type,
+        labelRef: this.firestore.doc(
+          FirestoreCollections.label(expense.groupId, expense.label?.id)
+        ),
+        comments: expense.comments?.length > 0 ? expense.comments.length : null,
+        ...getUpdateFirebaseData(userId)
+      };
+
+      await this.firestore
+        .doc(FirestoreCollections.expese(groupId, ids[i]))
+        .set(data, { merge: true });
+    }
 
     return Promise.resolve();
   };

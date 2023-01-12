@@ -74,7 +74,7 @@ export function LabelForm(props: LabelFormProps) {
   const formFooter = [
     <>
       <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-        {props.label?.id ? 'Update' : 'Add'}
+        {props.label?.id ? 'Edit' : 'Add'}
       </B4hButton>
       {props.label?.id && (
         <B4hButton key="delete" onClick={handleOnDelete}>
