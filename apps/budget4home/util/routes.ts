@@ -15,5 +15,6 @@ export const B4hRoutes = {
   reports: '/reports',
 
   export: '/export',
-  import: '/import'
+  import: '/import',
+  settings: '/settings'
 };

@@ -10,11 +10,13 @@ import { B4hRoutes } from '../util/routes';
 
 type AuthContextProps = {
   user: User;
+  getUserName: () => string;
   token?: string;
 };
 
 export const AuthContext = createContext<AuthContextProps>({
   user: null,
+  getUserName: () => '',
   token: null
 });
 
@@ -51,6 +53,12 @@ export function AuthProvider(props: any) {
     <AuthContext.Provider
       value={{
         user,
+        getUserName: () => {
+          if (user.displayName) {
+            return user.displayName.split(' ').at(0);
+          }
+          return user.email.split('@').at(0);
+        },
         token
       }}
     >
