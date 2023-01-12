@@ -13,7 +13,15 @@ export class ExpenseClient extends BaseClient {
     return this.fetch<Expense>(this.url, token, 'PUT', expense);
   };
 
+  static editByParent = async (token: string, expense: Partial<Expense>) => {
+    return this.fetch<Expense>(this.url + '/parent', token, 'PUT', expense);
+  };
+
   static delete = async (token: string, expense: Partial<Expense>) => {
     return await this.fetch<void>(this.url, token, 'DELETE', expense);
+  };
+
+  static deleteByParent = async (token: string, expense: Partial<Expense>) => {
+    return await this.fetch<void>(this.url + '/parent', token, 'DELETE', expense);
   };
 }

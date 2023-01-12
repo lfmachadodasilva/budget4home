@@ -19,6 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       response = await labelRepository.edit(uid, label.groupId, label);
     } else if (req.method === 'DELETE') {
       response = await labelRepository.delete(uid, label.groupId, label.id);
+    } else {
+      return res.status(404).end();
     }
 
     res.status(200).send(response);

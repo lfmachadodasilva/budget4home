@@ -69,7 +69,8 @@ export function ExpenseForm(props: ExpenseFormProps) {
       date: dateRef.current.value,
       label: props.labels.find(x => x.id === labelRef.current.value),
       comments: commentsRef.current.value,
-      groupId: props.groupId
+      groupId: props.groupId,
+      scheduled: props.expense?.scheduled
     } as Expense;
 
     setLoading(true);
@@ -77,14 +78,14 @@ export function ExpenseForm(props: ExpenseFormProps) {
       if (isAddMode()) {
         let parent: Expense = null;
         for (let i = 0; i < +autoRef.current.value; i++) {
-          await ExpenseClient.add(token, {
+          const newExpense = await ExpenseClient.add(token, {
             ...expense,
             parent: parent,
             date: addMonths(new Date(dateRef.current.value), i).toISOString(),
             scheduled: +autoRef.current.value > 1 ? `${i + 1}/${autoRef.current.value}` : null
           });
           if (i === 0) {
-            parent = expense;
+            parent = await newExpense.json();
           }
         }
       } else {
@@ -101,6 +102,11 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const handleOnDelete = async () => {
+    if (!props.expense.parent) {
+      alert('You can not delete the parent.');
+      return;
+    }
+
     if (confirm('Are you sure?')) {
       setLoading(true);
 
@@ -108,6 +114,44 @@ export function ExpenseForm(props: ExpenseFormProps) {
         id: props.expense.id,
         groupId: props.groupId
       });
+
+      setLoading(false);
+      push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
+    }
+  };
+
+  const handleOnDeleteAll = async () => {
+    if (confirm('Are you sure?')) {
+      setLoading(true);
+
+      await ExpenseClient.deleteByParent(token, {
+        id: props.expense.id,
+        groupId: props.groupId,
+        parent: { id: props.expense?.parent?.id } as Expense
+      });
+
+      setLoading(false);
+      push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
+    }
+  };
+
+  const handleOnEditAll = async () => {
+    if (confirm('This will edit all data except dates. Are you sure?')) {
+      setLoading(true);
+
+      const expense = {
+        id: props.expense.id,
+        type: typeRef.current.value,
+        name: nameRef.current.value,
+        value: +valueRef.current.value,
+        date: dateRef.current.value,
+        label: props.labels.find(x => x.id === labelRef.current.value),
+        comments: commentsRef.current.value,
+        groupId: props.groupId,
+        parent: props.expense.parent
+      } as Expense;
+
+      await ExpenseClient.editByParent(token, expense);
 
       setLoading(false);
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
@@ -183,10 +227,16 @@ export function ExpenseForm(props: ExpenseFormProps) {
       {isEditMode() && (
         <>
           <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-            update
+            edit
+          </B4hButton>
+          <B4hButton key="actionAll" onClick={handleOnEditAll} disabled={loading}>
+            edit all
           </B4hButton>
           <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
             delete
+          </B4hButton>
+          <B4hButton key="deleteAll" onClick={handleOnDeleteAll} disabled={loading}>
+            delete all
           </B4hButton>
         </>
       )}

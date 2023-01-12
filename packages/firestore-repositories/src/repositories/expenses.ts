@@ -105,6 +105,43 @@ export class ExpenseRepository implements IExpenseRepository {
     } as Expense;
   };
 
+  editByParent = async (
+    userId: string,
+    groupId: string,
+    parentId: string,
+    expense: Partial<Expense>
+  ) => {
+    if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
+      // TODO throw ex
+      return null;
+    }
+
+    const col = await this.firestore
+      .collection(FirestoreCollections.expeses(groupId))
+      .where('parentRef', '==', this.firestore.doc(FirestoreCollections.expese(groupId, parentId)))
+      .get();
+
+    const ids = [...col.docs.map(x => x.id), parentId];
+
+    for (let i = 0; i < ids.length; i++) {
+      const data = {
+        name: expense.name,
+        type: expense.type,
+        labelRef: this.firestore.doc(
+          FirestoreCollections.label(expense.groupId, expense.label?.id)
+        ),
+        comments: expense.comments?.length > 0 ? expense.comments.length : null,
+        ...getUpdateFirebaseData(userId)
+      };
+
+      await this.firestore
+        .doc(FirestoreCollections.expese(groupId, ids[i]))
+        .set(data, { merge: true });
+    }
+
+    return Promise.resolve();
+  };
+
   delete = async (userId: string, groupId: string, expenseId: string) => {
     if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
       // TODO throw ex
@@ -127,6 +164,27 @@ export class ExpenseRepository implements IExpenseRepository {
       .get();
 
     await Promise.all(col.docs.map(x => x.ref.delete()));
+
+    return Promise.resolve();
+  };
+
+  deleteByParent = async (userId: string, groupId: string, parentId: string) => {
+    if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
+      // TODO throw ex
+      return null;
+    }
+
+    const col = await this.firestore
+      .collection(FirestoreCollections.expeses(groupId))
+      .where('parentRef', '==', this.firestore.doc(FirestoreCollections.expese(groupId, parentId)))
+      .get();
+
+    await Promise.all([
+      // delete all children
+      ...col.docs.map(x => x.ref.delete()),
+      // delete the parent
+      this.delete(userId, groupId, parentId)
+    ]);
 
     return Promise.resolve();
   };
