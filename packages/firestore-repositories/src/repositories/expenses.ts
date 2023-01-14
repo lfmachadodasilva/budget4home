@@ -229,11 +229,11 @@ export class ExpenseRepository implements IExpenseRepository {
 
   private expenseToFirestore = async (userId: string, model: Expense) => {
     return {
-      name: model.name,
+      name: model.name.trim(),
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
-      comments: model.comments?.length > 0 ? model.comments.length : null,
+      comments: model.comments?.length > 0 ? model.comments.trim() : null,
       labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
       parentRef: model.parent?.id
         ? this.firestore.doc(FirestoreCollections.expese(model.groupId, model.parent?.id))

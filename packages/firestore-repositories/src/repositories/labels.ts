@@ -98,9 +98,10 @@ export class LabelRepository implements ILabelRepository {
   };
 
   labelToFirestore = (userId: string, model: Label) => {
+    console.log(model.name, model.name.trim());
     return {
-      name: model.name,
-      icon: model.icon ?? null
+      name: model.name.trim(),
+      icon: model.icon.length > 0 ? model.icon.trim() : null
     } as Label;
   };
 }
