@@ -1,7 +1,7 @@
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: process.env.NODE_ENV === 'development',
   experimental: {
-    appDir: true,
+    appDir: true
   },
-  transpilePackages: ["ui-components"],
+  transpilePackages: ['ui-components']
 };

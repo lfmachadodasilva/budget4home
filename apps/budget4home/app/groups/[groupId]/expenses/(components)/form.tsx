@@ -211,57 +211,57 @@ export function ExpenseForm(props: ExpenseFormProps) {
       {isAddMode() && <h3>Add new expense</h3>}
     </>
   );
-  const formFooter = [
-    <>
-      {isAddMode() && (
-        <>
-          <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
-            add
-          </B4hButton>
-          <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-            add and submit
-          </B4hButton>
-        </>
-      )}
-
-      {isEditMode() && (
-        <>
-          <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
-            edit
-          </B4hButton>
-          <B4hButton key="actionAll" onClick={handleOnEditAll} disabled={loading}>
-            edit all
-          </B4hButton>
-          <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
-            delete
-          </B4hButton>
-          <B4hButton key="deleteAll" onClick={handleOnDeleteAll} disabled={loading}>
-            delete all
-          </B4hButton>
-        </>
-      )}
-    </>
-  ];
+  const formFooter: JSX.Element[] = isAddMode()
+    ? [
+        <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
+          add
+        </B4hButton>,
+        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+          add and submit
+        </B4hButton>
+      ]
+    : [
+        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+          edit
+        </B4hButton>,
+        <B4hButton key="actionAll" onClick={handleOnEditAll} disabled={loading}>
+          edit all
+        </B4hButton>,
+        <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
+          delete
+        </B4hButton>,
+        <B4hButton key="deleteAll" onClick={handleOnDeleteAll} disabled={loading}>
+          delete all
+        </B4hButton>
+      ];
 
   return (
     <>
       <B4hForm label={formLabel} footer={formFooter}>
         <B4hSelect
-          id={'type'}
+          key="type"
+          id="type"
           ref={typeRef}
           defaultValue={props.expense?.type ?? ExpenseType.outcoming}
           options={[
             { key: ExpenseType.outcoming, value: ExpenseType.outcoming },
             { key: ExpenseType.incoming, value: ExpenseType.incoming }
           ]}
-          label={'Type'}
+          label="Type"
         />
 
-        <B4hInput id={'name'} ref={nameRef} defaultValue={props.expense?.name} label={'Name'} />
+        <B4hInput
+          key="name"
+          id="name"
+          ref={nameRef}
+          defaultValue={props.expense?.name}
+          label="Name"
+        />
 
         {isEditMode() && props.expense?.scheduled && (
           <B4hInput
             disabled
+            key="scheduled"
             id="scheduled"
             label="Scheduled"
             defaultValue={props.expense?.scheduled}
@@ -269,26 +269,30 @@ export function ExpenseForm(props: ExpenseFormProps) {
         )}
 
         <B4hInput
-          id={'value'}
+          key="value"
+          id="value"
+          label="Value"
           type="number"
           ref={valueRef}
           defaultValue={props.expense?.value}
-          label={'Value'}
         />
 
         <B4hInput
-          id={'date'}
+          key="date"
+          id="date"
           type="date"
+          label="Date"
           ref={dateRef}
           defaultValue={format(
             props.expense?.date ? new Date(props.expense?.date) : new Date(),
             'yyyy-MM-dd'
           )}
-          label={'Date'}
         />
 
         <B4hSelect
-          id={'label'}
+          key="label"
+          id="label"
+          label="Label"
           ref={labelRef}
           defaultValue={props.expense?.label?.id ?? props.labels.at(0)?.id}
           options={props.labels.map(label => {
@@ -297,7 +301,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
               value: `${label.icon ?? ''} ${label.name}`
             };
           })}
-          label={'Label'}
         />
 
         <B4hTextarea
@@ -310,7 +313,8 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
         {isAddMode() && (
           <B4hSelect
-            id={'auto'}
+            key="auto"
+            id="auto"
             ref={autoRef}
             defaultValue={'1'}
             options={Array.from(Array(12).keys()).map((_, index: number) => {
@@ -326,7 +330,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
       {isAddMode() && preview?.length > 0 && (
         <B4hForm
           key="preview"
-          label={'Preview'}
+          label="Preview"
           footer={<B4hButton onClick={handleOnPreviewSubmit}>submit</B4hButton>}
         >
           <h5>{ExpenseType.incoming}</h5>
