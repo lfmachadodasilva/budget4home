@@ -3,5 +3,6 @@ module.exports = {
   experimental: {
     appDir: true
   },
+  swcMinify: true,
   transpilePackages: ['ui-components']
 };
