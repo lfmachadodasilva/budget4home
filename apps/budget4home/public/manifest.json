@@ -6,22 +6,22 @@
     {
       "src": "favicon.ico",
       "type": "image/x-icon",
-      "size-s": "64x64"
+      "sizes": "64x64"
     },
     {
       "src": "logo16.png",
       "type": "image/png",
-      "size-s": "16x16"
+      "sizes": "16x16"
     },
     {
       "src": "logo24.png",
       "type": "image/png",
-      "size-s": "24x24"
+      "sizes": "24x24"
     },
     {
       "src": "logo32.png",
       "type": "image/png",
-      "size-s": "32x32"
+      "sizes": "32x32"
     },
     {
       "src": "logo64.png",
@@ -31,7 +31,7 @@
     {
       "src": "logo213.png",
       "type": "image/png",
-      "size-s": "213x213"
+      "sizes": "213x213"
     }
   ],
   "orientation": "portrait-primary",
