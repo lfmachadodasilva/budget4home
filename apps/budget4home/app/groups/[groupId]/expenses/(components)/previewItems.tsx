@@ -1,6 +1,7 @@
 import { Expense } from '@budget4home/base';
 import { B4hButton } from '@budget4home/ui-components';
 import { format } from 'date-fns';
+import { formatValue } from '../../../../../util/util';
 
 interface ExpensePreviewItemsProps {
   expenses: Expense[];
@@ -19,7 +20,7 @@ export const ExpensePreviewItems = (props: ExpensePreviewItemsProps) => {
               {expense.name} {expense.scheduled && <small>{expense.scheduled}</small>}
             </label>
             {' - '}
-            <label>{(expense.value / 100).toFixed(2)}</label>
+            <label>{formatValue(expense.value)}</label>
             {' - '}
             <label>{expense.label?.icon ?? expense.label?.name}</label>
             {' - '}

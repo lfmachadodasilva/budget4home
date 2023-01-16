@@ -1,20 +1,20 @@
 .container {
-  margin-bottom: var(--sizeS);
+  margin-bottom: var(--size-s);
 }
 
 .select {
   border: none;
 
-  min-width: var(--minWidth);
+  min-width: var(--min-width);
 
-  background-color: var(--fgColor);
+  background-color: var(--fg-color);
 
-  padding: var(--sizeXS);
+  padding: var(--size-xs);
 
   font-style: normal;
   font-weight: normal;
   font-family: var(--font-family);
-  font-size: var(--sizeM);
+  font-size: var(--size-m);
 }
 
 .label {

@@ -20,7 +20,7 @@ export class ExpenseRepository implements IExpenseRepository {
 
     return await Promise.all(
       col.docs.map(async doc => {
-        return await this.expenseToModel(doc);
+        return await this.expenseToModel(doc, groupId);
       })
     );
   };
@@ -44,7 +44,7 @@ export class ExpenseRepository implements IExpenseRepository {
 
     return await Promise.all(
       col.docs.map(async doc => {
-        return await this.expenseToModel(doc);
+        return await this.expenseToModel(doc, groupId);
       })
     );
   };
@@ -62,7 +62,7 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    return await this.expenseToModel(doc, true, true);
+    return await this.expenseToModel(doc, groupId, true, true);
   };
 
   add = async (userId: string, groupId: string, expense: Partial<Expense>) => {
@@ -192,6 +192,7 @@ export class ExpenseRepository implements IExpenseRepository {
 
   private expenseToModel = async (
     doc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>,
+    groupId: string,
     loadLabel: boolean = true,
     loadParent: boolean = false
   ): Promise<Expense> => {
@@ -211,7 +212,7 @@ export class ExpenseRepository implements IExpenseRepository {
     let parentRef: Expense = null;
     if (loadParent && data.parentRef) {
       const parentData = await data.parentRef.get();
-      parentRef = await this.expenseToModel(parentData);
+      parentRef = await this.expenseToModel(parentData, groupId);
     }
 
     return {
@@ -223,7 +224,8 @@ export class ExpenseRepository implements IExpenseRepository {
       comments: data.comments,
       label: labelRef,
       parent: parentRef,
-      scheduled: data.scheduled
+      scheduled: data.scheduled,
+      groupId
     } as Expense;
   };
 

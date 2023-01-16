@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { formatValue } from '../../../../../util/util';
 import { ImportItem, ImportItemStatus } from './ui';
 
 interface ImportTableProps {
@@ -34,7 +35,7 @@ export const ImportTable = (props: ImportTableProps) => {
               </td>
               <td>{x.type}</td>
               <td>{x.name}</td>
-              <td>{(x.value / 100).toFixed(2)}</td>
+              <td>{formatValue(x.value)}</td>
               <td>
                 {x.label?.icon && <>{x.label?.icon} - </>}
                 {x.label?.name}
