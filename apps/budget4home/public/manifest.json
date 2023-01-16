@@ -26,7 +26,7 @@
     {
       "src": "logo64.png",
       "type": "image/png",
-      "size-s": "64x64"
+      "size": "64x64"
     },
     {
       "src": "logo213.png",
