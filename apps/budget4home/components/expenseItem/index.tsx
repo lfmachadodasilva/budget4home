@@ -26,7 +26,7 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
           {props.expense.name}{' '}
           {props.expense.scheduled && <small> {props.expense.scheduled}</small>}
         </label>
-        <label className={props.expense.type === ExpenseType.incoming && styles.incoming}>
+        <label className={props.expense.type === ExpenseType.incoming ? styles.incoming : ''}>
           <strong>{formatValue(props.expense.value)}</strong>
         </label>
       </div>
