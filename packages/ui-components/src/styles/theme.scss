@@ -1,21 +1,24 @@
 @use 'sass:color';
 
 :root {
-  --sizeXS: 4px;
-  --sizeS: 8px;
-  --sizeM: 16px;
-  --sizeL: 24px;
-  --sizeXL: 32px;
-  --sizeXXL: 64px;
+  --size-xs: 4px;
+  --size-s: 8px;
+  --size-m: 16px;
+  --size-l: 24px;
+  --size-xl: 32px;
+  --size-xxl: 64px;
 
-  --minWidth: 250px;
+  --min-width: 250px;
 
-  --primaryColor: #612f74;
+  --primary-color: #612f74;
 
-  --errorColor: #d73a4a;
+  --border-color: #21262d;
 
-  --bgColor: #0d1117;
-  --fgColor: #c9d1d9;
+  --negative-color: #d73a4a;
+  --success-color: #238636;
+
+  --bg-color: #0d1117;
+  --fg-color: #c9d1d9;
 
   --font-family: Roboto, sans-serif;
 }

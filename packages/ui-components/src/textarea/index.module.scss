@@ -1,14 +1,14 @@
 .textarea {
-  min-width: calc(var(--minWidth) - (2 * var(--sizeXS)));
+  min-width: calc(var(--min-width) - (2 * var(--size-xs)));
 
-  padding: var(--sizeXS);
+  padding: var(--size-xs);
 
-  background-color: var(--fgColor);
+  background-color: var(--fg-color);
 
   border: none;
 
   font-style: normal;
   font-weight: normal;
   font-family: var(--font-family);
-  font-size: var(--sizeM);
+  font-size: var(--size-m);
 }

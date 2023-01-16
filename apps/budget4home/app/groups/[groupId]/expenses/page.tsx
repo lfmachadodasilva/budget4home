@@ -1,11 +1,11 @@
 import { ExpenseType } from '@budget4home/base';
 import { sum } from 'lodash';
 import Link from 'next/link';
+import { ExpenseItems } from '../../../../components/expenseItems';
 import { getUserId } from '../../../../util/getUserId';
 import { expenseRepository } from '../../../../util/repositories';
 import { B4hRoutes } from '../../../../util/routes';
 import { ExpensesDate } from './(components)/date';
-import { ExpenseItems } from './(components)/items';
 
 export default async function ({ params, searchParams }: any) {
   const userId = await getUserId();
@@ -42,17 +42,7 @@ export default async function ({ params, searchParams }: any) {
 
       {expenses.length <= 0 && <h4>Empty list of expenses.</h4>}
 
-      <h5>{ExpenseType.incoming}</h5>
-      <ExpenseItems
-        expenses={expenses.filter(x => x.type === ExpenseType.incoming)}
-        groupId={params.groupId}
-      />
-
-      <h5>{ExpenseType.outcoming}</h5>
-      <ExpenseItems
-        expenses={expenses.filter(x => x.type === ExpenseType.outcoming)}
-        groupId={params.groupId}
-      />
+      <ExpenseItems expenses={expenses} />
     </>
   );
 }

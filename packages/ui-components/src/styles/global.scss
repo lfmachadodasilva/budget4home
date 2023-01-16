@@ -13,16 +13,16 @@ body {
   font-style: normal;
   font-weight: normal;
   font-family: var(--font-family);
-  font-size: var(--sizeM);
+  font-size: var(--size-m);
 
-  background-color: var(--bgColor);
-  color: var(--fgColor);
+  background-color: var(--bg-color);
+  color: var(--fg-color);
 }
 
 main {
-  padding: var(--sizeS);
+  padding: var(--size-s);
 }
 
 .error {
-  color: var(--errorColor);
+  color: var(--negative-color);
 }
