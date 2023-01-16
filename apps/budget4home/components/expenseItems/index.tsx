@@ -1,5 +1,5 @@
 import { Expense, ExpenseType } from '@budget4home/base';
-import { format } from 'date-fns';
+import { format, isToday, isYesterday } from 'date-fns';
 import { groupBy, sum } from 'lodash';
 import { formatValue } from '../../util/util';
 import { ExpenseItem } from '../expenseItem';
@@ -50,7 +50,9 @@ const Header = (props: HeaderProps) => {
     <div className={styles.header}>
       <label>
         <strong>
-          <small>{format(date, 'yyyy-MM-dd')}</small>
+          <small>
+            {isToday(date) ? 'Today' : isYesterday(date) ? 'Yesterday' : format(date, 'yyyy-MM-dd')}
+          </small>
         </strong>
       </label>
       <label>

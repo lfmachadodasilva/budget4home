@@ -22,10 +22,12 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
     <div className={styles.container} onClick={handleOnAction}>
       <div className={styles.content}>
         <label>{props.expense.label?.icon ?? props.expense.label?.name}</label>
-        <label>
-          {props.expense.name}{' '}
-          {props.expense.scheduled && <small> {props.expense.scheduled}</small>}
-        </label>
+        <label>{props.expense.name}</label>
+        {props.expense.scheduled && (
+          <label>
+            <small>{props.expense.scheduled}</small>
+          </label>
+        )}
         <label className={props.expense.type === ExpenseType.incoming ? styles.incoming : ''}>
           <strong>{formatValue(props.expense.value)}</strong>
         </label>
