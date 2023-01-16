@@ -1,8 +1,7 @@
-'use client';
-
 import { Expense, ExpenseType } from '@budget4home/base';
 import { format } from 'date-fns';
 import { groupBy, sum } from 'lodash';
+import { formatValue } from '../../util/util';
 import { ExpenseItem } from '../expenseItem';
 
 import styles from './index.module.scss';
@@ -15,24 +14,25 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
   var groups = groupBy(props.expenses, function (expense) {
     return new Date(expense.date).getDate();
   });
-
   const date = new Date(props.expenses.at(0)?.date ?? new Date());
 
   return (
     <>
-      {Object.keys(groups).map(day => {
-        const total = sum(
-          groups[day].filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
-        );
-        return (
-          <>
-            <Header date={date} day={+day} total={total} />
-            {groups[day].map(expense => (
-              <ExpenseItem expense={expense} />
-            ))}
-          </>
-        );
-      })}
+      {Object.keys(groups)
+        .reverse()
+        .map(day => {
+          const total = sum(
+            groups[day].filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
+          );
+          return (
+            <>
+              <Header date={date} day={+day} total={total} />
+              {groups[day].map(expense => (
+                <ExpenseItem expense={expense} />
+              ))}
+            </>
+          );
+        })}
     </>
   );
 };
@@ -55,7 +55,7 @@ const Header = (props: HeaderProps) => {
       </label>
       <label>
         <strong>
-          <small>{(props.total / 100).toFixed(2)}</small>
+          <small>{formatValue(props.total)}</small>
         </strong>
       </label>
     </div>

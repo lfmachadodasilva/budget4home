@@ -3,6 +3,7 @@
 import { Expense, ExpenseType } from '@budget4home/base';
 import { useRouter } from 'next/navigation';
 import { B4hRoutes } from '../../util/routes';
+import { formatValue } from '../../util/util';
 
 import styles from './index.module.scss';
 
@@ -26,7 +27,7 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
           {props.expense.scheduled && <small> {props.expense.scheduled}</small>}
         </label>
         <label className={props.expense.type === ExpenseType.incoming && styles.incoming}>
-          <strong>{(props.expense.value / 100).toFixed(2)}</strong>
+          <strong>{formatValue(props.expense.value)}</strong>
         </label>
       </div>
     </div>
