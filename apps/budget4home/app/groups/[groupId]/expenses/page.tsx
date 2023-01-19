@@ -41,7 +41,7 @@ export default async function ({ params, searchParams }: any) {
           </h4>
           <h4 className={totalLeft <= 0 ? 'error' : ''}>
             <strong>Total left:</strong> {formatValue(totalLeft)}{' '}
-            {totalIncoming > 0 && <small>{formatValue(totalLeft / totalIncoming)}%</small>}
+            {totalIncoming > 0 && <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>}
           </h4>
           <ExpenseItems expenses={expenses} />
         </>
