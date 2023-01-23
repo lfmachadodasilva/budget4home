@@ -102,21 +102,27 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const handleOnDelete = async () => {
-    if (!props.expense.parent) {
+    if (!props.expense.parent && props.expense.scheduled) {
       alert('You can not delete the parent.');
       return;
     }
 
-    if (confirm('Are you sure?')) {
-      setLoading(true);
+    if (!confirm('Are you sure?')) {
+      return;
+    }
 
-      await ExpenseClient.delete(token, {
+    setLoading(true);
+
+    try {
+      const res = await ExpenseClient.delete(token, {
         id: props.expense.id,
         groupId: props.groupId
       });
-
-      setLoading(false);
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -224,15 +230,19 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
           edit
         </B4hButton>,
-        <B4hButton key="actionAll" onClick={handleOnEditAll} disabled={loading}>
-          edit all
-        </B4hButton>,
+        props.expense.scheduled && (
+          <B4hButton key="actionAll" onClick={handleOnEditAll} disabled={loading}>
+            edit all
+          </B4hButton>
+        ),
         <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
           delete
         </B4hButton>,
-        <B4hButton key="deleteAll" onClick={handleOnDeleteAll} disabled={loading}>
-          delete all
-        </B4hButton>
+        props.expense.scheduled && (
+          <B4hButton key="deleteAll" onClick={handleOnDeleteAll} disabled={loading}>
+            delete all
+          </B4hButton>
+        )
       ];
 
   return (
