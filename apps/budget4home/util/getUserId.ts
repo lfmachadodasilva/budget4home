@@ -10,7 +10,8 @@ export const getUserId = async () => {
     const token = nextCookies.get('token')?.value;
     const { uid } = await firebaseAdminAuth.verifyIdToken(token);
     return uid;
-  } catch (err) {
-    redirect(B4hRoutes.home);
+  } catch (err: any) {
+    console.error(err);
+    redirect(B4hRoutes.logout);
   }
 };

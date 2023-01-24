@@ -2,6 +2,7 @@ export const B4hRoutes = {
   api: '/api',
 
   login: '/login',
+  logout: '/logout',
   notFound: '/404',
 
   home: '/',
