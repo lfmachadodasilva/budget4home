@@ -62,7 +62,24 @@ export const Header = () => {
           ]}
           trigger={
             user.photoURL ? (
-              <img src={user.photoURL} style={{ height: '32px', cursor: 'pointer' }} />
+              <div
+                style={{
+                  height: '32px',
+                  width: '32px',
+                  cursor: 'pointer',
+                  clipPath: 'circle()',
+                  display: 'inline-block',
+                  verticalAlign: 'middle'
+                }}
+              >
+                <img
+                  src={user.photoURL}
+                  style={{
+                    width: '100%',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
             ) : (
               <label style={{ cursor: 'pointer' }}>{getUserName()}</label>
             )
