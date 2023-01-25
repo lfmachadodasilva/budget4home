@@ -3,7 +3,7 @@ import { sum } from 'lodash';
 import Link from 'next/link';
 import { ExpenseItems } from '../../../../components/expenseItems';
 import { getUserId } from '../../../../util/getUserId';
-import { expenseRepository } from '../../../../util/repositories';
+import { expenseRepository, labelRepository } from '../../../../util/repositories';
 import { B4hRoutes } from '../../../../util/routes';
 import { formatValue } from '../../../../util/util';
 import { ExpensesDate } from './(components)/date';
@@ -16,7 +16,8 @@ export default async function ({ params, searchParams }: any) {
   searchParams.year && date.setFullYear(+searchParams?.year);
   searchParams.month && date.setMonth(+searchParams?.month - 1);
 
-  const expenses = await expenseRepository.getThisMonth(userId, params?.groupId, date);
+  const labels = await labelRepository.getAll(userId, params?.groupId);
+  const expenses = await expenseRepository.getThisMonth(userId, params?.groupId, date, labels);
 
   const totalOutcoming = sum(
     expenses.filter(x => x.type === ExpenseType.outcoming).map(x => x.value)

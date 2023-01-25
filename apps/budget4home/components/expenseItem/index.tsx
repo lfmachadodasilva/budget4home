@@ -19,7 +19,7 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
   };
 
   return (
-    <div className={styles.container} onClick={handleOnAction}>
+    <div className={styles.container} onClick={handleOnAction} key={props.expense.id}>
       <div className={styles.content}>
         <label>{props.expense.label?.icon ?? props.expense.label?.name}</label>
         <label>{props.expense.name}</label>

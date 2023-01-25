@@ -319,6 +319,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           defaultValue={props.expense?.comments}
           label={'Comments'}
           sublabel={'(optional)'}
+          rows={3}
         />
 
         {isAddMode() && (

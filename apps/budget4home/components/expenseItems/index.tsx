@@ -47,7 +47,7 @@ const Header = (props: HeaderProps) => {
   date.setDate(props.day);
 
   return (
-    <div className={styles.header}>
+    <div className={styles.header} key={`${date.toISOString()}`}>
       <label>
         <strong>
           <small>

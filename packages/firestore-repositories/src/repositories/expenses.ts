@@ -25,7 +25,7 @@ export class ExpenseRepository implements IExpenseRepository {
     );
   };
 
-  getThisMonth = async (userId: string, groupId: string, date?: Date) => {
+  getThisMonth = async (userId: string, groupId: string, date?: Date, labels?: Label[]) => {
     if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
       // TODO throw ex
       return null;
@@ -44,7 +44,7 @@ export class ExpenseRepository implements IExpenseRepository {
 
     return await Promise.all(
       col.docs.map(async doc => {
-        return await this.expenseToModel(doc, groupId);
+        return await this.expenseToModel(doc, groupId, labels);
       })
     );
   };
@@ -62,7 +62,7 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    return await this.expenseToModel(doc, groupId, true, true);
+    return await this.expenseToModel(doc, groupId, null, true, true);
   };
 
   add = async (userId: string, groupId: string, expense: Partial<Expense>) => {
@@ -193,13 +193,21 @@ export class ExpenseRepository implements IExpenseRepository {
   private expenseToModel = async (
     doc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>,
     groupId: string,
+    labels?: Label[],
     loadLabel: boolean = true,
     loadParent: boolean = false
   ): Promise<Expense> => {
     const data = doc.data();
 
+    // fetch from labels params
     let labelRef: Label = null;
-    if (loadLabel && data.labelRef) {
+    if (labels && labels.length > 0) {
+      const labelId = data.labelRef.id;
+      labelRef = labels.find(x => x.id === labelId);
+    }
+
+    // if didn't fetch from labels params, fetch from firebase
+    if (!labelRef && loadLabel && data.labelRef) {
       const labelDoc = await data.labelRef.get();
       const labelData = labelDoc.data();
       labelRef = {

@@ -3,11 +3,14 @@
 }
 
 .select {
+  appearance: none;
+
+  background-color: var(--border-color);
+  color: var(--fg-color);
+
   border: none;
 
   min-width: var(--min-width);
-
-  background-color: var(--fg-color);
 
   padding: var(--size-xs);
   margin-bottom: var(--size-m);
