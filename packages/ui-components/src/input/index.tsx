@@ -9,14 +9,13 @@ interface B4hInputProp extends ComponentPropsWithRef<'input'> {
 
 export const B4hInput = forwardRef((props: B4hInputProp, ref: ForwardedRef<HTMLInputElement>) => {
   return (
-    <div className={styles.container}>
+    <>
       {props.label && (
         <label className={styles.label} htmlFor={props.id}>
           {props.label} {props.sublabel && <small>{props.sublabel}</small>}
         </label>
       )}
-      {props.type !== 'checkbox' && <br />}
       <input className={styles.input} ref={ref} {...props} />
-    </div>
+    </>
   );
 });

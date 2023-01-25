@@ -17,11 +17,10 @@ export const B4hSelect = forwardRef(
   (props: B4hSelectProp, ref: ForwardedRef<HTMLSelectElement>) => {
     Object.keys(props.options);
     return (
-      <div className={styles.container}>
+      <>
         <label className={styles.label} htmlFor={props.id}>
           {props.label} {props.sublabel && <small>{props.sublabel}</small>}
         </label>
-        <br />
         <select className={styles.select} ref={ref} {...props}>
           {props.options.map(option => {
             return (
@@ -31,7 +30,7 @@ export const B4hSelect = forwardRef(
             );
           })}
         </select>
-      </div>
+      </>
     );
   }
 );

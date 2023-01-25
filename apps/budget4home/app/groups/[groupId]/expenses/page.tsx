@@ -30,6 +30,8 @@ export default async function ({ params, searchParams }: any) {
     <>
       <h3>Expenses</h3>
       <Link href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.expenseAdd}`}>add</Link>
+      <br />
+      <br />
 
       {expenses.length <= 0 ? (
         <h4>Empty list of expenses.</h4>
@@ -41,7 +43,9 @@ export default async function ({ params, searchParams }: any) {
           </h4>
           <h4 className={totalLeft <= 0 ? 'error' : ''}>
             <strong>Total left:</strong> {formatValue(totalLeft)}{' '}
-            {totalIncoming > 0 && <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>}
+            {totalIncoming > 0 && (
+              <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>
+            )}
           </h4>
           <ExpenseItems expenses={expenses} />
         </>

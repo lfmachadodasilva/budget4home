@@ -1,5 +1,8 @@
 .form {
   margin-bottom: var(--size-m);
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
 }
 
 .footer {

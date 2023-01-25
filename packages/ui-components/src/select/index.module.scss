@@ -10,6 +10,7 @@
   background-color: var(--fg-color);
 
   padding: var(--size-xs);
+  margin-bottom: var(--size-m);
 
   font-style: normal;
   font-weight: normal;
@@ -18,4 +19,5 @@
 }
 
 .label {
+  margin-bottom: var(--size-xs);
 }

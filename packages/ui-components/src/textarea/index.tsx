@@ -13,10 +13,9 @@ export const B4hTextarea = forwardRef(
       <>
         {props.label && (
           <>
-            <label>
+            <label className={styles.label}>
               {props.label} {props.sublabel && <small>{props.sublabel}</small>}
             </label>
-            <br />
           </>
         )}
         <textarea className={styles.textarea} ref={ref} {...props} />

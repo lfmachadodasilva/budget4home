@@ -13,8 +13,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const parentId = expense.parent?.id ?? expense.id;
 
-  console.log('/expenses/parent', parentId, expense);
-
   try {
     if (req.method === 'PUT') {
       response = await expenseRepository.editByParent(uid, expense.groupId, parentId, expense);
