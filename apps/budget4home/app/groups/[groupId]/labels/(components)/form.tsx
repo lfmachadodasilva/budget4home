@@ -30,15 +30,14 @@ export function LabelForm(props: LabelFormProps) {
 
     const label = {
       name: nameRef.current.value,
-      icon: iconRef.current.value,
-      groupId: props.groupId
+      icon: iconRef.current.value
     } as Label;
 
     try {
       if (!props.label?.id) {
-        await LabelClient.add(token, label);
+        await LabelClient.add(token, props.groupId, label);
       } else {
-        await LabelClient.edit(token, {
+        await LabelClient.edit(token, props.groupId, {
           ...label,
           id: props.label.id
         });
@@ -55,10 +54,7 @@ export function LabelForm(props: LabelFormProps) {
     if (confirm('Are you sure?')) {
       setLoading(true);
 
-      await LabelClient.delete(token, {
-        id: props.label.id,
-        groupId: props.groupId
-      });
+      await LabelClient.delete(token, props.groupId, { id: props.label.id });
 
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
       setLoading(false);
@@ -67,7 +63,7 @@ export function LabelForm(props: LabelFormProps) {
 
   const formLabel = (
     <>
-      {props.label?.id && <h3>Label: {props.label.id}</h3>}
+      {props.label?.id && <h3>Edit label</h3>}
       {!props.label?.id && <h3>Add new label</h3>}
     </>
   );

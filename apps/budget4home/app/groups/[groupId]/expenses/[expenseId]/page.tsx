@@ -4,16 +4,16 @@ import { expenseRepository, labelRepository } from '../../../../../util/reposito
 
 export default async function ({ params }: any) {
   const userId = await getUserId();
+  const groupId = params.groupId as string;
 
-  const expensePromise = expenseRepository.get(userId, params.groupId, params.expenseId);
-
-  const labelsPromise = labelRepository.getAll(userId, params.groupId);
+  const expensePromise = expenseRepository.get(userId, groupId, params.expenseId);
+  const labelsPromise = labelRepository.getAll(userId, groupId);
 
   const [expense, labels] = await Promise.all([expensePromise, labelsPromise]);
 
   return (
     <>
-      <ExpenseForm expense={expense} labels={labels} groupId={params.groupId} />
+      <ExpenseForm expense={expense} labels={labels} groupId={groupId} />
     </>
   );
 }

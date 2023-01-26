@@ -1,6 +1,6 @@
 'use client';
 
-import { B4hDropdown } from '@budget4home/ui-components';
+import { B4hButton, B4hDropdown } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 import { B4hRoutes } from '../../../util/routes';
@@ -28,7 +28,7 @@ export const GroupActions = (props: GroupActionsProps) => {
         { key: B4hRoutes.labels, value: 'labels' },
         { key: B4hRoutes.expenses, value: 'expenses' }
       ]}
-      trigger={<button>actions</button>}
+      trigger={<B4hButton>actions</B4hButton>}
       onChange={handleOnChange}
     />
   );

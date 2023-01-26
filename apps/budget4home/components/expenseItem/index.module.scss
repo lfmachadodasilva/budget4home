@@ -1,4 +1,6 @@
 .container {
+  all: unset;
+
   :hover {
     background-color: var(--border-color);
   }

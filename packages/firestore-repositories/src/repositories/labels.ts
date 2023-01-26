@@ -42,7 +42,7 @@ export class LabelRepository implements ILabelRepository {
     const model = this.labelToFirestore(userId, label as Label);
     const doc = await this.firestore.collection(FirestoreCollections.labels(groupId)).add({
       ...model,
-      ...getAddFirebaseData(userId)
+      ...getAddFirebaseData(label as Label, userId)
     });
 
     return {
@@ -62,7 +62,7 @@ export class LabelRepository implements ILabelRepository {
     const doc = await this.firestore.doc(FirestoreCollections.label(groupId, label.id)).set(
       {
         ...model,
-        ...getUpdateFirebaseData(userId)
+        ...getUpdateFirebaseData(label as Label, userId)
       },
       { merge: true }
     );
@@ -100,7 +100,7 @@ export class LabelRepository implements ILabelRepository {
   labelToFirestore = (userId: string, model: Label) => {
     return {
       name: model.name.trim(),
-      icon: model.icon.length > 0 ? model.icon.trim() : null
+      icon: model.icon?.length > 0 ? model.icon.trim() : null
     } as Label;
   };
 }

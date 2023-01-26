@@ -1,4 +1,4 @@
-import { ExpenseType } from '@budget4home/base';
+import { Expense, ExpenseType } from '@budget4home/base';
 import { sum } from 'lodash';
 import Link from 'next/link';
 import { ExpenseItems } from '../../../../components/expenseItems';
@@ -10,14 +10,22 @@ import { ExpensesDate } from './(components)/date';
 
 export default async function ({ params, searchParams }: any) {
   const userId = await getUserId();
+  const groupId = params?.groupId as string;
 
   const date = new Date();
   date.setDate(1);
   searchParams.year && date.setFullYear(+searchParams?.year);
   searchParams.month && date.setMonth(+searchParams?.month - 1);
 
-  const labels = await labelRepository.getAll(userId, params?.groupId);
-  const expenses = await expenseRepository.getThisMonth(userId, params?.groupId, date, labels);
+  let expenses: Expense[] = [];
+
+  try {
+    const labels = await labelRepository.getAll(userId, groupId);
+    expenses = await expenseRepository.getThisMonth(userId, groupId, date, labels);
+  } catch (err) {
+    console.error(err);
+    return <div className="error">something went wrong</div>;
+  }
 
   const totalOutcoming = sum(
     expenses.filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
@@ -30,7 +38,7 @@ export default async function ({ params, searchParams }: any) {
   return (
     <>
       <h3>Expenses</h3>
-      <Link href={`${B4hRoutes.groups}/${params.groupId}${B4hRoutes.expenseAdd}`}>add</Link>
+      <Link href={`${B4hRoutes.groups}/${groupId}${B4hRoutes.expenseAdd}`}>add</Link>
       <br />
       <br />
 
@@ -48,7 +56,7 @@ export default async function ({ params, searchParams }: any) {
               <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>
             )}
           </h4>
-          <ExpenseItems expenses={expenses} />
+          <ExpenseItems groupId={groupId} expenses={expenses} />
         </>
       )}
     </>

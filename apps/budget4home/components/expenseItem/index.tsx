@@ -1,25 +1,21 @@
-'use client';
-
 import { Expense, ExpenseType } from '@budget4home/base';
-import { useRouter } from 'next/navigation';
 import { B4hRoutes } from '../../util/routes';
 import { formatValue } from '../../util/util';
 
 import styles from './index.module.scss';
 
 interface ExpenseItemProps {
+  groupId: string;
   expense: Expense;
 }
 
 export const ExpenseItem = (props: ExpenseItemProps) => {
-  const { push } = useRouter();
-
-  const handleOnAction = () => {
-    push(`${B4hRoutes.groups}/${props.expense.groupId}${B4hRoutes.expenses}/${props.expense.id}`);
-  };
-
   return (
-    <div className={styles.container} onClick={handleOnAction} key={props.expense.id}>
+    <a
+      className={styles.container}
+      key={props.expense.id}
+      href={`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}/${props.expense.id}`}
+    >
       <div className={styles.content}>
         <label>{props.expense.label?.icon ?? props.expense.label?.name}</label>
         <label>{props.expense.name}</label>
@@ -32,6 +28,6 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
           <strong>{formatValue(props.expense.value)}</strong>
         </label>
       </div>
-    </div>
+    </a>
   );
 };

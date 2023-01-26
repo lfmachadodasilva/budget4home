@@ -69,7 +69,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
       date: dateRef.current.value,
       label: props.labels.find(x => x.id === labelRef.current.value),
       comments: commentsRef.current.value,
-      groupId: props.groupId,
       scheduled: props.expense?.scheduled
     } as Expense;
 
@@ -78,7 +77,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
       if (isAddMode()) {
         let parent: Expense = null;
         for (let i = 0; i < +autoRef.current.value; i++) {
-          const newExpense = await ExpenseClient.add(token, {
+          const newExpense = await ExpenseClient.add(token, props.groupId, {
             ...expense,
             parent: parent,
             date: addMonths(new Date(dateRef.current.value), i).toISOString(),
@@ -89,7 +88,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           }
         }
       } else {
-        await ExpenseClient.edit(token, {
+        await ExpenseClient.edit(token, props.groupId, {
           id: props.expense.id,
           ...expense
         });
@@ -114,10 +113,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
     setLoading(true);
 
     try {
-      const res = await ExpenseClient.delete(token, {
-        id: props.expense.id,
-        groupId: props.groupId
-      });
+      const res = await ExpenseClient.delete(token, props.groupId, { id: props.expense.id });
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
     } catch (err) {
       console.error(err);
@@ -130,9 +126,8 @@ export function ExpenseForm(props: ExpenseFormProps) {
     if (confirm('Are you sure?')) {
       setLoading(true);
 
-      await ExpenseClient.deleteByParent(token, {
+      await ExpenseClient.deleteByParent(token, props.groupId, {
         id: props.expense.id,
-        groupId: props.groupId,
         parent: { id: props.expense?.parent?.id } as Expense
       });
 
@@ -153,11 +148,10 @@ export function ExpenseForm(props: ExpenseFormProps) {
         date: dateRef.current.value,
         label: props.labels.find(x => x.id === labelRef.current.value),
         comments: commentsRef.current.value,
-        groupId: props.groupId,
         parent: props.expense.parent
       } as Expense;
 
-      await ExpenseClient.editByParent(token, expense);
+      await ExpenseClient.editByParent(token, props.groupId, expense);
 
       setLoading(false);
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}`);
@@ -178,7 +172,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
         date: addMonths(new Date(dateRef.current.value), i).toISOString(),
         label: props.labels.find(x => x.id === labelRef.current.value),
         comments: commentsRef.current.value,
-        groupId: props.groupId,
         scheduled: +autoRef.current.value > 1 ? `${i + 1}/${autoRef.current.value}` : null
       } as Expense;
 
@@ -194,7 +187,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
       let parent: Expense = null;
       for (let i = 0; i < preview.length; i++) {
         const { id, ...previewData } = preview[i];
-        const newExpense = await ExpenseClient.add(token, {
+        const newExpense = await ExpenseClient.add(token, props.groupId, {
           ...previewData,
           parent: parent
         });
@@ -213,7 +206,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
   const formLabel = (
     <>
-      {isEditMode() && <h3>Expense: {props.expense.id}</h3>}
+      {isEditMode() && <h3>Edit expense</h3>}
       {isAddMode() && <h3>Add new expense</h3>}
     </>
   );

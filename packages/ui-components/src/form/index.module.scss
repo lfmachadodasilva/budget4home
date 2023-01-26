@@ -2,7 +2,7 @@
   margin-bottom: var(--size-m);
   display: flex;
   flex-direction: column;
-  max-width: 720px;
+  max-width: var(--max-width);
 }
 
 .footer {

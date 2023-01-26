@@ -4,8 +4,9 @@ import { labelRepository } from '../../../../../util/repositories';
 
 export default async function ({ params }: any) {
   const userId = await getUserId();
+  const groupId = params.groupId as string;
 
-  const label = await labelRepository.get(userId, params.groupId, params.labelId);
+  const label = await labelRepository.get(userId, groupId, params.labelId);
 
   return (
     <>

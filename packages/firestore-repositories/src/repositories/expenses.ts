@@ -71,10 +71,10 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const obj = await this.expenseToFirestore(userId, expense as Expense);
+    const obj = await this.expenseToFirestore(userId, groupId, expense as Expense);
     const col = await this.firestore.collection(FirestoreCollections.expeses(groupId)).add({
       ...obj,
-      ...getAddFirebaseData(userId)
+      ...getAddFirebaseData(expense as Expense, userId)
     });
 
     return {
@@ -90,11 +90,11 @@ export class ExpenseRepository implements IExpenseRepository {
       return null;
     }
 
-    const obj = await this.expenseToFirestore(userId, expense as Expense);
+    const obj = await this.expenseToFirestore(userId, groupId, expense as Expense);
     const doc = await this.firestore.doc(FirestoreCollections.expese(groupId, expense.id)).set(
       {
         ...obj,
-        ...getUpdateFirebaseData(userId)
+        ...getUpdateFirebaseData(expense as Expense, userId)
       },
       { merge: true }
     );
@@ -128,11 +128,9 @@ export class ExpenseRepository implements IExpenseRepository {
         name: expense.name,
         type: expense.type,
         value: expense.value,
-        labelRef: this.firestore.doc(
-          FirestoreCollections.label(expense.groupId, expense.label?.id)
-        ),
+        labelRef: this.firestore.doc(FirestoreCollections.label(groupId, expense.label?.id)),
         comments: expense.comments?.length > 0 ? expense.comments.length : null,
-        ...getUpdateFirebaseData(userId)
+        ...getUpdateFirebaseData(expense as Expense, userId)
       };
 
       await this.firestore
@@ -194,7 +192,7 @@ export class ExpenseRepository implements IExpenseRepository {
     doc: FirebaseFirestore.DocumentSnapshot<FirebaseFirestore.DocumentData>,
     groupId: string,
     labels?: Label[],
-    loadLabel: boolean = true,
+    loadLabel: boolean = false,
     loadParent: boolean = false
   ): Promise<Expense> => {
     const data = doc.data();
@@ -217,10 +215,20 @@ export class ExpenseRepository implements IExpenseRepository {
       } as Label;
     }
 
+    if (!labelRef) {
+      labelRef = {
+        id: data.labelRef.id
+      } as Label;
+    }
+
     let parentRef: Expense = null;
     if (loadParent && data.parentRef) {
       const parentData = await data.parentRef.get();
-      parentRef = await this.expenseToModel(parentData, groupId);
+      parentRef = await this.expenseToModel(parentData, groupId, null, false, false);
+    } else if (data.parentRef) {
+      parentRef = {
+        id: data.parentRef
+      } as Expense;
     }
 
     return {
@@ -232,21 +240,20 @@ export class ExpenseRepository implements IExpenseRepository {
       comments: data.comments,
       label: labelRef,
       parent: parentRef,
-      scheduled: data.scheduled,
-      groupId
+      scheduled: data.scheduled
     } as Expense;
   };
 
-  private expenseToFirestore = async (userId: string, model: Expense) => {
+  private expenseToFirestore = async (userId: string, groupId: string, model: Expense) => {
     return {
       name: model.name.trim(),
       type: model.type,
       date: Timestamp.fromDate(new Date(model.date)),
       value: +model.value,
       comments: model.comments?.length > 0 ? model.comments.trim() : null,
-      labelRef: this.firestore.doc(FirestoreCollections.label(model.groupId, model.label?.id)),
+      labelRef: this.firestore.doc(FirestoreCollections.label(groupId, model.label?.id)),
       parentRef: model.parent?.id
-        ? this.firestore.doc(FirestoreCollections.expese(model.groupId, model.parent?.id))
+        ? this.firestore.doc(FirestoreCollections.expese(groupId, model.parent?.id))
         : null,
       scheduled: model.scheduled ?? null
     };

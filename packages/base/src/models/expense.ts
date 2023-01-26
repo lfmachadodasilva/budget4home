@@ -12,7 +12,7 @@ export interface Expense extends Base {
   date: string;
   label?: Label;
   comments?: string;
-  groupId: string;
+  // groupId: string;
   parent?: Expense;
   scheduled?: string;
 }

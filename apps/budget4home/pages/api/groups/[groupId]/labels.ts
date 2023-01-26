@@ -1,11 +1,12 @@
-import { Group } from '@budget4home/base';
+import { Label } from '@budget4home/base';
 import { NextApiRequest, NextApiResponse } from 'next/types';
 
-import { firebaseAdminAuth } from '../../util/firebaseAdmin';
-import { groupRepository } from '../../util/repositories';
+import { firebaseAdminAuth } from '../../../../util/firebaseAdmin';
+import { labelRepository } from '../../../../util/repositories';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const group = req.body as Group;
+  const label = req.body as Label;
+  const groupId = req.query.groupId as string;
 
   const token = req.headers.authorization;
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
@@ -14,11 +15,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     if (req.method === 'POST') {
-      response = await groupRepository.add(uid, group);
+      response = await labelRepository.add(uid, groupId, label);
     } else if (req.method === 'PUT') {
-      response = await groupRepository.edit(uid, group);
+      response = await labelRepository.edit(uid, groupId, label);
     } else if (req.method === 'DELETE') {
-      response = await groupRepository.delete(uid, group.id);
+      response = await labelRepository.delete(uid, groupId, label.id);
     } else {
       return res.status(404).end();
     }

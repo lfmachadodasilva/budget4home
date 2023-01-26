@@ -7,6 +7,7 @@ import { ExpenseItem } from '../expenseItem';
 import styles from './index.module.scss';
 
 interface ExpenseItemProps {
+  groupId: string;
   expenses: Expense[];
 }
 
@@ -15,6 +16,8 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
     return new Date(expense.date).getDate();
   });
   const date = new Date(props.expenses.at(0)?.date ?? new Date());
+
+  // return <>tmp</>;
 
   return (
     <>
@@ -28,7 +31,7 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
             <>
               <Header date={date} day={+day} total={total} />
               {groups[day].map(expense => (
-                <ExpenseItem expense={expense} />
+                <ExpenseItem groupId={props.groupId} expense={expense} />
               ))}
             </>
           );
