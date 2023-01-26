@@ -63,7 +63,7 @@ export function LabelForm(props: LabelFormProps) {
 
   const formLabel = (
     <>
-      {props.label?.id && <h3>Label: {props.label.id}</h3>}
+      {props.label?.id && <h3>Edit label</h3>}
       {!props.label?.id && <h3>Add new label</h3>}
     </>
   );

@@ -206,7 +206,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
   const formLabel = (
     <>
-      {isEditMode() && <h3>Expense: {props.expense.id}</h3>}
+      {isEditMode() && <h3>Edit expense</h3>}
       {isAddMode() && <h3>Add new expense</h3>}
     </>
   );

@@ -85,7 +85,7 @@ export const GroupForm = (props: GroupFormProps) => {
     <>
       {props.group?.id && (
         <>
-          <h3>Group: {props.group.id}</h3>
+          <h3>Edit group</h3>
         </>
       )}
       {!props.group?.id && (
