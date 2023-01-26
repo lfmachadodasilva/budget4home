@@ -58,15 +58,13 @@ export class GroupRepository implements IGroupRepository {
 
   add = async (userId: string, group: Partial<Group>) => {
     const col = await this.firestore.collection(FirestoreCollections.groups).add({
-      name: group.name,
-      userIds: group.userIds,
-      ...getAddFirebaseData(userId)
+      ...group,
+      ...getAddFirebaseData(group as Group, userId)
     });
 
     return {
-      id: col.id,
-      name: group.name,
-      userIds: group.userIds
+      ...group,
+      id: col.id
     } as Group;
   };
 
@@ -78,17 +76,15 @@ export class GroupRepository implements IGroupRepository {
 
     const doc = await this.firestore.doc(FirestoreCollections.group(group.id)).set(
       {
-        name: group.name,
-        userIds: group.userIds,
-        ...getUpdateFirebaseData(userId)
+        ...group,
+        ...getUpdateFirebaseData(group as Group, userId)
       },
       { merge: true }
     );
 
     return {
-      id: group.id,
-      name: group.name,
-      userIds: group.userIds
+      ...group,
+      id: group.id
     } as Group;
   };
 

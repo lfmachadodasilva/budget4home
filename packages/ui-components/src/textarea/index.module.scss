@@ -2,11 +2,13 @@
   min-width: calc(var(--min-width) - (2 * var(--size-xs)));
 
   padding: var(--size-xs);
+  margin-bottom: var(--size-m);
 
   background-color: var(--border-color);
   color: var(--fg-color);
 
   border: none;
+  border-radius: var(--size-xs);
 
   resize: vertical;
 

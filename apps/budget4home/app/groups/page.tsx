@@ -18,7 +18,7 @@ export default async function () {
         {groups.map(group => {
           return (
             <li key={group.id}>
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <label>{group.name}</label>
                 <GroupActions groupId={group.id} />
               </div>
