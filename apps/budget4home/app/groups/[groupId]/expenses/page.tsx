@@ -1,7 +1,7 @@
 import { Expense, ExpenseType } from '@budget4home/base';
 import { sum } from 'lodash';
 import Link from 'next/link';
-import { ExpenseItems } from '../../../../components/expenseItems';
+import { ExpenseItems } from '../../../../components/expenses/expenseItems';
 import { getUserId } from '../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../util/repositories';
 import { B4hRoutes } from '../../../../util/routes';

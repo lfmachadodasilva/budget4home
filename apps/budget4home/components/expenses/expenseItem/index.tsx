@@ -1,6 +1,6 @@
 import { Expense, ExpenseType } from '@budget4home/base';
-import { B4hRoutes } from '../../util/routes';
-import { formatValue } from '../../util/util';
+import { B4hRoutes } from '../../../util/routes';
+import { formatValue } from '../../../util/util';
 
 import styles from './index.module.scss';
 

@@ -1,7 +1,7 @@
 import { Expense, ExpenseType } from '@budget4home/base';
 import { format, isToday, isYesterday } from 'date-fns';
 import { groupBy, sum } from 'lodash';
-import { formatValue } from '../../util/util';
+import { formatValue } from '../../../util/util';
 import { ExpenseItem } from '../expenseItem';
 
 import styles from './index.module.scss';
