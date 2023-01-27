@@ -5,6 +5,10 @@ import { firebaseStorage } from '../../util/firebase';
 import { expenseRepository, groupRepository, labelRepository } from '../../util/repositories';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST' || req.headers['backup'] !== '787421ff-1e47-4e61-8289-12f25acc3a55') {
+    res.status(401).end();
+  }
+
   try {
     const groups = await groupRepository.getAll(null);
     for (let i = 0; i < groups.length; i++) {
