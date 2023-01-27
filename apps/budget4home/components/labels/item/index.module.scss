@@ -1,0 +1,21 @@
+.container {
+  all: unset;
+
+  :hover {
+    background-color: var(--border-color);
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+
+  gap: var(--size-s);
+  padding: var(--size-s);
+  margin-top: var(--size-s);
+  margin-bottom: var(--size-s);
+
+  :last-child {
+    margin-left: auto;
+  }
+}
