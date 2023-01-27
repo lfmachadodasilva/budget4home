@@ -12,6 +12,6 @@ export const getUserId = async () => {
     return uid;
   } catch (err: any) {
     console.error(err);
-    redirect(B4hRoutes.logout);
+    //redirect(B4hRoutes.logout);
   }
 };
