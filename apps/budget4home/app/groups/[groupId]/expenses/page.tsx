@@ -19,8 +19,20 @@ export default async function ({ params, searchParams }: any) {
 
   let expenses: Expense[] = [];
 
+  const labels = await labelRepository.getAll(userId, groupId);
+  if (labels.length === 0) {
+    return (
+      <>
+        <h4>
+          You don't have any label yet. Click{' '}
+          <Link href={`${B4hRoutes.groups}/${groupId}${B4hRoutes.labelAdd}`}>here</Link> to create
+          one
+        </h4>
+      </>
+    );
+  }
+
   try {
-    const labels = await labelRepository.getAll(userId, groupId);
     expenses = await expenseRepository.getThisMonth(userId, groupId, date, labels);
   } catch (err) {
     console.error(err);

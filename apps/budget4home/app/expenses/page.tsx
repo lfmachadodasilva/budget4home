@@ -8,5 +8,15 @@ export default async function () {
 
   const group = await groupRepository.getFirst(userId);
 
-  redirect(`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenses}`);
+  if (group) {
+    redirect(`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenses}`);
+  }
+
+  return (
+    <>
+      <h4>
+        You don't have any group yet. Click <a href={`${B4hRoutes.groupAdd}`}>here</a> to create one
+      </h4>
+    </>
+  );
 }
