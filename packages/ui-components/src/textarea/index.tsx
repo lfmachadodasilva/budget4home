@@ -13,7 +13,7 @@ export const B4hTextarea = forwardRef(
       <>
         {props.label && (
           <>
-            <label className={styles.label}>
+            <label className={styles.label} htmlFor={props.id}>
               {props.label} {props.sublabel && <small>{props.sublabel}</small>}
             </label>
           </>

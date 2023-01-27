@@ -16,10 +16,15 @@
   --border-color: #21262d;
 
   --negative-color: #d73a4a;
-  --success-color: #238636;
+  --success-color: #2fb64d;
 
   --bg-color: #0d1117;
-  --fg-color: #c9d1d9;
+  --fg-color: #d8dee4;
 
   --font-family: Roboto, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #be8ed2;
 }
