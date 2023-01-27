@@ -2,7 +2,8 @@ name: budget4home-backup
 
 on:
   schedule:
-    - cron: '* * * * *'
+    # run every day at 12
+    - cron: '0 12 * * *'
 
 jobs:
   backup:
