@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: backup 💾
         run: |
-          curl -X POST -H "backup: 787421ff-1e47-4e61-8289-12f25acc3a55" https://budget4home-git-dev-18-backup-expenses-lfmachadodasilva.vercel.app/api/backup
+          curl -X POST -H "backup: 787421ff-1e47-4e61-8289-12f25acc3a55" https://budget4home.vercel.app/api/backup
         shell: bash
