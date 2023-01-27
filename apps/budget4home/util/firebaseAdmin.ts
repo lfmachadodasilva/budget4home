@@ -13,8 +13,10 @@ export const firebaseAdminApp: App =
           private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
         } as any),
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-        databaseURL: `https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseio.com`
+        databaseURL: `https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseio.com`,
+        storageBucket: `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com`
       });
 
 export const firebaseAdminFirestore = firestore.getFirestore(firebaseAdminApp);
 export const firebaseAdminAuth = admin.auth(firebaseAdminApp);
+export const firebaseAdminStorage = admin.storage(firebaseAdminApp);
