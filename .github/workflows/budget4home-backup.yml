@@ -1,4 +1,4 @@
-name: budget4home-app
+name: budget4home-backup
 
 on:
   schedule:
