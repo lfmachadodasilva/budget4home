@@ -37,7 +37,7 @@ export const Header = () => {
       }}
     >
       <Link href={B4hRoutes.home}>
-        <img src="/logo32.png" style={{ width: '32px', height: '32px' }} />
+        <img src="/logo32.png" style={{ width: '32px', height: '32px' }} alt="logo" />
       </Link>
       {user && (
         <div
@@ -73,6 +73,7 @@ export const Header = () => {
                 }}
               >
                 <img
+                  alt="avatar"
                   src={user.photoURL}
                   style={{
                     width: '100%',

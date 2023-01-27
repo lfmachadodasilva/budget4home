@@ -35,7 +35,7 @@ export default function () {
         sublabel="(optional)"
       />
       {photoUrlRef?.current?.value && (
-        <img className={styles.avatar} src={photoUrlRef.current.value} />
+        <img alt="avatar" className={styles.avatar} src={photoUrlRef.current.value} />
       )}
       <B4hInput
         onChange={handleOnPhotoUrl}
