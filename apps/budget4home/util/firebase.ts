@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
 
 const firebaseKey = process.env.NEXT_PUBLIC_FIREBASE_KEY as string;
 const firebaseProjectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID as string;
@@ -15,3 +16,4 @@ export const firebaseApp = initializeApp({
 
 export const firebaseAuth = getAuth(firebaseApp);
 export const firebaseDatabase = getDatabase(firebaseApp);
+export const firebaseStorage = getStorage(firebaseApp);

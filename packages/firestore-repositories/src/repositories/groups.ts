@@ -8,15 +8,20 @@ export class GroupRepository implements IGroupRepository {
   constructor(private firestore: Firestore) {}
 
   getAll = async (userId: string) => {
-    const col = await this.firestore
-      .collection(FirestoreCollections.groups)
-      .where('userIds', 'array-contains', userId)
-      .get();
+    const col = userId
+      ? await this.firestore
+          .collection(FirestoreCollections.groups)
+          .where('userIds', 'array-contains', userId)
+          .get()
+      : await this.firestore.collection(FirestoreCollections.groups).get();
 
     return col.docs.map(doc => {
+      const data = doc.data();
+
       return {
         id: doc.id,
-        name: doc.data().name
+        name: data.name,
+        userIds: data.userIds
       } as Group;
     });
   };

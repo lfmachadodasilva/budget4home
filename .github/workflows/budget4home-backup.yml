@@ -1,0 +1,15 @@
+name: budget4home-backup
+
+on:
+  schedule:
+    - cron: '* * * * *'
+
+jobs:
+  backup:
+    name: backup 💾
+    runs-on: ubuntu-latest
+    steps:
+      - name: backup 💾
+        run: |
+          curl -X POST -H "backup: 787421ff-1e47-4e61-8289-12f25acc3a55" https://budget4home.vercel.app/api/backup
+        shell: bash
