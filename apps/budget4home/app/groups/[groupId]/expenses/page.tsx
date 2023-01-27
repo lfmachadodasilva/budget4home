@@ -1,8 +1,10 @@
 import { Expense } from '@budget4home/base';
+import { B4hButtonLink } from '@budget4home/ui-components';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { Balance } from '../../../../components/expenses/balance';
 import { ExpenseItems } from '../../../../components/expenses/expenseItems';
+import { SubHeader } from '../../../../components/subheader';
 import { getUserId } from '../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../util/repositories';
 import { B4hRoutes } from '../../../../util/routes';
@@ -41,10 +43,14 @@ export default async function ({ params, searchParams }: any) {
 
   return (
     <>
-      <h3>Expenses</h3>
-      <Link href={`${B4hRoutes.groups}/${groupId}${B4hRoutes.expenseAdd}`}>add</Link>
-      <br />
-      <br />
+      <SubHeader
+        label="Expenses"
+        action={
+          <B4hButtonLink href={`${B4hRoutes.groups}/${groupId}${B4hRoutes.expenseAdd}`}>
+            add
+          </B4hButtonLink>
+        }
+      />
 
       {expenses.length <= 0 ? (
         <h4>Empty list of expenses.</h4>

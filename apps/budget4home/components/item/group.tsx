@@ -1,5 +1,5 @@
 import { Group } from '@budget4home/base';
-import { GroupActions } from '../../../app/groups/(components)/actions';
+import { GroupActions } from '../../app/groups/(components)/actions';
 
 import styles from './index.module.scss';
 

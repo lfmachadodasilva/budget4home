@@ -1,7 +1,7 @@
 import { Expense, ExpenseType } from '@budget4home/base';
 import { sum } from 'lodash';
 import { getUserId } from '../../../util/getUserId';
-import { expenseRepository, labelRepository } from '../../../util/repositories';
+import { expenseRepository } from '../../../util/repositories';
 import { formatValue } from '../../../util/util';
 
 export interface BalanceProps {
@@ -16,8 +16,7 @@ export const Balance = async (props: BalanceProps) => {
   let expenses: Expense[] = [];
 
   if (!props.expenses) {
-    const labels = await labelRepository.getAll(userId, props.groupId);
-    expenses = await expenseRepository.getThisMonth(userId, props.groupId, date, labels);
+    expenses = await expenseRepository.getThisMonth(userId, props.groupId, date);
   } else {
     expenses = props.expenses;
   }

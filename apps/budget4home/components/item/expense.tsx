@@ -1,6 +1,6 @@
 import { Expense, ExpenseType } from '@budget4home/base';
-import { B4hRoutes } from '../../../util/routes';
-import { formatValue } from '../../../util/util';
+import { B4hRoutes } from '../../util/routes';
+import { formatValue } from '../../util/util';
 
 import styles from './index.module.scss';
 
@@ -16,7 +16,7 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
       key={props.expense.id}
       href={`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}/${props.expense.id}`}
     >
-      <div className={styles.content}>
+      <div style={{ padding: '8px' }} className={styles.content}>
         <label>{props.expense.label?.icon ?? props.expense.label?.name}</label>
         <label>{props.expense.name}</label>
         {props.expense.scheduled && (

@@ -1,6 +1,6 @@
 import { Label } from '@budget4home/base';
 import Link from 'next/link';
-import { B4hRoutes } from '../../../util/routes';
+import { B4hRoutes } from '../../util/routes';
 
 import styles from './index.module.scss';
 

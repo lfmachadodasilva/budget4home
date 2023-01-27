@@ -2,7 +2,7 @@ import { Expense, ExpenseType } from '@budget4home/base';
 import { format, isToday, isYesterday } from 'date-fns';
 import { groupBy, sum } from 'lodash';
 import { formatValue } from '../../../util/util';
-import { ExpenseItem } from '../expenseItem';
+import { ExpenseItem } from '../../item/expense';
 
 import styles from './index.module.scss';
 
@@ -28,12 +28,12 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
             groups[day].filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
           );
           return (
-            <>
+            <div key={day}>
               <Header date={date} day={+day} total={total} />
               {groups[day].map(expense => (
-                <ExpenseItem groupId={props.groupId} expense={expense} />
+                <ExpenseItem groupId={props.groupId} expense={expense} key={expense.id} />
               ))}
-            </>
+            </div>
           );
         })}
     </>

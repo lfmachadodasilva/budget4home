@@ -43,7 +43,7 @@ export const Header = () => {
         <div
           style={{
             display: 'flex',
-            gap: '8px',
+            gap: '16px',
             alignItems: 'center'
           }}
         >

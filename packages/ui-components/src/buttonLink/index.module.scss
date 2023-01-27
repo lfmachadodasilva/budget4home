@@ -1,0 +1,21 @@
+.link {
+  all: unset;
+
+  border: none;
+  border-radius: var(--size-xs);
+
+  padding: var(--size-xs) var(--size-s) var(--size-xs) var(--size-s);
+
+  border-radius: var(--size-xs);
+  border: 1px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+
+  cursor: pointer;
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--size-m);
+  font-weight: var(--font-weight-bold);
+}
