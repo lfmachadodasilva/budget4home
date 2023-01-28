@@ -61,6 +61,7 @@ export default async function ({ params, searchParams }: any) {
             {/* @ts-ignore */}
             <Balance groupId={groupId} expenses={expenses} />
           </Suspense>
+          <br></br>
           <ExpenseItems groupId={groupId} expenses={expenses} />
         </>
       )}

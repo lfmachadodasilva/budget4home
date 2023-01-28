@@ -11,12 +11,19 @@
   align-items: center;
 
   gap: var(--size-s);
-  margin-top: var(--size-s);
-  margin-bottom: var(--size-s);
+  padding: var(--size-m) var(--size-s) var(--size-m) var(--size-s);
 
   :last-child {
     margin-left: auto;
   }
+
+  svg {
+    fill: var(--primary-color);
+  }
+}
+
+.expense {
+  color: var(--secondary-fg-color);
 }
 
 .incoming {

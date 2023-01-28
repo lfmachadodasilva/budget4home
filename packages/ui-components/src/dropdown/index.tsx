@@ -6,7 +6,6 @@ import { B4hSelectOptions } from '../select';
 import styles from './index.module.scss';
 
 interface B4hDropdownProps extends ComponentPropsWithoutRef<'select'> {
-  trigger: JSX.Element;
   options: B4hSelectOptions[];
 }
 
@@ -33,6 +32,7 @@ export const B4hDropdown = (props: B4hDropdownProps) => {
           zIndex: '2'
         }}
       >
+        <option key="" value=""></option>
         {props.options?.map(option => {
           return (
             <option key={option.key} value={option.key}>
@@ -42,7 +42,7 @@ export const B4hDropdown = (props: B4hDropdownProps) => {
         })}
       </select>
       <div ref={triggerRef} style={{ zIndex: '1' }}>
-        {props.trigger}
+        {props.children}
       </div>
     </div>
   );

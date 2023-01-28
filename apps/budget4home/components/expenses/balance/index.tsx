@@ -4,6 +4,8 @@ import { getUserId } from '../../../util/getUserId';
 import { expenseRepository } from '../../../util/repositories';
 import { formatValue } from '../../../util/util';
 
+import styles from './index.module.scss';
+
 export interface BalanceProps {
   groupId: string;
   expenses?: Expense[];
@@ -30,16 +32,16 @@ export const Balance = async (props: BalanceProps) => {
   const totalLeft = totalIncoming - totalOutcoming;
 
   return (
-    <>
-      <h4>
+    <div className={styles.container}>
+      <p>
         <strong>Total used:</strong> {formatValue(totalOutcoming)}
-      </h4>
-      <h4 className={totalLeft <= 0 ? 'error' : ''}>
-        <strong>Total left:</strong> {formatValue(totalLeft)}{' '}
+      </p>
+      <p className={totalLeft <= 0 ? 'error' : ''}>
+        <strong>Total left:</strong> {formatValue(totalLeft)}
         {totalIncoming > 0 && (
           <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>
         )}
-      </h4>
-    </>
+      </p>
+    </div>
   );
 };

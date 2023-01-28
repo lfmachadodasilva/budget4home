@@ -1,12 +1,13 @@
 'use client';
 
-import { B4hButton, B4hDropdown } from '@budget4home/ui-components';
+import { B4hDropdown } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
-import { B4hRoutes } from '../../../util/routes';
+import { B4hRoutes } from '../../util/routes';
 
 interface GroupActionsProps {
   groupId: string;
+  children: JSX.Element;
 }
 
 export const GroupActions = (props: GroupActionsProps) => {
@@ -21,15 +22,15 @@ export const GroupActions = (props: GroupActionsProps) => {
   return (
     <B4hDropdown
       options={[
-        { key: null, value: 'close' },
         { key: '/', value: 'edit' },
         { key: B4hRoutes.import, value: 'import' },
         { key: B4hRoutes.export, value: 'export' },
         { key: B4hRoutes.labels, value: 'labels' },
         { key: B4hRoutes.expenses, value: 'expenses' }
       ]}
-      trigger={<B4hButton>actions</B4hButton>}
       onChange={handleOnChange}
-    />
+    >
+      {props.children}
+    </B4hDropdown>
   );
 };

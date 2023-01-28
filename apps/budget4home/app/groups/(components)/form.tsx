@@ -99,21 +99,20 @@ export const GroupForm = (props: GroupFormProps) => {
   return (
     <B4hForm label={formLabel} footer={formFooter}>
       <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
-      <ul>
-        {props.users?.map(x => {
-          return (
-            <li key={x.id}>
-              <B4hInput
-                id={x.id}
-                type={'checkbox'}
-                defaultChecked={userIdsRef.current?.includes(x.id) ?? false}
-                onChange={event => handleOnChangeUser(event, x.id)}
-                label={`${x.displayName ? x.displayName + ' - ' : ''}${x.email}`}
-              />
-            </li>
-          );
-        })}
-      </ul>
+
+      {props.users?.map(x => {
+        return (
+          <div>
+            <B4hInput
+              id={x.id}
+              type={'checkbox'}
+              defaultChecked={userIdsRef.current?.includes(x.id) ?? false}
+              onChange={event => handleOnChangeUser(event, x.id)}
+              label={`${x.displayName ? x.displayName + ' - ' : ''}${x.email}`}
+            />
+          </div>
+        );
+      })}
     </B4hForm>
   );
 };

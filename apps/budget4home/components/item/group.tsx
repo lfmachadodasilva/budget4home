@@ -1,5 +1,6 @@
 import { Group } from '@budget4home/base';
-import { GroupActions } from '../../app/groups/(components)/actions';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { GroupActions } from '../group/actions';
 
 import styles from './index.module.scss';
 
@@ -12,7 +13,9 @@ export const GroupItem = (props: GroupItemProps) => {
     <div className={styles.container}>
       <div className={styles.content}>
         <label>{props.group.name}</label>
-        <GroupActions groupId={props.group.id} />{' '}
+        <GroupActions groupId={props.group.id}>
+          <BsThreeDotsVertical />
+        </GroupActions>
       </div>
     </div>
   );

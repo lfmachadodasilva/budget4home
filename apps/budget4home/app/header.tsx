@@ -26,6 +26,30 @@ export const Header = () => {
     }
   };
 
+  const trigger = user.photoURL ? (
+    <div
+      style={{
+        height: '32px',
+        width: '32px',
+        cursor: 'pointer',
+        clipPath: 'circle()',
+        display: 'inline-block',
+        verticalAlign: 'middle'
+      }}
+    >
+      <img
+        alt="avatar"
+        src={user.photoURL}
+        style={{
+          width: '100%',
+          cursor: 'pointer'
+        }}
+      />
+    </div>
+  ) : (
+    <label style={{ cursor: 'pointer' }}>{getUserName()}</label>
+  );
+
   return (
     <div
       style={{
@@ -33,7 +57,8 @@ export const Header = () => {
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         alignItems: 'center',
-        gap: '8px'
+        gap: 'var(--size-s)',
+        marginBottom: 'var(--size-s)'
       }}
     >
       <Link href={B4hRoutes.home}>
@@ -43,7 +68,7 @@ export const Header = () => {
         <div
           style={{
             display: 'flex',
-            gap: '16px',
+            gap: 'var(--size-m)',
             alignItems: 'center'
           }}
         >
@@ -56,36 +81,12 @@ export const Header = () => {
         <B4hDropdown
           onChange={handleOnChange}
           options={[
-            { key: '', value: '' },
             { key: 'logout', value: 'logout' },
             { key: 'settings', value: 'settings' }
           ]}
-          trigger={
-            user.photoURL ? (
-              <div
-                style={{
-                  height: '32px',
-                  width: '32px',
-                  cursor: 'pointer',
-                  clipPath: 'circle()',
-                  display: 'inline-block',
-                  verticalAlign: 'middle'
-                }}
-              >
-                <img
-                  alt="avatar"
-                  src={user.photoURL}
-                  style={{
-                    width: '100%',
-                    cursor: 'pointer'
-                  }}
-                />
-              </div>
-            ) : (
-              <label style={{ cursor: 'pointer' }}>{getUserName()}</label>
-            )
-          }
-        />
+        >
+          {trigger}
+        </B4hDropdown>
       )}
     </div>
   );

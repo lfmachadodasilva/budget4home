@@ -35,7 +35,6 @@ export const ExpensesDate = () => {
       id={'month'}
       type={'month'}
       ref={dateRef}
-      label="Filter by"
       defaultValue={format(date, 'yyyy-MM')}
       onChange={handleOnDate}
     />

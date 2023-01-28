@@ -53,15 +53,11 @@ const Header = (props: HeaderProps) => {
     <div className={styles.header} key={`${date.toISOString()}`}>
       <label>
         <strong>
-          <small>
-            {isToday(date) ? 'Today' : isYesterday(date) ? 'Yesterday' : format(date, 'yyyy-MM-dd')}
-          </small>
+          {isToday(date) ? 'Today' : isYesterday(date) ? 'Yesterday' : format(date, 'yyyy-MM-dd')}
         </strong>
       </label>
       <label>
-        <strong>
-          <small>{formatValue(props.total)}</small>
-        </strong>
+        <strong>{formatValue(props.total)}</strong>
       </label>
     </div>
   );

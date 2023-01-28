@@ -16,16 +16,18 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
       key={props.expense.id}
       href={`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.expenses}/${props.expense.id}`}
     >
-      <div style={{ padding: '8px' }} className={styles.content}>
-        <label>{props.expense.label?.icon ?? props.expense.label?.name}</label>
-        <label>{props.expense.name}</label>
+      <div className={styles.content}>
+        <label className={styles.expense}>
+          {props.expense.label?.icon ?? props.expense.label?.name}
+        </label>
+        <label className={styles.expense}>{props.expense.name}</label>
         {props.expense.scheduled && (
-          <label>
-            <small>{props.expense.scheduled}</small>
-          </label>
+          <label className={styles.expense}>{props.expense.scheduled}</label>
         )}
-        <label className={props.expense.type === ExpenseType.incoming ? styles.incoming : ''}>
-          <strong>{formatValue(props.expense.value)}</strong>
+        <label
+          className={props.expense.type === ExpenseType.incoming ? styles.incoming : styles.expense}
+        >
+          {formatValue(props.expense.value)}
         </label>
       </div>
     </a>
