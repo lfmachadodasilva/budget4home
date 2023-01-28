@@ -227,7 +227,7 @@ export class ExpenseRepository implements IExpenseRepository {
       parentRef = await this.expenseToModel(parentData, groupId, null, false, false);
     } else if (data.parentRef) {
       parentRef = {
-        id: data.parentRef
+        id: data.parentRef.id
       } as Expense;
     }
 
