@@ -1,9 +1,6 @@
-name: budget4home-backup/schedule
+name: budget4home-backup/manual
 
-on:
-  schedule:
-    # run every day at 12
-    - cron: '0 12 * * *'
+on: workflow_dispatch
 
 jobs:
   backup:
