@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ExpenseClient } from '../../../../../clients/expenses';
-import { B4hInputCurrency } from '../../../../../components/inputCurrecy';
 import { useAuth } from '../../../../../contexts/auth';
 import { B4hRoutes } from '../../../../../util/routes';
 import { ExpensePreviewItems } from './previewItems';
@@ -271,7 +270,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           />
         )}
 
-        <B4hInputCurrency label="Value" value={value} setValue={setValue} />
+        {/* <B4hInputCurrency label="Value" value={value} setValue={setValue} /> */}
 
         <B4hInput
           key="date"
