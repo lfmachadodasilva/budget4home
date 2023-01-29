@@ -1,14 +1,7 @@
 'use client';
 
 import { Expense, ExpenseType, Label } from '@budget4home/base';
-import {
-  B4hButton,
-  B4hForm,
-  B4hInput,
-  B4hInputCurrency,
-  B4hSelect,
-  B4hTextarea
-} from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput, B4hSelect, B4hTextarea } from '@budget4home/ui-components';
 import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -277,7 +270,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           />
         )}
 
-        <B4hInputCurrency label="Value" value={value} setValue={setValue} />
+        {/* <B4hInputCurrency label="Value" value={value} setValue={setValue} /> */}
 
         <B4hInput
           key="date"
