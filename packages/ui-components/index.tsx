@@ -3,5 +3,6 @@ export * from './src/buttonLink';
 export * from './src/dropdown';
 export * from './src/form';
 export * from './src/input';
+export * from './src/input/currency';
 export * from './src/select';
 export * from './src/textarea';
