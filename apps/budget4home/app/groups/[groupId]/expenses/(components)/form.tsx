@@ -283,12 +283,13 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <B4hInput
           key="date"
           id="date"
-          type="date"
+          type="datetime-local"
           label="Date"
           ref={dateRef}
+          onChange={event => console.log(new Date(event.target.value).toISOString())}
           defaultValue={format(
             props.expense?.date ? new Date(props.expense?.date) : new Date(),
-            'yyyy-MM-dd'
+            "yyyy-MM-dd'T'HH:mm"
           )}
         />
 
