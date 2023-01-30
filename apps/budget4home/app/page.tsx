@@ -1,5 +1,4 @@
 import { B4hButtonLink } from '@budget4home/ui-components';
-import { Suspense } from 'react';
 import { Balance } from '../components/expenses/balance';
 import { getUserId } from '../util/getUserId';
 import { groupRepository } from '../util/repositories';
@@ -8,6 +7,8 @@ import { B4hRoutes } from '../util/routes';
 export default async function Page() {
   const userId = await getUserId();
   const group = await groupRepository.getFirst(userId);
+
+  console.log('--------------', userId);
 
   if (!group) {
     return (
@@ -50,10 +51,8 @@ export default async function Page() {
           </p>
         </div>
 
-        <Suspense fallback={<>loading balance</>}>
-          {/* @ts-ignore */}
-          <Balance groupId={group.id} />
-        </Suspense>
+        {/* @ts-ignore */}
+        <Balance groupId={group.id} />
       </div>
       <br></br>
       <br></br>

@@ -1,7 +1,5 @@
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 import { firebaseAdminAuth } from './firebaseAdmin';
-import { B4hRoutes } from './routes';
 
 export const getUserId = async () => {
   const nextCookies = cookies();
@@ -12,6 +10,11 @@ export const getUserId = async () => {
     return uid;
   } catch (err: any) {
     console.error(err);
-    //redirect(B4hRoutes.logout);
+
+    if (err.errorInfo.code === 'auth/id-token-expired') {
+      return nextCookies.get('uid')?.value;
+    }
   }
+
+  return null;
 };

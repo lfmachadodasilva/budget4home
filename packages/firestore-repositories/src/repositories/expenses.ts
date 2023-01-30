@@ -205,7 +205,7 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     // if didn't fetch from labels params, fetch from firebase
-    if (!labelRef && loadLabel && data.labelRef) {
+    if (!labelRef && loadLabel === true && data.labelRef) {
       const labelDoc = await data.labelRef.get();
       const labelData = labelDoc.data();
       labelRef = {
@@ -222,7 +222,7 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     let parentRef: Expense = null;
-    if (loadParent && data.parentRef) {
+    if (loadParent === false && data.parentRef) {
       const parentData = await data.parentRef.get();
       parentRef = await this.expenseToModel(parentData, groupId, null, false, false);
     } else if (data.parentRef) {
