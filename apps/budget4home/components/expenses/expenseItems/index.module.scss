@@ -1,6 +1,11 @@
 .header {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: var(--size-s);
   background-color: var(--border-color);
   padding: var(--size-s);
+
+  :last-child {
+    margin-left: auto;
+  }
 }

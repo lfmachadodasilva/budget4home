@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { Balance } from '../../../../components/expenses/balance';
 import { ExpenseItems } from '../../../../components/expenses/expenseItems';
+import { ExpenseViewBy } from '../../../../components/expenses/viewBy';
 import { SubHeader } from '../../../../components/subheader';
 import { getUserId } from '../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../util/repositories';
@@ -18,6 +19,8 @@ export default async function ({ params, searchParams }: any) {
   date.setDate(1);
   searchParams.year && date.setFullYear(+searchParams?.year);
   searchParams.month && date.setMonth(+searchParams?.month - 1);
+
+  const viewBy = searchParams?.viewBy as string;
 
   let expenses: Expense[] = [];
 
@@ -62,7 +65,8 @@ export default async function ({ params, searchParams }: any) {
             <Balance groupId={groupId} expenses={expenses} />
           </Suspense>
           <br></br>
-          <ExpenseItems groupId={groupId} expenses={expenses} />
+          <ExpenseViewBy groupId={groupId} />
+          <ExpenseItems groupId={groupId} expenses={expenses} viewBy={viewBy} />
         </>
       )}
     </>
