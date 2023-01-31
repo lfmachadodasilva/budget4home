@@ -30,7 +30,7 @@ export const HeaderClient = () => {
     }
   };
 
-  const trigger = user.photoURL ? (
+  const trigger = user?.photoURL ? (
     <div className={styles.settingTrigger}>
       <img alt="avatar" src={user.photoURL} className={styles.avatar} />
     </div>
