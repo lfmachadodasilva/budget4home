@@ -11,7 +11,7 @@ export const getUserId = async () => {
   } catch (err: any) {
     console.error(err);
 
-    if (err.errorInfo.code === 'auth/id-token-expired') {
+    if (err?.errorInfo?.code === 'auth/id-token-expired') {
       return nextCookies.get('uid')?.value;
     }
   }

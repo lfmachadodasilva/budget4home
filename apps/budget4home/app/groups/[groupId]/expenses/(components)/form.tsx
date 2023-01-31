@@ -22,7 +22,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
   const { token } = useAuth();
 
   const [loading, setLoading] = useState(false);
-
+  const [value, setValue] = useState<number>(props.expense?.value / 100);
   const [preview, setPreview] = useState<Expense[]>([]);
 
   const typeRef = useRef<HTMLSelectElement>();
@@ -271,10 +271,12 @@ export function ExpenseForm(props: ExpenseFormProps) {
           />
         )}
 
+        {/* <B4hInputCurrency label="Value" value={value} setValue={setValue} /> */}
         <B4hInput
           key="value"
           id="value"
           label="Value"
+          sublabel="format: 5522 is 55.22"
           type="number"
           ref={valueRef}
           defaultValue={props.expense?.value}

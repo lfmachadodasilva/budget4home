@@ -53,10 +53,10 @@ export function AuthProvider(props: any) {
       value={{
         user,
         getUserName: () => {
-          if (user.displayName) {
-            return user.displayName.split(' ').at(0);
+          if (user?.displayName) {
+            return user?.displayName?.split(' ').at(0);
           }
-          return user.email.split('@').at(0);
+          return user?.email?.split('@').at(0);
         },
         token
       }}
