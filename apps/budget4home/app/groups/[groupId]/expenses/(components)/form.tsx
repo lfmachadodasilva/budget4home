@@ -1,14 +1,7 @@
 'use client';
 
 import { Expense, ExpenseType, Label } from '@budget4home/base';
-import {
-  B4hButton,
-  B4hForm,
-  B4hInput,
-  B4hInputCurrency,
-  B4hSelect,
-  B4hTextarea
-} from '@budget4home/ui-components';
+import { B4hButton, B4hForm, B4hInput, B4hSelect, B4hTextarea } from '@budget4home/ui-components';
 import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -34,6 +27,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
   const typeRef = useRef<HTMLSelectElement>();
   const nameRef = useRef<HTMLInputElement>();
+  const valueRef = useRef<HTMLInputElement>();
   const dateRef = useRef<HTMLInputElement>();
   const labelRef = useRef<HTMLSelectElement>();
   const commentsRef = useRef<HTMLTextAreaElement>();
@@ -47,12 +41,12 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
 
   const isFieldsValid = () => {
-    if (!nameRef.current?.value || !value) {
+    if (!nameRef.current?.value || !valueRef.current.value) {
       alert('Name and value fields can not be empty');
       return false;
     }
 
-    if (value <= 0) {
+    if (+valueRef.current.value <= 0) {
       alert('Value can not be zero or negative');
       return false;
     }
@@ -71,7 +65,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
     const expense = {
       type: typeRef.current.value,
       name: nameRef.current.value,
-      value: value * 100,
+      value: +valueRef.current.value,
       date: dateRef.current.value,
       label: props.labels.find(x => x.id === labelRef.current.value),
       comments: commentsRef.current.value,
@@ -150,7 +144,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
         id: props.expense.id,
         type: typeRef.current.value,
         name: nameRef.current.value,
-        value: value * 100,
+        value: +valueRef.current.value,
         date: dateRef.current.value,
         label: props.labels.find(x => x.id === labelRef.current.value),
         comments: commentsRef.current.value,
@@ -174,7 +168,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
         id: uuidv4(),
         type: typeRef.current.value,
         name: nameRef.current.value,
-        value: value * 100,
+        value: +valueRef.current.value,
         date: addMonths(new Date(dateRef.current.value), i).toISOString(),
         label: props.labels.find(x => x.id === labelRef.current.value),
         comments: commentsRef.current.value,
@@ -277,7 +271,16 @@ export function ExpenseForm(props: ExpenseFormProps) {
           />
         )}
 
-        <B4hInputCurrency label="Value" value={value} setValue={setValue} />
+        {/* <B4hInputCurrency label="Value" value={value} setValue={setValue} /> */}
+        <B4hInput
+          key="value"
+          id="value"
+          label="Value"
+          sublabel="format: 5522 is 55.22"
+          type="number"
+          ref={valueRef}
+          defaultValue={props.expense?.value}
+        />
 
         <B4hInput
           key="date"
