@@ -36,6 +36,7 @@ export const GroupActionsClient = (props: GroupActionsProps) => {
 
         { key: B4hRoutes.labels, value: 'labels' },
         { key: B4hRoutes.expenses, value: 'expenses' },
+        { key: B4hRoutes.summary, value: 'summary' },
 
         { key: 'defaultGroupId', value: 'default group' }
       ]}
