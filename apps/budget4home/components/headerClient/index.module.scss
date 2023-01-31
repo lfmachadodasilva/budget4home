@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-s);
+  margin-bottom: var(--size-s);
+}
+
+.menu {
+  display: flex;
+  gap: var(--size-m);
+  align-items: center;
+}
+
+.logo {
+  width: var(--size-xl);
+  height: var(--size-xl);
+}
+
+.settingTrigger {
+  height: var(--size-xl);
+  width: var(--size-xl);
+  cursor: pointer;
+  clip-path: circle();
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.avatar {
+  width: 100%;
+  cursor: pointer;
+}

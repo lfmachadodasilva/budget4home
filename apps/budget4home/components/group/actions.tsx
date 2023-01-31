@@ -1,5 +1,7 @@
 'use client';
 
+import nookies from 'nookies';
+
 import { B4hDropdown } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
@@ -10,10 +12,15 @@ interface GroupActionsProps {
   children: JSX.Element;
 }
 
-export const GroupActions = (props: GroupActionsProps) => {
-  const { push } = useRouter();
+export const GroupActionsClient = (props: GroupActionsProps) => {
+  const { push, refresh } = useRouter();
   const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
     if (!event.target.value) {
+      return;
+    }
+    if (event.target.value == 'defaultGroupId') {
+      nookies.set(undefined, 'defaultGroupId', props.groupId, { path: '/' });
+      refresh();
       return;
     }
     push(`${B4hRoutes.groups}/${props.groupId}${event.target.value}`);
@@ -23,10 +30,14 @@ export const GroupActions = (props: GroupActionsProps) => {
     <B4hDropdown
       options={[
         { key: '/', value: 'edit' },
+
         { key: B4hRoutes.import, value: 'import' },
         { key: B4hRoutes.export, value: 'export' },
+
         { key: B4hRoutes.labels, value: 'labels' },
-        { key: B4hRoutes.expenses, value: 'expenses' }
+        { key: B4hRoutes.expenses, value: 'expenses' },
+
+        { key: 'defaultGroupId', value: 'default group' }
       ]}
       onChange={handleOnChange}
     >

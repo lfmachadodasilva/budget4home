@@ -1,6 +1,5 @@
 import { User } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
-
 import nookies from 'nookies';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';

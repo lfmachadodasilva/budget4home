@@ -1,14 +1,13 @@
 import { B4hButtonLink } from '@budget4home/ui-components';
 import { Balance } from '../components/expenses/balance';
+import { getDefaultOrFirstGroup } from '../util/defaultOrFirstGroup';
 import { getUserId } from '../util/getUserId';
-import { groupRepository } from '../util/repositories';
 import { B4hRoutes } from '../util/routes';
 
 export default async function Page() {
   const userId = await getUserId();
-  const group = await groupRepository.getFirst(userId);
 
-  console.log('--------------', userId);
+  const group = await getDefaultOrFirstGroup(userId);
 
   if (!group) {
     return (
