@@ -10,6 +10,10 @@ import styles from './index.module.scss';
 export default function () {
   const { user } = useAuth();
 
+  if (!user) {
+    return <>Missing user</>;
+  }
+
   const [photoUrl, setPhotoUrl] = useState<string>();
 
   const displayNameRef = useRef<HTMLInputElement>();
