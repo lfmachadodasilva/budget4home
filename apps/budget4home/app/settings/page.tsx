@@ -10,10 +10,6 @@ import styles from './index.module.scss';
 export default function () {
   const { user } = useAuth();
 
-  if (!user) {
-    return <>Missing user</>;
-  }
-
   const [photoUrl, setPhotoUrl] = useState<string>();
 
   const displayNameRef = useRef<HTMLInputElement>();
@@ -31,10 +27,10 @@ export default function () {
 
   return (
     <B4hForm label={'settings'} footer={<B4hButton onClick={handleOnUpdate}>update</B4hButton>}>
-      <B4hInput defaultValue={user.email} label="email" disabled />
+      <B4hInput defaultValue={user?.email} label="email" disabled />
       <B4hInput
         ref={displayNameRef}
-        defaultValue={user.displayName}
+        defaultValue={user?.displayName}
         label="display name"
         sublabel="(optional)"
       />
@@ -44,7 +40,7 @@ export default function () {
       <B4hInput
         onChange={handleOnPhotoUrl}
         ref={photoUrlRef}
-        defaultValue={user.photoURL}
+        defaultValue={user?.photoURL}
         value={photoUrl}
         label="photo url"
         sublabel="(optional)"
