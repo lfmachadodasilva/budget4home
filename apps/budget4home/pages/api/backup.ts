@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const storageRef = ref(firebaseStorage, fileName);
       uploadString(storageRef, json).then(snapshot => {
-        console.log(`uploaded a backup for ${groupId}!`);
+        console.info(`uploaded a backup for ${groupId}!`);
       });
     }
 

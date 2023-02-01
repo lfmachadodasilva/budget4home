@@ -32,13 +32,28 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     const now = date ?? new Date();
-    const startDay = startOfMonth(now);
-    const endDay = addMonths(startDay, 1);
+    const from = startOfMonth(now);
+    const to = addMonths(from, 1);
+
+    return this.getByDateRange(userId, groupId, from, to, labels);
+  };
+
+  getByDateRange = async (
+    userId: string,
+    groupId: string,
+    from?: Date,
+    to?: Date,
+    labels?: Label[]
+  ): Promise<Expense[]> => {
+    if (await this.groupRepository.isInvalidGroup(userId, groupId)) {
+      // TODO throw ex
+      return null;
+    }
 
     const col = await this.firestore
       .collection(FirestoreCollections.expeses(groupId))
-      .where('date', '>=', Timestamp.fromDate(startDay))
-      .where('date', '<', Timestamp.fromDate(endDay))
+      .where('date', '>=', Timestamp.fromDate(from))
+      .where('date', '<', Timestamp.fromDate(to))
       .orderBy('date', 'desc')
       .get();
 

@@ -6,7 +6,6 @@ import { B4hRoutes } from '../util/routes';
 
 export default async function Page() {
   const userId = await getUserId();
-
   const group = await getDefaultOrFirstGroup(userId);
 
   if (!group) {
