@@ -9,6 +9,6 @@ jobs:
     steps:
       - name: backup 💾
         run: |
-          curl -X POST -H "backup: 787421ff-1e47-4e61-8289-12f25acc3a55" https://budget4home.vercel.app/api/backup &&
+          curl -X POST -H "backup: ${{ secrets.BACKUP_KEY }}" https://budget4home.vercel.app/api/backup &&
           echo "DONE!"
         shell: bash

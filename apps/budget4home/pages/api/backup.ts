@@ -6,6 +6,7 @@ import { expenseRepository, groupRepository, labelRepository } from '../../util/
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST' || req.headers['backup'] !== process.env.BACKUP_KEY) {
+    console.error('fail to backup. Invalid params', req.method, req.headers['backup']);
     return res.status(401).end();
   }
 

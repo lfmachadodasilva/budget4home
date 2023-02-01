@@ -2,6 +2,7 @@
 
 import { B4hButton, B4hForm, B4hInput } from '@budget4home/ui-components';
 import { updateProfile } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useAuth } from '../../contexts/auth';
 
@@ -9,6 +10,7 @@ import styles from './index.module.scss';
 
 export default function () {
   const { user } = useAuth();
+  const { refresh } = useRouter();
 
   const [photoUrl, setPhotoUrl] = useState<string>();
 
@@ -20,6 +22,7 @@ export default function () {
       displayName: displayNameRef.current.value,
       photoURL: photoUrlRef.current.value
     });
+    refresh();
   };
   const handleOnPhotoUrl = (event: ChangeEvent<HTMLInputElement>) => {
     setPhotoUrl(event.target.value);
@@ -34,7 +37,7 @@ export default function () {
         label="display name"
         sublabel="(optional)"
       />
-      {photoUrlRef?.current?.value && (
+      {photoUrl && photoUrl.length > 0 && (
         <img alt="avatar" className={styles.avatar} src={photoUrlRef.current.value} />
       )}
       <B4hInput
