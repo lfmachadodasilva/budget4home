@@ -1,19 +1,15 @@
 import { B4hButtonLink } from '@budget4home/ui-components';
-import { cookies } from 'next/headers';
 import { LabelItem } from '../../../../components/item/label';
 import { SubHeader } from '../../../../components/subheader';
-import { firebaseAdminAuth } from '../../../../util/firebaseAdmin';
+import { getUserId } from '../../../../util/getUserId';
 import { labelRepository } from '../../../../util/repositories';
 import { B4hRoutes } from '../../../../util/routes';
 
 export default async function ({ params }: any) {
   const groupId = params.groupId as string;
+  const userId = await getUserId();
 
-  const nextCookies = cookies();
-  const token = nextCookies.get('token').value;
-  const { uid } = await firebaseAdminAuth.verifyIdToken(token);
-
-  const labels = await labelRepository.getAll(uid, groupId);
+  const labels = await labelRepository.getAll(userId, groupId);
 
   return (
     <>

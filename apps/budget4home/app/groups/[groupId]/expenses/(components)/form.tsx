@@ -288,7 +288,6 @@ export function ExpenseForm(props: ExpenseFormProps) {
           type="datetime-local"
           label="Date"
           ref={dateRef}
-          onChange={event => console.log(new Date(event.target.value).toISOString())}
           defaultValue={format(
             props.expense?.date ? new Date(props.expense?.date) : new Date(),
             "yyyy-MM-dd'T'HH:mm"

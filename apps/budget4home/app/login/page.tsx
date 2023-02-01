@@ -75,9 +75,9 @@ export default function () {
         <B4hButton key="login" type="button" onClick={handleOnLogin}>
           login
         </B4hButton>,
-        <B4hButton key="register" type="button" onClick={handleOnRegister}>
-          register
-        </B4hButton>,
+        // <B4hButton key="register" type="button" onClick={handleOnRegister}>
+        //   register
+        // </B4hButton>,
         <B4hButton key="forgot" type="button" onClick={handleOnForgotPassword}>
           forgot password
         </B4hButton>

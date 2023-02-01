@@ -9,6 +9,13 @@ export interface IExpenseRepository {
     date?: Date,
     labels?: Label[]
   ) => Promise<Expense[]>;
+  getByDateRange: (
+    userId: string,
+    groupId: string,
+    from?: Date,
+    to?: Date,
+    labels?: Label[]
+  ) => Promise<Expense[]>;
   get: (userId: string, groupId: string, expenseId: string) => Promise<Expense>;
   add: (userId: string, groupId: string, expense: Partial<Expense>) => Promise<Expense>;
   edit: (userId: string, groupId: string, expense: Partial<Expense>) => Promise<Expense>;
