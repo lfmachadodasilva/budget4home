@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const fileName = `budget4home/backup/${groupId}/${groupId}_${new Date().toISOString()}.json`;
 
       const storageRef = ref(firebaseStorage, fileName);
-      uploadString(storageRef, json).then(snapshot => {
+      await uploadString(storageRef, json).then(snapshot => {
         console.info(`uploaded a backup for ${groupId}!`);
       });
     }

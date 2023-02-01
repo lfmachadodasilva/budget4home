@@ -237,7 +237,7 @@ export class ExpenseRepository implements IExpenseRepository {
     }
 
     let parentRef: Expense = null;
-    if (loadParent === false && data.parentRef) {
+    if (loadParent === true && data.parentRef) {
       const parentData = await data.parentRef.get();
       parentRef = await this.expenseToModel(parentData, groupId, null, false, false);
     } else if (data.parentRef) {

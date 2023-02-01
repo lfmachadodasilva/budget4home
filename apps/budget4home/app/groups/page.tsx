@@ -9,8 +9,8 @@ import { B4hRoutes } from '../../util/routes';
 export default async function () {
   const userId = await getUserId();
 
-  const defaultGroupId = getDefaultGroupId();
   const groups = await groupRepository.getAll(userId);
+  const defaultGroupId = getDefaultGroupId(groups);
 
   return (
     <>
