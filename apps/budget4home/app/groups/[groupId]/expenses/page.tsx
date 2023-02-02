@@ -1,7 +1,6 @@
 import { Expense } from '@budget4home/base';
 import { B4hButtonLink } from '@budget4home/ui-components';
 import Link from 'next/link';
-import { Suspense } from 'react';
 import { Balance } from '../../../../components/expenses/balance';
 import { ExpenseItems } from '../../../../components/expenses/expenseItems';
 import { ExpenseViewBy } from '../../../../components/expenses/viewBy';
@@ -60,13 +59,13 @@ export default async function ({ params, searchParams }: any) {
       ) : (
         <>
           <ExpensesDate />
-          <Suspense fallback={<>loading balance</>}>
-            {/* @ts-ignore */}
-            <Balance groupId={groupId} expenses={expenses} />
-          </Suspense>
+          {/* <Suspense fallback={<B4hLoading />}> */}
+          {/* @ts-ignore */}
+          <Balance groupId={groupId} expenses={expenses} />
           <br></br>
           <ExpenseViewBy groupId={groupId} />
           <ExpenseItems groupId={groupId} expenses={expenses} viewBy={viewBy} />
+          {/* </Suspense> */}
         </>
       )}
     </>

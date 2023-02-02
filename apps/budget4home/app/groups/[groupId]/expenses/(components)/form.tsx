@@ -212,31 +212,34 @@ export function ExpenseForm(props: ExpenseFormProps) {
   );
   const formFooter: JSX.Element[] = isAddMode()
     ? [
-        <B4hButton key="preview" onClick={handleOnPreviewAdd} disabled={loading}>
+        <B4hButton key="preview" onClick={handleOnPreviewAdd} loading={loading}>
           add
         </B4hButton>,
-        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+        <B4hButton key="action" onClick={handleOnManage} loading={loading}>
           add and submit
         </B4hButton>
       ]
     : [
-        <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+        <B4hButton key="action" onClick={handleOnManage} loading={loading}>
           edit
         </B4hButton>,
         props.expense.scheduled && (
-          <B4hButton key="actionAll" onClick={handleOnEditAll} disabled={loading}>
+          <B4hButton key="actionAll" onClick={handleOnEditAll} loading={loading}>
             edit all
           </B4hButton>
         ),
-        <B4hButton key="delete" onClick={handleOnDelete} disabled={loading}>
+        <B4hButton key="delete" onClick={handleOnDelete} loading={loading}>
           delete
         </B4hButton>,
         props.expense.scheduled && (
-          <B4hButton key="deleteAll" onClick={handleOnDeleteAll} disabled={loading}>
+          <B4hButton key="deleteAll" onClick={handleOnDeleteAll} loading={loading}>
             delete all
           </B4hButton>
         )
       ];
+
+  const previewIncoming = preview.filter(x => x.type === ExpenseType.incoming);
+  const previewOutcoming = preview.filter(x => x.type === ExpenseType.outcoming);
 
   return (
     <>
@@ -337,18 +340,24 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <B4hForm
           key="preview"
           label="Preview"
-          footer={<B4hButton onClick={handleOnPreviewSubmit}>submit</B4hButton>}
+          footer={
+            <B4hButton onClick={handleOnPreviewSubmit} loading={loading}>
+              submit
+            </B4hButton>
+          }
         >
-          <h5>{ExpenseType.incoming}</h5>
-          <ExpensePreviewItems
-            expenses={preview.filter(x => x.type === ExpenseType.incoming)}
-            onDelete={handleOnPreviewDelete}
-          />
-          <h5>{ExpenseType.outcoming}</h5>
-          <ExpensePreviewItems
-            expenses={preview.filter(x => x.type === ExpenseType.outcoming)}
-            onDelete={handleOnPreviewDelete}
-          />
+          {previewIncoming.length > 0 && (
+            <>
+              <p>{ExpenseType.incoming}</p>
+              <ExpensePreviewItems expenses={previewIncoming} onDelete={handleOnPreviewDelete} />
+            </>
+          )}
+          {previewOutcoming.length > 0 && (
+            <>
+              <p>{ExpenseType.outcoming}</p>
+              <ExpensePreviewItems expenses={previewOutcoming} onDelete={handleOnPreviewDelete} />
+            </>
+          )}
         </B4hForm>
       )}
     </>

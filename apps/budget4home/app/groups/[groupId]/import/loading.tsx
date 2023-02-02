@@ -1,3 +1,5 @@
+import { B4hSpinner } from '@budget4home/ui-components';
+
 export default function Loading() {
-  return <h3>loading import...</h3>;
+  return <B4hSpinner label="loading import..." />;
 }

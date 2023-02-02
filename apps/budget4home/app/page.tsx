@@ -1,4 +1,5 @@
-import { B4hButtonLink } from '@budget4home/ui-components';
+import { B4hButtonLink, B4hSpinner } from '@budget4home/ui-components';
+import { Suspense } from 'react';
 import { Balance } from '../components/expenses/balance';
 import { getDefaultOrFirstGroup } from '../util/defaultOrFirstGroup';
 import { getUserId } from '../util/getUserId';
@@ -49,8 +50,10 @@ export default async function Page() {
           </p>
         </div>
 
-        {/* @ts-ignore */}
-        <Balance groupId={group.id} />
+        <Suspense fallback={<B4hSpinner />}>
+          {/* @ts-ignore */}
+          <Balance groupId={group.id} />
+        </Suspense>
       </div>
       <br></br>
       <br></br>

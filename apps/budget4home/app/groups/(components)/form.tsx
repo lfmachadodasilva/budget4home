@@ -75,11 +75,11 @@ export const GroupForm = (props: GroupFormProps) => {
 
   const formFooter = (
     <>
-      <B4hButton onClick={handleOnManage} disabled={loading}>
+      <B4hButton onClick={handleOnManage} loading={loading}>
         {props.group?.id ? 'Update' : 'Add'}
       </B4hButton>
       {props.group?.id && (
-        <B4hButton onClick={handleOnDelete} disabled={loading}>
+        <B4hButton onClick={handleOnDelete} loading={loading}>
           Delete
         </B4hButton>
       )}

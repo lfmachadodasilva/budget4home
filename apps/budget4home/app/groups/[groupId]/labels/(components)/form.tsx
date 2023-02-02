@@ -69,11 +69,11 @@ export function LabelForm(props: LabelFormProps) {
   );
   const formFooter = [
     <>
-      <B4hButton key="action" onClick={handleOnManage} disabled={loading}>
+      <B4hButton key="action" onClick={handleOnManage} loading={loading}>
         {props.label?.id ? 'Edit' : 'Add'}
       </B4hButton>
       {props.label?.id && (
-        <B4hButton key="delete" onClick={handleOnDelete}>
+        <B4hButton key="delete" onClick={handleOnDelete} loading={loading}>
           Delete
         </B4hButton>
       )}
