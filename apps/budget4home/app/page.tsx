@@ -1,5 +1,6 @@
 import { B4hButtonLink } from '@budget4home/ui-components';
 import { Balance } from '../components/expenses/balance';
+import { useTranslation } from '../i18n/server';
 import { getDefaultOrFirstGroup } from '../util/defaultOrFirstGroup';
 import { getUserId } from '../util/getUserId';
 import { B4hRoutes } from '../util/routes';
@@ -7,6 +8,8 @@ import { B4hRoutes } from '../util/routes';
 export default async function Page() {
   const userId = await getUserId();
   const group = await getDefaultOrFirstGroup(userId);
+
+  const { t } = await useTranslation();
 
   if (!group) {
     return (
@@ -30,6 +33,7 @@ export default async function Page() {
 
   return (
     <div>
+      <p>{t('title')}</p>
       <h3>
         <small>Welcome to</small> budget4home
       </h3>
