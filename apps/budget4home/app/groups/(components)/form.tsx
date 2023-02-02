@@ -20,6 +20,7 @@ export const GroupForm = (props: GroupFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const nameRef = useRef<HTMLInputElement>();
+  const seedRef = useRef<HTMLInputElement>();
   const userIdsRef = useRef<string[]>(props.group?.userIds ?? [user?.uid]);
 
   const handleOnManage = async () => {
@@ -29,10 +30,14 @@ export const GroupForm = (props: GroupFormProps) => {
     setLoading(true);
     try {
       if (!props.group?.id) {
-        await GroupClient.add(token, {
-          name: nameRef.current.value,
-          userIds: userIdsRef.current
-        });
+        await GroupClient.add(
+          token,
+          {
+            name: nameRef.current.value,
+            userIds: userIdsRef.current
+          },
+          seedRef.current.checked
+        );
       } else {
         await GroupClient.edit(token, {
           id: props.group.id,
@@ -100,6 +105,19 @@ export const GroupForm = (props: GroupFormProps) => {
     <B4hForm label={formLabel} footer={formFooter}>
       <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
 
+      {!props.group?.id && (
+        <div>
+          <B4hInput
+            ref={seedRef}
+            label="Seed with suggestion"
+            type="checkbox"
+            defaultChecked={true}
+          />
+        </div>
+      )}
+
+      <br />
+      <label>Users:</label>
       {props.users?.map(x => {
         return (
           <div>

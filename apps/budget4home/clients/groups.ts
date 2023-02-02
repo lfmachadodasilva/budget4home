@@ -5,8 +5,8 @@ import { BaseClient } from './base';
 export class GroupClient extends BaseClient {
   private static url = B4hRoutes.api + B4hRoutes.groups;
 
-  static add = async (token: string, group: Partial<Group>) => {
-    return await this.fetch<Group>(this.url, token, 'POST', group);
+  static add = async (token: string, group: Partial<Group>, seed: boolean = false) => {
+    return await this.fetch<Group>(this.url, token, 'POST', { ...group, seed });
   };
 
   static edit = async (token: string, group: Partial<Group>) => {
