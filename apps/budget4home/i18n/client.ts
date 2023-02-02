@@ -3,19 +3,25 @@
 import i18next from 'i18next';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next, useTranslation as useTranslationOrg } from 'react-i18next';
-import { defaultLanguage, defaultNamespace, getOptions } from './settings';
+import { defaultLanguage, getOptions } from './settings';
 
 i18next
   .use(initReactI18next)
   .use(
-    resourcesToBackend(
-      (language: string, namespace: string) => import(`./locales/${language}/${namespace}.json`)
-    )
+    resourcesToBackend(async (language: string, namespace: string) => {
+      const basePromise = import(`./locales/${language}/base.json`);
+      const extensionPromise =
+        namespace !== 'base'
+          ? import(`./locales/${language}/${namespace}.json`)
+          : Promise.resolve({});
+      const [base, extension] = await Promise.all([basePromise, extensionPromise]);
+      return { ...base, ...extension };
+    })
   )
   .init(getOptions());
 
 export function useTranslation(
-  namespace: string = defaultNamespace,
+  namespace: string,
   language: string = defaultLanguage,
   options: any = {}
 ) {

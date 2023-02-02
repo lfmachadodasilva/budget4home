@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 import { useAuth } from '../../contexts/auth';
+import { useTranslation } from '../../i18n/client';
+import { LocaleNamespaces } from '../../i18n/locales/namespaces';
 import { getDefaultOrFirstGroupId } from '../../util/defaultOrFirstGroupClient';
 import { firebaseAuth } from '../../util/firebase';
 import { B4hRoutes } from '../../util/routes';
@@ -13,6 +15,7 @@ import { B4hRoutes } from '../../util/routes';
 import styles from './index.module.scss';
 
 export const HeaderClient = () => {
+  const { t } = useTranslation(LocaleNamespaces.base);
   const { user, getUserName } = useAuth();
 
   const groupId = getDefaultOrFirstGroupId();
@@ -53,17 +56,17 @@ export const HeaderClient = () => {
       </Link>
       {user && (
         <div className={styles.menu}>
-          <Link href={groupUrl}>groups</Link>
-          <Link href={labeslUrl}>labels</Link>
-          <Link href={expensesUrl}>expenses</Link>
+          <Link href={groupUrl}>{t('header.groups')}</Link>
+          <Link href={labeslUrl}>{t('header.labels')}</Link>
+          <Link href={expensesUrl}>{t('header.expenses')}</Link>
         </div>
       )}
       {user && (
         <B4hDropdown
           onChange={handleOnChange}
           options={[
-            { key: 'logout', value: 'logout' },
-            { key: 'settings', value: 'settings' }
+            { key: 'logout', value: t('header.logout') },
+            { key: 'settings', value: t('header.settings') }
           ]}
         >
           {trigger}

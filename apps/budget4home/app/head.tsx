@@ -1,7 +1,11 @@
-export default function Head() {
+import { LocaleNamespaces } from '../i18n/locales/namespaces';
+import { useTranslation } from '../i18n/server';
+
+export default async function Head() {
+  const { t } = await useTranslation(LocaleNamespaces.base);
   return (
     <>
-      <title>budget4home</title>
+      <title>{t('title')}</title>
 
       <meta name="name" content="budget4home" />
       <meta name="description" content="budget4home - Project to control my personal budget" />

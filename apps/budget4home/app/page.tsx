@@ -1,5 +1,6 @@
 import { B4hButtonLink } from '@budget4home/ui-components';
 import { Balance } from '../components/expenses/balance';
+import { LocaleNamespaces } from '../i18n/locales/namespaces';
 import { useTranslation } from '../i18n/server';
 import { getDefaultOrFirstGroup } from '../util/defaultOrFirstGroup';
 import { getUserId } from '../util/getUserId';
@@ -9,7 +10,7 @@ export default async function Page() {
   const userId = await getUserId();
   const group = await getDefaultOrFirstGroup(userId);
 
-  const { t } = await useTranslation();
+  const { t } = await useTranslation(LocaleNamespaces.home);
 
   if (!group) {
     return (
@@ -33,7 +34,6 @@ export default async function Page() {
 
   return (
     <div>
-      <p>{t('title')}</p>
       <h3>
         <small>Welcome to</small> budget4home
       </h3>
@@ -59,7 +59,7 @@ export default async function Page() {
       <br></br>
       <br></br>
       <B4hButtonLink href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenseAdd}`}>
-        add new expense
+        {t('addNewExpence')}
       </B4hButtonLink>
     </div>
   );

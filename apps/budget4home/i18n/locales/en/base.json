@@ -1,0 +1,10 @@
+{
+  "title": "budget4home",
+  "header": {
+    "groups": "groups",
+    "labels": "labels",
+    "expenses": "expenses",
+    "settings": "settings",
+    "logout": "logout"
+  }
+}

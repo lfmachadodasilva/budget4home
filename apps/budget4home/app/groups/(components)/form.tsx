@@ -7,6 +7,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { GroupClient } from '../../../clients';
 import { useAuth } from '../../../contexts/auth';
 import { useTranslation } from '../../../i18n/client';
+import { LocaleNamespaces } from '../../../i18n/locales/namespaces';
 import { B4hRoutes } from '../../../util/routes';
 
 interface GroupFormProps {
@@ -15,7 +16,7 @@ interface GroupFormProps {
 }
 
 export const GroupForm = (props: GroupFormProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(LocaleNamespaces.groupForm);
   const { push } = useRouter();
   const { token, user } = useAuth();
 
@@ -105,8 +106,6 @@ export const GroupForm = (props: GroupFormProps) => {
 
   return (
     <B4hForm label={formLabel} footer={formFooter}>
-      <p>{t('title')}</p>
-
       <B4hInput ref={nameRef} defaultValue={props.group?.name} label="Name" />
 
       {!props.group?.id && (
