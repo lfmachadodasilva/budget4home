@@ -18,7 +18,10 @@ export class LabelRepository implements ILabelRepository {
       return null;
     }
 
-    const docs = await this.firestore.collection(FirestoreCollections.labels(groupId)).get();
+    const docs = await this.firestore
+      .collection(FirestoreCollections.labels(groupId))
+      .orderBy('name', 'asc')
+      .get();
 
     return docs.docs.map(doc => this.labelToModel(doc));
   };

@@ -36,7 +36,9 @@ export const ExpenseItem = (props: ExpenseItemProps) => {
         )}
         <label className={styles.expense}>{props.expense.name}</label>
         {props.expense.scheduled && (
-          <label className={styles.expense}>{props.expense.scheduled}</label>
+          <label className={styles.expense}>
+            <small>{props.expense.scheduled}</small>
+          </label>
         )}
         <label
           className={props.expense.type === ExpenseType.incoming ? styles.incoming : styles.expense}

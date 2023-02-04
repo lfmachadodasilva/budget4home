@@ -1,6 +1,6 @@
-import { Expense, ExpenseType, Label } from '@budget4home/base';
+import { Expense, Label } from '@budget4home/base';
 import { format, isToday, isYesterday } from 'date-fns';
-import { groupBy, sum } from 'lodash';
+import { expensesByDay, expensesByLabel } from '../../../util/expenses';
 import { formatValue } from '../../../util/util';
 import { ExpenseItem } from '../../item/expense';
 
@@ -14,61 +14,60 @@ interface ExpenseItemProps {
 
 export const ExpenseItems = (props: ExpenseItemProps) => {
   if (props.viewBy === 'label') {
-    var groupsByLabel = groupBy(props.expenses, function (expense) {
-      return expense.label.id;
+    const byLabel = expensesByLabel(props.expenses, 'sum');
+    return byLabel.map(obj => {
+      return (
+        <div key={obj.labelId}>
+          <HeaderByLabel label={obj.label} total={obj.total} />
+          {obj.expenses.map(expense => (
+            <ExpenseItem
+              groupId={props.groupId}
+              expense={expense}
+              key={expense.id}
+              viewBy={props.viewBy}
+            />
+          ))}
+        </div>
+      );
     });
-
-    return (
-      <>
-        {Object.keys(groupsByLabel)
-          .reverse()
-          .map(labelId => {
-            if (groupsByLabel[labelId].length <= 0) {
-              return <></>;
-            }
-
-            const total = sum(groupsByLabel[labelId].map(x => x.value));
-            return (
-              <div key={labelId}>
-                <HeaderByLabel label={groupsByLabel[labelId].at(0).label} total={total} />
-                {groupsByLabel[labelId].map(expense => (
-                  <ExpenseItem
-                    groupId={props.groupId}
-                    expense={expense}
-                    key={expense.id}
-                    viewBy={props.viewBy}
-                  />
-                ))}
-              </div>
-            );
-          })}
-      </>
-    );
   }
 
-  var groups = groupBy(props.expenses, function (expense) {
-    return new Date(expense.date).getDate();
+  const byDay = expensesByDay(props.expenses, 'sum');
+  return byDay.map(obj => {
+    const date = new Date(obj.date);
+    return (
+      <div key={obj.date}>
+        <Header date={date} day={date.getDate()} total={obj.total} />
+        {obj.expenses.map(expense => (
+          <ExpenseItem groupId={props.groupId} expense={expense} key={expense.id} />
+        ))}
+      </div>
+    );
   });
-  const date = new Date(props.expenses.at(0)?.date ?? new Date());
-  return (
-    <>
-      {Object.keys(groups)
-        .reverse()
-        .map(day => {
-          const total = sum(
-            groups[day].filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
-          );
-          return (
-            <div key={day}>
-              <Header date={date} day={+day} total={total} />
-              {groups[day].map(expense => (
-                <ExpenseItem groupId={props.groupId} expense={expense} key={expense.id} />
-              ))}
-            </div>
-          );
-        })}
-    </>
-  );
+
+  // var groups = groupBy(props.expenses, function (expense) {
+  //   return new Date(expense.date).getDate();
+  // });
+  // const date = new Date(props.expenses.at(0)?.date ?? new Date());
+  // return (
+  //   <>
+  //     {Object.keys(groups)
+  //       .reverse()
+  //       .map(day => {
+  //         const total = sum(
+  //           groups[day].filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
+  //         );
+  //         return (
+  //           <div key={day}>
+  //             <Header date={date} day={+day} total={total} />
+  //             {groups[day].map(expense => (
+  //               <ExpenseItem groupId={props.groupId} expense={expense} key={expense.id} />
+  //             ))}
+  //           </div>
+  //         );
+  //       })}
+  //   </>
+  // );
 };
 
 interface HeaderProps {
