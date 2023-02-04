@@ -55,7 +55,6 @@ export default async function Page() {
       <B4hButtonLink href={`${B4hRoutes.groups}/${group.id}${B4hRoutes.expenseAdd}`}>
         {locale.home.add}
       </B4hButtonLink>
-      <B4hButton loading={true}>loaidng</B4hButton>
     </div>
   );
 }
