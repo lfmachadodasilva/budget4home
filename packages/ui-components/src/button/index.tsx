@@ -16,7 +16,7 @@ export const B4hButton = (props: B4hButtonProps) => {
       type="button"
       disabled={props.disabled || loading === true}
     >
-      {loading === true && <B4hSpinner />}
+      {loading === true && <B4hSpinner size={16} />}
       {props.children}
     </button>
   );

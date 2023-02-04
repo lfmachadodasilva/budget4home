@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 import { useAuth } from '../../contexts/auth';
+import { getLocale } from '../../locales';
 import { getDefaultOrFirstGroupId } from '../../util/defaultOrFirstGroupClient';
 import { firebaseAuth } from '../../util/firebase';
 import { B4hRoutes } from '../../util/routes';
@@ -13,6 +14,7 @@ import { B4hRoutes } from '../../util/routes';
 import styles from './index.module.scss';
 
 export const HeaderClient = () => {
+  const locale = getLocale();
   const { user, getUserName } = useAuth();
 
   const groupId = getDefaultOrFirstGroupId();
@@ -21,10 +23,10 @@ export const HeaderClient = () => {
 
   const handleOnChange = async (event: ChangeEvent<HTMLSelectElement>) => {
     switch (event.target.value) {
-      case 'logout':
+      case locale.header.logout:
         await signOut(firebaseAuth);
         break;
-      case 'settings':
+      case locale.header.settings:
         push(B4hRoutes.settings);
         break;
     }
@@ -62,8 +64,8 @@ export const HeaderClient = () => {
         <B4hDropdown
           onChange={handleOnChange}
           options={[
-            { key: 'logout', value: 'logout' },
-            { key: 'settings', value: 'settings' }
+            { key: locale.header.settings, value: locale.header.settings },
+            { key: locale.header.logout, value: locale.header.logout }
           ]}
         >
           {trigger}

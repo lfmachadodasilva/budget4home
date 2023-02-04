@@ -5,10 +5,11 @@ import { SummaryItem } from '../item/summary';
 export interface SummaryItemsProps {
   groupId: string;
   expenses: Expense[];
+  operation?: 'sum' | 'avg';
 }
 
 export const SummaryItems = (props: SummaryItemsProps) => {
-  const byLabel = expensesByLabel(props.expenses, 'sum');
+  const byLabel = expensesByLabel(props.expenses, props.operation ?? 'sum');
 
   return (
     <div style={{ marginTop: 'var(--size-l)' }}>

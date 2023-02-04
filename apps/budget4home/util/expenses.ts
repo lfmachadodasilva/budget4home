@@ -1,5 +1,6 @@
 import { Expense, Label } from '@budget4home/base';
-import { groupBy, mean, orderBy, sum } from 'lodash';
+import { format } from 'date-fns';
+import { groupBy, mean, meanBy, orderBy, sumBy } from 'lodash';
 
 export const expensesToJson = (expenses: Expense[], labels: Label[]) => {
   var groups = groupBy(expenses, function (expense) {
@@ -25,14 +26,26 @@ export const expensesByLabel = (expenses: Expense[], operation: 'sum' | 'avg') =
       return {};
     }
 
+    let total: number;
+    if (operation === 'avg') {
+      // calculate average per month
+      const groupByMonth = groupBy(groupsByLabel[labelId], expense => {
+        return format(new Date(expense.date), 'yyyy-MM');
+      });
+      total = mean(
+        Object.values(groupByMonth).map(expenses => {
+          return sumBy(expenses, expense => expense.value);
+        })
+      );
+    } else {
+      total = sumBy(groupsByLabel[labelId], x => x.value);
+    }
+
     return {
       labelId,
       label: groupsByLabel[labelId].at(0).label,
       expenses: groupsByLabel[labelId],
-      total:
-        operation === 'sum'
-          ? sum(groupsByLabel[labelId].map(x => x.value))
-          : mean(groupsByLabel[labelId].map(x => x.value))
+      total
     };
   });
 
@@ -54,7 +67,7 @@ export const expensesByDay = (expenses: Expense[], operation: 'sum' | 'avg') => 
       label: byDay[day].at(0).label,
       expenses: byDay[day],
       total:
-        operation === 'sum' ? sum(byDay[day].map(x => x.value)) : mean(byDay[day].map(x => x.value))
+        operation === 'sum' ? sumBy(byDay[day], x => x.value) : meanBy(byDay[day], x => x.value)
     };
   });
 

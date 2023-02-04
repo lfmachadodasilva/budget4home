@@ -10,7 +10,7 @@ export interface B4hSpinnerProps {
 export const B4hSpinner = (props: B4hSpinnerProps) => {
   return (
     <div className={styles.container}>
-      <CgSpinner className={styles.spinner} size={props.size} />
+      <CgSpinner className={styles.spinner} size={props.size ?? 32} />
       {props.label && <p className={styles.label}>{props.label}</p>}
     </div>
   );

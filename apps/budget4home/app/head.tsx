@@ -1,7 +1,10 @@
+import { getLocale } from '../locales';
+
 export default function Head() {
+  const locale = getLocale();
   return (
     <>
-      <title>budget4home</title>
+      <title>{locale.title}</title>
 
       <meta name="name" content="budget4home" />
       <meta name="description" content="budget4home - Project to control my personal budget" />

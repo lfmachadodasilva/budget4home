@@ -26,6 +26,7 @@ export const B4hDropdown = (props: B4hDropdownProps) => {
       <select
         className={styles.select}
         {...props}
+        value=""
         style={{
           height: size.height,
           width: size.width,

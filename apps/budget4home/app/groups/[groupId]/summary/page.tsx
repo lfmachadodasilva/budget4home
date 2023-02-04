@@ -1,4 +1,5 @@
 import { Expense } from '@budget4home/base';
+import { addDays } from 'date-fns';
 import { SummaryItems } from '../../../../components/summary/items';
 import { SummaryHeaderClient } from '../../../../components/summary/summaryHeaderClient';
 import { getUserId } from '../../../../util/getUserId';
@@ -11,7 +12,7 @@ export default async function ({ params, searchParams }: any) {
   let expenses: Expense[] = [];
   if (searchParams.from && searchParams.to) {
     const fromDate = new Date(searchParams.from);
-    const toDate = new Date(searchParams.to);
+    const toDate = addDays(new Date(searchParams.to), 1);
 
     const labels = await labelRepository.getAll(userId, groupId);
     expenses = await expenseRepository.getByDateRange(userId, groupId, fromDate, toDate, labels);
@@ -19,8 +20,8 @@ export default async function ({ params, searchParams }: any) {
 
   return (
     <>
-      <SummaryHeaderClient groupId={groupId} />
-      <SummaryItems groupId={groupId} expenses={expenses} />
+      <SummaryHeaderClient groupId={groupId} from={searchParams.from} to={searchParams.to} />
+      <SummaryItems groupId={groupId} expenses={expenses} operation={searchParams.operation} />
     </>
   );
 }

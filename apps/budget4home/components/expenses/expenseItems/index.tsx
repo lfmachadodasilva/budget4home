@@ -15,7 +15,7 @@ interface ExpenseItemProps {
 export const ExpenseItems = (props: ExpenseItemProps) => {
   if (props.viewBy === 'label') {
     const byLabel = expensesByLabel(props.expenses, 'sum');
-    return byLabel.map(obj => {
+    const toReturn = byLabel.map(obj => {
       return (
         <div key={obj.labelId}>
           <HeaderByLabel label={obj.label} total={obj.total} />
@@ -30,10 +30,11 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
         </div>
       );
     });
+    return <>{toReturn}</>;
   }
 
   const byDay = expensesByDay(props.expenses, 'sum');
-  return byDay.map(obj => {
+  const toReturn = byDay.map(obj => {
     const date = new Date(obj.date);
     return (
       <div key={obj.date}>
@@ -44,30 +45,7 @@ export const ExpenseItems = (props: ExpenseItemProps) => {
       </div>
     );
   });
-
-  // var groups = groupBy(props.expenses, function (expense) {
-  //   return new Date(expense.date).getDate();
-  // });
-  // const date = new Date(props.expenses.at(0)?.date ?? new Date());
-  // return (
-  //   <>
-  //     {Object.keys(groups)
-  //       .reverse()
-  //       .map(day => {
-  //         const total = sum(
-  //           groups[day].filter(x => x.type === ExpenseType.outcoming).map(x => x.value)
-  //         );
-  //         return (
-  //           <div key={day}>
-  //             <Header date={date} day={+day} total={total} />
-  //             {groups[day].map(expense => (
-  //               <ExpenseItem groupId={props.groupId} expense={expense} key={expense.id} />
-  //             ))}
-  //           </div>
-  //         );
-  //       })}
-  //   </>
-  // );
+  return <>{toReturn}</>;
 };
 
 interface HeaderProps {
