@@ -23,8 +23,8 @@ export const ExpenseViewBy = (props: ExpenseViewByProps) => {
   }
 
   const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    if (event.target.value === 'label') {
-      baseQuery = { ...baseQuery, viewBy: 'label' };
+    if (event.target.value !== 'date') {
+      baseQuery = { ...baseQuery, viewBy: event.target.value };
     }
 
     push(
@@ -42,9 +42,10 @@ export const ExpenseViewBy = (props: ExpenseViewByProps) => {
           label="View by: "
           options={[
             { key: 'date', value: 'date' },
-            { key: 'label', value: 'label' }
+            { key: 'label', value: 'label' },
+            { key: 'chart', value: 'chart' }
           ]}
-          value={query.get('viewBy') === 'label' ? 'label' : 'date'}
+          value={query.get('viewBy') ?? 'date'}
           onChange={handleOnChange}
         />
       </div>
