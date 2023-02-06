@@ -2,6 +2,7 @@
 
 import { B4hDropdown } from '@budget4home/ui-components';
 import { signOut } from 'firebase/auth';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
@@ -34,7 +35,7 @@ export const HeaderClient = () => {
 
   const trigger = user?.photoURL ? (
     <div className={styles.settingTrigger}>
-      <img alt="avatar" src={user.photoURL} className={styles.avatar} />
+      <Image alt="avatar" src={user.photoURL} className={styles.avatar} width={32} height={32} />
     </div>
   ) : (
     <label style={{ cursor: 'pointer' }}>{getUserName()}</label>
@@ -51,7 +52,7 @@ export const HeaderClient = () => {
   return (
     <div className={styles.container}>
       <Link href={B4hRoutes.home}>
-        <img src="/logo32.png" className={styles.logo} alt="logo" />
+        <Image src="/logo32.png" className={styles.logo} alt="logo" width={32} height={32} />
       </Link>
       {user && (
         <div className={styles.menu}>

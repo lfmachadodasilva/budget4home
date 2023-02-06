@@ -8,7 +8,8 @@ export const en: B4hLocale = {
       <>
         You don't have any group yet. Click <a href={`${B4hRoutes.groupAdd}`}>here</a> to create one
       </>
-    )
+    ),
+    optional: '(optional)'
   },
   header: {
     groups: 'groups',
@@ -25,5 +26,15 @@ export const en: B4hLocale = {
     ),
     balanace: 'You current balance is:',
     add: 'add new expense'
+  },
+  settings: {
+    title: 'User settings',
+    action: 'Edit',
+    email: 'Email',
+    displayName: 'Display name',
+    avatar: 'Avatar',
+    successEditSettings: 'Done!',
+    failUploadAvatar: 'Fail to upload your avatar. Try again later.',
+    failEditSettings: 'Fail to edit your settings. Try again later.'
   }
 };

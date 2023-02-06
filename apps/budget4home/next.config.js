@@ -4,5 +4,8 @@ module.exports = {
     appDir: true
   },
   swcMinify: true,
-  transpilePackages: ['ui-components']
+  transpilePackages: ['ui-components'],
+  images: {
+    domains: ['firebasestorage.googleapis.com', 'github.com', 'budget4home.vercel.app', 'localhost']
+  }
 };
