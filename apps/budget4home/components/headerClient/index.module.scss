@@ -15,7 +15,7 @@
 
 .logo {
   width: var(--size-xl);
-  height: var(--size-xl);
+  height: auto;
 }
 
 .settingTrigger {
@@ -29,5 +29,6 @@
 
 .avatar {
   width: 100%;
+  height: auto;
   cursor: pointer;
 }
