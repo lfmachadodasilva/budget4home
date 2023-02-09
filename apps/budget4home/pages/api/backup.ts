@@ -1,5 +1,6 @@
 import { ref, uploadString } from 'firebase/storage';
 import { NextApiRequest, NextApiResponse } from 'next/types';
+import { CacheKeys, getFromCache } from '../../util/cache';
 import { expensesToJson } from '../../util/expenses';
 import { firebaseStorage } from '../../util/firebase';
 import { expenseRepository, groupRepository, labelRepository } from '../../util/repositories';
@@ -17,7 +18,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const userId = groups[i].userIds.at(0);
 
       const expensesPromise = expenseRepository.getAll(userId, groupId);
-      const labelsPromise = labelRepository.getAll(userId, groupId);
+      const labelsPromise = getFromCache(CacheKeys.labels(groupId), () =>
+        labelRepository.getAll(userId, groupId)
+      );
 
       const [expenses, labels] = await Promise.all([expensesPromise, labelsPromise]);
 

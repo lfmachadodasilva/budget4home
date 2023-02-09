@@ -1,4 +1,5 @@
 import { ExpenseForm } from '../(components)/form';
+import { CacheKeys, getFromCache } from '../../../../../util/cache';
 import { getUserId } from '../../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../../util/repositories';
 
@@ -7,7 +8,9 @@ export default async function ({ params }: any) {
   const groupId = params.groupId as string;
 
   const expensePromise = expenseRepository.get(userId, groupId, params.expenseId);
-  const labelsPromise = labelRepository.getAll(userId, groupId);
+  const labelsPromise = getFromCache(CacheKeys.labels(groupId), () =>
+    labelRepository.getAll(userId, groupId)
+  );
 
   const [expense, labels] = await Promise.all([expensePromise, labelsPromise]);
 

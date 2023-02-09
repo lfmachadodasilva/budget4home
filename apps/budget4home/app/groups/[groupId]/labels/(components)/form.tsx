@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { LabelClient } from '../../../../../clients';
 import { useAuth } from '../../../../../contexts/auth';
+import { CacheKeys, deleteCache } from '../../../../../util/cache';
 import { B4hRoutes } from '../../../../../util/routes';
 
 interface LabelFormProps {
@@ -34,6 +35,7 @@ export function LabelForm(props: LabelFormProps) {
     } as Label;
 
     try {
+      deleteCache(CacheKeys.labels(props.groupId));
       if (!props.label?.id) {
         await LabelClient.add(token, props.groupId, label);
       } else {
@@ -47,6 +49,7 @@ export function LabelForm(props: LabelFormProps) {
     } catch {
       // TODO show error msg
     }
+
     setLoading(false);
   };
 
@@ -54,6 +57,7 @@ export function LabelForm(props: LabelFormProps) {
     if (confirm('Are you sure?')) {
       setLoading(true);
 
+      deleteCache(CacheKeys.labels(props.groupId));
       await LabelClient.delete(token, props.groupId, { id: props.label.id });
 
       push(`${B4hRoutes.groups}/${props.groupId}${B4hRoutes.labels}`);
@@ -82,7 +86,7 @@ export function LabelForm(props: LabelFormProps) {
 
   return (
     <B4hForm key="manage" label={formLabel} footer={formFooter}>
-      <B4hInput id={'name'} ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
+      <B4hInput id="name" ref={nameRef} defaultValue={props.label?.name} label={'Name'} />
       <B4hInput
         id={'icon'}
         ref={iconRef}

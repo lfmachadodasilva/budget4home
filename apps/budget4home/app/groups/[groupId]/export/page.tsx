@@ -1,5 +1,6 @@
 import { B4hForm, B4hTextarea } from '@budget4home/ui-components';
 import { CopyToClipboardButton } from '../../../../components/copyToClipboardButton';
+import { CacheKeys, getFromCache } from '../../../../util/cache';
 import { expensesToJson } from '../../../../util/expenses';
 import { getUserId } from '../../../../util/getUserId';
 
@@ -10,7 +11,9 @@ export default async function ({ params }: any) {
 
   const groupPromise = groupRepository.get(userId, params.groupId);
   const expensesPromise = expenseRepository.getAll(userId, params.groupId);
-  const labelsPromise = labelRepository.getAll(userId, params.groupId);
+  const labelsPromise = getFromCache(CacheKeys.labels(params.groupId), () =>
+    labelRepository.getAll(userId, params.groupId)
+  );
 
   const [group, expenses, labels] = await Promise.all([
     groupPromise,

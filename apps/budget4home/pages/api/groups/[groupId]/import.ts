@@ -1,5 +1,6 @@
 import { Label } from '@budget4home/base';
 import { NextApiRequest, NextApiResponse } from 'next/types';
+import { CacheKeys, getFromCache } from '../../../../util/cache';
 import { firebaseAdminAuth } from '../../../../util/firebaseAdmin';
 import { expenseRepository, labelRepository } from '../../../../util/repositories';
 
@@ -9,7 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const token = req.headers.authorization;
   const { uid } = await firebaseAdminAuth.verifyIdToken(token);
 
-  const labels = await labelRepository.getAll(uid, groupId);
+  const labels = await getFromCache(CacheKeys.labels(groupId), () =>
+    labelRepository.getAll(uid, groupId)
+  );
 
   let response: any = null;
 

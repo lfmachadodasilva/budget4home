@@ -2,6 +2,7 @@ import { Expense } from '@budget4home/base';
 import { addDays } from 'date-fns';
 import { SummaryItems } from '../../../../components/summary/items';
 import { SummaryHeaderClient } from '../../../../components/summary/summaryHeaderClient';
+import { CacheKeys, getFromCache } from '../../../../util/cache';
 import { getUserId } from '../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../util/repositories';
 
@@ -14,7 +15,9 @@ export default async function ({ params, searchParams }: any) {
     const fromDate = new Date(searchParams.from);
     const toDate = addDays(new Date(searchParams.to), 1);
 
-    const labels = await labelRepository.getAll(userId, groupId);
+    const labels = await getFromCache(CacheKeys.labels(groupId), () =>
+      labelRepository.getAll(userId, params.groupId)
+    );
     expenses = await expenseRepository.getByDateRange(userId, groupId, fromDate, toDate, labels);
   }
 
