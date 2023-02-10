@@ -1,10 +1,11 @@
 import { Redis } from 'ioredis';
 
-const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: +process.env.REDIS_PORT,
-  password: process.env.REDIS_PASSWORD
-});
+const redis =
+  process.env.REDIS_ENABLED === 'true'
+    ? new Redis(
+        `rediss://default:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`
+      )
+    : null;
 
 export const CacheKeys = {
   labels: (groupId: string) => `${groupId}:labels`
@@ -15,13 +16,15 @@ export async function getFromCache<T>(
   callback: () => Promise<T>,
   timeToLiveInSeconds: number = 60
 ): Promise<T> {
+  if (process.env.REDIS_ENABLED !== 'true') {
+    return await callback();
+  }
+
   const value = await redis.get(key);
   if (value) {
-    console.log('value exist', value);
     return JSON.parse(value) as T;
   }
 
-  console.log('value does not exist - cache again');
   const data = await callback();
   redis.set(key, JSON.stringify(data), 'EX', timeToLiveInSeconds);
 
@@ -29,5 +32,7 @@ export async function getFromCache<T>(
 }
 
 export async function deleteCache(key: string) {
-  return await redis.del(key);
+  if (process.env.REDIS_ENABLED === 'true') {
+    return await redis.del(key);
+  }
 }

@@ -2,21 +2,14 @@ import { B4hButtonLink, B4hSpinner } from '@budget4home/ui-components';
 import { Suspense } from 'react';
 import { Balance } from '../components/expenses/balance';
 import { getLocale } from '../locales';
-import { getFromCache } from '../util/cache';
 import { getDefaultOrFirstGroup } from '../util/defaultOrFirstGroup';
 import { getUserId } from '../util/getUserId';
-import { groupRepository } from '../util/repositories';
 import { B4hRoutes } from '../util/routes';
 
 export default async function Page() {
   const locale = getLocale();
   const userId = await getUserId();
   const group = await getDefaultOrFirstGroup(userId);
-
-  const group2 = await getFromCache(`${group.id}`, () => {
-    return groupRepository.get(userId, group.id);
-  });
-  console.log(group2);
 
   if (!group) {
     return (
