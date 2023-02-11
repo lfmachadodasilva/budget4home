@@ -22,7 +22,10 @@ body {
 
 main {
   padding: 20px;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
+
 p {
   padding: 0;
   margin: 0;
