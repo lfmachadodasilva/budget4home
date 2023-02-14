@@ -1,4 +1,4 @@
-import { GroupForm } from '../(components)/form';
+import { GroupForm } from '../../../components/groups/form';
 import { getUserId } from '../../../util/getUserId';
 import { groupRepository, userRepository } from '../../../util/repositories';
 

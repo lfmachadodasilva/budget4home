@@ -1,7 +1,7 @@
 import { Expense } from '@budget4home/base';
 import { B4hButton } from '@budget4home/ui-components';
 import { format } from 'date-fns';
-import { formatValue } from '../../../../../../util/util';
+import { formatValue } from '../../../util/util';
 
 interface ExpensePreviewItemsProps {
   expenses: Expense[];

@@ -3,12 +3,12 @@ import { B4hButtonLink } from '@budget4home/ui-components';
 import Link from 'next/link';
 import { Balance } from '../../../../../components/expenses/balance';
 import { ExpenseItems } from '../../../../../components/expenses/expenseItems';
+import { ExpensesFilterByDate } from '../../../../../components/expenses/filterByDate';
 import { ExpenseViewBy } from '../../../../../components/expenses/viewBy';
 import { SubHeader } from '../../../../../components/subheader';
 import { getUserId } from '../../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../../util/repositories';
 import { B4hRoutes } from '../../../../../util/routes';
-import { ExpensesDate } from './(components)/date';
 
 export default async function ({ params, searchParams }: any) {
   const userId = await getUserId();
@@ -58,7 +58,7 @@ export default async function ({ params, searchParams }: any) {
         <h4>Empty list of expenses.</h4>
       ) : (
         <>
-          <ExpensesDate />
+          <ExpensesFilterByDate />
           {/* <Suspense fallback={<B4hLoading />}> */}
           {/* @ts-ignore */}
           <Balance groupId={groupId} expenses={expenses} />

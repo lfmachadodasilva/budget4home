@@ -1,4 +1,4 @@
-import { ExpenseForm } from '../(components)/form';
+import { ExpenseForm } from '../../../../../../components/expenses/form';
 import { getUserId } from '../../../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../../../util/repositories';
 

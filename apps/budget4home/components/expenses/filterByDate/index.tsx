@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import queryString from 'query-string';
 import { useRef } from 'react';
 
-export const ExpensesDate = () => {
+export const ExpensesFilterByDate = () => {
   const query = useSearchParams();
   const { push } = useRouter();
   const pathname = usePathname();

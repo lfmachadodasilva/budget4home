@@ -4,9 +4,9 @@ import { Label } from '@budget4home/base';
 import { B4hButton, B4hForm, B4hInput } from '@budget4home/ui-components';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
-import { LabelClient } from '../../../../../../clients';
-import { useAuth } from '../../../../../../contexts/auth';
-import { B4hRoutes } from '../../../../../../util/routes';
+import { LabelClient } from '../../../clients';
+import { useAuth } from '../../../contexts/auth';
+import { B4hRoutes } from '../../../util/routes';
 
 interface LabelFormProps {
   label?: Label;

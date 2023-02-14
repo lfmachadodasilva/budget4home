@@ -6,10 +6,10 @@ import { addMonths, format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { ExpenseClient } from '../../../../../../clients/expenses';
-import { useAuth } from '../../../../../../contexts/auth';
-import { B4hRoutes } from '../../../../../../util/routes';
-import { ExpensePreviewItems } from './previewItems';
+import { ExpenseClient } from '../../../clients/expenses';
+import { useAuth } from '../../../contexts/auth';
+import { B4hRoutes } from '../../../util/routes';
+import { ExpensePreviewItems } from '../preview/previewItems';
 
 interface ExpenseFormProps {
   expense?: Expense;

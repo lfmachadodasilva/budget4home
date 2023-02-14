@@ -1,4 +1,4 @@
-import { LabelForm } from '../(components)/form';
+import { LabelForm } from '../../../../../../components/labels/form';
 
 import { getUserId } from '../../../../../../util/getUserId';
 import { labelRepository } from '../../../../../../util/repositories';
