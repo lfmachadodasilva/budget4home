@@ -1,6 +1,6 @@
 import { Group } from '@budget4home/base';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { GroupActionsClient } from '../group/actions';
+import { GroupActionsClient } from '../groups/actions';
 
 import styles from './index.module.scss';
 
