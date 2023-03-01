@@ -4,6 +4,11 @@ import { groupRepository } from './repositories';
 
 export const getDefaultOrFirstGroup = async (userId: string) => {
   const cookie = cookies();
+
+  if (!userId) {
+    throw new Error('Invalid or null user id. Method: getDefaultOrFirstGroup');
+  }
+
   const groupId = cookie.get('defaultGroupId')?.value;
 
   const group = groupId
