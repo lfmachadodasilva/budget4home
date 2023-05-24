@@ -1,3 +1,5 @@
+'use client';
+
 import { User } from 'firebase/auth';
 import { usePathname, useRouter } from 'next/navigation';
 import nookies from 'nookies';
