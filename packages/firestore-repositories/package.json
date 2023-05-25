@@ -8,11 +8,11 @@
     "lint": "TIMING=1 eslint \"**/*.ts*\""
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
+    "@budget4home/base": "*",
+    "eslint": "^8.41.0",
     "eslint-config-custom": "*",
     "tsconfig": "*",
-    "@budget4home/base": "*",
-    "typescript": "^4.5.2"
+    "typescript": "^5.0.4"
   },
   "dependencies": {
     "date-fns": "^2.29.3",

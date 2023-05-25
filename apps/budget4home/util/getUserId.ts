@@ -11,7 +11,10 @@ export const getUserId = async () => {
   } catch (err: any) {
     console.error(err);
 
-    if (err?.errorInfo?.code === 'auth/id-token-expired' || err?.code === 'auth/argument-error') {
+    if (
+      err?.errorInfo?.code === 'auth/id-token-expired' ||
+      err?.errorInfo?.code === 'auth/argument-error'
+    ) {
       return nextCookies.get('uid')?.value;
     }
   }
