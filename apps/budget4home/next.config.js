@@ -5,10 +5,7 @@ if (process.env.NODE_ENV === 'development') {
 
 module.exports = {
   reactStrictMode: process.env.NODE_ENV === 'development',
-  experimental: {
-    appDir: true,
-    enableUndici: true
-  },
+  experimental: {},
   swcMinify: true,
   transpilePackages: ['ui-components'],
   images: {

@@ -5,7 +5,7 @@ import { SummaryHeaderClient } from '../../../../../components/summary/summaryHe
 import { getUserId } from '../../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../../util/repositories';
 
-export default async function ({ params, searchParams }: any) {
+export default async function SummaryPage({ params, searchParams }: any) {
   const groupId = params?.groupId as string;
   const userId = await getUserId();
 

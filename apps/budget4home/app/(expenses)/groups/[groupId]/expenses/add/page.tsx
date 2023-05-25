@@ -2,7 +2,7 @@ import { ExpenseForm } from '../../../../../../components/expenses/form';
 import { getUserId } from '../../../../../../util/getUserId';
 import { labelRepository } from '../../../../../../util/repositories';
 
-export default async function ({ params }: any) {
+export default async function ExpensesPage({ params }: any) {
   const groupId = params.groupId as string;
   const userId = await getUserId();
 

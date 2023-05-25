@@ -6,7 +6,8 @@ export const en: B4hLocale = {
   common: {
     missingGroup: (
       <>
-        You don't have any group yet. Click <a href={`${B4hRoutes.groupAdd}`}>here</a> to create one
+        You do not have any group yet. Click <a href={`${B4hRoutes.groupAdd}`}>here</a> to create
+        one
       </>
     ),
     optional: '(optional)'

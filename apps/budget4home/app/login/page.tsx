@@ -12,7 +12,7 @@ import { useAuth } from '../../contexts/auth';
 import { firebaseAuth } from '../../util/firebase';
 import { B4hRoutes } from '../../util/routes';
 
-export default function () {
+export default function LoginPage() {
   const { user } = useAuth();
   const { push } = useRouter();
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(firebaseAuth);

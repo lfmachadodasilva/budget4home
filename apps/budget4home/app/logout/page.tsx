@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { firebaseAuth } from '../../util/firebase';
 import { B4hRoutes } from '../../util/routes';
 
-export default function () {
+export default function LogoutPage() {
   const { push } = useRouter();
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import { getUserId } from '../../../../../util/getUserId';
 import { expenseRepository, labelRepository } from '../../../../../util/repositories';
 import { B4hRoutes } from '../../../../../util/routes';
 
-export default async function ({ params, searchParams }: any) {
+export default async function ExpensesPage({ params, searchParams }: any) {
   const userId = await getUserId();
   const groupId = params?.groupId as string;
 
@@ -28,8 +28,8 @@ export default async function ({ params, searchParams }: any) {
     return (
       <>
         <h4>
-          You don't have any label yet. Click{' '}
-          <Link href={`${B4hRoutes.groups}/${groupId}${B4hRoutes.labelAdd}`}>here</Link> to create
+          You don not have any label yet. Click{' '}
+          <Link href={B4hRoutes.groups + '/' + groupId + B4hRoutes.labelAdd}>here</Link> to create
           one
         </h4>
       </>

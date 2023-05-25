@@ -9,7 +9,7 @@ import { useAuth } from '../../contexts/auth';
 import { getLocale } from '../../locales';
 import { firebaseStorage } from '../../util/firebase';
 
-export default function () {
+export default function SettingsPage() {
   const { user } = useAuth();
   const { refresh } = useRouter();
   const locale = getLocale();

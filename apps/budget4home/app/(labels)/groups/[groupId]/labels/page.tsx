@@ -6,7 +6,7 @@ import { getUserId } from '../../../../../util/getUserId';
 import { labelRepository } from '../../../../../util/repositories';
 import { B4hRoutes } from '../../../../../util/routes';
 
-export default async function ({ params }: any) {
+export default async function LabelsPage({ params }: any) {
   const groupId = params.groupId as string;
   const userId = await getUserId();
 

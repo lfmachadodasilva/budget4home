@@ -5,7 +5,7 @@ import { useCallback, useRef, useState } from 'react';
 import { ImportClient } from '../../../../../clients/import';
 import { useAuth } from '../../../../../contexts/auth';
 
-export default function Import({ params }: any) {
+export default function ImportPage({ params }: any) {
   const { token } = useAuth();
   const dataRef = useRef<HTMLTextAreaElement>();
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function Import({ params }: any) {
     }
 
     setLoading(false);
-  }, [token]);
+  }, [token, params.groupId]);
 
   return (
     <>

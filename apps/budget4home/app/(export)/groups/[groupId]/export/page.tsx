@@ -8,7 +8,7 @@ import {
   labelRepository
 } from '../../../../../util/repositories';
 
-export default async function ({ params }: any) {
+export default async function ExportPage({ params }: any) {
   const userId = await getUserId();
 
   const groupPromise = groupRepository.get(userId, params.groupId);
