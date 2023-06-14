@@ -6,12 +6,12 @@ import { ExpenseItem } from '../../item/expense';
 
 import styles from './index.module.scss';
 
-export interface ExpensesByDate {
+export interface ExpensesByDateProps {
   expenses: Expense[];
   groupId: string;
 }
 
-export const ExpensesByDate = (props: ExpensesByDate) => {
+export const ExpensesByDate = (props: ExpensesByDateProps) => {
   const byDay = expensesByDay(props.expenses, 'sum');
   const toReturn = byDay.map(obj => {
     const date = new Date(obj.date);

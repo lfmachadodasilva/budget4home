@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ExpenseClient } from '../../../clients/expenses';
 import { useAuth } from '../../../contexts/auth';
 import { B4hRoutes } from '../../../util/routes';
-import { ExpensePreviewItems } from '../preview/previewItems';
+import { ExpensesByDate } from '../expenseItems/byDate';
 
 interface ExpenseFormProps {
   expense?: Expense;
@@ -38,6 +38,9 @@ export function ExpenseForm(props: ExpenseFormProps) {
   };
   const isAddMode = () => {
     return !props.expense?.id;
+  };
+  const hasPreview = () => {
+    return preview?.length > 0;
   };
 
   const isFieldsValid = () => {
@@ -215,9 +218,11 @@ export function ExpenseForm(props: ExpenseFormProps) {
         <B4hButton key="preview" onClick={handleOnPreviewAdd} loading={loading}>
           add
         </B4hButton>,
-        <B4hButton key="action" onClick={handleOnManage} loading={loading}>
-          add and submit
-        </B4hButton>
+        !hasPreview() && (
+          <B4hButton key="action" onClick={handleOnManage} loading={loading}>
+            add and submit
+          </B4hButton>
+        )
       ]
     : [
         <B4hButton key="action" onClick={handleOnManage} loading={loading}>
@@ -346,7 +351,8 @@ export function ExpenseForm(props: ExpenseFormProps) {
             </B4hButton>
           }
         >
-          {previewIncoming.length > 0 && (
+          <ExpensesByDate expenses={previewIncoming} groupId={props.groupId} />
+          {/* {previewIncoming.length > 0 && (
             <>
               <p>{ExpenseType.incoming}</p>
               <ExpensePreviewItems expenses={previewIncoming} onDelete={handleOnPreviewDelete} />
@@ -357,7 +363,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
               <p>{ExpenseType.outcoming}</p>
               <ExpensePreviewItems expenses={previewOutcoming} onDelete={handleOnPreviewDelete} />
             </>
-          )}
+          )} */}
         </B4hForm>
       )}
     </>
