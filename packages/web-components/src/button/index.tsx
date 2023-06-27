@@ -1,4 +1,4 @@
-import { theme } from '@budget4home/design-system';
+import { theme } from '@budget4home/design-tokens';
 
 export interface ButtonProps {}
 

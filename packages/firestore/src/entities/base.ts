@@ -1,4 +1,4 @@
-export interface BaseModel {
+export interface BaseEntity {
   id: string;
   name: string;
 
