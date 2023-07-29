@@ -352,6 +352,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
           }
         >
           <ExpensesByDate expenses={previewIncoming} groupId={props.groupId} />
+          <ExpensesByDate expenses={previewOutcoming} groupId={props.groupId} />
           {/* {previewIncoming.length > 0 && (
             <>
               <p>{ExpenseType.incoming}</p>
