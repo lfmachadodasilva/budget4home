@@ -9,6 +9,7 @@ import styles from './index.module.scss';
 export interface ExpensesByDateProps {
   expenses: Expense[];
   groupId: string;
+  onClick?: (expense: Expense) => Promise<void>;
 }
 
 export const ExpensesByDate = (props: ExpensesByDateProps) => {
@@ -19,7 +20,12 @@ export const ExpensesByDate = (props: ExpensesByDateProps) => {
       <div key={obj.date}>
         <Header date={date} day={date.getDate()} total={obj.total} />
         {obj.expenses.map(expense => (
-          <ExpenseItem groupId={props.groupId} expense={expense} key={expense.id} />
+          <ExpenseItem
+            groupId={props.groupId}
+            expense={expense}
+            key={expense.id}
+            onClick={props.onClick}
+          />
         ))}
       </div>
     );

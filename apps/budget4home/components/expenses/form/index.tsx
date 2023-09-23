@@ -245,6 +245,7 @@ export function ExpenseForm(props: ExpenseFormProps) {
 
   const previewIncoming = preview.filter(x => x.type === ExpenseType.incoming);
   const previewOutcoming = preview.filter(x => x.type === ExpenseType.outcoming);
+  const onClickPreview = (expense: Expense) => Promise.resolve();
 
   return (
     <>
@@ -351,8 +352,16 @@ export function ExpenseForm(props: ExpenseFormProps) {
             </B4hButton>
           }
         >
-          <ExpensesByDate expenses={previewIncoming} groupId={props.groupId} />
-          <ExpensesByDate expenses={previewOutcoming} groupId={props.groupId} />
+          <ExpensesByDate
+            expenses={previewIncoming}
+            groupId={props.groupId}
+            onClick={onClickPreview}
+          />
+          <ExpensesByDate
+            expenses={previewOutcoming}
+            groupId={props.groupId}
+            onClick={onClickPreview}
+          />
           {/* {previewIncoming.length > 0 && (
             <>
               <p>{ExpenseType.incoming}</p>
