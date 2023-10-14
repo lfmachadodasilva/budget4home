@@ -9,13 +9,9 @@
   "devDependencies": {
     "eslint": "^8.48.0",
     "prettier": "^3.0.3",
-    "tsconfig": "*",
+    "tsconfig": "workspace:*",
     "turbo": "latest"
   },
-  "name": "budget4home",
-  "packageManager": "npm@8.19.4",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "packageManager": "pnpm@8.6.10",
+  "name": "budget4home"
 }
