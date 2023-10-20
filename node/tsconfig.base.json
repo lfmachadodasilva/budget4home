@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@b4h/web-components": ["libs/web-components/src/index.ts"],
+      "@budget4home/firebase": ["libs/firebase/src/index.ts"],
+      "@budget4home/firestore": ["libs/firestore/src/index.ts"],
+      "@budget4home/firetore": ["libs/firetore/src/index.ts"],
+      "@budget4home/models": ["libs/models/src/index.ts"],
+      "@budget4home/services": ["libs/services/src/index.ts"],
+      "@budget4home/web-components": ["libs/web-components/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
