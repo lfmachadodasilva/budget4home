@@ -2,7 +2,7 @@
   "name": "@budget4home/firebase",
   "version": "0.0.1",
   "dependencies": {},
-  "main": "./index.js",
-  "module": "./index.mjs",
-  "typings": "./index.d.ts"
+  "main": "./src/index.ts",
+  "module": "./src/index.mjs",
+  "typings": "./src/index.d.ts"
 }
