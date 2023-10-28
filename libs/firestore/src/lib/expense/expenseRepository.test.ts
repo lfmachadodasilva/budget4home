@@ -4,7 +4,7 @@ import { ExpenseModel } from '@budget4home/models';
 import { RulesTestEnvironment, initializeTestEnvironment } from '@firebase/rules-unit-testing';
 import { Firestore } from 'firebase-admin/firestore';
 import { FirestoreCollections } from '../collections';
-import { EXPENSE, GROUP, USER } from '../contants';
+import { EXPENSE, GROUP, ID_MATCH, USER } from '../contants';
 import { expenseConverter } from './expenseConverter';
 import { addOrUpdateExpense, deleteExpense, getAllExpenses, getExpense } from './expenseRepository';
 
@@ -92,7 +92,7 @@ describe('expense repository', () => {
     // act
     const modelAdd = await addOrUpdateExpense(
       firestoreMock,
-      { ...mockExpense, date: addYears(new Date(), 1), id: 'newExpense' },
+      { ...mockExpense, date: addYears(new Date(), 1), id: undefined },
       USER,
       mockExpense.groupId
     );
@@ -101,13 +101,14 @@ describe('expense repository', () => {
     expect(modelAdd).toBeDefined();
 
     var docRef = await firestoreMock
-      .doc(FirestoreCollections.expese(mockExpense.groupId, 'newExpense'))
+      // @ts-ignore
+      .doc(FirestoreCollections.expese(mockExpense.groupId, modelAdd.id))
       .withConverter(expenseConverter)
       .get();
     expect(docRef.exists).toBeTruthy();
 
     var doc = docRef.data();
-    expect(doc?.id).toMatch('newExpense');
+    expect(doc?.id).toMatch(ID_MATCH);
     expect(doc?.createdAt).toEqual(doc?.updatedAt);
     expect(doc?.createdBy).toEqual(USER);
     expect(doc?.updatedBy).toEqual(USER);
