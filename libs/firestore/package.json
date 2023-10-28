@@ -1,8 +1,0 @@
-{
-  "name": "@budget4home/firestore",
-  "version": "0.0.1",
-  "dependencies": {},
-  "main": "./src/index.ts",
-  "module": "./src/index.mjs",
-  "typings": "./src/index.d.ts"
-}
