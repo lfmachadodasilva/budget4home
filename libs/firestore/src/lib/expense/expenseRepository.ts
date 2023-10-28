@@ -1,6 +1,5 @@
 import { ExpenseModel } from '@budget4home/models';
 import { Firestore } from 'firebase-admin/firestore';
-import { DocumentData, QueryDocumentSnapshot, SnapshotOptions } from 'firebase/firestore';
 import { FirestoreCollections } from '../collections';
 import { expenseConverter } from './expenseConverter';
 
@@ -57,20 +56,4 @@ export const deleteExpense = (
   to: Date
 ): Promise<ExpenseModel> => {
   return Promise.resolve({} as ExpenseModel);
-};
-
-export const modelToFirestoreExpense = (model: ExpenseModel): any => {};
-
-export const firestoreToExpense = (data: FirebaseFirestore.DocumentData): ExpenseModel => {
-  return {} as ExpenseModel;
-};
-
-const postConverter = {
-  toFirestore(post: ExpenseModel): DocumentData {
-    return {};
-  },
-  fromFirestore(snapshot: QueryDocumentSnapshot, options: SnapshotOptions): ExpenseModel {
-    const data = snapshot.data(options)!;
-    return {} as ExpenseModel;
-  }
 };

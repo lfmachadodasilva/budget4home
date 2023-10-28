@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { App } from 'firebase-admin/app';
+import { App, ServiceAccount } from 'firebase-admin/app';
 import * as firestore from 'firebase-admin/firestore';
 
 export const firebaseAdminApp: App =
@@ -11,7 +11,7 @@ export const firebaseAdminApp: App =
           client_email: process.env['FIREBASE_CLIENT_EMAIL'],
           private_key_id: process.env['FIREBASE_PRIVATE_KEY_ID'],
           private_key: (process.env['FIREBASE_PRIVATE_KEY'] as string).replace(/\\n/g, '\n')
-        } as any),
+        } as ServiceAccount),
         projectId: process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID'],
         databaseURL: `https://${process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID']}.firebaseio.com`,
         storageBucket: `${process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID']}.appspot.com`
