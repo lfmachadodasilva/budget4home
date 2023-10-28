@@ -12,10 +12,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
   toFirestore(modelObject: unknown, options?: unknown): FirebaseFirestore.DocumentData {
     const model = modelObject as ExpenseModel;
     return {
-      ...model,
-      createdAt: new Date(model.createdAt),
-      updatedAt: new Date(model.updatedAt),
-      date: new Date(model.date)
+      ...model
     };
   }
   fromFirestore(

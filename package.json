@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve --project=web",
+    "start:emulator": "firebase emulators:start --only firestore",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
     "lint": "nx run-many -t lint"
@@ -12,6 +13,7 @@
   "dependencies": {
     "@nx/next": "17.0.2",
     "@swc/helpers": "~0.5.2",
+    "date-fns": "^2.30.0",
     "firebase": "^10.5.2",
     "firebase-admin": "^11.11.0",
     "lodash": "^4.17.21",
@@ -19,8 +21,7 @@
     "npm": "^10.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tslib": "^2.3.0",
-    "date-fns": "^2.30.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^3.0.1",
@@ -42,6 +43,7 @@
     "@types/node": "18.14.2",
     "@types/react": "18.2.24",
     "@types/react-dom": "18.2.9",
+    "@types/uuid": "^9.0.6",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "babel-jest": "^29.4.1",

@@ -1,5 +1,7 @@
 import { ExpenseModel } from '@budget4home/models';
 import { Firestore } from 'firebase-admin/firestore';
+import { v4 } from 'uuid';
+
 import { FirestoreCollections } from '../collections';
 import { expenseConverter } from './expenseConverter';
 
@@ -36,11 +38,24 @@ export const getExpense = async (
 
 export const addOrUpdateExpense = async (
   firestore: Firestore,
-  expense: ExpenseModel,
+  expense: Partial<ExpenseModel>,
   userId: string,
   groupId: string
-): Promise<ExpenseModel> => {
+): Promise<Partial<ExpenseModel>> => {
+  expense.id = expense.id ?? v4();
+
   const docRef = firestore.doc(FirestoreCollections.expese(groupId, expense.id));
+
+  const now = new Date();
+  const doc = await docRef.get();
+
+  if (!doc.exists) {
+    expense.createdAt = now;
+    expense.createdBy = userId;
+  }
+  expense.updatedAt = now;
+  expense.updatedBy = userId;
+
   await docRef.set(expense);
   return expense;
 };
@@ -52,6 +67,5 @@ export const deleteExpense = async (
   groupId: string
 ): Promise<void> => {
   const docRef = firestore.doc(FirestoreCollections.expese(groupId, expenseId));
-
   await docRef.delete();
 };

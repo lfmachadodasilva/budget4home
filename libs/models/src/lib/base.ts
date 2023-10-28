@@ -2,9 +2,9 @@ export interface BaseModel {
   id: string;
   name: string;
 
-  createdBy: string;
-  updateBy: string;
+  createdBy?: string;
+  updatedBy?: string;
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
