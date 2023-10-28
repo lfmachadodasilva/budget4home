@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@budget4home/core": ["libs/core/src/index.ts"],
+      "@budget4home/design-system": ["libs/design-system/src/index.ts"],
+      "@budget4home/firebase": ["libs/firebase/src/index.ts"],
+      "@budget4home/firestore": ["libs/firestore/src/index.ts"],
+      "@budget4home/models": ["libs/models/src/index.ts"],
+      "@budget4home/web-components": ["libs/web-components/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
