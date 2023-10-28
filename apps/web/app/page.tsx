@@ -1,5 +1,4 @@
 import styles from './page.module.css';
-import { firebase } from '@budget4home/firebase';
 export default async function Index() {
   /*
    * Replace the elements below with your own.
@@ -282,16 +281,9 @@ export default async function Index() {
                     <span>Enable faster CI & better DX</span>
                   </h2>
                 </div>
-                <p>
-                  You can activate distributed tasks executions and caching by
-                  running:
-                </p>
+                <p>You can activate distributed tasks executions and caching by running:</p>
                 <pre>nx connect-to-nx-cloud</pre>
-                <a
-                  href="https://nx.app/?utm_source=nx-project"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a href="https://nx.app/?utm_source=nx-project" target="_blank" rel="noreferrer">
                   {' '}
                   What is Nx Cloud?{' '}
                 </a>
