@@ -5,7 +5,7 @@ import { RulesTestEnvironment, initializeTestEnvironment } from '@firebase/rules
 import { Firestore } from 'firebase-admin/firestore';
 import { FirestoreCollections } from '../collections';
 import { expenseConverter } from './expenseConverter';
-import { addOrUpdateExpense, getAllExpenses, getExpense } from './expenseRepository';
+import { addOrUpdateExpense, deleteExpense, getAllExpenses, getExpense } from './expenseRepository';
 
 // Helper function to set up the test db instance
 async function getMockFirebase(): Promise<RulesTestEnvironment> {
@@ -59,11 +59,11 @@ describe('expenseRepository', () => {
       .withConverter(expenseConverter)
       .set({ ...mockExpense, date: addMonths(new Date(), 1) });
   });
-  afterEach(async () => {
-    // firebaseMock.clearFirestore();
-  });
+  afterEach(async () => {});
 
   test('get all expenses', async () => {
+    // arrange
+    // act
     const models = await getAllExpenses(
       firestoreMock,
       'user1',
@@ -71,22 +71,32 @@ describe('expenseRepository', () => {
       addMinutes(new Date(), -1),
       addMinutes(new Date(), 1)
     );
+
+    // assert
     expect(models).toHaveLength(1);
   });
 
   test('get expense by id', async () => {
+    // arrange
+    // act
     const model = await getExpense(firestoreMock, 'expense1', 'user1', 'group1');
+
+    // assert
     expect(model).toBeDefined();
     expect(model?.id).toBe('expense1');
   });
 
   test('add expense', async () => {
+    // arrange
+    // act
     const modelAdd = await addOrUpdateExpense(
       firestoreMock,
       { ...mockExpense, id: 'expense3', date: addYears(new Date(), 1) },
       'user1',
       'group1'
     );
+
+    // assert
     expect(modelAdd).toBeDefined();
 
     const modelGet = await getExpense(firestoreMock, 'expense3', 'user1', 'group1');
@@ -95,16 +105,43 @@ describe('expenseRepository', () => {
   });
 
   test('update expense', async () => {
+    // arrange
+    // act
     const modelUpdate = await addOrUpdateExpense(
       firestoreMock,
       { ...mockExpense, name: 'Expense 2' },
       'user1',
       'group1'
     );
+
+    // assert
     expect(modelUpdate).toBeDefined();
 
-    const modelGet = await getExpense(firestoreMock, 'expense1', 'user1', 'group1');
-    expect(modelGet).toBeDefined();
-    expect(modelGet?.name).toBe('Expense 2');
+    var docRef = await firestoreMock
+      .doc(FirestoreCollections.expese(mockExpense.groupId, mockExpense.id))
+      .withConverter(expenseConverter)
+      .get();
+    expect(docRef.exists).toBeTruthy();
+
+    var doc = docRef.data();
+    expect(doc?.name).toBe('Expense 2');
+  });
+
+  test('update expense', async () => {
+    // arrange
+    await firestoreMock
+      .doc(FirestoreCollections.expese(mockExpense.groupId, 'expenseToDelete'))
+      .withConverter(expenseConverter)
+      .set({ ...mockExpense, id: 'expenseToDelete' });
+
+    // act
+    await deleteExpense(firestoreMock, 'expenseToDelete', 'user1', 'group1');
+
+    // assert
+    var docRef = await firestoreMock
+      .doc(FirestoreCollections.expese(mockExpense.groupId, 'expenseToDelete'))
+      .withConverter(expenseConverter)
+      .get();
+    expect(docRef.exists).toBeFalsy();
   });
 });

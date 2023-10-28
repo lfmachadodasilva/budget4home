@@ -41,19 +41,17 @@ export const addOrUpdateExpense = async (
   groupId: string
 ): Promise<ExpenseModel> => {
   const docRef = firestore.doc(FirestoreCollections.expese(groupId, expense.id));
-
   await docRef.set(expense);
-
   return expense;
 };
 
-export const deleteExpense = (
+export const deleteExpense = async (
   firestore: Firestore,
   expenseId: string,
   userId: string,
-  groupId: string,
-  from: Date,
-  to: Date
-): Promise<ExpenseModel> => {
-  return Promise.resolve({} as ExpenseModel);
+  groupId: string
+): Promise<void> => {
+  const docRef = firestore.doc(FirestoreCollections.expese(groupId, expenseId));
+
+  await docRef.delete();
 };
