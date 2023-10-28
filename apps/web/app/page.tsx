@@ -1,7 +1,4 @@
 import styles from './page.module.css';
-import { models } from '@budget4home/models';
-import { firebase } from '@budget4home/firebase';
-import { firestore } from '@budget4home/firestore';
 import { services } from '@budget4home/services';
 
 export default async function Index() {
@@ -12,9 +9,6 @@ export default async function Index() {
    */
   return (
     <div className={styles.page}>
-      {firebase()}
-      {models()}
-      {firestore()}
       {services()}
       <div className="wrapper">
         <div className="container">

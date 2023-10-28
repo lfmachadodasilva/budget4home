@@ -2,7 +2,7 @@
   "name": "@budget4home/services",
   "version": "0.0.1",
   "dependencies": {},
-  "main": "./src/index.ts",
+  "main": "./src/index.js",
   "module": "./src/index.mjs",
   "typings": "./src/index.d.ts"
 }

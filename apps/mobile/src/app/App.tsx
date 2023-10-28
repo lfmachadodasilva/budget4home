@@ -11,10 +11,7 @@ import {
   Linking,
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { models } from '@budget4home/models';
-import { firebase } from '@budget4home/firebase';
-import { firestore } from '@budget4home/firestore';
-import { services } from '@budget4home/services';
+// import { services } from '@budget4home/services';
 
 export const App = () => {
   const [whatsNextYCoord, setWhatsNextYCoord] = useState<number>(0);
@@ -33,10 +30,7 @@ export const App = () => {
         >
           <View style={styles.section}>
             <Text style={styles.textLg}>Hello there,</Text>
-            <Text style={styles.textLg}>{models()}</Text>
-            <Text style={styles.textLg}>{firebase()}</Text>
-            <Text style={styles.textLg}>{firestore()}</Text>
-            <Text style={styles.textLg}>{services()}</Text>
+            {/* <Text style={styles.textLg}>{services()}</Text> */}
             <Text style={[styles.textXL, styles.appTitleText]} testID="heading">
               Welcome Mobile 👋
             </Text>
