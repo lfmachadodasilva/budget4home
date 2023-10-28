@@ -1,5 +1,7 @@
 name: budget4home web
 
+on: push
+
 jobs:
   dev:
     name: build 🛠️
