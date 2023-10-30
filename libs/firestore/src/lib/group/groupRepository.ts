@@ -71,4 +71,6 @@ export const deleteGroup = async (
 
   const docRef = firestore.doc(FirestoreCollections.group(groupId));
   await docRef.delete();
+
+  // TODO delete all labels
 };
