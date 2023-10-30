@@ -105,13 +105,13 @@ describe('expense repository', () => {
     // assert
     expect(modelAdd).toBeDefined();
 
-    var docRef = await firestoreMock
+    const docRef = await firestoreMock
       .doc(FirestoreCollections.expese(mockExpense.groupId, modelAdd.id ?? ''))
       .withConverter(expenseConverter)
       .get();
     expect(docRef.exists).toBeTruthy();
 
-    var doc = docRef.data();
+    const doc = docRef.data();
     expect(doc?.id).toMatch(ID_MATCH);
     expect(doc?.createdAt).toEqual(doc?.updatedAt);
     expect(doc?.createdBy).toEqual(USER);
@@ -131,13 +131,13 @@ describe('expense repository', () => {
     // assert
     expect(modelUpdate).toBeDefined();
 
-    var docRef = await firestoreMock
+    const docRef = await firestoreMock
       .doc(FirestoreCollections.expese(mockExpense.groupId, mockExpense.id))
       .withConverter(expenseConverter)
       .get();
     expect(docRef.exists).toBeTruthy();
 
-    var doc = docRef.data();
+    const doc = docRef.data();
     expect(doc?.name).toBe('Expense name updated');
 
     expect(doc?.createdAt).not.toEqual(doc?.updatedAt);
@@ -156,7 +156,7 @@ describe('expense repository', () => {
     await deleteExpense(firestoreMock, 'expenseToDelete', USER, mockExpense.groupId);
 
     // assert
-    var docRef = await firestoreMock
+    const docRef = await firestoreMock
       .doc(FirestoreCollections.expese(mockExpense.groupId, 'expenseToDelete'))
       .withConverter(expenseConverter)
       .get();
