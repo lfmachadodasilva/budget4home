@@ -9,7 +9,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
     modelObject: FirebaseFirestore.PartialWithFieldValue<ExpenseModel>,
     options: FirebaseFirestore.SetOptions
   ): FirebaseFirestore.DocumentData;
-  toFirestore(modelObject: unknown, options?: unknown): FirebaseFirestore.DocumentData {
+  toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
     const model = modelObject as ExpenseModel;
     return {
       ...model
@@ -18,6 +18,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): ExpenseModel {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
     return {
       ...data,

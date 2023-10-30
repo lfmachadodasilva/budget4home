@@ -9,16 +9,14 @@ class GroupConverter implements FirestoreDataConverter<GroupModel> {
     modelObject: FirebaseFirestore.PartialWithFieldValue<GroupModel>,
     options: FirebaseFirestore.SetOptions
   ): FirebaseFirestore.DocumentData;
-  toFirestore(
-    modelObject: unknown,
-    options?: FirebaseFirestore.SetOptions
-  ): FirebaseFirestore.DocumentData {
+  toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
     const model = modelObject as GroupModel;
     return model;
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): GroupModel {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
     return {
       ...data,

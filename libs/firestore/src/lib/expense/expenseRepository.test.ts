@@ -40,6 +40,7 @@ describe('expense repository', () => {
 
   beforeAll(async () => {
     firebaseMock = await getMockFirebase();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     firestoreMock = firebaseMock.unauthenticatedContext().firestore() as any;
 
     await firestoreMock
@@ -59,8 +60,12 @@ describe('expense repository', () => {
     firebaseMock.clearFirestore();
   });
 
-  beforeEach(async () => {});
-  afterEach(async () => {});
+  beforeEach(async () => {
+    // empty
+  });
+  afterEach(async () => {
+    // empty
+  });
 
   test('get all expenses', async () => {
     // arrange
@@ -101,8 +106,7 @@ describe('expense repository', () => {
     expect(modelAdd).toBeDefined();
 
     var docRef = await firestoreMock
-      // @ts-ignore
-      .doc(FirestoreCollections.expese(mockExpense.groupId, modelAdd.id))
+      .doc(FirestoreCollections.expese(mockExpense.groupId, modelAdd.id ?? ''))
       .withConverter(expenseConverter)
       .get();
     expect(docRef.exists).toBeTruthy();

@@ -4,6 +4,7 @@
   "dependencies": {
     "tslib": "^2.3.0",
     "firebase-admin": "*",
+    "uuid": "*",
     "@budget4home/models": "*"
   },
   "type": "commonjs",
