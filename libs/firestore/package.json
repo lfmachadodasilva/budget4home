@@ -5,7 +5,8 @@
     "tslib": "^2.3.0",
     "firebase-admin": "*",
     "uuid": "*",
-    "@budget4home/models": "*"
+    "@budget4home/models": "*",
+    "@firebase/rules-unit-testing": "*"
   },
   "type": "commonjs",
   "main": "./src/index.js",
