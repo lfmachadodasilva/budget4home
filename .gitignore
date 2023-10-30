@@ -46,3 +46,6 @@ Thumbs.db
 # Firebase
 firestore-debug.log
 Firebase-debug.log
+
+# Jest
+ui-debug.log

@@ -1,38 +1,12 @@
 import { addMinutes, addMonths, addYears } from 'date-fns';
 
-import { ExpenseModel } from '@budget4home/models';
-import { RulesTestEnvironment, initializeTestEnvironment } from '@firebase/rules-unit-testing';
+import { RulesTestEnvironment } from '@firebase/rules-unit-testing';
 import { Firestore } from 'firebase-admin/firestore';
 import { FirestoreCollections } from '../collections';
 import { EXPENSE, GROUP, ID_MATCH, USER } from '../contants';
+import { getMockFirebase, mockExpense } from '../mock';
 import { expenseConverter } from './expenseConverter';
 import { addOrUpdateExpense, deleteExpense, getAllExpenses, getExpense } from './expenseRepository';
-
-// Helper function to set up the test db instance
-async function getMockFirebase(): Promise<RulesTestEnvironment> {
-  const app = await initializeTestEnvironment({
-    projectId: 'test-project',
-    firestore: { host: 'localhost', port: 8080 }
-  });
-  return app;
-}
-
-const mockExpense: ExpenseModel = {
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  createdBy: USER,
-  updatedBy: USER,
-
-  id: EXPENSE,
-  name: 'Expense 1',
-  date: new Date(),
-  groupId: GROUP,
-  labelId: 'label1',
-  type: 'out',
-  value: 10,
-  parentId: null,
-  scheduled: null
-};
 
 describe('expense repository', () => {
   let firebaseMock: RulesTestEnvironment;
