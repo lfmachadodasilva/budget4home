@@ -17,18 +17,20 @@ describe('expense repository', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     firestoreMock = firebaseMock.unauthenticatedContext().firestore() as any;
 
-    await firestoreMock
-      .doc(FirestoreCollections.expese(mockExpense.groupId, mockExpense.id))
-      .withConverter(expenseConverter)
-      .set(mockExpense);
-    await firestoreMock
-      .doc(FirestoreCollections.expese(mockExpense.groupId, 'expense3'))
-      .withConverter(expenseConverter)
-      .set({ ...mockExpense, date: addMonths(new Date(), -1) });
-    await firestoreMock
-      .doc(FirestoreCollections.expese(mockExpense.groupId, 'expense4'))
-      .withConverter(expenseConverter)
-      .set({ ...mockExpense, date: addMonths(new Date(), 1) });
+    await Promise.all([
+      await firestoreMock
+        .doc(FirestoreCollections.expese(mockExpense.groupId, mockExpense.id))
+        .withConverter(expenseConverter)
+        .set(mockExpense),
+      await firestoreMock
+        .doc(FirestoreCollections.expese(mockExpense.groupId, 'expense3'))
+        .withConverter(expenseConverter)
+        .set({ ...mockExpense, date: addMonths(new Date(), -1) }),
+      await firestoreMock
+        .doc(FirestoreCollections.expese(mockExpense.groupId, 'expense4'))
+        .withConverter(expenseConverter)
+        .set({ ...mockExpense, date: addMonths(new Date(), 1) })
+    ]);
   });
   afterAll(async () => {
     firebaseMock.clearFirestore();

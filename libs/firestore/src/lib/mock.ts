@@ -6,7 +6,7 @@ import { EXPENSE, GROUP, USER } from './contants';
 export async function getMockFirebase(): Promise<RulesTestEnvironment> {
   const app = await initializeTestEnvironment({
     projectId: 'test-project',
-    firestore: { host: 'localhost', port: 8080 }
+    firestore: { host: '127.0.0.1', port: 8080 }
   });
   return app;
 }

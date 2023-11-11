@@ -16,10 +16,12 @@ describe('group repository', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     firestoreMock = firebaseMock.unauthenticatedContext().firestore() as any;
 
-    await firestoreMock
-      .doc(FirestoreCollections.group(mockGroup.id))
-      .withConverter(groupConverter)
-      .set(mockGroup);
+    await Promise.all([
+      await firestoreMock
+        .doc(FirestoreCollections.group(mockGroup.id))
+        .withConverter(groupConverter)
+        .set(mockGroup)
+    ]);
   });
   afterAll(async () => {
     firebaseMock.clearFirestore();
