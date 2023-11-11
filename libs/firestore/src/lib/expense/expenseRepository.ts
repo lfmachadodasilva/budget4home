@@ -3,15 +3,20 @@ import { Firestore } from 'firebase-admin/firestore';
 import { v4 } from 'uuid';
 
 import { FirestoreCollections } from '../collections';
+import { getGroup } from '../group/groupRepository';
 import { expenseConverter } from './expenseConverter';
 
 export const getAllExpenses = async (
   firestore: Firestore,
-  userId: string,
   groupId: string,
+  userId: string,
   from: Date,
   to: Date
 ): Promise<ExpenseModel[]> => {
+  if (!(await getGroup(firestore, groupId, userId))) {
+    return [];
+  }
+
   const docs = await firestore
     .collection(FirestoreCollections.expeses(groupId))
     .where('date', '>=', new Date(from))
@@ -26,9 +31,13 @@ export const getAllExpenses = async (
 export const getExpense = async (
   firestore: Firestore,
   expenseId: string,
-  userId: string,
-  groupId: string
+  groupId: string,
+  userId: string
 ): Promise<ExpenseModel | undefined | null> => {
+  if (!(await getGroup(firestore, groupId, userId))) {
+    return null;
+  }
+
   const doc = await firestore
     .doc(FirestoreCollections.expese(groupId, expenseId))
     .withConverter(expenseConverter)
@@ -39,9 +48,13 @@ export const getExpense = async (
 export const addOrUpdateExpense = async (
   firestore: Firestore,
   expense: Partial<ExpenseModel>,
-  userId: string,
-  groupId: string
-): Promise<Partial<ExpenseModel>> => {
+  groupId: string,
+  userId: string
+): Promise<Partial<ExpenseModel> | null | undefined> => {
+  if (!(await getGroup(firestore, groupId, userId))) {
+    return;
+  }
+
   expense.id = expense.id ?? v4();
 
   const docRef = firestore.doc(FirestoreCollections.expese(groupId, expense.id));
@@ -63,9 +76,33 @@ export const addOrUpdateExpense = async (
 export const deleteExpense = async (
   firestore: Firestore,
   expenseId: string,
-  userId: string,
-  groupId: string
+  groupId: string,
+  userId: string
 ): Promise<void> => {
+  if (!(await getGroup(firestore, groupId, userId))) {
+    return;
+  }
+
   const docRef = firestore.doc(FirestoreCollections.expese(groupId, expenseId));
   await docRef.delete();
+};
+
+export const deleteExpenseByLabel = async (
+  firestore: Firestore,
+  labelId: string,
+  groupId: string,
+  userId: string
+): Promise<void> => {
+  if (!(await getGroup(firestore, groupId, userId))) {
+    return;
+  }
+
+  const docs = await firestore
+    .collection(FirestoreCollections.expeses(groupId))
+    .where('labelId', '==', labelId)
+    .get();
+
+  const batch = firestore.batch();
+  docs.docs.forEach(doc => batch.delete(doc.ref));
+  await batch.commit();
 };

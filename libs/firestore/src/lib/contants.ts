@@ -1,4 +1,5 @@
-export const USER = 'user1';
+export const USER1 = 'user1';
+export const USER2 = 'user2';
 export const GROUP = 'group1';
 export const EXPENSE = 'expense1';
 export const LABEL = 'label1';

@@ -2,7 +2,7 @@ import { RulesTestEnvironment } from '@firebase/rules-unit-testing';
 import { type Firestore } from 'firebase-admin/firestore';
 
 import { FirestoreCollections } from '../collections';
-import { GROUP, ID_MATCH, USER } from '../contants';
+import { GROUP, ID_MATCH, USER1 } from '../contants';
 import { getMockFirebase, mockGroup } from '../mock';
 import { groupConverter } from './groupConverter';
 import { addOrUpdateGroup, deleteGroup, getAllGroups, getGroup } from './groupRepository';
@@ -12,12 +12,12 @@ describe('group repository', () => {
   let firestoreMock: Firestore;
 
   beforeAll(async () => {
-    firebaseMock = await getMockFirebase();
+    firebaseMock = await getMockFirebase('gropus-tests');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     firestoreMock = firebaseMock.unauthenticatedContext().firestore() as any;
 
     await Promise.all([
-      await firestoreMock
+      firestoreMock
         .doc(FirestoreCollections.group(mockGroup.id))
         .withConverter(groupConverter)
         .set(mockGroup)
@@ -31,7 +31,7 @@ describe('group repository', () => {
     test('success', async () => {
       // arrange
       // act
-      const models = await getAllGroups(firestoreMock, USER);
+      const models = await getAllGroups(firestoreMock, USER1);
 
       // assert
       expect(models).toHaveLength(1);
@@ -40,7 +40,7 @@ describe('group repository', () => {
     test('with invalid user', async () => {
       // arrange
       // act
-      const models = await getAllGroups(firestoreMock, USER + 'invalid');
+      const models = await getAllGroups(firestoreMock, USER1 + 'invalid');
 
       // assert
       expect(models).toHaveLength(0);
@@ -51,7 +51,7 @@ describe('group repository', () => {
     test('success', async () => {
       // arrange
       // act
-      const model = await getGroup(firestoreMock, USER, mockGroup.id);
+      const model = await getGroup(firestoreMock, GROUP, USER1);
 
       // assert
       expect(model).toBeDefined();
@@ -61,7 +61,7 @@ describe('group repository', () => {
     test('with invalid user', async () => {
       // arrange
       // act
-      const model = await getGroup(firestoreMock, USER + 'invalid', mockGroup.id);
+      const model = await getGroup(firestoreMock, GROUP, USER1 + 'invalid');
 
       // assert
       expect(model).toBeNull();
@@ -70,7 +70,7 @@ describe('group repository', () => {
     test('with invalid group id', async () => {
       // arrange
       // act
-      const model = await getGroup(firestoreMock, USER, mockGroup.id + 'invalid');
+      const model = await getGroup(firestoreMock, GROUP + 'invalid', USER1);
 
       // assert
       expect(model).toBeNull();
@@ -81,14 +81,14 @@ describe('group repository', () => {
     test('success with specific group id', async () => {
       // arrange
       // act
-      const model = await addOrUpdateGroup(firestoreMock, { ...mockGroup, id: 'newGroup' }, USER);
+      const model = await addOrUpdateGroup(firestoreMock, { ...mockGroup, id: 'newGroup' }, USER1);
 
       // assert
       expect(model).toBeDefined();
       expect(model?.id).toBe('newGroup');
       expect(model?.createdAt).toEqual(model?.updatedAt);
-      expect(model?.createdBy).toEqual(USER);
-      expect(model?.updatedBy).toEqual(USER);
+      expect(model?.createdBy).toEqual(USER1);
+      expect(model?.updatedBy).toEqual(USER1);
 
       const doc = (
         await firestoreMock
@@ -102,14 +102,14 @@ describe('group repository', () => {
     test('success with no group id', async () => {
       // arrange
       // act
-      const model = await addOrUpdateGroup(firestoreMock, { ...mockGroup, id: undefined }, USER);
+      const model = await addOrUpdateGroup(firestoreMock, { ...mockGroup, id: undefined }, USER1);
 
       // assert
       expect(model).toBeDefined();
       expect(model?.id).toMatch(ID_MATCH);
       expect(model?.createdAt).toEqual(model?.updatedAt);
-      expect(model?.createdBy).toEqual(USER);
-      expect(model?.updatedBy).toEqual(USER);
+      expect(model?.createdBy).toEqual(USER1);
+      expect(model?.updatedBy).toEqual(USER1);
 
       const doc = (
         await firestoreMock
@@ -126,7 +126,7 @@ describe('group repository', () => {
       const model = await addOrUpdateGroup(
         firestoreMock,
         { ...mockGroup, id: undefined },
-        USER + 'invalid'
+        USER1 + 'invalid'
       );
 
       // assert
@@ -141,7 +141,7 @@ describe('group repository', () => {
       const model = await addOrUpdateGroup(
         firestoreMock,
         { ...mockGroup, name: 'Group name updated' },
-        USER
+        USER1
       );
 
       // assert
@@ -149,8 +149,8 @@ describe('group repository', () => {
       expect(model?.name).toEqual('Group name updated');
 
       expect(model?.createdAt).not.toEqual(model?.updatedAt);
-      expect(model?.createdBy).toEqual(USER);
-      expect(model?.updatedBy).toEqual(USER);
+      expect(model?.createdBy).toEqual(USER1);
+      expect(model?.updatedBy).toEqual(USER1);
 
       const doc = (
         await firestoreMock
@@ -167,7 +167,7 @@ describe('group repository', () => {
       const model = await addOrUpdateGroup(
         firestoreMock,
         { ...mockGroup, name: 'Group 2' },
-        USER + 'invalid'
+        USER1 + 'invalid'
       );
 
       // assert
@@ -175,7 +175,7 @@ describe('group repository', () => {
     });
   });
 
-  describe('update group', () => {
+  describe('delete group', () => {
     test('success', async () => {
       // arrange
       await firestoreMock
@@ -184,7 +184,7 @@ describe('group repository', () => {
         .set({ ...mockGroup, id: 'groupToDelete1' });
 
       // act
-      await deleteGroup(firestoreMock, USER, 'groupToDelete1');
+      await deleteGroup(firestoreMock, 'groupToDelete1', USER1);
 
       // assert
       const docRef = await firestoreMock
@@ -202,7 +202,7 @@ describe('group repository', () => {
         .set({ ...mockGroup, id: 'groupToDelete2' });
 
       // act
-      await deleteGroup(firestoreMock, USER + 'invalid', 'groupToDelete2');
+      await deleteGroup(firestoreMock, 'groupToDelete2', USER1 + 'invalid');
 
       // assert
       const docRef = await firestoreMock

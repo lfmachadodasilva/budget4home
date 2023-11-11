@@ -19,8 +19,8 @@ export const getAllGroups = async (firestore: Firestore, userId: string): Promis
 
 export const getGroup = async (
   firestore: Firestore,
-  userId: string,
-  groupId: string
+  groupId: string,
+  userId: string
 ): Promise<GroupModel | undefined | null> => {
   const doc = await firestore
     .doc(FirestoreCollections.group(groupId))
@@ -62,10 +62,10 @@ export const addOrUpdateGroup = async (
 
 export const deleteGroup = async (
   firestore: Firestore,
-  userId: string,
-  groupId: string
+  groupId: string,
+  userId: string
 ): Promise<void> => {
-  if (!(await getGroup(firestore, userId, groupId))) {
+  if (!(await getGroup(firestore, groupId, userId))) {
     return;
   }
 

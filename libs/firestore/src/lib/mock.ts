@@ -1,11 +1,13 @@
-import { ExpenseModel, GroupModel } from '@budget4home/models';
+import { ExpenseModel, GroupModel, LabelModel } from '@budget4home/models';
 import { RulesTestEnvironment, initializeTestEnvironment } from '@firebase/rules-unit-testing';
-import { EXPENSE, GROUP, USER } from './contants';
+import { EXPENSE, GROUP, USER1, USER2 } from './contants';
 
 // Helper function to set up the test db instance
-export async function getMockFirebase(): Promise<RulesTestEnvironment> {
+export async function getMockFirebase(
+  projectId: string = 'test-project'
+): Promise<RulesTestEnvironment> {
   const app = await initializeTestEnvironment({
-    projectId: 'test-project',
+    projectId: projectId,
     firestore: { host: '127.0.0.1', port: 8080 }
   });
   return app;
@@ -14,8 +16,8 @@ export async function getMockFirebase(): Promise<RulesTestEnvironment> {
 export const mockExpense: ExpenseModel = {
   createdAt: new Date(),
   updatedAt: new Date(),
-  createdBy: USER,
-  updatedBy: USER,
+  createdBy: USER1,
+  updatedBy: USER1,
 
   id: EXPENSE,
   name: 'Expense 1',
@@ -28,14 +30,25 @@ export const mockExpense: ExpenseModel = {
   scheduled: null
 };
 
+export const mockLabel: LabelModel = {
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  createdBy: USER1,
+  updatedBy: USER1,
+
+  id: EXPENSE,
+  name: 'Label 1',
+  groupId: GROUP
+};
+
 export const mockGroup: GroupModel = {
   id: GROUP,
 
   name: 'Group 1',
   createdAt: new Date(),
   updatedAt: new Date(),
-  createdBy: USER,
-  updatedBy: USER,
+  createdBy: USER1,
+  updatedBy: USER1,
 
-  userIds: [USER]
+  userIds: [USER1, USER2]
 };
