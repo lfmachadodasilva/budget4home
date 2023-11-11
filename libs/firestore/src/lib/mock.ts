@@ -21,7 +21,6 @@ export const mockExpense: ExpenseModel = {
   id: EXPENSE,
   name: 'Expense 1',
   date: new Date(),
-  groupId: GROUP,
   labelId: 'label1',
   type: 'out',
   value: 10,
@@ -36,8 +35,7 @@ export const mockLabel: LabelModel = {
   updatedBy: USER1,
 
   id: EXPENSE,
-  name: 'Label 1',
-  groupId: GROUP
+  name: 'Label 1'
 };
 
 export const mockGroup: GroupModel = {

@@ -7,6 +7,5 @@ export interface ExpenseModel extends BaseModel {
   parentId?: string | null;
   scheduled?: string | null;
 
-  groupId: string;
   labelId: string;
 }
