@@ -8,6 +8,7 @@
       "rules": {
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
         "@nx/enforce-module-boundaries": [
           "error",
           {
@@ -28,7 +29,8 @@
       "extends": ["plugin:@nx/typescript"],
       "rules": {
         "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/ban-ts-comment": "off"
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-inferrable-types": "off"
       }
     },
     {
@@ -36,7 +38,8 @@
       "extends": ["plugin:@nx/javascript"],
       "rules": {
         "@typescript-eslint/no-empty-interface": "off",
-        "@typescript-eslint/ban-ts-comment": "off"
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-inferrable-types": "off"
       }
     }
   ]

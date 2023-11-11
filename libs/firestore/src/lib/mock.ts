@@ -2,7 +2,6 @@ import { ExpenseModel, GroupModel, LabelModel } from '@budget4home/models';
 import { RulesTestEnvironment, initializeTestEnvironment } from '@firebase/rules-unit-testing';
 import { EXPENSE, GROUP, USER1, USER2 } from './contants';
 
-// Helper function to set up the test db instance
 export async function getMockFirebase(
   projectId: string = 'test-project'
 ): Promise<RulesTestEnvironment> {
