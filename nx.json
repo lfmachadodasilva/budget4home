@@ -43,7 +43,19 @@
         "style": "scss",
         "linter": "eslint"
       }
+    },
+    "@nx/react": {
+      "library": {
+        "unitTestRunner": "jest"
+      }
     }
   },
-  "nxCloudAccessToken": "MGE5MjJiNmYtMWNlOS00ZDBiLWI0MjgtYTZiMzZjYWMzYWVmfHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "MGE5MjJiNmYtMWNlOS00ZDBiLWI0MjgtYTZiMzZjYWMzYWVmfHJlYWQtd3JpdGU=",
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  }
 }

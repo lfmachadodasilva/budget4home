@@ -5,7 +5,7 @@
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "resolveJsonModule": true,
@@ -16,7 +16,28 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": [
+      "jest",
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@budget4home/firebase": [
+        "../../libs/firebase/src/index.ts"
+      ],
+      "@budget4home/firestore": [
+        "../../libs/firestore/src/index.ts"
+      ],
+      "@budget4home/models": [
+        "../../libs/models/src/index.ts"
+      ],
+      "@budget4home/web-components": [
+        "../../libs/web-components/src/index.ts"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "**/*.ts",
@@ -25,7 +46,13 @@
     "**/*.jsx",
     "../../apps/budget4home/.next/types/**/*.ts",
     "../../dist/apps/budget4home/.next/types/**/*.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+  "exclude": [
+    "node_modules",
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }
