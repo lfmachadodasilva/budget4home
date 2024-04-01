@@ -4,8 +4,7 @@
     "jsx": "preserve",
     "allowJs": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    
+    "allowSyntheticDefaultImports": true, 
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "resolveJsonModule": true,
