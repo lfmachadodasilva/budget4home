@@ -20,19 +20,19 @@ export const getFirebaseApp = () => {
     storageBucket: `${firebaseProjectId}.appspot.com`
   });
   return firebaseApp;
-}
+};
 
 export const getFirebaseAuth = () => {
   firebaseAuth ??= getAuth(getFirebaseApp());
   return firebaseAuth;
-}
+};
 
 export const getFirebaseDatabase = () => {
   firebaseDatabase ??= getDatabase(getFirebaseApp());
   return firebaseDatabase;
-}
+};
 
 export const getFirebaseStorage = () => {
   firebaseStorage ??= getStorage(getFirebaseApp());
   return firebaseStorage;
-}
+};
