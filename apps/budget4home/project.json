@@ -1,0 +1,9 @@
+{
+  "name": "budget4home",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/budget4home/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project budget4home --web",
+  "targets": {}
+}
