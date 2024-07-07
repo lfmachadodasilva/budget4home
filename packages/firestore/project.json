@@ -1,0 +1,19 @@
+{
+  "name": "firestore",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/firestore/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/firestore",
+        "main": "packages/firestore/src/index.ts",
+        "tsConfig": "packages/firestore/tsconfig.lib.json",
+        "assets": ["packages/firestore/*.md"]
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "fastify-api",
+  "name": "b4h-api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/b4h-api/src",
   "projectType": "application",
@@ -7,16 +7,22 @@
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/b4h-api",
-        "format": ["cjs"],
+        "format": [
+          "cjs"
+        ],
         "bundle": false,
         "main": "apps/b4h-api/src/main.ts",
         "tsConfig": "apps/b4h-api/tsconfig.app.json",
-        "assets": ["apps/b4h-api/src/assets"],
+        "assets": [
+          "apps/b4h-api/src/assets"
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -41,14 +47,14 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "fastify-api:build"
+        "buildTarget": "b4h-api:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "fastify-api:build:development"
+          "buildTarget": "b4h-api:build:development"
         },
         "production": {
-          "buildTarget": "fastify-api:build:production"
+          "buildTarget": "b4h-api:build:production"
         }
       }
     }
