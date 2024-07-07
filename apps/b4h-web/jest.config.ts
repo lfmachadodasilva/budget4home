@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'budget4home',
+  displayName: 'b4h-web',
   preset: '../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/react/babel'] }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/apps/budget4home',
+  coverageDirectory: '../../coverage/apps/b4h-web',
 };
