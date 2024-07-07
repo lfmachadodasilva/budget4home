@@ -7,22 +7,16 @@
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/b4h-api",
-        "format": [
-          "cjs"
-        ],
+        "format": ["cjs"],
         "bundle": false,
         "main": "apps/b4h-api/src/main.ts",
         "tsConfig": "apps/b4h-api/tsconfig.app.json",
-        "assets": [
-          "apps/b4h-api/src/assets"
-        ],
+        "assets": ["apps/b4h-api/src/assets"],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,

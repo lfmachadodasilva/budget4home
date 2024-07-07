@@ -9,12 +9,12 @@ export default defineConfig({
 
   server: {
     port: 3000,
-    host: 'localhost',
+    host: 'localhost'
   },
 
   preview: {
     port: 3100,
-    host: 'localhost',
+    host: 'localhost'
   },
 
   plugins: [react(), nxViteTsPaths()],
@@ -29,7 +29,7 @@ export default defineConfig({
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-  },
+      transformMixedEsModules: true
+    }
+  }
 });
