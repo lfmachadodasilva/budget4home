@@ -1,5 +1,10 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react';
 
+const defaultProps = {
+  size: 'sm',
+  colorScheme: 'primary'
+};
+
 const overrides = {
   config: {
     initialColorMode: 'system',
@@ -35,8 +40,19 @@ const overrides = {
   components: {
     Button: {
       defaultProps: {
-        size: 'sm',
-        colorScheme: 'primary'
+        ...defaultProps
+      }
+    },
+    Input: {
+      defaultProps: {
+        ...defaultProps,
+        focusBorderColor: 'primary.600'
+      }
+    },
+    FormLabel: {
+      defaultProps: {
+        ...defaultProps,
+        fontSize: 'sm'
       }
     }
   }

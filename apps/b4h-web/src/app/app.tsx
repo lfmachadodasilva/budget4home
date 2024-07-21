@@ -5,6 +5,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import { B4hHeader } from './components/header';
 import { LoginPage } from './pages/login';
+import { RegisterPage } from './pages/register';
+import { ResetPage } from './pages/reset';
 
 export function App() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -27,11 +29,14 @@ export function App() {
 
       <Routes>
         <Route path="/login" Component={LoginPage} />
+        <Route path="/register" Component={RegisterPage} />
+        <Route path="/reset" Component={ResetPage} />
         {/* <Route path="/" exact component={Home} />
           <Route path="/products" component={Products} />
           <PrivateRoute path="/admin" component={Admin} /> */}
       </Routes>
 
+      {/* <Button onClick={toggleColorMode}>Toggle {colorMode === 'light' ? 'Dark' : 'Light'}</Button> */}
       {/* <div>
         <Button onClick={toggleColorMode}>Toggle {colorMode === 'light' ? 'Dark' : 'Light'}</Button>
         <Button colorScheme="blue" variant="outline">

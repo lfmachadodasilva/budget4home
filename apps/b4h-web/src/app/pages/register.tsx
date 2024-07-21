@@ -1,20 +1,20 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Link } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // TODO
-  };
   const handleRegister = () => {
     navigate('/register');
+  };
+  const handleLogin = () => {
+    navigate('/login');
   };
 
   return (
     <Flex maxW="md" justifyContent="center" flexDir="column" m={3} gap={2}>
       <Heading as="h2" size="xl" noOfLines={1}>
-        Login
+        Register
       </Heading>
       <FormControl>
         <FormLabel>Email address</FormLabel>
@@ -24,17 +24,19 @@ export const LoginPage = () => {
       </FormControl>
       <FormControl>
         <FormLabel>Password</FormLabel>
-        <Input type="password" placeholder="do you remember me?" />
+        <Input type="password" placeholder="type your new password here" />
+        {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
+      </FormControl>
+      <FormControl>
+        <FormLabel>Password</FormLabel>
+        <Input type="password" placeholder="one more time" />
         {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
       </FormControl>
       <Box p={3} />
-      <Button onClick={handleLogin}>Login</Button>
-      <Button variant="outline" onClick={handleRegister}>
-        Register
+      <Button onClick={handleRegister}>Register</Button>
+      <Button variant="outline" onClick={handleLogin}>
+        Login
       </Button>
-      <Link textAlign="center" href="reset">
-        Forgot your passoword
-      </Link>
     </Flex>
   );
 };
