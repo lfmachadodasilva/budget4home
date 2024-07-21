@@ -48,12 +48,6 @@ const overrides = {
         ...defaultProps,
         focusBorderColor: 'primary.600'
       }
-    },
-    FormLabel: {
-      defaultProps: {
-        ...defaultProps,
-        fontSize: 'sm'
-      }
     }
   }
 };
