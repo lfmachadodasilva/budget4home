@@ -11,15 +11,36 @@ import {
   useColorMode,
   useDisclosure
 } from '@chakra-ui/react';
+import { Route, Routes } from 'react-router-dom';
+
 import { B4hHeader } from './components/header';
+import { LoginPage } from './pages/login';
 
 export function App() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // const router = createBrowserRouter([
+  //   {
+  //     path: '/',
+  //     element: <></>
+  //   },
+  //   {
+  //     path: '/login',
+  //     element: <LoginPage />
+  //   }
+  // ]);
+
   return (
     <>
       <B4hHeader />
+
+      <Routes>
+        <Route path="/login" Component={LoginPage} />
+        {/* <Route path="/" exact component={Home} />
+          <Route path="/products" component={Products} />
+          <PrivateRoute path="/admin" component={Admin} /> */}
+      </Routes>
 
       <div>
         {/* <B4hButton buttonType="primary">Test1</B4hButton> */}
