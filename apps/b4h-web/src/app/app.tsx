@@ -1,16 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { CloseIcon } from '@chakra-ui/icons';
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  useColorMode,
-  useDisclosure
-} from '@chakra-ui/react';
+import { useColorMode, useDisclosure } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
 
 import { B4hHeader } from './components/header';
@@ -42,9 +32,7 @@ export function App() {
           <PrivateRoute path="/admin" component={Admin} /> */}
       </Routes>
 
-      <div>
-        {/* <B4hButton buttonType="primary">Test1</B4hButton> */}
-        {/* <B4hButton buttonType="secondary">Test2</B4hButton> */}
+      {/* <div>
         <Button onClick={toggleColorMode}>Toggle {colorMode === 'light' ? 'Dark' : 'Light'}</Button>
         <Button colorScheme="blue" variant="outline">
           Test chakra
@@ -86,7 +74,7 @@ export function App() {
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-      </div>
+      </div> */}
     </>
   );
 }
