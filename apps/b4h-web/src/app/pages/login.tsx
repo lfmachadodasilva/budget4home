@@ -1,3 +1,4 @@
+// import { useAuth } from '@b4h/firebase';
 import {
   Box,
   Button,
@@ -12,22 +13,27 @@ import {
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
 export const LoginPage = () => {
   const navigate = useNavigate();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting }
-  } = useForm();
+  } = useForm<LoginFormValues>();
+  // const { user, loading, login } = useAuth();
 
-  const handleLogin = () => {
+  const handleLogin = (values: LoginFormValues) => {
+    console.log(values);
     // TODO
   };
   const handleRegister = () => {
     navigate('/register');
   };
-
-  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(handleLogin)}>
@@ -71,7 +77,6 @@ export const LoginPage = () => {
         <Button type="submit" isLoading={isSubmitting}>
           Login
         </Button>
-
         <Button variant="outline" onClick={handleRegister}>
           Register
         </Button>

@@ -1,27 +1,25 @@
-import { HamburgerIcon, SmallCloseIcon } from '@chakra-ui/icons';
-import {
-  Avatar,
-  Center,
-  chakra,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  Flex,
-  Heading,
-  useDisclosure
-} from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import { Avatar, Center, chakra, Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { MainMenu } from '../mainMenu';
+import { UserMenu } from '../userMenu';
 
 export const B4hHeader = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+
+  const { isOpen: isOpenMain, onOpen: onOpenMain, onClose: onCloseMain } = useDisclosure();
   const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
+
+  const handleHome = () => {
+    navigate('/');
+  };
+
   return (
     <>
       <Flex alignContent="center" justifyContent="space-between" pr={3}>
         <Center>
-          <HamburgerIconStyle onClick={onOpen} boxSize={5} />
-          <Heading as="h1" size="md">
+          <HamburgerIconStyle boxSize={5} onClick={onOpenMain} />
+          <Heading as="h1" size="md" style={{ cursor: 'pointer' }} onClick={handleHome}>
             budget4home
           </Heading>
         </Center>
@@ -29,67 +27,8 @@ export const B4hHeader = () => {
           <AvatarStyle boxSize={5} ml="auto" onClick={onOpenUser} />
         </Center>
       </Flex>
-
-      <Drawer placement={'left'} onClose={onClose} isOpen={isOpen}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">
-            <Flex justifyContent="space-between">
-              <span>Basic Drawer</span>
-              <Center>
-                <SmallCloseIconStyle onClick={onClose} />
-              </Center>
-            </Flex>
-          </DrawerHeader>
-          <DrawerBody>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-      <Drawer placement={'right'} onClose={onCloseUser} isOpen={isOpenUser}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">
-            <Flex justifyContent="space-between">
-              <span>Basic Drawer</span>
-              <Center>
-                <SmallCloseIconStyle onClick={onCloseUser} />
-              </Center>
-            </Flex>
-          </DrawerHeader>
-          <DrawerBody>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-            <p style={{ marginTop: '200px' }}>Some contents...</p>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+      <MainMenu isOpen={isOpenMain} onClose={onCloseMain} onOpen={onOpenMain} />
+      <UserMenu isOpen={isOpenUser} onClose={onCloseUser} onOpen={onOpenUser} />
     </>
   );
 };
@@ -97,12 +36,6 @@ export const B4hHeader = () => {
 const HamburgerIconStyle = chakra(HamburgerIcon, {
   baseStyle: {
     m: 3
-  }
-});
-
-const SmallCloseIconStyle = chakra(SmallCloseIcon, {
-  baseStyle: {
-    cursor: 'pointer'
   }
 });
 

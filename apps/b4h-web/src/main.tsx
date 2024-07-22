@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
+// import { AuthProvider } from '@b4h/firebase';
 import App from './app/app';
 import { StyleProvider } from './style/provider';
 
@@ -10,7 +11,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <StyleProvider>
+        {/* <AuthProvider> */}
         <App />
+        {/* </AuthProvider> */}
       </StyleProvider>
     </BrowserRouter>
   </StrictMode>

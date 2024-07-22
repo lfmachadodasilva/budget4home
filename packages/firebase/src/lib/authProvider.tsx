@@ -1,4 +1,11 @@
-import { onAuthStateChanged, User } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  User
+} from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { getFirebaseAuth } from './firebase';
 
@@ -7,13 +14,23 @@ interface AuthProviderProps {
 }
 
 interface AuthContextProps {
+  user?: User | null;
   loading: boolean;
   token?: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  register: (email: string, password: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
+  user: undefined,
   loading: false,
-  token: null
+  token: undefined,
+  login: async (email: string, password: string) => {},
+  logout: async () => {},
+  register: async (email: string, password: string) => {},
+  resetPassword: async (email: string) => {}
 });
 
 export function AuthProvider(props: AuthProviderProps) {
@@ -27,6 +44,22 @@ export function AuthProvider(props: AuthProviderProps) {
     return () => unsubscribe();
   }, []);
 
+  const login = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
+  };
+
+  const logout = async () => {
+    await signOut(getFirebaseAuth());
+  };
+
+  const register = async (email: string, password: string) => {
+    await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
+  };
+
+  const resetPassword = async (email: string) => {
+    await sendPasswordResetEmail(getFirebaseAuth(), email);
+  };
+
   useEffect(() => {
     setLoading(true);
     user
@@ -38,8 +71,13 @@ export function AuthProvider(props: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
-        loading: loading,
-        token: token
+        user,
+        loading,
+        token,
+        login,
+        logout,
+        register,
+        resetPassword
       }}
     >
       {props.children}
