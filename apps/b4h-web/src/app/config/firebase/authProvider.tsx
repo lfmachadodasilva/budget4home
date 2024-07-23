@@ -36,11 +36,16 @@ export const AuthContext = createContext<AuthContextProps>({
 export function AuthProvider(props: AuthProviderProps) {
   const [user, setUser] = useState<User | null>();
   const [token, setToken] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading1, setLoading1] = useState<boolean>(true);
+  const [loading2, setLoading2] = useState<boolean>(true);
 
   useEffect(() => {
-    setLoading(true);
-    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), u => setUser(u));
+    setLoading1(true);
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), u => {
+      setUser(u);
+      setLoading1(false);
+      setLoading2(true);
+    });
     return () => unsubscribe();
   }, []);
 
@@ -61,18 +66,22 @@ export function AuthProvider(props: AuthProviderProps) {
   };
 
   useEffect(() => {
-    setLoading(true);
-    user
-      ?.getIdToken()
-      .then(value => setToken(value))
-      .finally(() => setLoading(false));
+    setLoading2(true);
+    if (user) {
+      user
+        .getIdToken()
+        .then(value => setToken(value))
+        .finally(() => setLoading2(false));
+    } else {
+      setLoading2(false);
+    }
   }, [user]);
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        loading,
+        loading: loading1 || loading2,
         token,
         login,
         logout,

@@ -1,17 +1,20 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Avatar, Center, chakra, Flex, Heading, useDisclosure } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../config/firebase/authProvider';
+import { B4hRoutes } from '../../config/routes';
 import { MainMenu } from '../mainMenu';
 import { UserMenu } from '../userMenu';
 
 export const B4hHeader = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const { isOpen: isOpenMain, onOpen: onOpenMain, onClose: onCloseMain } = useDisclosure();
   const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
 
   const handleHome = () => {
-    navigate('/');
+    navigate(B4hRoutes.home);
   };
 
   return (
@@ -24,7 +27,12 @@ export const B4hHeader = () => {
           </Heading>
         </Center>
         <Center>
-          <AvatarStyle boxSize={5} ml="auto" onClick={onOpenUser} />
+          <AvatarStyle
+            boxSize={8}
+            ml="auto"
+            onClick={onOpenUser}
+            src={user?.photoURL ?? undefined}
+          />
         </Center>
       </Flex>
       <MainMenu isOpen={isOpenMain} onClose={onCloseMain} onOpen={onOpenMain} />

@@ -9,6 +9,8 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../config/firebase/authProvider';
+import { B4hRoutes } from '../../config/routes';
 import { SmallCloseIconStyle } from '../styles';
 
 export interface UserMenuProps {
@@ -19,13 +21,20 @@ export interface UserMenuProps {
 
 export const UserMenu = ({ onClose, isOpen }: UserMenuProps) => {
   const navigate = useNavigate();
+  const { user, loading, logout } = useAuth();
+
+  console.log('UserMenu', { user, loading });
 
   const handleLogin = () => {
-    navigate('/login');
+    navigate(B4hRoutes.login);
     onClose();
   };
   const handleRegister = () => {
-    navigate('/register');
+    navigate(B4hRoutes.register);
+    onClose();
+  };
+  const handleLogout = async () => {
+    await logout();
     onClose();
   };
 
@@ -35,7 +44,8 @@ export const UserMenu = ({ onClose, isOpen }: UserMenuProps) => {
       <DrawerContent>
         <DrawerHeader borderBottomWidth="1px">
           <Flex justifyContent="space-between">
-            <span>Basic Drawer</span>
+            {user && <span>{user.displayName}</span>}
+            {!user && <span>Login</span>}
             <Center>
               <SmallCloseIconStyle onClick={onClose} />
             </Center>
@@ -43,12 +53,23 @@ export const UserMenu = ({ onClose, isOpen }: UserMenuProps) => {
         </DrawerHeader>
         <DrawerBody>
           <Flex justifyContent="center" flexDir="column" gap={2}>
-            <Button type="submit" onClick={handleLogin}>
-              Login
-            </Button>
-            <Button variant="outline" onClick={handleRegister}>
-              Register
-            </Button>
+            {!user && (
+              <>
+                <Button type="submit" onClick={handleLogin}>
+                  Login
+                </Button>
+                <Button variant="outline" onClick={handleRegister}>
+                  Register
+                </Button>
+              </>
+            )}
+            {user && (
+              <>
+                <Button variant="outline" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            )}
           </Flex>
         </DrawerBody>
       </DrawerContent>

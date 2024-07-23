@@ -15,10 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@b4h/firebase": ["packages/firebase/src/index.ts"],
-      "@b4h/firestore": ["packages/firestore/src/index.ts"],
-      "@b4h/models": ["packages/models/src/index.ts"],
-      "@b4h/web-components": ["packages/web-components/src/index.ts"]
+      "@b4h/models": ["packages/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

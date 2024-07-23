@@ -1,14 +1,15 @@
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { B4hRoutes } from '../config/routes';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
 
   const handleRegister = () => {
-    navigate('/register');
+    navigate(B4hRoutes.register);
   };
   const handleLogin = () => {
-    navigate('/login');
+    navigate(B4hRoutes.login);
   };
 
   return (

@@ -1,4 +1,3 @@
-// import { useAuth } from '@b4h/firebase';
 import {
   Box,
   Button,
@@ -12,6 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../config/firebase/authProvider';
+import { B4hRoutes } from '../config/routes';
 
 interface LoginFormValues {
   email: string;
@@ -25,14 +26,15 @@ export const LoginPage = () => {
     register,
     formState: { errors, isSubmitting }
   } = useForm<LoginFormValues>();
-  // const { user, loading, login } = useAuth();
+  const { user, loading, login } = useAuth();
+  console.log('Login page', user, loading);
 
-  const handleLogin = (values: LoginFormValues) => {
-    console.log(values);
-    // TODO
+  const handleLogin = async (values: LoginFormValues) => {
+    await login(values.email, values.password);
+    navigate(B4hRoutes.home);
   };
   const handleRegister = () => {
-    navigate('/register');
+    navigate(B4hRoutes.register);
   };
 
   return (
