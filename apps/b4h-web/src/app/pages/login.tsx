@@ -1,16 +1,17 @@
 import {
   Box,
   Button,
+  Link as ChakraLink,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Heading,
-  Input,
-  Link
+  Input
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../config/firebase/authProvider';
 import { B4hRoutes } from '../config/routes';
 
@@ -26,8 +27,8 @@ export const LoginPage = () => {
     register,
     formState: { errors, isSubmitting }
   } = useForm<LoginFormValues>();
-  const { user, loading, login } = useAuth();
-  console.log('Login page', user, loading);
+  const { login } = useAuth();
+  const [t] = useTranslation();
 
   const handleLogin = async (values: LoginFormValues) => {
     await login(values.email, values.password);
@@ -41,18 +42,18 @@ export const LoginPage = () => {
     <form onSubmit={handleSubmit(handleLogin)}>
       <Flex maxW="md" justifyContent="center" flexDir="column" m={3} gap={2}>
         <Heading as="h2" size="xl" noOfLines={1}>
-          Login
+          {t('login.title')}
         </Heading>
 
         <FormControl isInvalid={!!errors.email}>
-          <FormLabel>Email address</FormLabel>
+          <FormLabel>{t('login.email')}</FormLabel>
           <Input
             type="email"
             id="email"
-            placeholder="type your email here"
+            placeholder={t('login.emailPlaceholder')}
             {...register('email', {
-              required: 'This is required',
-              minLength: { value: 4, message: 'Minimum length should be 4' }
+              required: t('global.validation.required'),
+              minLength: { value: 4, message: t('global.validation.minLength') }
             })}
           />
           <FormErrorMessage>
@@ -60,31 +61,30 @@ export const LoginPage = () => {
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={!!errors.password}>
-          <FormLabel>Password</FormLabel>
+          <FormLabel>{t('login.password')}</FormLabel>
           <Input
             type="password"
             id="password"
-            placeholder="do you remember me?"
+            placeholder={t('login.passwordPlaceholder')}
             {...register('password', {
-              required: 'This is required',
-              minLength: { value: 4, message: 'Minimum length should be 4' }
+              required: t('global.validation.required'),
+              minLength: { value: 4, message: t('global.validation.minLength') }
             })}
           />
           <FormErrorMessage>
             <>{errors?.password?.message}</>
           </FormErrorMessage>
-          {/* <FormHelperText>We'll never share your email.</FormHelperText> */}
         </FormControl>
         <Box p={3} />
         <Button type="submit" isLoading={isSubmitting}>
-          Login
+          {t('login.submit')}
         </Button>
         <Button variant="outline" onClick={handleRegister}>
-          Register
+          {t('login.register')}
         </Button>
-        <Link textAlign="center" href="reset">
-          Forgot your passoword
-        </Link>
+        <ChakraLink as={ReactRouterLink} to={B4hRoutes.reset}>
+          {t('login.forgot')}
+        </ChakraLink>
       </Flex>
     </form>
   );

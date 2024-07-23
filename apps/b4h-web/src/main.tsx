@@ -2,6 +2,8 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
+import './app/config/i18n';
+
 import App from './app/app';
 import { AuthProvider } from './app/config/firebase/authProvider';
 import { StyleProvider } from './style/provider';

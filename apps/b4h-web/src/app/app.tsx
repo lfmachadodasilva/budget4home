@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { useEffect } from 'react';
 import { B4hHeader } from './components/header';
@@ -15,13 +15,17 @@ import { ResetPage } from './pages/reset';
 export function App() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    console.log('App', { user, loading });
-    if (!loading && !user) {
+    if (
+      !loading &&
+      !user &&
+      ![B4hRoutes.login, B4hRoutes.register, B4hRoutes.reset].includes(location.pathname)
+    ) {
       navigate('/login');
     }
-  }, [user, loading]);
+  }, [user, loading, location]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Avatar, Center, chakra, Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../config/firebase/authProvider';
 import { B4hRoutes } from '../../config/routes';
@@ -9,6 +10,7 @@ import { UserMenu } from '../userMenu';
 export const B4hHeader = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [t] = useTranslation();
 
   const { isOpen: isOpenMain, onOpen: onOpenMain, onClose: onCloseMain } = useDisclosure();
   const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
@@ -23,7 +25,7 @@ export const B4hHeader = () => {
         <Center>
           <HamburgerIconStyle boxSize={5} onClick={onOpenMain} />
           <Heading as="h1" size="md" style={{ cursor: 'pointer' }} onClick={handleHome}>
-            budget4home
+            {t('global.header.title')}
           </Heading>
         </Center>
         <Center>

@@ -8,6 +8,7 @@ import {
   DrawerOverlay,
   Flex
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../config/firebase/authProvider';
 import { B4hRoutes } from '../../config/routes';
@@ -21,9 +22,8 @@ export interface UserMenuProps {
 
 export const UserMenu = ({ onClose, isOpen }: UserMenuProps) => {
   const navigate = useNavigate();
+  const [t] = useTranslation();
   const { user, loading, logout } = useAuth();
-
-  console.log('UserMenu', { user, loading });
 
   const handleLogin = () => {
     navigate(B4hRoutes.login);
@@ -45,7 +45,7 @@ export const UserMenu = ({ onClose, isOpen }: UserMenuProps) => {
         <DrawerHeader borderBottomWidth="1px">
           <Flex justifyContent="space-between">
             {user && <span>{user.displayName}</span>}
-            {!user && <span>Login</span>}
+            {!user && <span>{t('global.header.login')}</span>}
             <Center>
               <SmallCloseIconStyle onClick={onClose} />
             </Center>
@@ -56,17 +56,17 @@ export const UserMenu = ({ onClose, isOpen }: UserMenuProps) => {
             {!user && (
               <>
                 <Button type="submit" onClick={handleLogin}>
-                  Login
+                  {t('global.header.login')}
                 </Button>
                 <Button variant="outline" onClick={handleRegister}>
-                  Register
+                  {t('global.header.register')}
                 </Button>
               </>
             )}
             {user && (
               <>
                 <Button variant="outline" onClick={handleLogout}>
-                  Logout
+                  {t('global.header.logout')}
                 </Button>
               </>
             )}
