@@ -2,18 +2,18 @@ import {
   Box,
   Button,
   Link as ChakraLink,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
   Input
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
+import { B4hForm } from '../../style/bodyForm';
 import { B4hRoutes } from '../config/routes';
 import { useAuth } from '../providers/authProvider';
+import { PageTemplateBase } from './templateBase';
 
 interface LoginFormValues {
   email: string;
@@ -39,12 +39,9 @@ export const LoginPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleLogin)} slot="temp">
-      <Flex maxW="md" justifyContent="center" flexDir="column" m={3} gap={2}>
-        <Heading as="h2" size="xl" noOfLines={1}>
-          {t('login.title')}
-        </Heading>
-
+    <PageTemplateBase>
+      <span slot="header">{t('login.title')}</span>
+      <B4hForm onSubmit={handleSubmit(handleLogin)} slot="body">
         <FormControl isInvalid={!!errors.email}>
           <FormLabel>{t('login.email')}</FormLabel>
           <Input
@@ -85,7 +82,7 @@ export const LoginPage = () => {
         <ChakraLink as={ReactRouterLink} to={B4hRoutes.reset}>
           {t('login.forgot')}
         </ChakraLink>
-      </Flex>
-    </form>
+      </B4hForm>
+    </PageTemplateBase>
   );
 };
