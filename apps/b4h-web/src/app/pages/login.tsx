@@ -12,8 +12,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../config/firebase/authProvider';
 import { B4hRoutes } from '../config/routes';
+import { useAuth } from '../providers/authProvider';
 
 interface LoginFormValues {
   email: string;
@@ -39,7 +39,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleLogin)}>
+    <form onSubmit={handleSubmit(handleLogin)} slot="temp">
       <Flex maxW="md" justifyContent="center" flexDir="column" m={3} gap={2}>
         <Heading as="h2" size="xl" noOfLines={1}>
           {t('login.title')}

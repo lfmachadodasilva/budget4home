@@ -10,8 +10,8 @@ import {
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../config/firebase/authProvider';
 import { B4hRoutes } from '../../config/routes';
+import { useAuth } from '../../providers/authProvider';
 import { SmallCloseIconStyle } from '../styles';
 
 export interface UserMenuProps {

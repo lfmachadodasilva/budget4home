@@ -1,3 +1,4 @@
+import { Analytics, getAnalytics } from 'firebase/analytics';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { Auth, getAuth } from 'firebase/auth';
 import { Database, getDatabase } from 'firebase/database';
@@ -10,6 +11,7 @@ export let firebaseApp: FirebaseApp;
 export let firebaseAuth: Auth;
 export let firebaseDatabase: Database;
 export let firebaseStorage: FirebaseStorage;
+export let firebaseAnalytic: Analytics;
 
 export const getFirebaseApp = () => {
   firebaseApp ??= initializeApp({
@@ -35,4 +37,9 @@ export const getFirebaseDatabase = () => {
 export const getFirebaseStorage = () => {
   firebaseStorage ??= getStorage(getFirebaseApp());
   return firebaseStorage;
+};
+
+export const getFirebaseAnalytics = () => {
+  firebaseAnalytic ??= getAnalytics(getFirebaseApp());
+  return firebaseAnalytic;
 };

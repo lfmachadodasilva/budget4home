@@ -1,5 +1,5 @@
 {
-  "name": "@b4h/models",
+  "name": "@b4h/firebase",
   "version": "0.0.1",
   "dependencies": {},
   "main": "./index.js",

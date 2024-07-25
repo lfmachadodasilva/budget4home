@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './app/config/i18n';
 
 import App from './app/app';
-import { AuthProvider } from './app/config/firebase/authProvider';
+import { AuthProvider } from './app/providers/authProvider';
 import { StyleProvider } from './style/provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

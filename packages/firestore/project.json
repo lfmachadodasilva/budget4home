@@ -1,5 +1,5 @@
 {
-  "name": "firestore",
+  "name": "@b4h/firestore",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/firestore/src",
   "projectType": "library",

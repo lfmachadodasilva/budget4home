@@ -4,13 +4,13 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { useEffect } from 'react';
 import { B4hHeader } from './components/header';
-import { useAuth } from './config/firebase/authProvider';
 import { B4hRoutes } from './config/routes';
 import { GroupsPage } from './pages/groups';
 import { HomePage } from './pages/home';
 import { LoginPage } from './pages/login';
 import { RegisterPage } from './pages/register';
 import { ResetPage } from './pages/reset';
+import { useAuth } from './providers/authProvider';
 
 export function App() {
   const { user, loading } = useAuth();

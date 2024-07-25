@@ -2,8 +2,8 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import { Avatar, Center, chakra, Flex, Heading, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../config/firebase/authProvider';
 import { B4hRoutes } from '../../config/routes';
+import { useAuth } from '../../providers/authProvider';
 import { MainMenu } from '../mainMenu';
 import { UserMenu } from '../userMenu';
 

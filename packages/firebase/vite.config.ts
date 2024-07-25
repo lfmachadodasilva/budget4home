@@ -6,14 +6,11 @@ import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/packages/models',
+  cacheDir: '../../node_modules/.vite/packages/firebase',
 
   plugins: [
     nxViteTsPaths(),
-    dts({
-      entryRoot: 'src',
-      tsconfigPath: path.join(__dirname, 'tsconfig.lib.json')
-    })
+    dts({ entryRoot: 'src', tsconfigPath: path.join(__dirname, 'tsconfig.lib.json') })
   ],
 
   // Uncomment this if you are using workers.
@@ -24,7 +21,7 @@ export default defineConfig({
   // Configuration for building your library.
   // See: https://vitejs.dev/guide/build.html#library-mode
   build: {
-    outDir: '../../dist/packages/models',
+    outDir: '../../dist/packages/firebase',
     emptyOutDir: true,
     reportCompressedSize: true,
     commonjsOptions: {
@@ -33,7 +30,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points.
       entry: 'src/index.ts',
-      name: '@b4h/models',
+      name: '@bd4h/firebase',
       fileName: 'index',
       // Change this to the formats you want to support.
       // Don't forget to update your package.json as well.
@@ -42,6 +39,19 @@ export default defineConfig({
     rollupOptions: {
       // External packages that should not be bundled into your library.
       external: []
+    }
+  },
+
+  test: {
+    watch: false,
+    globals: true,
+    environment: 'node',
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+
+    reporters: ['default'],
+    coverage: {
+      reportsDirectory: '../../coverage/packages/firebase',
+      provider: 'v8'
     }
   }
 });

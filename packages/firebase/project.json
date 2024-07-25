@@ -1,0 +1,19 @@
+{
+  "name": "@b4h/firebase",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/firebase/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/firebase",
+        "main": "packages/firebase/src/index.ts",
+        "tsConfig": "packages/firebase/tsconfig.lib.json",
+        "assets": ["packages/firebase/*.md"]
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "models",
+  "name": "@b4h/models",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/models/src",
   "projectType": "library",
