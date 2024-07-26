@@ -3,8 +3,8 @@ export interface BaseModel {
   name: string;
 
   createdBy: string;
-  createdAt: string;
+  createdAt: Date;
 
   updatedBy: string;
-  updatedAt: string;
+  updatedAt: Date;
 }
