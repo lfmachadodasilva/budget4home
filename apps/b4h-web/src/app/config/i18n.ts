@@ -33,7 +33,8 @@ i18n
             },
             validation: {
               required: 'This is required',
-              minLength: 'Minimum length should be 4'
+              minLength: 'Minimum length should be 4',
+              confirmPassword: 'Passwords must match'
             }
           },
           login: {

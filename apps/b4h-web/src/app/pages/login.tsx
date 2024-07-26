@@ -12,12 +12,8 @@ import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { B4hForm } from '../../style/shared';
 import { B4hRoutes } from '../config/routes';
 import { B4hPageTemplate } from '../layouts/pageBase';
+import { LoginFormValues } from '../models/loginFormValues';
 import { useAuth } from '../providers/authProvider';
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
 
 export const LoginPage = () => {
   const navigate = useNavigate();
