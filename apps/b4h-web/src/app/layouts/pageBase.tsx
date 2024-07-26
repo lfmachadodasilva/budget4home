@@ -1,4 +1,5 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export const B4hPageTemplate = ({
@@ -10,6 +11,10 @@ export const B4hPageTemplate = ({
 }) => {
   const [t] = useTranslation();
 
+  useEffect(() => {
+    document.title = title ? `${title} | ${t('global.header.title')}` : t('global.header.title');
+  }, [title]);
+
   const header = children.find(child => child?.props?.slot === 'header');
   const body = children.find(child => child?.props?.slot === 'body');
   const actionTop = children.find(child => child?.props?.slot === 'actionTop');
@@ -19,9 +24,6 @@ export const B4hPageTemplate = ({
 
   return (
     <>
-      <head>
-        <title>{title ?? t('global.header.title')} test</title>
-      </head>
       <Flex justifyContent="space-between" alignItems="center" gap={3}>
         <Heading as="h2" size="xl" noOfLines={1}>
           {header}

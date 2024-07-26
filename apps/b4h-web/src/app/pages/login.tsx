@@ -39,7 +39,7 @@ export const LoginPage = () => {
 
   return (
     <B4hForm onSubmit={handleSubmit(handleLogin)}>
-      <B4hPageTemplate>
+      <B4hPageTemplate title={t('login.title')}>
         <slot slot="header">{t('login.title')}</slot>
         <slot slot="body">
           <FormControl isInvalid={!!errors.email}>
