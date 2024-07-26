@@ -2,6 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  AlertStatus,
   AlertTitle,
   Box,
   Flex,
@@ -10,18 +11,19 @@ import {
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export interface B4hPageLayoutError {
+export interface B4hPageLayoutBanner {
+  status: AlertStatus;
   title?: string;
   description?: string;
 }
 export const B4hPageLayout = ({
   children,
   title,
-  error
+  alerts
 }: {
   children: JSX.Element[];
   title?: string;
-  error?: B4hPageLayoutError | null;
+  alerts?: B4hPageLayoutBanner[] | null;
 }) => {
   const [t] = useTranslation();
 
@@ -34,7 +36,7 @@ export const B4hPageLayout = ({
   const actionTop = children.find(child => child?.props?.slot === 'actionTop');
   const actionBottom = children.find(child => child?.props?.slot === 'actionBottom');
 
-  console.debug('B4hPageTemplate', { header, body, actionTop, actionBottom });
+  console.debug('B4hPageTemplate', { header, body, actionTop, actionBottom, alerts });
 
   return (
     <>
@@ -45,16 +47,25 @@ export const B4hPageLayout = ({
         {actionTop}
       </Flex>
       {body}
+      {alerts && alerts.length > 0 && (
+        <>
+          <Box p={3} />
+          {alerts?.map(
+            alert =>
+              alert &&
+              (alert.title || alert.description) && (
+                <Alert status={alert.status}>
+                  <AlertIcon />
+                  {alert.title && <AlertTitle>{alert.title}</AlertTitle>}
+                  {alert.description && <AlertDescription>{alert.description}</AlertDescription>}
+                </Alert>
+              )
+          )}
+        </>
+      )}
       {actionBottom && (
         <>
           <Box p={3} />
-          {error && (error.title || error?.description) && (
-            <Alert status="error">
-              <AlertIcon />
-              {error.title && <AlertTitle>{error.title}</AlertTitle>}
-              {error.description && <AlertDescription>{error.description}</AlertDescription>}
-            </Alert>
-          )}
           {actionBottom}
         </>
       )}

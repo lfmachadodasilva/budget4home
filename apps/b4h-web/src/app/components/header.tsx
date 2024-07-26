@@ -8,16 +8,18 @@ import { MainMenu } from './mainMenu';
 import { UserMenu } from './userMenu';
 
 export const B4hHeader = () => {
+  // #region hooks
   const navigate = useNavigate();
   const { isAuth, user } = useAuth();
   const [t] = useTranslation();
 
   const { isOpen: isOpenMain, onOpen: onOpenMain, onClose: onCloseMain } = useDisclosure();
   const { isOpen: isOpenUser, onOpen: onOpenUser, onClose: onCloseUser } = useDisclosure();
+  // #endregion
 
-  const handleHome = () => {
-    navigate(B4hRoutes.home);
-  };
+  // #region handlers
+  const handleHome = () => navigate(B4hRoutes.home);
+  // #endregion
 
   return (
     <>

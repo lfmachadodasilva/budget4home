@@ -4,20 +4,25 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Input
+  Input,
+  InputGroup,
+  InputRightElement
 } from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { B4hForm } from '../../style/shared';
 import { B4hRoutes } from '../config/routes';
-import { B4hPageLayout, B4hPageLayoutError } from '../layouts/pageBase';
+import { ValidationLenght, ValidationRequired } from '../config/validations';
+import { B4hPageLayout, B4hPageLayoutBanner } from '../layouts/pageBase';
 import { LoginFormValues } from '../models/loginFormValues';
 import { useAuth } from '../providers/authProvider';
 
 export const LoginPage = () => {
+  // #region hooks
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -27,7 +32,23 @@ export const LoginPage = () => {
   const { login } = useAuth();
   const [t] = useTranslation();
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const alerts = useMemo(
+    () =>
+      error
+        ? [
+            {
+              status: 'error',
+              title: t('login.error.title'),
+              description: error
+            } as B4hPageLayoutBanner
+          ]
+        : null,
+    [error, t]
+  );
+  // #endregion
 
+  // #region handlers
   const handleLogin = async (values: LoginFormValues) => {
     setError(null);
     try {
@@ -43,24 +64,13 @@ export const LoginPage = () => {
       }
     }
   };
-  const handleRegister = () => {
-    navigate(B4hRoutes.register);
-  };
-
-  const errorLayout = useMemo(
-    () =>
-      error
-        ? ({
-            title: t('login.error.title'),
-            description: error
-          } as B4hPageLayoutError)
-        : null,
-    [error, t]
-  );
+  const handleRegister = () => navigate(B4hRoutes.register);
+  const handleShowPassword = () => setShowPassword(show => !show);
+  // #endregion
 
   return (
     <B4hForm onSubmit={handleSubmit(handleLogin)}>
-      <B4hPageLayout title={t('login.title')} error={errorLayout}>
+      <B4hPageLayout title={t('login.title')} alerts={alerts}>
         <slot slot="header">{t('login.title')}</slot>
         <slot slot="body">
           <FormControl isInvalid={!!errors.email}>
@@ -70,23 +80,29 @@ export const LoginPage = () => {
               id="email"
               placeholder={t('login.emailPlaceholder')}
               {...register('email', {
-                required: t('global.validation.required'),
-                minLength: { value: 4, message: t('global.validation.minLength') }
+                ...ValidationRequired(),
+                ...ValidationLenght()
               })}
             />
             <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.password}>
             <FormLabel>{t('login.password')}</FormLabel>
-            <Input
-              type="password"
-              id="password"
-              placeholder={t('login.passwordPlaceholder')}
-              {...register('password', {
-                required: t('global.validation.required'),
-                minLength: { value: 6, message: t('global.validation.minLength') }
-              })}
-            />
+            <InputGroup>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                placeholder={t('login.passwordPlaceholder')}
+                {...register('password', {
+                  ...ValidationRequired(),
+                  ...ValidationLenght()
+                })}
+              />
+              <InputRightElement width="2.5rem" style={{ cursor: 'pointer' }}>
+                {!showPassword && <FaEye onClick={handleShowPassword} />}
+                {showPassword && <FaEyeSlash onClick={handleShowPassword} />}
+              </InputRightElement>
+            </InputGroup>
             <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
           </FormControl>
         </slot>
@@ -95,7 +111,7 @@ export const LoginPage = () => {
             {t('login.submit')}
           </Button>
           <Button variant="outline" onClick={handleRegister}>
-            {t('login.register')}
+            {t('register.title')}
           </Button>
           <ChakraLink as={ReactRouterLink} to={B4hRoutes.reset}>
             {t('login.forgot')}

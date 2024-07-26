@@ -33,7 +33,8 @@ i18n
             },
             validation: {
               required: 'This is required',
-              minLength: 'Minimum length should be 4',
+              minLength: 'Minimum length should be {{min}}',
+              maxLength: 'Maximum length should be {{max}}',
               confirmPassword: 'Passwords must match'
             },
             error: 'Something went wrong. Please try again later.'
@@ -46,7 +47,6 @@ i18n
             passwordPlaceholder: 'do you remember me?',
             submit: 'Login',
             forgot: 'Forgot password?',
-            register: 'Register',
             error: {
               title: 'Fail to login'
             }
@@ -56,12 +56,24 @@ i18n
             email: 'Email',
             emailPlaceholder: 'type your email here',
             password: 'Password',
+            password2: 'Confirm your password',
             passwordPlaceholder: 'type your new password here',
             password2Placeholder: 'one more time',
             submit: 'Register',
-            login: 'Login',
             error: {
               title: 'Fail to register'
+            }
+          },
+          reset: {
+            title: 'Reset your password',
+            email: 'Email',
+            emailPlaceholder: 'type your email here',
+            submit: 'Reset your password',
+            error: {
+              title: 'Fail to reset password'
+            },
+            success: {
+              description: 'A email was sent to you with instructions to reset your password.'
             }
           }
         }

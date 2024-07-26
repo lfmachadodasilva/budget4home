@@ -8,10 +8,13 @@ import { useAuth } from '../providers/authProvider';
 interface UserMenuProps extends B4hDrawerLayoutBaseProps {}
 
 export const UserMenu = ({ onClose, isOpen, onOpen }: UserMenuProps) => {
+  // #region hooks
   const navigate = useNavigate();
   const [t] = useTranslation();
   const { isAuth, user, logout } = useAuth();
+  // #endregion
 
+  // #region handlers
   const handleLogin = () => {
     navigate(B4hRoutes.login);
     onClose();
@@ -24,6 +27,7 @@ export const UserMenu = ({ onClose, isOpen, onOpen }: UserMenuProps) => {
     await logout();
     onClose();
   };
+  // #endregion
 
   return (
     <B4hDrawerLayout placement="right" onClose={onClose} isOpen={isOpen} onOpen={onOpen}>

@@ -1,12 +1,22 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement
+} from '@chakra-ui/react';
 import { FirebaseError } from 'firebase/app';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { B4hForm } from '../../style/shared';
 import { B4hRoutes } from '../config/routes';
-import { B4hPageLayout, B4hPageLayoutError } from '../layouts/pageBase';
+import { ValidationLenght, ValidationRequired } from '../config/validations';
+import { B4hPageLayout, B4hPageLayoutBanner } from '../layouts/pageBase';
 import { LoginFormValues } from '../models/loginFormValues';
 import { useAuth } from '../providers/authProvider';
 
@@ -15,6 +25,7 @@ interface RegisterFormValues extends LoginFormValues {
 }
 
 export const RegisterPage = () => {
+  // #region hooks
   const navigate = useNavigate();
   const { register: firebaseRegister } = useAuth();
   const [t] = useTranslation();
@@ -24,7 +35,23 @@ export const RegisterPage = () => {
     formState: { errors }
   } = useForm<RegisterFormValues>();
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const alerts = useMemo(
+    () =>
+      error
+        ? [
+            {
+              status: 'error',
+              title: t('register.error.title'),
+              description: error
+            } as B4hPageLayoutBanner
+          ]
+        : null,
+    [error, t]
+  );
+  // #endregion
 
+  // #region handlers
   const handleRegister = async (values: RegisterFormValues) => {
     setError(null);
     try {
@@ -40,24 +67,13 @@ export const RegisterPage = () => {
       }
     }
   };
-  const handleLogin = () => {
-    navigate(B4hRoutes.login);
-  };
-
-  const errorLayout = useMemo(
-    () =>
-      error
-        ? ({
-            title: t('register.error.title'),
-            description: error
-          } as B4hPageLayoutError)
-        : null,
-    [error, t]
-  );
+  const handleLogin = () => navigate(B4hRoutes.login);
+  const handleShowPassword = () => setShowPassword(show => !show);
+  // #endregion
 
   return (
     <B4hForm onSubmit={handleSubmit(handleRegister)}>
-      <B4hPageLayout title={t('register.title')} error={errorLayout}>
+      <B4hPageLayout title={t('register.title')} alerts={alerts}>
         <slot slot="header">{t('register.title')}</slot>
         <slot slot="body">
           <FormControl isInvalid={!!errors.email}>
@@ -67,49 +83,61 @@ export const RegisterPage = () => {
               id="email"
               placeholder={t('register.emailPlaceholder')}
               {...register('email', {
-                required: t('global.validation.required'),
-                minLength: { value: 4, message: t('global.validation.minLength') }
+                ...ValidationRequired(),
+                ...ValidationLenght()
               })}
             />
             <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.password}>
             <FormLabel>{t('register.password')}</FormLabel>
-            <Input
-              type="password"
-              id="password"
-              placeholder={t('register.passwordPlaceholder')}
-              {...register('password', {
-                required: t('global.validation.required'),
-                minLength: { value: 4, message: t('global.validation.minLength') }
-              })}
-            />
+            <InputGroup>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                placeholder={t('register.passwordPlaceholder')}
+                {...register('password', {
+                  ...ValidationRequired(),
+                  ...ValidationLenght()
+                })}
+              />
+              <InputRightElement width="2.5rem" style={{ cursor: 'pointer' }}>
+                {!showPassword && <FaEye onClick={handleShowPassword} />}
+                {showPassword && <FaEyeSlash onClick={handleShowPassword} />}
+              </InputRightElement>
+            </InputGroup>
             <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.password2}>
-            <FormLabel>Password</FormLabel>
-            <Input
-              type="password"
-              id="password2"
-              placeholder={t('register.password2Placeholder')}
-              {...register('password2', {
-                required: t('global.validation.required'),
-                minLength: { value: 4, message: t('global.validation.minLength') },
-                validate: (value, form) => {
-                  if (value === form.password) {
-                    return true;
+            <FormLabel>{t('register.password2')}</FormLabel>
+            <InputGroup>
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                id="password2"
+                placeholder={t('register.password2Placeholder')}
+                {...register('password2', {
+                  ...ValidationRequired(),
+                  ...ValidationLenght(),
+                  validate: (value, form) => {
+                    if (value === form.password) {
+                      return true;
+                    }
+                    return t('global.validation.confirmPassword');
                   }
-                  return t('global.validation.confirmPassword');
-                }
-              })}
-            />
+                })}
+              />
+              <InputRightElement width="2.5rem" style={{ cursor: 'pointer' }}>
+                {!showPassword && <FaEye onClick={handleShowPassword} />}
+                {showPassword && <FaEyeSlash onClick={handleShowPassword} />}
+              </InputRightElement>
+            </InputGroup>
             <FormErrorMessage>{errors?.password2?.message}</FormErrorMessage>
           </FormControl>
         </slot>
         <slot slot="actionBottom">
           <Button type="submit">{t('register.submit')}</Button>
           <Button variant="outline" onClick={handleLogin}>
-            {t('register.login')}
+            {t('login.title')}
           </Button>
         </slot>
       </B4hPageLayout>

@@ -7,13 +7,17 @@ import { B4hDrawerLayout, B4hDrawerLayoutBaseProps } from '../layouts/drawer';
 interface MainMenuProps extends B4hDrawerLayoutBaseProps {}
 
 export const MainMenu = ({ onClose, isOpen, onOpen }: MainMenuProps) => {
+  // #region hooks
   const [t] = useTranslation();
   const navigate = useNavigate();
+  // #endregion
 
+  // #region handlers
   const handleHome = () => {
     navigate(B4hRoutes.home);
     onClose();
   };
+  // #endregion
 
   return (
     <B4hDrawerLayout placement="left" onClose={onClose} isOpen={isOpen} onOpen={onOpen}>
