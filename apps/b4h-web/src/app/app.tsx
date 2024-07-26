@@ -2,6 +2,7 @@
 
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { B4hHeader } from './components/header';
 import { B4hRoutes } from './config/routes';
@@ -28,7 +29,7 @@ export function App() {
   }, [user, loading, location]);
 
   return (
-    <>
+    <Box m={3}>
       <B4hHeader />
       <Routes>
         <Route path={B4hRoutes.home} Component={HomePage} />
@@ -38,7 +39,7 @@ export function App() {
 
         <Route path={B4hRoutes.groups} Component={GroupsPage} />
       </Routes>
-    </>
+    </Box>
   );
 }
 
