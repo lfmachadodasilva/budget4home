@@ -9,7 +9,7 @@ export const B4hPageTemplate = ({ children }: { children: JSX.Element[] }) => {
   console.debug('B4hPageTemplate', { header, body, actionTop, actionBottom });
 
   return (
-    <Flex maxW="md" justifyContent="center" flexDir="column" gap={3}>
+    <>
       <Flex justifyContent="space-between" alignItems="center" gap={3}>
         <Heading as="h2" size="xl" noOfLines={1}>
           {header}
@@ -23,6 +23,6 @@ export const B4hPageTemplate = ({ children }: { children: JSX.Element[] }) => {
           {actionBottom}
         </>
       )}
-    </Flex>
+    </>
   );
 };

@@ -9,7 +9,7 @@ import { UserMenu } from './userMenu';
 
 export const B4hHeader = () => {
   const navigate = useNavigate();
-  const { user, token } = useAuth();
+  const { isAuth, user } = useAuth();
   const [t] = useTranslation();
 
   const { isOpen: isOpenMain, onOpen: onOpenMain, onClose: onCloseMain } = useDisclosure();
@@ -23,7 +23,7 @@ export const B4hHeader = () => {
     <>
       <Flex alignContent="center" justifyContent="space-between" mb={3}>
         <Center gap={3}>
-          {user && token && <HamburgerIcon boxSize={5} onClick={onOpenMain} />}
+          <HamburgerIcon boxSize={5} onClick={isAuth ? onOpenMain : onOpenUser} />
           <Heading as="h1" size="md" style={{ cursor: 'pointer' }} onClick={handleHome}>
             {t('global.header.title')}
           </Heading>
@@ -37,7 +37,7 @@ export const B4hHeader = () => {
           />
         </Center>
       </Flex>
-      {user && token && <MainMenu isOpen={isOpenMain} onClose={onCloseMain} onOpen={onOpenMain} />}
+      {isAuth && <MainMenu isOpen={isOpenMain} onClose={onCloseMain} onOpen={onOpenMain} />}
       <UserMenu isOpen={isOpenUser} onClose={onCloseUser} onOpen={onOpenUser} />
     </>
   );

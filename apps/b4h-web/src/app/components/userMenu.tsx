@@ -10,7 +10,7 @@ interface UserMenuProps extends B4hDrawerLayoutBaseProps {}
 export const UserMenu = ({ onClose, isOpen, onOpen }: UserMenuProps) => {
   const navigate = useNavigate();
   const [t] = useTranslation();
-  const { user, logout } = useAuth();
+  const { isAuth, user, logout } = useAuth();
 
   const handleLogin = () => {
     navigate(B4hRoutes.login);
@@ -32,7 +32,7 @@ export const UserMenu = ({ onClose, isOpen, onOpen }: UserMenuProps) => {
         {!user && t('global.header.login')}
       </slot>
       <slot slot="body" style={{ cursor: 'pointer' }}>
-        {!user && (
+        {!isAuth && (
           <>
             <Button type="submit" onClick={handleLogin}>
               {t('global.header.login')}
@@ -42,7 +42,7 @@ export const UserMenu = ({ onClose, isOpen, onOpen }: UserMenuProps) => {
             </Button>
           </>
         )}
-        {user && (
+        {isAuth && (
           <>
             <Button variant="outline" onClick={handleLogout}>
               {t('global.header.logout')}

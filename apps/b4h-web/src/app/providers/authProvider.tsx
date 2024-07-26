@@ -14,6 +14,7 @@ interface AuthProviderProps {
 }
 
 interface AuthContextProps {
+  isAuth: boolean;
   user?: User | null;
   loading: boolean;
   token?: string | null;
@@ -24,6 +25,7 @@ interface AuthContextProps {
 }
 
 export const AuthContext = createContext<AuthContextProps>({
+  isAuth: false,
   user: undefined,
   loading: false,
   token: undefined,
@@ -80,6 +82,7 @@ export function AuthProvider(props: AuthProviderProps) {
   return (
     <AuthContext.Provider
       value={{
+        isAuth: !!user,
         user,
         loading: loading1 || loading2,
         token,
