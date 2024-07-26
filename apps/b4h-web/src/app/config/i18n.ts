@@ -35,7 +35,8 @@ i18n
               required: 'This is required',
               minLength: 'Minimum length should be 4',
               confirmPassword: 'Passwords must match'
-            }
+            },
+            error: 'Something went wrong. Please try again later.'
           },
           login: {
             title: 'Login',
@@ -45,7 +46,10 @@ i18n
             passwordPlaceholder: 'do you remember me?',
             submit: 'Login',
             forgot: 'Forgot password?',
-            register: 'Register'
+            register: 'Register',
+            error: {
+              title: 'Fail to login'
+            }
           },
           register: {
             title: 'Register',
@@ -55,7 +59,10 @@ i18n
             passwordPlaceholder: 'type your new password here',
             password2Placeholder: 'one more time',
             submit: 'Register',
-            login: 'Login'
+            login: 'Login',
+            error: {
+              title: 'Fail to register'
+            }
           }
         }
       }

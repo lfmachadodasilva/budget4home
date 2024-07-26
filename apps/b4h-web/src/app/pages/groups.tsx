@@ -1,10 +1,10 @@
-import { B4hPageTemplate } from '../layouts/pageBase';
+import { B4hPageLayout } from '../layouts/pageBase';
 
 export const GroupsPage = () => {
   return (
-    <B4hPageTemplate>
+    <B4hPageLayout>
       <slot slot="header">groups</slot>
       <slot slot="body">TODO</slot>
-    </B4hPageTemplate>
+    </B4hPageLayout>
   );
 };

@@ -1,13 +1,27 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Flex,
+  Heading
+} from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export const B4hPageTemplate = ({
+export interface B4hPageLayoutError {
+  title?: string;
+  description?: string;
+}
+export const B4hPageLayout = ({
   children,
-  title
+  title,
+  error
 }: {
   children: JSX.Element[];
   title?: string;
+  error?: B4hPageLayoutError | null;
 }) => {
   const [t] = useTranslation();
 
@@ -34,6 +48,13 @@ export const B4hPageTemplate = ({
       {actionBottom && (
         <>
           <Box p={3} />
+          {error && (error.title || error?.description) && (
+            <Alert status="error">
+              <AlertIcon />
+              {error.title && <AlertTitle>{error.title}</AlertTitle>}
+              {error.description && <AlertDescription>{error.description}</AlertDescription>}
+            </Alert>
+          )}
           {actionBottom}
         </>
       )}

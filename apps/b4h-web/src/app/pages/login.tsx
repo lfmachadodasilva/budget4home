@@ -6,12 +6,14 @@ import {
   FormLabel,
   Input
 } from '@chakra-ui/react';
+import { FirebaseError } from 'firebase/app';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 import { B4hForm } from '../../style/shared';
 import { B4hRoutes } from '../config/routes';
-import { B4hPageTemplate } from '../layouts/pageBase';
+import { B4hPageLayout, B4hPageLayoutError } from '../layouts/pageBase';
 import { LoginFormValues } from '../models/loginFormValues';
 import { useAuth } from '../providers/authProvider';
 
@@ -24,18 +26,41 @@ export const LoginPage = () => {
   } = useForm<LoginFormValues>();
   const { login } = useAuth();
   const [t] = useTranslation();
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (values: LoginFormValues) => {
-    await login(values.email, values.password);
-    navigate(B4hRoutes.home);
+    setError(null);
+    try {
+      await login(values.email, values.password);
+      navigate(B4hRoutes.home);
+    } catch (err) {
+      if (err instanceof FirebaseError) {
+        setError(err.code);
+        console.error('FirebaseError', err.code, err.message);
+      } else {
+        setError(t('global.error'));
+        console.error(err);
+      }
+    }
   };
   const handleRegister = () => {
     navigate(B4hRoutes.register);
   };
 
+  const errorLayout = useMemo(
+    () =>
+      error
+        ? ({
+            title: t('login.error.title'),
+            description: error
+          } as B4hPageLayoutError)
+        : null,
+    [error, t]
+  );
+
   return (
     <B4hForm onSubmit={handleSubmit(handleLogin)}>
-      <B4hPageTemplate title={t('login.title')}>
+      <B4hPageLayout title={t('login.title')} error={errorLayout}>
         <slot slot="header">{t('login.title')}</slot>
         <slot slot="body">
           <FormControl isInvalid={!!errors.email}>
@@ -59,7 +84,7 @@ export const LoginPage = () => {
               placeholder={t('login.passwordPlaceholder')}
               {...register('password', {
                 required: t('global.validation.required'),
-                minLength: { value: 4, message: t('global.validation.minLength') }
+                minLength: { value: 6, message: t('global.validation.minLength') }
               })}
             />
             <FormErrorMessage>{errors?.password?.message}</FormErrorMessage>
@@ -76,7 +101,7 @@ export const LoginPage = () => {
             {t('login.forgot')}
           </ChakraLink>
         </slot>
-      </B4hPageTemplate>
+      </B4hPageLayout>
     </B4hForm>
   );
 };

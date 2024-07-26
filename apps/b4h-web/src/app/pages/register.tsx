@@ -1,10 +1,12 @@
 import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import { FirebaseError } from 'firebase/app';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { B4hForm } from '../../style/shared';
 import { B4hRoutes } from '../config/routes';
-import { B4hPageTemplate } from '../layouts/pageBase';
+import { B4hPageLayout, B4hPageLayoutError } from '../layouts/pageBase';
 import { LoginFormValues } from '../models/loginFormValues';
 import { useAuth } from '../providers/authProvider';
 
@@ -21,18 +23,41 @@ export const RegisterPage = () => {
     register,
     formState: { errors }
   } = useForm<RegisterFormValues>();
+  const [error, setError] = useState<string | null>(null);
 
   const handleRegister = async (values: RegisterFormValues) => {
-    // await firebaseRegister(values.email, values.password);
-    // navigate(B4hRoutes.home);
+    setError(null);
+    try {
+      await firebaseRegister(values.email, values.password);
+      navigate(B4hRoutes.home);
+    } catch (err) {
+      if (err instanceof FirebaseError) {
+        setError(err.code);
+        console.error('FirebaseError', err.code, err.message);
+      } else {
+        setError(t('global.error'));
+        console.error(err);
+      }
+    }
   };
   const handleLogin = () => {
     navigate(B4hRoutes.login);
   };
 
+  const errorLayout = useMemo(
+    () =>
+      error
+        ? ({
+            title: t('register.error.title'),
+            description: error
+          } as B4hPageLayoutError)
+        : null,
+    [error, t]
+  );
+
   return (
     <B4hForm onSubmit={handleSubmit(handleRegister)}>
-      <B4hPageTemplate title={t('register.title')}>
+      <B4hPageLayout title={t('register.title')} error={errorLayout}>
         <slot slot="header">{t('register.title')}</slot>
         <slot slot="body">
           <FormControl isInvalid={!!errors.email}>
@@ -87,7 +112,7 @@ export const RegisterPage = () => {
             {t('register.login')}
           </Button>
         </slot>
-      </B4hPageTemplate>
+      </B4hPageLayout>
     </B4hForm>
   );
 };
