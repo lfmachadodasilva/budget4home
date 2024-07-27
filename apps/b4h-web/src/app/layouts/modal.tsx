@@ -6,7 +6,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { SmallCloseIconStyle } from '../../style/shared';
 
@@ -21,6 +22,8 @@ interface B4hModalLayoutProps extends B4hModalLayoutBaseProps {
 }
 
 export const B4hModalLayout = ({ children, onClose, isOpen }: B4hModalLayoutProps) => {
+  const bg = useColorModeValue(undefined, 'gray.800');
+
   const header = children.find(child => child?.props?.slot === 'header');
   const body = children.find(child => child?.props?.slot === 'body');
   const footer = children.find(child => child?.props?.slot === 'footer');
@@ -30,7 +33,7 @@ export const B4hModalLayout = ({ children, onClose, isOpen }: B4hModalLayoutProp
   return (
     <Modal onClose={onClose} size={{ base: 'full', sm: 'xl' }} isOpen={isOpen}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent bg={bg}>
         <ModalHeader borderBottomWidth="1px" p={3}>
           <Flex justifyContent="space-between">
             {header}
