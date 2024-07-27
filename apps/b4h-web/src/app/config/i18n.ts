@@ -75,6 +75,15 @@ i18n
             success: {
               description: 'A email was sent to you with instructions to reset your password.'
             }
+          },
+          labels: {
+            title: 'Labels',
+            action: {
+              add: 'Add',
+              edit: 'Edit'
+            },
+            icon: 'Icon',
+            name: 'Name'
           }
         }
       }

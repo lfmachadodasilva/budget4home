@@ -28,7 +28,14 @@ export default defineConfig({
       registerType: 'autoUpdate',
       devOptions: {
         enabled: process.env.NODE_ENV === 'development'
-      }
+      },
+      // add this to cache all the imports
+      workbox: {
+        globPatterns: ['**/*']
+      },
+      // add this to cache all the
+      // static assets in the public folder
+      includeAssets: ['**/*']
     })
   ],
 

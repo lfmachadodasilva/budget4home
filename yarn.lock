@@ -3676,6 +3676,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/cors@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@fastify/cors@npm:9.0.1"
+  dependencies:
+    fastify-plugin: "npm:^4.0.0"
+    mnemonist: "npm:0.39.6"
+  checksum: 10c0/4db9d3d02edbca741c8ed053819bf3b235ecd70e07c640ed91ba0fc1ee2dc8abedbbffeb79ae1a38ccbf59832e414cad90a554ee44227d0811d5a2d062940611
+  languageName: node
+  linkType: hard
+
 "@fastify/error@npm:^3.3.0, @fastify/error@npm:^3.4.0":
   version: 3.4.1
   resolution: "@fastify/error@npm:3.4.1"
@@ -6120,6 +6130,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.51.15":
+  version: 5.51.15
+  resolution: "@tanstack/query-core@npm:5.51.15"
+  checksum: 10c0/8ae5cbec93852a6f2b79717aa0de8c024f829e8c18a01432240cabf5505d2fcd46d8e034fdaa04f69f5889ae6dbe29ffed5798090ede29b4c09cf947fee2b11a
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.51.15":
+  version: 5.51.15
+  resolution: "@tanstack/react-query@npm:5.51.15"
+  dependencies:
+    "@tanstack/query-core": "npm:5.51.15"
+  peerDependencies:
+    react: ^18.0.0
+  checksum: 10c0/53c53331c7b8935345fb9d474ace7d66f21ab924f74a04e71782ca5f1a031f42905c162ae61bba5ec56155e5df81ab0dfbe98029348da784617e81c545d6536d
+  languageName: node
+  linkType: hard
+
 "@testing-library/react@npm:16.0.0":
   version: 16.0.0
   resolution: "@testing-library/react@npm:16.0.0"
@@ -7828,6 +7856,7 @@ __metadata:
     "@emotion/react": "npm:^11.13.0"
     "@emotion/styled": "npm:^11.13.0"
     "@fastify/autoload": "npm:~5.10.0"
+    "@fastify/cors": "npm:^9.0.1"
     "@fastify/sensible": "npm:~5.6.0"
     "@nx/cypress": "npm:19.4.1"
     "@nx/devkit": "npm:19.4.1"
@@ -7845,6 +7874,7 @@ __metadata:
     "@swc/cli": "npm:~0.4.0"
     "@swc/core": "npm:~1.6.13"
     "@swc/helpers": "npm:~0.5.11"
+    "@tanstack/react-query": "npm:^5.51.15"
     "@testing-library/react": "npm:16.0.0"
     "@types/date-fns": "npm:^2.6.0"
     "@types/jest": "npm:^29.4.0"
@@ -13246,6 +13276,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mnemonist@npm:0.39.6":
+  version: 0.39.6
+  resolution: "mnemonist@npm:0.39.6"
+  dependencies:
+    obliterator: "npm:^2.0.1"
+  checksum: 10c0/a538945ea547976136ee6e16f224c0a50983143619941f6c4d2c82159e36eb6f8ee93d69d3a1267038fc5b16f88e2d43390023de10dfb145fa15c5e2befa1cdf
+  languageName: node
+  linkType: hard
+
 "mrmime@npm:^2.0.0":
   version: 2.0.0
   resolution: "mrmime@npm:2.0.0"
@@ -13667,6 +13706,13 @@ __metadata:
     define-properties: "npm:^1.2.1"
     es-object-atoms: "npm:^1.0.0"
   checksum: 10c0/15809dc40fd6c5529501324fec5ff08570b7d70fb5ebbe8e2b3901afec35cf2b3dc484d1210c6c642cd3e7e0a5e18dd1d6850115337fef46bdae14ab0cb18ac3
+  languageName: node
+  linkType: hard
+
+"obliterator@npm:^2.0.1":
+  version: 2.0.4
+  resolution: "obliterator@npm:2.0.4"
+  checksum: 10c0/ff2c10d4de7d62cd1d588b4d18dfc42f246c9e3a259f60d5716f7f88e5b3a3f79856b3207db96ec9a836a01d0958a21c15afa62a3f4e73a1e0b75f2c2f6bab40
   languageName: node
   linkType: hard
 

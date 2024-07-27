@@ -6,6 +6,7 @@ import './app/config/i18n';
 
 import App from './app/app';
 import { AuthProvider } from './app/providers/authProvider';
+import { QueryProvider } from './app/providers/queryProvider';
 import { StyleProvider } from './style/provider';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -14,7 +15,9 @@ root.render(
     <BrowserRouter>
       <StyleProvider>
         <AuthProvider>
-          <App />
+          <QueryProvider>
+            <App />
+          </QueryProvider>
         </AuthProvider>
       </StyleProvider>
     </BrowserRouter>

@@ -1,12 +1,16 @@
-import * as path from 'path';
-import { FastifyInstance } from 'fastify';
 import AutoLoad from '@fastify/autoload';
+import cors from '@fastify/cors';
+import { FastifyInstance } from 'fastify';
+import * as path from 'path';
 
 /* eslint-disable-next-line */
 export interface AppOptions {}
 
 export async function app(fastify: FastifyInstance, opts: AppOptions) {
   // Place here your custom code!
+  await fastify.register(cors, {
+    origin: '*'
+  });
 
   // Do not touch the following lines
 

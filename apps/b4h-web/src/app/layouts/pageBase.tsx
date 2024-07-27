@@ -40,7 +40,7 @@ export const B4hPageLayout = ({
 
   return (
     <>
-      <Flex justifyContent="space-between" alignItems="center" gap={3}>
+      <Flex justifyContent="space-between" alignItems="center" gap={3} mb={3}>
         <Heading as="h2" size="xl" noOfLines={1}>
           {header}
         </Heading>

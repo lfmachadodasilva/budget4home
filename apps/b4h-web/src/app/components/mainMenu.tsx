@@ -28,10 +28,10 @@ export const MainMenu = ({ onClose, isOpen, onOpen }: MainMenuProps) => {
         <ChakraLink as={ReactRouterLink} to={B4hRoutes.groups} onClick={onClose}>
           {t('global.header.groups')}
         </ChakraLink>
-        <ChakraLink as={ReactRouterLink} onClick={onClose}>
+        <ChakraLink as={ReactRouterLink} to={B4hRoutes.labels} onClick={onClose}>
           {t('global.header.labels')}
         </ChakraLink>
-        <ChakraLink as={ReactRouterLink} onClick={onClose}>
+        <ChakraLink as={ReactRouterLink} to={B4hRoutes.expenses} onClick={onClose}>
           {t('global.header.expenses')}
         </ChakraLink>
       </slot>

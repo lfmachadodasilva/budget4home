@@ -6,8 +6,10 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { B4hHeader } from './components/header';
 import { B4hRoutes } from './config/routes';
+import { ExpensesPage } from './pages/expenses';
 import { GroupsPage } from './pages/groups';
 import { HomePage } from './pages/home';
+import { LabelsPage } from './pages/labels';
 import { LoginPage } from './pages/login';
 import { RegisterPage } from './pages/register';
 import { ResetPage } from './pages/reset';
@@ -39,6 +41,8 @@ export default function App() {
           <Route path={B4hRoutes.reset} Component={ResetPage} />
 
           <Route path={B4hRoutes.groups} Component={GroupsPage} />
+          <Route path={B4hRoutes.labels} Component={LabelsPage} />
+          <Route path={B4hRoutes.expenses} Component={ExpensesPage} />
         </Routes>
       </Box>
     </Flex>
