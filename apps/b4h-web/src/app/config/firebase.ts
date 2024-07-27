@@ -7,11 +7,11 @@ import { FirebaseStorage, getStorage } from 'firebase/storage';
 const firebaseKey = process.env['FIREBASE_KEY'] as string;
 const firebaseProjectId = process.env['FIREBASE_PROJECT_ID'] as string;
 
-export let firebaseApp: FirebaseApp;
-export let firebaseAuth: Auth;
-export let firebaseDatabase: Database;
-export let firebaseStorage: FirebaseStorage;
-export let firebaseAnalytic: Analytics;
+let firebaseApp: FirebaseApp;
+let firebaseAuth: Auth;
+let firebaseDatabase: Database;
+let firebaseStorage: FirebaseStorage;
+let firebaseAnalytic: Analytics;
 
 export const getFirebaseApp = () => {
   firebaseApp ??= initializeApp({

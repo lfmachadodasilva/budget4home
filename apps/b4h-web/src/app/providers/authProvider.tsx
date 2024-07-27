@@ -1,4 +1,3 @@
-import { getFirebaseAuth } from '@b4h/firebase';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -8,6 +7,7 @@ import {
   User
 } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { getFirebaseAuth } from '../config/firebase';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];

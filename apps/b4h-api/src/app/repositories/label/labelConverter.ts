@@ -22,8 +22,8 @@ class LabelConverter implements FirestoreDataConverter<LabelModel> {
     const data = snapshot.data() as any;
     return {
       ...data,
-      createdAt: new Date(data.createdAt.toDate()),
-      updatedAt: new Date(data.updatedAt.toDate())
+      createdAt: data.createdAt && new Date(data.createdAt.toDate()),
+      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate())
     } as LabelModel;
   }
 }
