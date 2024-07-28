@@ -9,7 +9,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { B4hForm } from '../../../style/shared';
@@ -59,24 +59,29 @@ export const LabelModal = ({ onClose, isOpen, onOpen, label }: LabelModalProps) 
   // #endregion
 
   // #region handlers
-  const handleOnSubmit = async (values: LabelModel) => {
-    try {
-      if (label) {
-        await updateMudation.mutateAsync(values);
-      } else {
-        await addMudation.mutateAsync(values);
+  const handleOnSubmit = useCallback(
+    async (values: LabelModel) => {
+      try {
+        if (label) {
+          await updateMudation.mutateAsync(values);
+        } else {
+          await addMudation.mutateAsync(values);
+        }
+        onClose(true);
+        toast({
+          description: label
+            ? t('labels.toast.updateDescription')
+            : t('labels.toast.addDescription'),
+          status: 'success',
+          duration: TOAST_DURATION,
+          isClosable: true
+        });
+      } catch (err) {
+        console.error(err);
       }
-      onClose(true);
-      toast({
-        description: label ? t('labels.toast.updateDescription') : t('labels.toast.addDescription'),
-        status: 'success',
-        duration: TOAST_DURATION,
-        isClosable: true
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    },
+    [label]
+  );
   const handleOnDelete = async () => {
     try {
       await deleteMutation.mutateAsync(label?.id as string);
