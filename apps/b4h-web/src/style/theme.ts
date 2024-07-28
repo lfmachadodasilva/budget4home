@@ -46,7 +46,7 @@ const overrides = {
     Input: {
       defaultProps: {
         ...defaultProps,
-        focusBorderColor: 'primary.600'
+        focusBorderColor: 'primary.500'
       }
     }
   }

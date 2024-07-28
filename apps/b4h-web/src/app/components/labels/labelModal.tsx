@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  useDisclosure,
   useToast
 } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
@@ -17,6 +18,7 @@ import { addLabelFetch, deleteLabelFetch, updateLabelFetch } from '../../clients
 import { TOAST_DURATION } from '../../config/constants';
 import { ValidationLenght, ValidationRequired } from '../../config/validations';
 import { B4hModalLayout, B4hModalLayoutBaseProps } from '../../layouts/modal';
+import { ConfirmAlert } from '../confirmAlert';
 import { ErrorAlert } from '../errorAlert';
 
 interface LabelModalProps extends B4hModalLayoutBaseProps {
@@ -27,6 +29,7 @@ export const LabelModal = ({ onClose, isOpen, onOpen, label }: LabelModalProps) 
   // #region hooks
   const [t] = useTranslation();
   const toast = useToast();
+  const confirmAlert = useDisclosure();
   const {
     handleSubmit,
     register,
@@ -135,6 +138,17 @@ export const LabelModal = ({ onClose, isOpen, onOpen, label }: LabelModalProps) 
           </FormControl>
 
           <ErrorAlert show={!!addMudation.error || !!deleteMutation.error} />
+          <ConfirmAlert
+            onOpen={confirmAlert.onOpen}
+            isOpen={confirmAlert.isOpen}
+            onClose={confirmAlert.onClose}
+            onConfirm={handleOnDelete}
+          >
+            <slot slot="title">{t('labels.confirm.title')}</slot>
+            <slot slot="body">{t('global.confirm.body')}</slot>
+            <slot slot="action">{t('global.confirm.action')}</slot>
+            <slot slot="cancel">{t('global.confirm.cancel')}</slot>
+          </ConfirmAlert>
         </B4hForm>
       </slot>
       <slot slot="footer">
@@ -144,9 +158,9 @@ export const LabelModal = ({ onClose, isOpen, onOpen, label }: LabelModalProps) 
             variant="outline"
             isLoading={deleteMutation.isPending}
             leftIcon={<DeleteIcon />}
-            onClick={handleOnDelete}
             loadingText={t('labels.action.delete')}
             isDisabled={isSubmitting || addMudation.isPending}
+            onClick={confirmAlert.onOpen}
           >
             {t('labels.action.delete')}
           </Button>

@@ -37,7 +37,12 @@ i18n
               maxLength: 'Maximum length should be {{max}}',
               confirmPassword: 'Passwords must match'
             },
-            error: 'Something went wrong. Please try again later.'
+            error: 'Something went wrong. Please try again later.',
+            confirm: {
+              body: "Are you sure? You can't undo this action afterwards.",
+              action: 'Delete',
+              cancel: 'Cancel'
+            }
           },
           login: {
             title: 'Login',
@@ -91,6 +96,9 @@ i18n
               addDescription: 'New label was created.',
               updateDescription: 'Label updated.',
               deleteDescription: 'Label deleted.'
+            },
+            confirm: {
+              title: 'Delete label'
             }
           }
         }
