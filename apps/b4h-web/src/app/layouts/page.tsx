@@ -36,7 +36,7 @@ export const B4hPageLayout = ({
   const actionTop = children.find(child => child?.props?.slot === 'actionTop');
   const actionBottom = children.find(child => child?.props?.slot === 'actionBottom');
 
-  console.debug('B4hPageTemplate', { header, body, actionTop, actionBottom, alerts });
+  // console.debug('PageLayout', { header, body, actionTop, actionBottom, alerts });
 
   return (
     <>

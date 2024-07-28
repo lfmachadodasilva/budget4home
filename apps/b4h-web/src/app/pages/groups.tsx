@@ -1,4 +1,4 @@
-import { B4hPageLayout } from '../layouts/pageBase';
+import { B4hPageLayout } from '../layouts/page';
 
 export const GroupsPage = () => {
   return (

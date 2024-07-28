@@ -80,10 +80,18 @@ i18n
             title: 'Labels',
             action: {
               add: 'Add',
+              delete: 'Delete',
               edit: 'Edit'
             },
             icon: 'Icon',
-            name: 'Name'
+            iconPlaceholder: 'suggestion: add emojis',
+            name: 'Name',
+            namePlaceholder: 'add new name here',
+            toast: {
+              addDescription: 'New label was created.',
+              updateDescription: 'Label updated.',
+              deleteDescription: 'Label deleted.'
+            }
           }
         }
       }

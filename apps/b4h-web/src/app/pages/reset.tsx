@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { B4hForm } from '../../style/shared';
 import { B4hRoutes } from '../config/routes';
 import { ValidationLenght, ValidationRequired } from '../config/validations';
-import { B4hPageLayout, B4hPageLayoutBanner } from '../layouts/pageBase';
+import { B4hPageLayout, B4hPageLayoutBanner } from '../layouts/page';
 import { LoginFormValues } from '../models/loginFormValues';
 import { useAuth } from '../providers/authProvider';
 

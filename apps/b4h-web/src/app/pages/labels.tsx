@@ -4,18 +4,19 @@ import { Button, Center, chakra, Flex, Spacer, Text, useDisclosure } from '@chak
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getLabelsFetch } from '../clients/label';
 import { LabelModal } from '../components/labels/labelModal';
 import { LoadingData } from '../components/loadingData';
 import { B4hApiRoutes } from '../config/routes';
-import { B4hPageLayout } from '../layouts/pageBase';
+import { B4hPageLayout } from '../layouts/page';
 
 export const LabelsPage = () => {
   // #region hooks
   const [t] = useTranslation();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isPending, error, data } = useQuery<LabelModel[], Error>({
+  const getQuery = useQuery<LabelModel[], Error>({
     queryKey: ['getLabels'],
-    queryFn: () => fetch(B4hApiRoutes.labels).then(res => res.json())
+    queryFn: () => getLabelsFetch('1')
   });
   const [selectedLabel, setSelectedLabel] = useState<LabelModel | null>();
   // #endregion
@@ -29,18 +30,22 @@ export const LabelsPage = () => {
     setSelectedLabel(label);
     onOpen();
   };
+  const handleOnClose = (refresh?: boolean) => {
+    refresh && getQuery.refetch();
+    onClose();
+  };
   // #endregion
 
-  console.log('LabelsPage', { fetch: { url: B4hApiRoutes.labels, isPending, error, data } });
+  console.debug('LabelsPage', { fetch: { url: B4hApiRoutes.labels, getQuery } });
 
   return (
     <>
       <B4hPageLayout title={t('labels.title')}>
         <slot slot="header">{t('labels.title')}</slot>
         <slot slot="body">
-          <LoadingData isLoading={isPending} />
+          <LoadingData isLoading={getQuery.isPending || getQuery.isFetching} />
           <Flex direction="column">
-            {data?.map(label => (
+            {getQuery.data?.map(label => (
               <ItemStyle
                 gap={3}
                 p={3}
@@ -63,7 +68,7 @@ export const LabelsPage = () => {
           </Button>
         </slot>
       </B4hPageLayout>
-      <LabelModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} label={selectedLabel} />
+      <LabelModal isOpen={isOpen} onClose={handleOnClose} onOpen={onOpen} label={selectedLabel} />
     </>
   );
 };

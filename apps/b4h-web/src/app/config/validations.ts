@@ -1,6 +1,4 @@
-import { RegisterOptions } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { LoginFormValues } from '../models/loginFormValues';
 
 export const ValidationRequired = () => {
   const [t] = useTranslation();
@@ -10,10 +8,7 @@ export const ValidationRequired = () => {
   };
 };
 
-export const ValidationLenght = (
-  min: number = 6,
-  max: number = 64
-): RegisterOptions<LoginFormValues, 'email'> => {
+export const ValidationLenght = (min: number = 6, max: number = 64) => {
   const [t] = useTranslation();
 
   return {

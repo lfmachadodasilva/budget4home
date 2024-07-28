@@ -10,7 +10,7 @@ class LabelConverter implements FirestoreDataConverter<LabelModel> {
     options: FirebaseFirestore.SetOptions
   ): FirebaseFirestore.DocumentData;
   toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
-    const model = modelObject as LabelModel;
+    const { id, ...model } = modelObject as LabelModel;
     return {
       ...model
     };
@@ -20,10 +20,12 @@ class LabelConverter implements FirestoreDataConverter<LabelModel> {
   ): LabelModel {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
+
     return {
       ...data,
       createdAt: data.createdAt && new Date(data.createdAt.toDate()),
-      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate())
+      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
+      id: snapshot.id
     } as LabelModel;
   }
 }
