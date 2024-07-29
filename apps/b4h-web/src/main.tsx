@@ -6,6 +6,7 @@ import './app/config/i18n';
 
 import App from './app/app';
 import { AuthProvider } from './app/providers/authProvider';
+import { GlobalProvider } from './app/providers/globalProvider';
 import { QueryProvider } from './app/providers/queryProvider';
 import { StyleProvider } from './style/provider';
 
@@ -16,7 +17,9 @@ root.render(
       <StyleProvider>
         <AuthProvider>
           <QueryProvider>
-            <App />
+            <GlobalProvider>
+              <App />
+            </GlobalProvider>
           </QueryProvider>
         </AuthProvider>
       </StyleProvider>

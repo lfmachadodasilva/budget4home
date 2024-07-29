@@ -12,5 +12,6 @@ export const B4hRoutes = {
 export const B4hApiRoutes = {
   labels: (groupId: string) => process.env.API_URL + `/api/groups/${groupId}/labels`,
   label: (groupId: string, labelId: string) =>
-    process.env.API_URL + `/api/groups/${groupId}/labels/${labelId}`
+    process.env.API_URL + `/api/groups/${groupId}/labels/${labelId}`,
+  groups: () => process.env.API_URL + '/api/groups'
 };
