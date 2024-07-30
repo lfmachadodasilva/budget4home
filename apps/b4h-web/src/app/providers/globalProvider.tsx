@@ -1,5 +1,6 @@
 import { GroupModel } from '@b4h/models';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { createContext, ReactNode, useContext } from 'react';
 import { getGroupsFetch } from '../clients/groups';
 import { LoadingData } from '../components/loadingData';
 import { useAuth } from './authProvider';
@@ -11,48 +12,47 @@ interface GlobalProviderProps {
 interface GlobalContextProps {
   groups?: GroupModel[];
   group?: GroupModel;
-  isLoading: boolean;
+  loading: boolean;
 }
 
 export const GlobalContext = createContext<GlobalContextProps>({
   groups: undefined,
   group: undefined,
 
-  isLoading: false
+  loading: false
 });
 
 export function GlobalProvider(props: GlobalProviderProps) {
-  const { user } = useAuth();
-  const [groups, setGroups] = useState<GroupModel[]>();
-  const [group, setGroup] = useState<GroupModel>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { loading: authLoading, token } = useAuth();
 
-  useEffect(() => {
-    if (!user) return;
+  const getQuery = useQuery<GroupModel[], Error>({
+    queryKey: ['getGroups'],
+    queryFn: () => getGroupsFetch(token as string),
+    enabled: !!token || !authLoading
+  });
 
-    setIsLoading(true);
-    getGroupsFetch()
-      .then(groups => {
-        setGroups(groups);
-        if (groups.length > 0) {
-          const groupId = localStorage.getItem('groupId') ?? groups[0].id;
-          localStorage.setItem('groupId', groupId);
-          setGroup(groups.find(g => g.id === groupId));
-        }
-      })
-      .finally(() => setIsLoading(false));
-  }, [user]);
+  console.log('GlobalProvider', { getQuery });
+
+  const loading = getQuery.isPending || getQuery.isFetching;
+  const groups = getQuery?.data;
+  let group: GroupModel | undefined | null = undefined;
+
+  if (groups && groups?.length > 0) {
+    const groupId = localStorage.getItem('groupId') ?? groups[0].id;
+    localStorage.setItem('groupId', groupId);
+    group = groups.find(g => g.id === groupId);
+  }
 
   return (
     <GlobalContext.Provider
       value={{
-        groups,
-        group,
-        isLoading: isLoading
+        groups: groups,
+        group: group,
+        loading: loading
       }}
     >
-      {isLoading && <LoadingData isLoading={false} />}
-      {!isLoading && props.children}
+      {loading && <LoadingData isLoading={false} />}
+      {!loading && props.children}
     </GlobalContext.Provider>
   );
 }
