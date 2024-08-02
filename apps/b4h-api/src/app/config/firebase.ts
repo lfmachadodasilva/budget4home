@@ -15,20 +15,6 @@ const firebaseAuthProviderUrl = process.env['FIREBASE_AUTH_PROVIDER_URL'] as str
 const firebaseClientUrl = process.env['FIREBASE_CLIENT_URL'] as string;
 const firebaseUniverseDomain = process.env['FIREBASE_UNIVERSE_DOMAIN'] as string;
 
-console.log({
-  type: 'service_account',
-  project_id: firebaseProjectId,
-  private_key_id: firebasePrivateKeyId,
-  private_key: firebasePrivateKey,
-  client_email: firebaseClientEmail,
-  client_id: firebaseClientId,
-  auth_uri: firebaseAuthUrl,
-  token_uri: firebaseTokenUrl,
-  auth_provider_x509_cert_url: firebaseAuthProviderUrl,
-  client_x509_cert_url: firebaseClientUrl,
-  universe_domain: firebaseUniverseDomain
-} as any);
-
 let firebaseAdminApp: App;
 let firebaseAdminFirestore: Firestore;
 let firebaseAdminAuth: Auth;
