@@ -21,8 +21,3 @@ server.listen({ port, host }, err => {
     console.log(`[ ready ] http://${host}:${port}`);
   }
 });
-
-export default async (req, res) => {
-  await server.ready();
-  server.server.emit('request', req, res);
-};
