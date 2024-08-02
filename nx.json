@@ -37,15 +37,6 @@
         "targetName": "test"
       },
       "exclude": ["apps/b4h-api-e2e/**/*"]
-    },
-    {
-      "plugin": "@nx/next/plugin",
-      "options": {
-        "startTargetName": "start",
-        "buildTargetName": "build",
-        "devTargetName": "dev",
-        "serveStaticTargetName": "serve-static"
-      }
     }
   ],
   "generators": {
@@ -63,12 +54,6 @@
         "style": "scss",
         "linter": "eslint",
         "unitTestRunner": "vitest"
-      }
-    },
-    "@nx/next": {
-      "application": {
-        "style": "scss",
-        "linter": "eslint"
       }
     }
   },

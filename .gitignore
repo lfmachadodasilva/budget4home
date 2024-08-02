@@ -30,6 +30,7 @@ node_modules
 /coverage
 /libpeerconnection.log
 npm-debug.log
+yarn-error.log
 testem.log
 /typings
 
@@ -41,13 +42,3 @@ Thumbs.db
 .nx/workspace-data
 
 dev-dist
-
-# Next.js
-.next
-out
-
-# Yarn
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-yarn-error.log
