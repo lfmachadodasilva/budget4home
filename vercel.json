@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "apps/b4h-api/src/app/serveless.js"
+      "destination": "main.js"
     }
   ]
 }
