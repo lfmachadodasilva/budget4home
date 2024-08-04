@@ -1,8 +1,10 @@
 import { GroupModel } from '@b4h/models';
 import { useQuery } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext } from 'react';
+import { collection, doc, getDoc, getDocs, onSnapshot, query } from 'firebase/firestore';
+import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { getGroupsFetch } from '../clients/groups';
 import { LoadingData } from '../components/loadingData';
+import { getFirebaseFirestore } from '../config/firebase';
 import { useAuth } from './authProvider';
 
 interface GlobalProviderProps {
@@ -32,6 +34,32 @@ export function GlobalProvider(props: GlobalProviderProps) {
   });
 
   console.log('GlobalProvider', { getQuery });
+
+  useEffect(() => {
+    getDocs(query(collection(getFirebaseFirestore(), 'budget4home')))
+      .then(snapshot => {
+        console.log(
+          'collections',
+          snapshot.docs.map(doc => doc.data())
+        );
+      })
+      .catch(error => console.log('collections', error));
+    const groupsRef = doc(getFirebaseFirestore(), 'budget4home/1');
+    getDoc(groupsRef)
+      .then(doc => {
+        console.log('document', doc.data());
+      })
+      .catch(error => console.log(error));
+
+    const groups = collection(getFirebaseFirestore(), 'budget4home');
+    const unsub = onSnapshot(groups, doc => {
+      console.log(
+        'Current data: ',
+        doc.docs.map(d => d.data())
+      );
+    });
+    return () => unsub();
+  }, []);
 
   const loading = getQuery.isPending || getQuery.isFetching;
   const groups = getQuery?.data;
