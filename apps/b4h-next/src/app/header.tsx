@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const B4hHeader = () => {
   return (
     <div style={{ display: 'flex', gap: '8px' }}>
-      Header
+      bugtet4home
       <Link href="/">Home</Link>
       <Link href="/login">Login</Link>
       <Link href="/logout">Logout</Link>
