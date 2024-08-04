@@ -1,0 +1,19 @@
+{
+  "name": "@b4h/firebase-admin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/firebase-admin/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/firebase-admin",
+        "main": "packages/firebase-admin/src/index.ts",
+        "tsConfig": "packages/firebase-admin/tsconfig.lib.json",
+        "assets": ["packages/firebase-admin/*.md"]
+      }
+    }
+  }
+}

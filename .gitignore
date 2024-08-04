@@ -42,3 +42,12 @@ Thumbs.db
 .nx/workspace-data
 
 dev-dist
+
+# Next.js
+.next
+out
+
+# Yarns
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
