@@ -7,6 +7,7 @@ const { composePlugins, withNx } = require('@nx/next');
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
 const nextConfig = {
+  distDir: '../../dist/apps/b4h-next/.next',
   nx: {
     // Set this to true if you would like to use SVGR
     // See: https://github.com/gregberge/svgr
