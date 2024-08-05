@@ -21,11 +21,13 @@ export default function LoginPage() {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '8px', maxWidth: '500px' }}>
-      <label>email</label>
-      <input type="text" id="email" name="email" />
-      <label>password</label>
-      <input type="password" id="password" name="password" />
-      <button type="submit">Submit</button>
+      <label htmlFor="email">email</label>
+      <input style={{ border: '1px solid black' }} type="text" id="email" name="email" />
+      <label htmlFor="password">password</label>
+      <input style={{ border: '1px solid black' }} type="password" id="password" name="password" />
+      <button style={{ border: '1px solid black' }} type="submit">
+        Submit
+      </button>
     </form>
   );
 }
