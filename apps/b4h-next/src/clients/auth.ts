@@ -5,7 +5,12 @@ import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 const baseUrl = (process.env['API_URL'] as string) ?? 'http://localhost:3000';
 
-export const loginFetch = async (token: string) =>
+export const loginFetch = async (token: string) => {
+  console.log('clients>auth', {
+    baseUrl,
+    processEnv: process.env['API_URL'],
+    url: new URL(B4hApiRoutes.login, baseUrl)
+  });
   fetch(new URL(B4hApiRoutes.login, baseUrl), {
     method: B4hMethod.post,
     headers: {
@@ -14,6 +19,7 @@ export const loginFetch = async (token: string) =>
     },
     cache: 'no-cache'
   });
+};
 
 export const refreshSessionFetch = async (requestUrl: string, session: RequestCookie | undefined) =>
   await fetch(new URL(B4hApiRoutes.login, requestUrl), {
