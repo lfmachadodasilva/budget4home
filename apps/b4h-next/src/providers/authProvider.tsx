@@ -60,7 +60,10 @@ export function B4hAuthProvider(props: AuthProviderProps) {
             setUser({ user: null, token: null });
           }
         })
-        .catch(() => setUser(undefined))
+        .catch(err => {
+          console.error(err);
+          setUser(undefined);
+        })
         .finally(() => setLoading(false));
     });
 
