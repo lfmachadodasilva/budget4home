@@ -11,7 +11,7 @@ export const loginFetch = async (token: string) => {
     processEnv: process.env['API_URL'],
     url: new URL(B4hApiRoutes.login, baseUrl)
   });
-  fetch(new URL(B4hApiRoutes.login, baseUrl), {
+  return fetch(new URL(B4hApiRoutes.login, baseUrl), {
     method: B4hMethod.post,
     headers: {
       ...B4hBaseHeaders,
