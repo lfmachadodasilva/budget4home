@@ -1,6 +1,6 @@
 'use client';
 
-import { loginClient } from '@/clients/auth';
+import { loginFetch } from '@/clients/auth';
 import { getFirebaseAuth } from '@b4h/firebase';
 import {
   createUserWithEmailAndPassword,
@@ -46,17 +46,18 @@ export function B4hAuthProvider(props: AuthProviderProps) {
     setLoading(true);
     const unsubscribe = onAuthStateChanged(getFirebaseAuth(), async userCred => {
       if (!userCred) {
+        setUser({ user: null, token: null });
         return;
       }
 
       const token = await userCred?.getIdToken();
 
-      console.log('B4hAuthProvider>user', { token, userEmail: userCred.email });
-
-      await loginClient(token)
+      await loginFetch(token)
         .then(async response => {
           if (response.ok) {
             setUser({ user: userCred, token: token });
+          } else {
+            setUser({ user: null, token: null });
           }
         })
         .catch(() => setUser(undefined))

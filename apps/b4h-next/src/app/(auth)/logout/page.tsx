@@ -1,18 +1,22 @@
 'use client';
 
-import { logoutClient } from '@/clients/auth';
+import { logoutFetch } from '@/clients/auth';
 import { B4hRoutes } from '@/config/routes';
 import { useB4hAuth } from '@/providers/authProvider';
 import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
+export default function LogoutPage() {
   const { logout } = useB4hAuth();
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
 
-  logout().then(async () => {
-    await logoutClient();
-    push(B4hRoutes.login);
-  });
+  logout()
+    .then(async () => {
+      await logoutFetch();
+    })
+    .finally(() => {
+      push(B4hRoutes.login);
+      refresh();
+    });
 
   return null;
 }

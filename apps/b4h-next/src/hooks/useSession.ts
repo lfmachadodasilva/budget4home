@@ -1,11 +1,11 @@
+import { B4hRoutes } from '@/config/routes';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { B4hRoutes } from './routes';
 
-export const getUserIdSession = (): string => {
+export const useB4hSession = () => {
   const userId = cookies().get('session-user-id')?.value as string;
   if (!userId) {
     redirect(B4hRoutes.login);
   }
-  return userId;
+  return { userId: userId };
 };

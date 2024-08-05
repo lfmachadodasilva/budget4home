@@ -1,21 +1,28 @@
-import { getUserIdSession } from '@/config/session';
+import { useB4hSession } from '@/hooks/useSession';
 import { getLabels } from '@b4h/firestore';
+import { LabelModel } from '@b4h/models';
 
 export default async function LabelPage() {
-  const userId = getUserIdSession();
+  const { userId } = useB4hSession();
 
-  const labels = await getLabels('1', userId as string);
+  let labels: LabelModel[] | null = null;
+  try {
+    labels = await getLabels('1', userId);
+  } catch (err) {
+    console.error(err);
+  }
 
   return (
     <div>
       Labels
-      <div>user id: {userId}</div>
-      <div>
-        {labels.length}
-        {labels.map(label => (
-          <div key={label.id}>{label.name}</div>
-        ))}
-      </div>
+      {labels && (
+        <div>
+          {labels.length}
+          {labels.map(label => (
+            <div key={label.id}>{label.name}</div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

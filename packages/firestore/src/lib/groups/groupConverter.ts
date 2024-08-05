@@ -1,32 +1,28 @@
 import { FirestoreDataConverter } from '@b4h/firebase-admin';
-import { LabelModel } from '@b4h/models';
+import { GroupModel } from '@b4h/models';
 
-class LabelConverter implements FirestoreDataConverter<LabelModel> {
+class GroupConverter implements FirestoreDataConverter<GroupModel> {
   toFirestore(
-    modelObject: FirebaseFirestore.WithFieldValue<LabelModel>
+    modelObject: FirebaseFirestore.WithFieldValue<GroupModel>
   ): FirebaseFirestore.DocumentData;
   toFirestore(
-    modelObject: FirebaseFirestore.PartialWithFieldValue<LabelModel>,
+    modelObject: FirebaseFirestore.PartialWithFieldValue<GroupModel>,
     options: FirebaseFirestore.SetOptions
   ): FirebaseFirestore.DocumentData;
   toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
-    const { id, ...model } = modelObject as LabelModel;
-    return {
-      ...model
-    };
+    const model = modelObject as GroupModel;
+    return model;
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
-  ): LabelModel {
+  ): GroupModel {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
-
     return {
       ...data,
       createdAt: data.createdAt && new Date(data.createdAt.toDate()),
-      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
-      id: snapshot.id
-    } as LabelModel;
+      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate())
+    } as GroupModel;
   }
 }
-export const labelConverter = new LabelConverter();
+export const groupConverter = new GroupConverter();

@@ -1,11 +1,28 @@
-import { getUserIdSession } from '@/config/session';
+import { useB4hSession } from '@/hooks/useSession';
+import { getGroups } from '@b4h/firestore';
+import { GroupModel } from '@b4h/models';
 
-export default function GroupsPage() {
-  const userId = getUserIdSession();
+export default async function GroupsPage() {
+  const { userId } = useB4hSession();
+
+  let groups: GroupModel[] | null = null;
+  try {
+    groups = await getGroups(userId);
+  } catch (err) {
+    console.error(err);
+  }
+
   return (
     <div>
       Groups
-      <div>user id: {userId}</div>
+      {groups && (
+        <div>
+          {groups.length}
+          {groups.map(groups => (
+            <div key={groups.id}>{groups.name}</div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

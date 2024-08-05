@@ -1,18 +1,33 @@
 import { B4hApiRoutes } from '@/config/routes';
+import { B4hBaseHeaders } from '@/shared/headers';
+import { B4hMethod } from '@/shared/method';
+import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 const baseUrl = (process.env['APP_URL'] as string) ?? 'http://localhost:3000';
 
-export const loginClient = async (token: string) => {
-  return fetch(new URL(B4hApiRoutes.login, baseUrl), {
-    method: 'POST',
+export const loginFetch = async (token: string) =>
+  fetch(new URL(B4hApiRoutes.login, baseUrl), {
+    method: B4hMethod.post,
     headers: {
+      ...B4hBaseHeaders,
       Authorization: `Bearer ${token}`
-    }
+    },
+    cache: 'no-cache'
   });
-};
 
-export const logoutClient = async () => {
-  return fetch(new URL(B4hApiRoutes.login, baseUrl), {
-    method: 'DELETE'
+export const refreshSessionFetch = async (requestUrl: string, session: RequestCookie | undefined) =>
+  await fetch(new URL(B4hApiRoutes.login, requestUrl), {
+    method: B4hMethod.get,
+    headers: {
+      ...B4hBaseHeaders,
+      Cookie: `session=${session?.value}`
+    },
+    cache: 'no-cache'
   });
-};
+
+export const logoutFetch = async () =>
+  fetch(new URL(B4hApiRoutes.login, baseUrl), {
+    headers: B4hBaseHeaders,
+    method: B4hMethod.delete,
+    cache: 'no-cache'
+  });

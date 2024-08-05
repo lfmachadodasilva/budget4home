@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { B4hApiRoutes, B4hRoutes } from './config/routes';
+import { refreshSessionFetch } from './clients/auth';
+import { B4hRoutes } from './config/routes';
 
 export async function middleware(request: NextRequest, response: NextResponse) {
   const session = request.cookies.get('session');
@@ -11,14 +12,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   try {
-    // call the authentication endpoint
-    const responseAPI = await fetch(new URL(B4hApiRoutes.login, request.url), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Cookie: `session=${session?.value}`
-      }
-    });
+    const responseAPI = await refreshSessionFetch(request.url, session);
 
     // return to /login if token is not authorized
     if (responseAPI.status !== 200) {

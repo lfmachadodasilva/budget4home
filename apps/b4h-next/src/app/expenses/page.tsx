@@ -1,7 +1,8 @@
-import { getUserIdSession } from '@/config/session';
+import { useB4hSession } from '@/hooks/useSession';
 
 export default function ExpensesPage() {
-  const userId = getUserIdSession();
+  const { userId } = useB4hSession();
+
   return (
     <div>
       Expenses
