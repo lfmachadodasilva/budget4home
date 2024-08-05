@@ -83,8 +83,6 @@ export function B4hAuthProvider(props: AuthProviderProps) {
     await sendPasswordResetEmail(getFirebaseAuth(), email);
   };
 
-  console.log('B4hAuthProvider>user', user);
-
   return (
     <B4hAuthContext.Provider
       value={{
