@@ -3,7 +3,7 @@ import { B4hBaseHeaders } from '@/shared/headers';
 import { B4hMethod } from '@/shared/method';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
-const baseUrl = (process.env['APP_URL'] as string) ?? 'http://localhost:3000';
+const baseUrl = (process.env['API_URL'] as string) ?? 'http://localhost:3000';
 
 export const loginFetch = async (token: string) =>
   fetch(new URL(B4hApiRoutes.login, baseUrl), {

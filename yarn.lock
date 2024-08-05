@@ -3196,15 +3196,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/cypress@npm:19.4.1":
-  version: 19.4.1
-  resolution: "@nrwl/cypress@npm:19.4.1"
-  dependencies:
-    "@nx/cypress": "npm:19.4.1"
-  checksum: 10c0/d90bdb67336b834a4800e4f94a0569fd948195f77670a09128cd1199823a1fca288817670f9f6db1416a9ac78efd6a4c18c768c13b19431828d18843b11f42b1
-  languageName: node
-  linkType: hard
-
 "@nrwl/devkit@npm:19.4.1":
   version: 19.4.1
   resolution: "@nrwl/devkit@npm:19.4.1"
@@ -3322,26 +3313,6 @@ __metadata:
   dependencies:
     "@nx/workspace": "npm:19.4.1"
   checksum: 10c0/a93a5a875a97d3d3adb8ca870ebb25c3c5e25bdf3203539bd197f5b9adb626e281a8e3aefef694e5fbaa56e23bf36aa97edf697e5c224fd3330cfaad514dce72
-  languageName: node
-  linkType: hard
-
-"@nx/cypress@npm:19.4.1":
-  version: 19.4.1
-  resolution: "@nx/cypress@npm:19.4.1"
-  dependencies:
-    "@nrwl/cypress": "npm:19.4.1"
-    "@nx/devkit": "npm:19.4.1"
-    "@nx/eslint": "npm:19.4.1"
-    "@nx/js": "npm:19.4.1"
-    "@phenomnomnominal/tsquery": "npm:~5.0.1"
-    detect-port: "npm:^1.5.1"
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    cypress: ">= 3 < 14"
-  peerDependenciesMeta:
-    cypress:
-      optional: true
-  checksum: 10c0/e1c0012ada3e41415fdac5c6306a167795b407e50eda2bb48e4a88f4ac2a16773bcc7a1f9b5633e32236aea419d503b580623fa902af6511f67131454f884fbb
   languageName: node
   linkType: hard
 
@@ -6536,7 +6507,6 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.14.5"
     "@babel/preset-react": "npm:^7.14.5"
-    "@nx/cypress": "npm:19.4.1"
     "@nx/devkit": "npm:19.4.1"
     "@nx/esbuild": "npm:19.4.1"
     "@nx/eslint": "npm:19.4.1"
