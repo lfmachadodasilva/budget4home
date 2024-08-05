@@ -1,5 +1,6 @@
 'use client';
 
+import { loginClient } from '@/clients/auth';
 import { getFirebaseAuth } from '@b4h/firebase';
 import {
   createUserWithEmailAndPassword,
@@ -10,7 +11,6 @@ import {
   User
 } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { loginClient } from '../clients/auth';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];
@@ -49,11 +49,9 @@ export function B4hAuthProvider(props: AuthProviderProps) {
         return;
       }
 
-      console.log('B4hAuthProvider>user', userCred);
-
       const token = await userCred?.getIdToken();
 
-      console.log('B4hAuthProvider>token', token);
+      console.log('B4hAuthProvider>user', { token, userEmail: userCred.email });
 
       await loginClient(token)
         .then(async response => {

@@ -8,8 +8,6 @@ import { NextRequest, NextResponse } from 'next/server';
 // getFirebaseAdminAuth();
 
 export async function POST(request: NextRequest, response: NextResponse) {
-  console.log('api/auth/login/route.ts POST');
-
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
@@ -46,8 +44,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
 }
 
 export async function GET(request: NextRequest) {
-  console.log('api/auth/login/route.ts GET');
-
   const session = cookies().get('session')?.value || '';
 
   // validate if the cookie exist in the request
@@ -63,4 +59,12 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.json({ isLogged: true }, { status: 200 });
+}
+
+export async function DELETE(request: NextRequest, response: NextResponse) {
+  // clean cookies
+  cookies().delete('session');
+  cookies().delete('session-user-id');
+
+  return NextResponse.json({}, { status: 200 });
 }

@@ -5,8 +5,6 @@ import { B4hApiRoutes, B4hRoutes } from './config/routes';
 export async function middleware(request: NextRequest, response: NextResponse) {
   const session = request.cookies.get('session');
 
-  console.log('-----middleware-----', session);
-
   // return to /login if don't have a session
   if (!session) {
     return NextResponse.redirect(new URL(B4hRoutes.login, request.url));
@@ -27,7 +25,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
       return NextResponse.redirect(new URL(B4hRoutes.login, request.url));
     }
   } catch (error) {
-    console.error('middleware>error', error);
+    console.error(error);
     return NextResponse.redirect(new URL(B4hRoutes.login, request.url));
   }
 

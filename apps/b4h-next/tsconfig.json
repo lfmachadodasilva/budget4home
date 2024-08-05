@@ -16,10 +16,15 @@
         "name": "next"
       }
     ],
-    "types": [
-      "jest",
-      "node"
-    ]
+    "types": ["jest", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@b4h/firebase": ["../../packages/firebase/src/index.ts"],
+      "@b4h/firebase-admin": ["../../packages/firebase-admin/src/index.ts"],
+      "@b4h/firestore": ["../../packages/firestore/src/index.ts"],
+      "@b4h/models": ["../../packages/models/src/index.ts"],
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "**/*.ts",
@@ -31,10 +36,5 @@
     "next-env.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "jest.config.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ]
+  "exclude": ["node_modules", "jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
 }

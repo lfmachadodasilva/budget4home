@@ -1,0 +1,19 @@
+{
+  "name": "@b4h/firesore",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/firestore/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/firestore",
+        "main": "packages/firestore/src/index.ts",
+        "tsConfig": "packages/firestore/tsconfig.lib.json",
+        "assets": ["packages/firestore/*.md"]
+      }
+    }
+  }
+}

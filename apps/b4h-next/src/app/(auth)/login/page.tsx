@@ -1,9 +1,9 @@
 'use client';
 
+import { B4hRoutes } from '@/config/routes';
+import { useB4hAuth } from '@/providers/authProvider';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
-import { B4hRoutes } from '../../../config/routes';
-import { useB4hAuth } from '../../../providers/authProvider';
 
 export default function LoginPage() {
   const { login } = useB4hAuth();
@@ -11,16 +11,11 @@ export default function LoginPage() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('submit', {
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value
-    });
-
-    console.log('login1');
-    await login(event.currentTarget.email.value, event.currentTarget.password.value).then(() => {
-      push(B4hRoutes.home);
-    });
-    console.log('login2');
+    await login(event.currentTarget.email.value, event.currentTarget.password.value).then(
+      async () => {
+        push(B4hRoutes.home);
+      }
+    );
   };
 
   return (

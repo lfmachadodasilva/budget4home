@@ -1,8 +1,7 @@
-import { cookies } from 'next/headers';
+import { getUserIdSession } from '@/config/session';
 
 export default function GroupsPage() {
-  const userId = cookies().get('session-user-id')?.value;
-  console.log('-------------- label page');
+  const userId = getUserIdSession();
   return (
     <div>
       Groups
