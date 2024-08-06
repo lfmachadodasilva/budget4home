@@ -46,7 +46,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
     setLoading(true);
     const unsubscribe = onAuthStateChanged(getFirebaseAuth(), async userCred => {
       if (!userCred) {
-        setUser({ user: null, token: null });
+        // setUser({ user: null, token: null });
         return;
       }
 

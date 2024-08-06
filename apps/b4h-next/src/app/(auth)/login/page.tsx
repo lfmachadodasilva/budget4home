@@ -2,17 +2,12 @@
 
 import { B4hRoutes } from '@/config/routes';
 import { useB4hAuth } from '@/providers/authProvider';
-import { getFirebaseAnalytics, logEvent } from '@b4h/firebase';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect } from 'react';
+import { FormEvent } from 'react';
 
 export default function LoginPage() {
   const { login } = useB4hAuth();
   const { push, refresh } = useRouter();
-
-  useEffect(() => {
-    logEvent(getFirebaseAnalytics(), 'login');
-  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,7 +15,7 @@ export default function LoginPage() {
     try {
       await login(event.currentTarget.email.value, event.currentTarget.password.value)
         .then(async () => {
-          refresh();
+          // refresh();
           push(B4hRoutes.home);
         })
         .catch(err => {
