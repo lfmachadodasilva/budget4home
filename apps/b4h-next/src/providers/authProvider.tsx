@@ -52,8 +52,6 @@ export function B4hAuthProvider(props: AuthProviderProps) {
 
       const token = await userCred?.getIdToken();
 
-      console.log('B4hAuthProvider', { token, userId: userCred.uid });
-
       await loginFetch(token)
         .then(async response => {
           if (response.ok) {

@@ -12,18 +12,14 @@ export default function LoginPage() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      await login(event.currentTarget.email.value, event.currentTarget.password.value)
-        .then(async () => {
-          push(B4hRoutes.home);
-          refresh();
-        })
-        .catch(err => {
-          console.error('LoginPage', err);
-        });
-    } catch (err) {
-      console.error('LoginPage', err);
-    }
+    await login(event.currentTarget.email.value, event.currentTarget.password.value)
+      .then(async () => {
+        push(B4hRoutes.home);
+        refresh();
+      })
+      .catch(err => {
+        console.error('LoginPage', err);
+      });
   };
 
   return (
