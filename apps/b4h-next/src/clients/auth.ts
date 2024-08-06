@@ -7,9 +7,9 @@ const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localh
 
 export const loginFetch = async (token: string) =>
   fetch(baseUrl + B4hApiRoutes.login, {
-    method: B4hMethod.post,
+    method: 'POST',
     headers: {
-      ...B4hBaseHeaders,
+      // ...B4hBaseHeaders,
       Authorization: `Bearer ${token}`
     },
     cache: 'no-cache'
