@@ -11,7 +11,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
+    console.log('login>route>idToken', idToken);
     const decodedToken = await getFirebaseAdminAuth().verifyIdToken(idToken);
+    console.log('login>route>decodedToken', decodedToken);
 
     if (decodedToken) {
       // generate session cookie
@@ -19,6 +21,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
       const sessionCookie = await getFirebaseAdminAuth().createSessionCookie(idToken, {
         expiresIn
       });
+      console.log('login>route>sessionCookie', sessionCookie);
       const options = {
         name: 'session',
         value: sessionCookie,
