@@ -15,8 +15,8 @@ export default function LoginPage() {
     try {
       await login(event.currentTarget.email.value, event.currentTarget.password.value)
         .then(async () => {
-          // refresh();
           push(B4hRoutes.home);
+          refresh();
         })
         .catch(err => {
           console.error('LoginPage', err);
