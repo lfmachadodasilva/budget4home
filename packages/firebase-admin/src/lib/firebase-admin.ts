@@ -3,9 +3,9 @@ import { type Auth, getAuth } from 'firebase-admin/auth';
 import { type Firestore, getFirestore } from 'firebase-admin/firestore';
 import { type Storage, getStorage } from 'firebase-admin/storage';
 
-const firebasePrivateKey = process.env['FIREBASE_PRIVATE_KEY'] as string;
-const firebasePrivateKeyId = process.env['NEXT_PUBLIC_FIREBASE_PRIVATE_KEY_ID'] as string;
 const firebaseProjectId = process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID'] as string;
+const firebasePrivateKey = process.env['FIREBASE_PRIVATE_KEY'] as string;
+const firebasePrivateKeyId = process.env['FIREBASE_PRIVATE_KEY_ID'] as string;
 const firebaseClientEmail = process.env['FIREBASE_CLIENT_EMAIL'] as string;
 const firebaseClientId = process.env['FIREBASE_CLIENT_ID'] as string;
 const firebaseAuthUrl = process.env['FIREBASE_AUTH_URL'] as string;
