@@ -14,7 +14,7 @@ export const B4hHeaderUser = () => {
   return (
     <>
       {user?.photoURL ? (
-        <img className={styles.avatar} src={user?.photoURL} onClick={menu.onOpen} />
+        <img alt="avatar" className={styles.avatar} src={user?.photoURL} onClick={menu.onOpen} />
       ) : (
         <FaRegCircleUser size={24} onClick={menu.onOpen} />
       )}
