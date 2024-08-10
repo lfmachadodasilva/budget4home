@@ -1,0 +1,27 @@
+.container {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+  padding: var(--size-m);
+  height: 100%;
+
+  border-left: 1px solid var(--fg-color);
+}
+
+.close {
+  position: absolute;
+  top: var(--size-m);
+  right: var(--size-m);
+
+  width: var(--size-icon);
+  height: var(--size-icon);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-m);
+}
+
+.header {
+  margin-bottom: var(--size-l);
+}
