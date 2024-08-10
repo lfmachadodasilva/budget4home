@@ -1,5 +1,3 @@
-'use client';
-
 import { Children, ComponentPropsWithoutRef, memo, useEffect, useRef, useState } from 'react';
 
 import styles from './dropdown.module.scss';

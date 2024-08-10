@@ -7020,6 +7020,7 @@ __metadata:
     react-hook-form: "npm:^7.52.2"
     react-i18next: "npm:^15.0.0"
     react-icons: "npm:^5.2.1"
+    react-modern-drawer: "npm:^1.3.1"
     react-router-dom: "npm:6.26.0"
     sass: "npm:1.77.8"
     ts-jest: "npm:^29.2.4"
@@ -15161,6 +15162,15 @@ __metadata:
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
   checksum: 10c0/f2f1e60010c683479e74c63f96b09fb41603527cd131a9959e2aee1e5a8b0caf270b365e5ca77d4a6b18aae659b60a86150bb3979073528877029b35aecd2072
+  languageName: node
+  linkType: hard
+
+"react-modern-drawer@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "react-modern-drawer@npm:1.3.1"
+  peerDependencies:
+    react: ">16.0.0"
+  checksum: 10c0/2a760f708f65e0b352985d9d341832b44060a7cc14c68bcf70a61eb3874175cc1eced78c067998c817f7a2d2cb082a71b944768988ce4cd242698e8061993a1b
   languageName: node
   linkType: hard
 
