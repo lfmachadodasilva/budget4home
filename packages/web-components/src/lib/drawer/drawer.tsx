@@ -1,6 +1,6 @@
 'use client';
 
-import { Children, ComponentProps, ReactNode } from 'react';
+import { Children, ComponentProps, memo, ReactNode } from 'react';
 import { RiCloseFill } from 'react-icons/ri';
 
 import Drawer from 'react-modern-drawer';
@@ -10,14 +10,13 @@ import styles from './drawer.module.scss';
 
 export interface B4hDrawerProps extends ComponentProps<typeof Drawer> {}
 
-export const B4hDrawer = (props: B4hDrawerProps) => {
+export const B4hDrawer = memo((props: B4hDrawerProps) => {
   const header = Children.toArray(props.children).find(
     (child: any) => child?.type.name === B4hDrawerHeader.name
   );
   const body = Children.toArray(props.children).find(
     (child: any) => child?.type.name === B4hDrawerBody.name
   );
-  console.log(props.children, B4hDrawerHeader.name);
 
   return (
     <Drawer {...props} size={250}>
@@ -28,7 +27,7 @@ export const B4hDrawer = (props: B4hDrawerProps) => {
       </div>
     </Drawer>
   );
-};
+});
 
 export const B4hDrawerHeader = ({ children }: { children: string }) => {
   return <h2 className={styles.header}>{children}</h2>;
