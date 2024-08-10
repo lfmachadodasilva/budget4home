@@ -18,7 +18,7 @@ export const B4hUserHeader = () => {
   };
 
   return (
-    <B4hDropdown onChange={handleOnChange}>
+    <B4hDropdown onChange={handleOnChange} autoReset>
       {user?.photoURL ? (
         <img className={styles.avatar} width={24} height={24} src={user?.photoURL} />
       ) : (
