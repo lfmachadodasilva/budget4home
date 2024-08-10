@@ -6,7 +6,7 @@ import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
 
 export const loginFetch = async (token: string) =>
-  fetch(baseUrl + B4hApiRoutes.login, {
+  fetch(new URL(B4hApiRoutes.login, baseUrl), {
     method: 'POST',
     headers: {
       // ...B4hBaseHeaders,

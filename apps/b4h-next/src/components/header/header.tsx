@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { B4hUserHeader } from './userHeader/userHeader';
 
 export const B4hHeader = () => {
   return (
@@ -11,8 +12,9 @@ export const B4hHeader = () => {
         <Link href="/expenses">Expenses</Link>
       </div>
       <div style={{ display: 'flex', gap: '8px' }}>
-        <Link href="/login">Login</Link>
-        <Link href="/logout">Logout</Link>
+        {/* <Link href="/login">Login</Link>
+        <Link href="/logout">Logout</Link> */}
+        <B4hUserHeader />
       </div>
     </div>
   );

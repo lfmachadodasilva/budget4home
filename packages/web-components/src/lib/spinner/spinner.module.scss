@@ -1,0 +1,13 @@
+.spinner {
+  animation: spin infinite 0.7s linear;
+  color: inherit;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

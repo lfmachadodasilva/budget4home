@@ -1,6 +1,6 @@
+import { B4hHeader } from '@/components/header/header';
+import '@b4h/web-components';
 import { B4hAuthProvider } from '../providers/authProvider';
-import './global.css';
-import { B4hHeader } from './header';
 
 export const metadata = {
   title: 'Welcome to b4h-next',

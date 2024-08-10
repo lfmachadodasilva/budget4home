@@ -4,5 +4,6 @@ export const B4hApiRoutes = {
 
 export const B4hRoutes = {
   home: '/',
-  login: '/login'
+  login: '/login',
+  logout: '/logout'
 };
