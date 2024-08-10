@@ -5237,7 +5237,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.14.10, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
+"@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
   version: 20.14.10
   resolution: "@types/node@npm:20.14.10"
   dependencies:
@@ -5246,7 +5246,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.0.1":
+"@types/node@npm:22.2.0, @types/node@npm:^22.0.1":
   version: 22.2.0
   resolution: "@types/node@npm:22.2.0"
   dependencies:
@@ -7014,7 +7014,7 @@ __metadata:
     "@types/date-fns": "npm:^2.6.0"
     "@types/jest": "npm:^29.5.12"
     "@types/lodash": "npm:^4.17.7"
-    "@types/node": "npm:20.14.10"
+    "@types/node": "npm:22.2.0"
     "@types/react": "npm:18.3.3"
     "@types/react-dom": "npm:18.3.0"
     "@typescript-eslint/eslint-plugin": "npm:^7.3.0"
