@@ -3,21 +3,16 @@
 import { B4hRoutes } from '@/config/routes';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
-import { useB4hAuth } from '@/providers/authProvider';
 import { B4hDrawer, B4hDrawerBody, B4hDrawerHeader, useDisclosure } from '@b4h/web-components';
 import Link from 'next/link';
+import styles from './headerMenu.module.scss';
 
 export const B4hHeaderMenu = () => {
   const menu = useDisclosure();
-  const { isAuth } = useB4hAuth();
-
-  if (!isAuth) {
-    return null;
-  }
 
   return (
     <>
-      <RxHamburgerMenu size={24} onClick={menu.onOpen} />
+      <RxHamburgerMenu className={styles.icon} onClick={menu.onOpen} />
       <B4hDrawer key="menu" open={menu.isOpen} onClose={menu.onClose} direction="left">
         <B4hDrawerHeader>budget4home</B4hDrawerHeader>
         <B4hDrawerBody>
