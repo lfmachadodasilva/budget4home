@@ -1,7 +1,7 @@
-import { Analytics, getAnalytics } from 'firebase/analytics';
+// import { Analytics, getAnalytics } from 'firebase/analytics';
 import { FirebaseApp, getApps, initializeApp } from 'firebase/app';
 import { Auth, getAuth } from 'firebase/auth';
-import { Database, getDatabase } from 'firebase/database';
+// import { Database, getDatabase } from 'firebase/database';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
 
@@ -17,9 +17,9 @@ const firebaseMeasurementId = process.env['NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID']
 let firebaseApp: FirebaseApp;
 let firebaseAuth: Auth;
 let firebaseFirestore: Firestore;
-let firebaseDatabase: Database;
+// let firebaseDatabase: Database;
 let firebaseStorage: FirebaseStorage;
-let firebaseAnalytic: Analytics;
+// let firebaseAnalytic: Analytics;
 
 export const getFirebaseApp = () => {
   firebaseApp ??=
@@ -48,17 +48,17 @@ export const getFirebaseFirestore = () => {
   return firebaseFirestore;
 };
 
-export const getFirebaseDatabase = () => {
-  firebaseDatabase ??= getDatabase(getFirebaseApp());
-  return firebaseDatabase;
-};
+// export const getFirebaseDatabase = () => {
+//   firebaseDatabase ??= getDatabase(getFirebaseApp());
+//   return firebaseDatabase;
+// };
 
 export const getFirebaseStorage = () => {
   firebaseStorage ??= getStorage(getFirebaseApp());
   return firebaseStorage;
 };
 
-export const getFirebaseAnalytics = () => {
-  firebaseAnalytic ??= getAnalytics(getFirebaseApp());
-  return firebaseAnalytic;
-};
+// export const getFirebaseAnalytics = () => {
+//   firebaseAnalytic ??= getAnalytics(getFirebaseApp());
+//   return firebaseAnalytic;
+// };
