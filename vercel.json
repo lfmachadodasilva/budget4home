@@ -1,5 +1,5 @@
 {
   "installCommand": "yarn install",
-  "buildCommand": "yarn nx build b4h-next --prod && cp -r apps/b4h-next/public dist/apps/b4h-next/.next",
-  "outputDirectory": "dist/apps/b4h-next/.next"
+  "buildCommand": "yarn nx build b4h-next --prod && cp -r apps/b4h-next/public dist/apps/b4h-next",
+  "outputDirectory": "dist/apps/b4h-next"
 }
