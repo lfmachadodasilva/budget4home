@@ -18,7 +18,7 @@ if (process.env.NODE_ENV === 'development') {
  **/
 const nextConfig = {
   distDir: '../../dist/apps/b4h-next/.next',
-  output: 'standalone',
+  // output: 'standalone',
   nx: {
     // Set this to true if you would like to use SVGR
     // See: https://github.com/gregberge/svgr
