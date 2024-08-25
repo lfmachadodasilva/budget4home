@@ -14,3 +14,5 @@ export const B4hRoutes = {
   labels: '/labels',
   expenses: '/expenses'
 };
+
+export const B4hRoutesProtected = [B4hRoutes.groups, B4hRoutes.labels, B4hRoutes.expenses];
