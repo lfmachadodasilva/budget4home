@@ -2,6 +2,10 @@ import { useB4hSession } from '@/hooks/useSession';
 import { getLabels } from '@b4h/firestore';
 import { LabelModel } from '@b4h/models';
 
+export const metadata = {
+  title: 'labels | budget4home'
+};
+
 export default async function LabelPage() {
   const { userId } = useB4hSession();
 
