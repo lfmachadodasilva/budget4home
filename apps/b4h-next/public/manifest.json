@@ -51,7 +51,7 @@
     }
   ],
   "orientation": "portrait-primary",
-  "start_url": "https://b4h.vercel.app/",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "theme_color": "#612F74",
