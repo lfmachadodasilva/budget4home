@@ -1,0 +1,36 @@
+@use 'sass:color';
+
+:root {
+  --size-xs: 4px;
+  --size-s: 8px;
+  --size-m: 16px;
+  --size-l: 24px;
+  --size-xl: 32px;
+  --size-xxl: 64px;
+
+  --size-icon: var(--size-l);
+
+  --min-width: 250px;
+  --max-width: 720px;
+
+  --primary-color: #8b64e8;
+
+  --border-color: #21262d;
+
+  --negative-color: #d73a4a;
+  --success-color: #2fb64d;
+
+  --bg-color: #0d1117;
+  --fg-color: #d8dee4;
+  --secondary-fg-color: #9e96b1;
+
+  --font-family: Roboto, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+}
+
+a {
+  all: unset;
+  cursor: pointer;
+  color: #be8ed2;
+}

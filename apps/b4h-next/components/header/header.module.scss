@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.avatar {
+  height: var(--size-l);
+  width: var(--size-l);
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
