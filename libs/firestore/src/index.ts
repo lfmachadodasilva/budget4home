@@ -1,1 +1,3 @@
-export * from './lib/firestore';
+export * from './lib/group/groupRepository';
+export * from './lib/label/labelRepository';
+
