@@ -9,13 +9,14 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 
 import { logoutFetch } from '@/clients/auth';
 import { B4hRoutes } from '@/shared/routes';
+import Link from 'next/link';
 import styles from './header.module.scss';
 
 export const B4hHeader = () => {
   const { user, logout } = useB4hAuth();
   const { push, refresh } = useRouter();
 
-  const handleUser = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
     switch (event.target.value) {
       case B4hRoutes.login:
         push(B4hRoutes.login);
@@ -30,25 +31,28 @@ export const B4hHeader = () => {
             refresh();
           });
         break;
+      default:
+        push(event.target.value);
+        break;
     }
   };
 
   return (
     <div className={styles.container}>
-      <B4hDropdown autoReset>
+      <B4hDropdown autoReset onChange={handleOnChange}>
         <GiHamburgerMenu />
         <option value={B4hRoutes.groups}>groups</option>
         <option value={B4hRoutes.labels}>labels</option>
         <option value={B4hRoutes.expenses}>expenses</option>
       </B4hDropdown>
-      budget4home
+      <Link href={B4hRoutes.home}>budget4home</Link>
       {user?.photoURL ? (
-        <B4hDropdown autoReset onChange={handleUser}>
+        <B4hDropdown autoReset onChange={handleOnChange}>
           <img alt="avatar" className={styles.avatar} src={user?.photoURL} />
           <option value={B4hRoutes.logout}>logout</option>
         </B4hDropdown>
       ) : (
-        <B4hDropdown autoReset onChange={handleUser}>
+        <B4hDropdown autoReset onChange={handleOnChange}>
           <FaRegCircleUser />
           <option value={B4hRoutes.login}>login</option>
         </B4hDropdown>
