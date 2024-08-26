@@ -1,4 +1,5 @@
 import './global.css';
+import B4hHead from './head';
 
 export const metadata = {
   title: 'Welcome to b4h-next',
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        <B4hHead />
+      </head>
+      <body><main>{children}</main></body>
     </html>
   );
 }
