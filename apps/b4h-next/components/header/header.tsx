@@ -40,7 +40,7 @@ export const B4hHeader = () => {
   return (
     <div className={styles.container}>
       <B4hDropdown autoReset onChange={handleOnChange}>
-        <GiHamburgerMenu />
+        <GiHamburgerMenu size={24} />
         <option value={B4hRoutes.groups}>groups</option>
         <option value={B4hRoutes.labels}>labels</option>
         <option value={B4hRoutes.expenses}>expenses</option>
@@ -53,7 +53,7 @@ export const B4hHeader = () => {
         </B4hDropdown>
       ) : (
         <B4hDropdown autoReset onChange={handleOnChange}>
-          <FaRegCircleUser />
+          <FaRegCircleUser size={24} />
           <option value={B4hRoutes.login}>login</option>
         </B4hDropdown>
       )}

@@ -2,9 +2,10 @@
 
 import { useB4hAuth } from '@/providers/authProvider';
 import { B4hRoutes } from '@/shared/routes';
-import { B4hButton } from '@b4h/web-components';
+import { B4hButton, B4hInput } from '@b4h/web-components';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
+import styles from './page.module.scss';
 
 export default function LoginPageClient() {
   const { login } = useB4hAuth();
@@ -29,11 +30,15 @@ export default function LoginPageClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '8px', maxWidth: '500px' }}>
+    <form
+      onSubmit={handleSubmit}
+      // style={{ display: 'grid', gap: '8px', maxWidth: '500px' }}
+      className={styles.container}
+    >
       <label htmlFor="email">email</label>
-      <input type="text" id="email" name="email" />
+      <B4hInput type="text" id="email" name="email" />
       <label htmlFor="password">password</label>
-      <input type="password" id="password" name="password" />
+      <B4hInput type="password" id="password" name="password" />
       <B4hButton type="submit" loading={loading}>
         Submit
       </B4hButton>
