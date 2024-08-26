@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--size-l);
+}
+
+.avatar {
+  height: var(--size-l);
+  width: var(--size-l);
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
