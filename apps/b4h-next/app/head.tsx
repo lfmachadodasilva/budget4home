@@ -7,7 +7,7 @@ export default function B4hHead() {
       <link rel="shortcut icon" href="/favicon.ico" />
       <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" href="/logo213.png"></link>
-      <link rel="manifest" href="/manifest.json" />
+      <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials" />
 
       <meta name="theme-color" content="#612F74" />
 
