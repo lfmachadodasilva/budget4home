@@ -13,8 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <B4hHead />
-      <body>{children}</body>
+      <head>
+        <B4hHead />
+      </head>
+      <body><main>{children}</main></body>
     </html>
   );
 }
