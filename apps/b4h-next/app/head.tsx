@@ -1,6 +1,6 @@
-export default function Head() {
+export default function B4hHead() {
   return (
-    <>
+    <head>
       <meta name="name" content="budget4home" />
       <meta name="description" content="budget4home - Project to control my personal budget" />
 
@@ -12,6 +12,7 @@ export default function Head() {
       <meta name="theme-color" content="#612F74" />
 
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </>
+
+    </head>
   );
 }
