@@ -1,0 +1,5 @@
+{
+  "installCommand": "yarn install",
+  "buildCommand": "yarn nx build b4h-next --prod",
+  "outputDirectory": "dist/apps/b4h-next/.next"
+}
