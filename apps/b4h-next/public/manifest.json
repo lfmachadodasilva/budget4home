@@ -34,22 +34,6 @@
       "sizes": "213x213"
     }
   ],
-  "screenshots": [
-    {
-      "src": "logo320.png",
-      "sizes": "320x320",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "budget4home"
-    },
-    {
-      "src": "logo320.png",
-      "sizes": "320x320",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "budget4home"
-    }
-  ],
   "orientation": "portrait-primary",
   "start_url": "/",
   "scope": "/",
