@@ -1,0 +1,5 @@
+{
+  "installCommand": "npm install",
+  "buildCommand": "npm run nx build b4h-next --prod",
+  "outputDirectory": "apps/b4h-next/.next"
+}
