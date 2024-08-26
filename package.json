@@ -1,9 +1,11 @@
 {
-  "name": "@budget4home/source",
+  "name": "budget4home",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "nx": "nx"
+    "nx": "nx",
+    "prettier:check": "prettier . --check",
+    "prettier:fix": "prettier . --write"
   },
   "private": true,
   "dependencies": {
