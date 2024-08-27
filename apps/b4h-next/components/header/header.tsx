@@ -55,6 +55,8 @@ export const B4hHeader = () => {
         <B4hDropdown autoReset onChange={handleOnChange}>
           <FaRegCircleUser size={24} />
           <option value={B4hRoutes.login}>login</option>
+          <option value={B4hRoutes.register}>register</option>
+          <option value={B4hRoutes.forgot}>forgot password</option>
         </B4hDropdown>
       )}
     </div>

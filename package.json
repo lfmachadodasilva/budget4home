@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
+    "start:next": "npm run nx dev b4h-next",
     "prettier:check": "prettier . --check",
     "prettier:fix": "prettier . --write"
   },
