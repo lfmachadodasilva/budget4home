@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import styles from './page.module.scss';
 
-export default function LoginPageClient() {
-  const { login } = useB4hAuth();
+export default function ForgotPageClient() {
+  const { resetPassword } = useB4hAuth();
   const { push, refresh } = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -16,13 +16,12 @@ export default function LoginPageClient() {
     event.preventDefault();
 
     setLoading(true);
-    await login(event.currentTarget.email.value, event.currentTarget.password.value)
+    await resetPassword(event.currentTarget.email.value)
       .then(async () => {
-        push(B4hRoutes.home);
-        refresh();
+        push(B4hRoutes.login);
       })
       .catch(err => {
-        console.error('LoginPage', err);
+        console.error('ForgotPageClient', err);
       })
       .finally(() => {
         setLoading(false);
@@ -33,8 +32,6 @@ export default function LoginPageClient() {
     <form onSubmit={handleSubmit} className={styles.container}>
       <label htmlFor="email">email</label>
       <B4hInput type="text" id="email" name="email" />
-      <label htmlFor="password">password</label>
-      <B4hInput type="password" id="password" name="password" />
       <B4hButton type="submit" loading={loading}>
         Submit
       </B4hButton>
