@@ -17,7 +17,7 @@ export default function RegisterPageClient() {
 
     if (event.currentTarget.password1.value === event.currentTarget.password2.value) {
       setLoading(true);
-      await register(event.currentTarget.email.value, event.currentTarget.password.value)
+      await register(event.currentTarget.email.value, event.currentTarget.password1.value)
         .then(async () => {
           push(B4hRoutes.home);
           refresh();
@@ -37,7 +37,7 @@ export default function RegisterPageClient() {
       <B4hInput type="text" id="email" name="email" />
       <label htmlFor="password1">password</label>
       <B4hInput type="password" id="password1" name="password1" />
-      <label htmlFor="password2">password</label>
+      <label htmlFor="password2">confirm password</label>
       <B4hInput type="password" id="password2" name="password2" />
       <B4hButton type="submit" loading={loading}>
         Submit
