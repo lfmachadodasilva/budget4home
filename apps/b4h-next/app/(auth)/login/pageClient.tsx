@@ -30,14 +30,17 @@ export default function LoginPageClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.container}>
-      <label htmlFor="email">email</label>
-      <B4hInput type="text" id="email" name="email" />
-      <label htmlFor="password">password</label>
-      <B4hInput type="password" id="password" name="password" />
-      <B4hButton type="submit" loading={loading}>
-        Submit
-      </B4hButton>
-    </form>
+    <>
+      <h1>login</h1>
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <label htmlFor="email">email</label>
+        <B4hInput type="text" id="email" name="email" />
+        <label htmlFor="password">password</label>
+        <B4hInput type="password" id="password" name="password" />
+        <B4hButton type="submit" loading={loading}>
+          Submit
+        </B4hButton>
+      </form>
+    </>
   );
 }

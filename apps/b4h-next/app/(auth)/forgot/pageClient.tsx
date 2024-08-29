@@ -29,12 +29,15 @@ export default function ForgotPageClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.container}>
-      <label htmlFor="email">email</label>
-      <B4hInput type="text" id="email" name="email" />
-      <B4hButton type="submit" loading={loading}>
-        Submit
-      </B4hButton>
-    </form>
+    <>
+      <h1>forgot password</h1>
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <label htmlFor="email">email</label>
+        <B4hInput type="text" id="email" name="email" />
+        <B4hButton type="submit" loading={loading}>
+          Submit
+        </B4hButton>
+      </form>
+    </>
   );
 }

@@ -1,4 +1,3 @@
-
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { B4hBaseHeaders } from '../shared/header';
 import { B4hMethod } from '../shared/method';

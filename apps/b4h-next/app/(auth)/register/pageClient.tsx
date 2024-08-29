@@ -32,16 +32,19 @@ export default function RegisterPageClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.container}>
-      <label htmlFor="email">email</label>
-      <B4hInput type="text" id="email" name="email" />
-      <label htmlFor="password1">password</label>
-      <B4hInput type="password" id="password1" name="password1" />
-      <label htmlFor="password2">confirm password</label>
-      <B4hInput type="password" id="password2" name="password2" />
-      <B4hButton type="submit" loading={loading}>
-        Submit
-      </B4hButton>
-    </form>
+    <>
+      <h1>register</h1>
+      <form onSubmit={handleSubmit} className={styles.container}>
+        <label htmlFor="email">email</label>
+        <B4hInput type="text" id="email" name="email" />
+        <label htmlFor="password1">password</label>
+        <B4hInput type="password" id="password1" name="password1" />
+        <label htmlFor="password2">confirm password</label>
+        <B4hInput type="password" id="password2" name="password2" />
+        <B4hButton type="submit" loading={loading}>
+          Submit
+        </B4hButton>
+      </form>
+    </>
   );
 }
