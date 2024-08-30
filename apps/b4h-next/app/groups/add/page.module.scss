@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item {
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--size-s);
+}

@@ -1,0 +1,27 @@
+.container {
+  background: var(--bg-color);
+  color: var(--fg-color);
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--size-m);
+  font-weight: var(--font-weight-bold);
+
+  border: 1px solid var(--primary-color);
+  border-radius: var(--size-xs);
+
+  padding: var(--size-xs);
+
+  option:checked {
+    background: var(--primary-color);
+  }
+
+  option:focus {
+    background: var(--primary-color);
+  }
+
+  :focus {
+    background: none;
+  }
+}

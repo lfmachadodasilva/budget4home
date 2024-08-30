@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-top: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--size-s);
+  gap: var(--size-m);
+}
+
+.itemTxt {
+  display: 'inline';
+  margin: 0;
+}
+
+.itemLabel {
+  font-size: var(--size-l);
+}

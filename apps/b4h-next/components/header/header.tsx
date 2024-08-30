@@ -45,7 +45,9 @@ export const B4hHeader = () => {
         <option value={B4hRoutes.labels}>labels</option>
         <option value={B4hRoutes.expenses}>expenses</option>
       </B4hDropdown>
-      <Link href={B4hRoutes.home}>budget4home</Link>
+      <Link href={B4hRoutes.home}>
+        <h3 className={styles.headerTxt}>budget4home</h3>
+      </Link>
       {user?.photoURL ? (
         <B4hDropdown autoReset onChange={handleOnChange}>
           <img alt="avatar" className={styles.avatar} src={user?.photoURL} />

@@ -10,7 +10,7 @@ class GroupConverter implements FirestoreDataConverter<GroupModel> {
     options: FirebaseFirestore.SetOptions
   ): FirebaseFirestore.DocumentData;
   toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
-    const model = modelObject as GroupModel;
+    const { id, ...model } = modelObject as GroupModel;
     return model;
   }
   fromFirestore(
@@ -21,7 +21,8 @@ class GroupConverter implements FirestoreDataConverter<GroupModel> {
     return {
       ...data,
       createdAt: data.createdAt && new Date(data.createdAt.toDate()),
-      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate())
+      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
+      id: snapshot.id
     } as GroupModel;
   }
 }

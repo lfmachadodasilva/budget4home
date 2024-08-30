@@ -4,13 +4,7 @@
   align-items: center;
   gap: var(--size-xs);
 
-  border: none;
-  border-radius: var(--size-xs);
-
   padding: var(--size-xs);
-
-  background-color: var(--primary-color);
-  color: var(--fg-color);
 
   cursor: pointer;
 
@@ -21,6 +15,20 @@
   font-weight: var(--font-weight-bold);
 }
 
+.buttonPrimary {
+  border: none;
+  border-radius: var(--size-xs);
+  background-color: var(--primary-color);
+  color: var(--fg-color);
+}
+
+.buttonSecondary {
+  border: 1px solid var(--primary-color);
+  border-radius: var(--size-xs);
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+}
+
 .button:disabled {
   background-image: linear-gradient(rgb(0 0 0/60%) 0 0);
   cursor: progress;
@@ -28,4 +36,8 @@
 
 .button:hover:not([disabled]) {
   background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
+}
+
+.widthFit {
+  width: 100%;
 }
