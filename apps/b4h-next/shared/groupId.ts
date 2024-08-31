@@ -7,13 +7,14 @@ import { B4hRoutes } from './routes';
 
 const GROUP_FAV = 'group-fav';
 
-export const getGroupId = async (userId: string) => {
+export const getGroupId = async (userId: string, setGroupId?: boolean) => {
   const cookiesStore = cookies();
   let groupId: string | undefined | null = cookiesStore.get(GROUP_FAV)?.value;
   if (!groupId) {
     const groups = await getGroups(userId);
     groupId = groups.length > 0 ? groups[0].id : null;
     groupId &&
+      setGroupId === true &&
       cookiesStore.set({
         name: GROUP_FAV,
         value: groupId as string,
