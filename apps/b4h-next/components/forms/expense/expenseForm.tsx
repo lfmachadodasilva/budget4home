@@ -20,7 +20,6 @@ export const ExpenseForm = async ({
   const handleOnSubmit = async (formData: FormData) => {
     'use server';
 
-    console.log('test', formData.get('date'));
     const newExpense = {
       ...expense,
       type: formData.get('type') as string,
