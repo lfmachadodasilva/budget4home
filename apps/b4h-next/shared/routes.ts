@@ -13,6 +13,7 @@ export const B4hRoutes = {
   groups: '/groups',
   groupsAdd: '/groups/add',
   labels: '/labels',
+  labelsAdd: '/labels/add',
   expenses: '/expenses'
 };
 

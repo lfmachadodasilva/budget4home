@@ -17,30 +17,42 @@ export const getLabel = async (
   groupId: string,
   userId: string,
   labelId: string
-): Promise<LabelModel[]> => {
-  const docs = await getFirebaseAdminFirestore()
-    .collection(FirestorePath.label(groupId, labelId))
-    .orderBy('name', 'desc')
+): Promise<LabelModel | undefined | null> => {
+  const doc = await getFirebaseAdminFirestore()
+    .doc(FirestorePath.label(groupId, labelId))
     .withConverter(labelConverter)
     .get();
 
-  return docs.docs.map(doc => doc.data());
+  return doc.data();
 };
 
-export const addLabel = async (groupId: string, label: LabelModel) => {
-  label.createdAt = new Date();
-  label.updatedAt = new Date();
+export const addLabel = async (userId: string, groupId: string, label: Partial<LabelModel>) => {
+  const labelToAdd = {
+    ...label,
+    createdAt: new Date(),
+    createdBy: userId,
+    updatedAt: new Date(),
+    updatedBy: userId
+  } as LabelModel;
 
   const obj = await getFirebaseAdminFirestore()
     .collection(FirestorePath.labels(groupId))
-    .add(label);
+    .add(labelToAdd);
   const doc = await obj.get();
   return doc.data();
 };
 
-export const updateLabel = async (groupId: string, labelId: string, label: LabelModel) => {
-  const doc = getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, labelId));
-  await doc.set(label, { merge: true });
+export const updateLabel = async (userId: string, groupId: string, label: Partial<LabelModel>) => {
+  const labelToUpdate = {
+    ...label,
+    updatedAt: new Date(),
+    updatedBy: userId
+  } as LabelModel;
+
+  const doc = getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, label.id as string));
+  await doc.set(labelToUpdate, { merge: true });
+
+  return labelToUpdate;
 };
 
 export const deleteLabel = async (groupId: string, labelId: string) => {
