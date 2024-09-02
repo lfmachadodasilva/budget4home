@@ -12,14 +12,14 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): ExpenseModel {
-    const data = snapshot.data() as any;
+    const { labelRef, ...data } = snapshot.data() as any;
 
     return {
       ...data,
       createdAt: data.createdAt && new Date(data.createdAt.toDate()),
       updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
       date: data.date && new Date(data.date.toDate()),
-      label: data.labelRef?.id ?? data.label?.id,
+      label: labelRef?.id ?? data.label?.id,
       id: snapshot.id
     } as ExpenseModel;
   }

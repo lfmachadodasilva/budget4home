@@ -1,5 +1,5 @@
 import { B4hMonthPicker } from '@/components/monthPicker/monthPicker';
-import { B4hViewBy, B4hViewByType } from '@/components/viewBy/viewBy';
+import { B4hViewBy } from '@/components/viewBy/viewBy';
 import { useB4hSession } from '@/hooks/useB4hSession';
 import { expensesByDate, expensesByLabel } from '@/shared/expenseUtil';
 import { formatValue } from '@/shared/formatValue';
@@ -40,6 +40,8 @@ export default async function ExpensesPage({
       ? expensesByLabel(expenses, labelById)
       : expensesByDate(expenses);
 
+  console.log('expenses', expenses[0]);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -71,8 +73,7 @@ export default async function ExpensesPage({
               <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
                 <div className={styles.item}>
                   <p>
-                    {searchParams.viewBy === B4hViewByType.byDate &&
-                      labelById[expense.label as string]?.icon}{' '}
+                    {searchParams.viewBy === 'byDate' && labelById[expense.label as string]?.icon}{' '}
                     {expense.name}
                   </p>
                   <p>{formatValue(expense.value)}</p>
