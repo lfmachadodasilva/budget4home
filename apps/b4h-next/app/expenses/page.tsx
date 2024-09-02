@@ -24,6 +24,8 @@ export default async function ExpensesPage() {
 
   const labelById = labelsById(labels);
 
+  console.log('expenses', expenses);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -37,7 +39,7 @@ export default async function ExpensesPage() {
           <div className={styles.item}>
             <p className={styles.itemTxt}>{format(expense.date, 'yyyy/MM/dd')}</p>
             <p className={styles.itemTxt}>
-              {labelById[expense.label as string].icon} {expense.name}
+              {labelById[expense.label as string]?.icon} {expense.name}
             </p>
             <p className={styles.itemTxt}>{expense.value}</p>
           </div>
