@@ -19,7 +19,11 @@ export const B4hButton = (props: B4hButtonProps) => {
   const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle].join(' ');
 
   return (
-    <button className={buttonStyles} {...propsCopy} disabled={props.disabled || loading === true}>
+    <button
+      className={`${buttonStyles} ${props.className}`}
+      {...propsCopy}
+      disabled={props.disabled || loading === true}
+    >
       {loading === true && <B4hSpinner size={16} />}
       {props.children}
     </button>

@@ -32,7 +32,7 @@ export const B4hDropdown = memo((props: B4hDropdownProps) => {
   return (
     <div>
       <select
-        className={styles.select}
+        className={`${styles.select} ${props.className}`}
         defaultValue={autoReset ? undefined : 'not-selected'}
         value={autoReset ? 'not-selected' : undefined}
         {...propsCopy}

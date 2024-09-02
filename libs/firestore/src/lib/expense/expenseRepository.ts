@@ -1,11 +1,21 @@
-import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
+import { getFirebaseAdminFirestore, Timestamp } from '@b4h/firebase-admin';
 import { ExpenseModel, LabelModel } from '@b4h/models';
+import { addMonths, startOfMonth } from 'date-fns';
 import { FirestorePath } from '../path';
 import { expenseConverter } from './expenseConverter';
 
-export const getExpenses = async (groupId: string, userId: string) => {
+export const getExpenses = async (groupId: string, userId: string, date?: Date | null) => {
+  const now = date ?? new Date();
+  const from = startOfMonth(now);
+  const to = addMonths(from, 1);
+
+  console.log('-----------', { date, now, from, to });
+
   const docs = await getFirebaseAdminFirestore()
     .collection(FirestorePath.expeses(groupId))
+    .where('date', '>=', Timestamp.fromDate(from))
+    .where('date', '<', Timestamp.fromDate(to))
+    .orderBy('date', 'desc')
     .withConverter(expenseConverter)
     .get();
 

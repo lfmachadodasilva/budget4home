@@ -6,5 +6,5 @@ import styles from './spinner.module.scss';
 export interface B4hSpinnerProps extends IconBaseProps {}
 
 export const B4hSpinner = (props: B4hSpinnerProps) => {
-  return <CgSpinner className={styles.spinner} {...props} />;
+  return <CgSpinner {...props} className={`${styles.spinner} ${props.className}`} />;
 };
