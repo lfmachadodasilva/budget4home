@@ -40,8 +40,6 @@ export default async function ExpensesPage({
       ? expensesByLabel(expenses, labelById)
       : expensesByDate(expenses);
 
-  console.log('expenses', expenses[0]);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
