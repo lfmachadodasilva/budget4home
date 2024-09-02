@@ -1,5 +1,6 @@
 import { B4hMonthPicker } from '@/components/monthPicker/monthPicker';
 import { useB4hSession } from '@/hooks/useB4hSession';
+import { formatValue } from '@/shared/formatValue';
 import { getGroupId } from '@/shared/groupId';
 import { labelsById } from '@/shared/labelUtil';
 import { B4hRoutes } from '@/shared/routes';
@@ -56,7 +57,7 @@ export default async function ExpensesPage({
             <p className={styles.itemTxt}>
               {labelById[expense.label as string]?.icon} {expense.name}
             </p>
-            <p className={styles.itemTxt}>{expense.value}</p>
+            <p className={styles.itemTxt}>{formatValue(expense.value)}</p>
           </div>
         </Link>
       ))}
