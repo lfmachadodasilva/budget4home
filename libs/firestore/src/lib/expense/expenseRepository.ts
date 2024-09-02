@@ -9,8 +9,6 @@ export const getExpenses = async (groupId: string, userId: string, date?: Date |
   const from = startOfMonth(now);
   const to = addMonths(from, 1);
 
-  console.log('-----------', { date, now, from, to });
-
   const docs = await getFirebaseAdminFirestore()
     .collection(FirestorePath.expeses(groupId))
     .where('date', '>=', Timestamp.fromDate(from))
