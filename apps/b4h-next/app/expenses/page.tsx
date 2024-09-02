@@ -1,5 +1,6 @@
 import { B4hMonthPicker } from '@/components/monthPicker/monthPicker';
 import { useB4hSession } from '@/hooks/useB4hSession';
+import { expensesByDate } from '@/shared/expenseUtil';
 import { formatValue } from '@/shared/formatValue';
 import { getGroupId } from '@/shared/groupId';
 import { labelsById } from '@/shared/labelUtil';
@@ -33,6 +34,7 @@ export default async function ExpensesPage({
   ]);
 
   const labelById = labelsById(labels);
+  const expenseByDate = expensesByDate(expenses);
 
   return (
     <div className={styles.container}>
@@ -50,16 +52,28 @@ export default async function ExpensesPage({
         widthFit
       />
 
-      {expenses.map(expense => (
-        <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
-          <div className={styles.item}>
-            <p className={styles.itemTxt}>{format(expense.date, 'yyyy/MM/dd')}</p>
-            <p className={styles.itemTxt}>
-              {labelById[expense.label as string]?.icon} {expense.name}
+      {Object.entries(expenseByDate).map(([date, expenses]) => (
+        <>
+          <div className={styles.itemHeader}>
+            <p className={styles.itemTitle}>{format(date, 'yyyy-MM-dd')}</p>
+            <p className={styles.itemTitle}>
+              {formatValue(expenses.reduce((acc, expense) => acc + +expense.value, 0))}
             </p>
-            <p className={styles.itemTxt}>{formatValue(expense.value)}</p>
           </div>
-        </Link>
+
+          <div className={styles.items}>
+            {expenses.map(expense => (
+              <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
+                <div className={styles.item}>
+                  <p>
+                    {labelById[expense.label as string]?.icon} {expense.name}
+                  </p>
+                  <p>{formatValue(expense.value)}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
       ))}
     </div>
   );

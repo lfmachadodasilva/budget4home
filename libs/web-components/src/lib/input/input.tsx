@@ -6,9 +6,10 @@ export interface B4hInputProps extends ComponentPropsWithoutRef<'input'> {
 }
 
 export const B4hInput = (props: B4hInputProps) => {
+  const { widthFit, className, ...propsCopy } = props;
   const basicStyle = styles.container;
-  const widthFitStyle = props.widthFit ? styles.widthFit : '';
-  const inputStyles = [basicStyle, widthFitStyle, props.className].join(' ');
+  const widthFitStyle = widthFit ? styles.widthFit : '';
+  const inputStyles = [basicStyle, widthFitStyle, className].join(' ');
 
-  return <input {...props} className={inputStyles} />;
+  return <input {...propsCopy} className={inputStyles} />;
 };

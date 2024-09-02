@@ -10,6 +10,11 @@
   margin-bottom: var(--size-m);
 }
 
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
 .item {
   display: flex;
   justify-content: space-between;
@@ -17,6 +22,17 @@
   border-bottom: 1px solid var(--border-color);
   padding: var(--size-s);
   gap: var(--size-m);
+}
+
+.itemTitle {
+  padding: var(--size-xs);
+  padding-left: var(--size-s);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--border-color);
 }
 
 .itemTxt {
