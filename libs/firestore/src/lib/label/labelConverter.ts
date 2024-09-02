@@ -2,23 +2,13 @@ import { FirestoreDataConverter } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
 
 class LabelConverter implements FirestoreDataConverter<LabelModel> {
-  toFirestore(
-    modelObject: FirebaseFirestore.WithFieldValue<LabelModel>
-  ): FirebaseFirestore.DocumentData;
-  toFirestore(
-    modelObject: FirebaseFirestore.PartialWithFieldValue<LabelModel>,
-    options: FirebaseFirestore.SetOptions
-  ): FirebaseFirestore.DocumentData;
-  toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
-    const { id, ...model } = modelObject as LabelModel;
-    return {
-      ...model
-    };
+  toFirestore(modelObject: LabelModel): FirebaseFirestore.DocumentData {
+    const { id, ...model } = modelObject;
+    return model;
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): LabelModel {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
 
     return {

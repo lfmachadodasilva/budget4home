@@ -2,21 +2,13 @@ import { FirestoreDataConverter } from '@b4h/firebase-admin';
 import { GroupModel } from '@b4h/models';
 
 class GroupConverter implements FirestoreDataConverter<GroupModel> {
-  toFirestore(
-    modelObject: FirebaseFirestore.WithFieldValue<GroupModel>
-  ): FirebaseFirestore.DocumentData;
-  toFirestore(
-    modelObject: FirebaseFirestore.PartialWithFieldValue<GroupModel>,
-    options: FirebaseFirestore.SetOptions
-  ): FirebaseFirestore.DocumentData;
-  toFirestore(modelObject: unknown): FirebaseFirestore.DocumentData {
-    const { id, ...model } = modelObject as GroupModel;
+  toFirestore(modelObject: GroupModel): FirebaseFirestore.DocumentData {
+    const { id, ...model } = modelObject;
     return model;
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): GroupModel {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
     return {
       ...data,

@@ -1,6 +1,6 @@
 import { getGroupId, setGroupId } from '@/shared/groupId';
 import { B4hRoutes } from '@/shared/routes';
-import { addGroup, getGroup, getUsers, updateGroup } from '@b4h/firestore';
+import { addGroup, deleteGroup, getGroup, getUsers, updateGroup } from '@b4h/firestore';
 import { B4hButton, B4hForm, B4hInput, B4hSelect } from '@b4h/web-components';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -34,6 +34,12 @@ export const GroupForm = async ({ userId, groupId }: { userId: string; groupId?:
     redirect(B4hRoutes.groups);
   };
 
+  const handleOnDelete = async () => {
+    'use server';
+    await deleteGroup(group?.id as string);
+    redirect(B4hRoutes.expenses);
+  };
+
   return (
     <>
       <B4hForm action={handleOnSubmit}>
@@ -54,6 +60,11 @@ export const GroupForm = async ({ userId, groupId }: { userId: string; groupId?:
           </B4hButton>
         </Link>
       </B4hForm>
+      {group && (
+        <B4hButton buttonType="delete" widthFit formAction={handleOnDelete}>
+          delete
+        </B4hButton>
+      )}
       {group && group.id !== groupIdFav && (
         <B4hForm action={handleGroupFav}>
           <B4hButton type="submit" buttonType="secondary" widthFit>

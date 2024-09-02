@@ -57,3 +57,7 @@ export const updateGroup = async (userId: string, group: Partial<GroupModel>) =>
 
   return groupToUpdate;
 };
+
+export const deleteGroup = async (groupId: string) => {
+  await getFirebaseAdminFirestore().doc(FirestorePath.group(groupId)).delete();
+};

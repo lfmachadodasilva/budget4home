@@ -44,11 +44,13 @@ export const addExpense = async (
     createdBy: userId,
     updatedAt: new Date(),
     updatedBy: userId
-  } as LabelModel;
+  } as ExpenseModel;
 
   const obj = await getFirebaseAdminFirestore()
     .collection(FirestorePath.expeses(groupId))
+    .withConverter(expenseConverter)
     .add(toAdd);
+
   const doc = await obj.get();
   return doc.data();
 };

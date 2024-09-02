@@ -15,7 +15,7 @@ export default async function AddExpensePage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>add label</h1>
+      <h1 className={styles.title}>add expense</h1>
       <ExpenseForm userId={userId} groupId={groupId} labels={labels} />
     </div>
   );

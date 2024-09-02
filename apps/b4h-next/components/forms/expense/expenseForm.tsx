@@ -1,5 +1,5 @@
 import { B4hRoutes } from '@/shared/routes';
-import { addExpense, updateExpense } from '@b4h/firestore';
+import { addExpense, deleteExpense, updateExpense } from '@b4h/firestore';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { B4hButton, B4hForm, B4hInput, B4hSelect } from '@b4h/web-components';
 import { format } from 'date-fns';
@@ -33,10 +33,16 @@ export const ExpenseForm = async ({
       expense
         ? await updateExpense(userId, groupId, newExpense)
         : await addExpense(userId, groupId, newExpense);
-      redirect(B4hRoutes.expenses);
+      // redirect(B4hRoutes.expenses);
     } catch (err) {
       console.error('ExpenseForm', err);
     }
+  };
+
+  const handleOnDelete = async () => {
+    'use server';
+    await deleteExpense(groupId, expense?.id as string);
+    redirect(B4hRoutes.expenses);
   };
 
   return (
@@ -80,6 +86,11 @@ export const ExpenseForm = async ({
             cancel
           </B4hButton>
         </Link>
+        {expense && (
+          <B4hButton buttonType="delete" widthFit formAction={handleOnDelete}>
+            delete
+          </B4hButton>
+        )}
       </B4hForm>
     </>
   );

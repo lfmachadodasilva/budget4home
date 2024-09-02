@@ -5,6 +5,8 @@
   "scripts": {
     "nx": "nx",
     "start:next": "npm run nx dev b4h-next",
+    "build:next": "npm run nx build b4h-next",
+    "build:prod:next": "npm run build:next --prod",
     "prettier:check": "prettier . --check",
     "prettier:fix": "prettier . --write"
   },

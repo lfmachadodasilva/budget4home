@@ -29,6 +29,13 @@
   color: var(--primary-color);
 }
 
+.buttonDelete {
+  border: 1px solid var(--negative-color);
+  border-radius: var(--size-xs);
+  background-color: var(--bg-color);
+  color: var(--negative-color);
+}
+
 .button:disabled {
   background-image: linear-gradient(rgb(0 0 0/60%) 0 0);
   cursor: progress;

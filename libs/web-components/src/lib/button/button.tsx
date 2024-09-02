@@ -6,7 +6,7 @@ import styles from './button.module.scss';
 interface B4hButtonProps extends ComponentPropsWithoutRef<'button'> {
   loading?: boolean;
   widthFit?: boolean;
-  buttonType?: 'primary' | 'secondary';
+  buttonType?: 'primary' | 'secondary' | 'delete';
 }
 
 export const B4hButton = (props: B4hButtonProps) => {
@@ -15,7 +15,11 @@ export const B4hButton = (props: B4hButtonProps) => {
   const basicStyle = styles.button;
   const widthFitStyle = widthFit ? styles.widthFit : '';
   const buttonTypeStyle =
-    buttonType === 'secondary' ? styles.buttonSecondary : styles.buttonPrimary;
+    buttonType === 'secondary'
+      ? styles.buttonSecondary
+      : buttonType == 'delete'
+      ? styles.buttonDelete
+      : styles.buttonPrimary;
   const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle, props.className].join(' ');
 
   return (
