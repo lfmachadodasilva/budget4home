@@ -1,5 +1,6 @@
-import { ExpenseModel } from '@b4h/models';
+import { ExpenseModel, LabelModel } from '@b4h/models';
 import { format } from 'date-fns';
+import { sumBy } from 'lodash';
 
 export const expensesByDate = (expenses: ExpenseModel[]) => {
   const labelsById = {
@@ -11,4 +12,21 @@ export const expensesByDate = (expenses: ExpenseModel[]) => {
     }, {} as Record<string, ExpenseModel[]>)
   };
   return labelsById;
+};
+
+export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string, LabelModel>) => {
+  const labelsById = {
+    ...expenses.reduce((acc, expense) => {
+      const label = labels[expense.label as string];
+      const labelTitle = `${label.icon} ${label.name}`;
+      acc[labelTitle] = acc[labelTitle] || [];
+      acc[labelTitle].push(expense);
+      return acc;
+    }, {} as Record<string, ExpenseModel[]>)
+  };
+  return Object.fromEntries(
+    Object.entries(labelsById).sort(
+      ([, a], [, b]) => sumBy(a, c => c.value) - sumBy(b, c => c.value)
+    )
+  );
 };

@@ -1,6 +1,7 @@
 import { B4hMonthPicker } from '@/components/monthPicker/monthPicker';
+import { B4hViewBy, B4hViewByType } from '@/components/viewBy/viewBy';
 import { useB4hSession } from '@/hooks/useB4hSession';
-import { expensesByDate } from '@/shared/expenseUtil';
+import { expensesByDate, expensesByLabel } from '@/shared/expenseUtil';
 import { formatValue } from '@/shared/formatValue';
 import { getGroupId } from '@/shared/groupId';
 import { labelsById } from '@/shared/labelUtil';
@@ -18,7 +19,7 @@ export const metadata = {
 export default async function ExpensesPage({
   searchParams
 }: {
-  searchParams: { month: string; year: string };
+  searchParams: { month: string; year: string; viewBy: string };
 }) {
   const { userId } = useB4hSession();
 
@@ -34,7 +35,10 @@ export default async function ExpensesPage({
   ]);
 
   const labelById = labelsById(labels);
-  const expenseByDate = expensesByDate(expenses);
+  const expenseBy =
+    searchParams.viewBy === 'byLabel'
+      ? expensesByLabel(expenses, labelById)
+      : expensesByDate(expenses);
 
   return (
     <div className={styles.container}>
@@ -48,25 +52,28 @@ export default async function ExpensesPage({
       <B4hMonthPicker
         className={styles.monthPicker}
         type="month"
-        defaultValue={format(new Date(), 'yyyy-MM')}
+        defaultValue={format(date, 'yyyy-MM')}
         widthFit
       />
+      <B4hViewBy className={styles.viewBy} defaultValue={searchParams.viewBy} widthFit />
 
-      {Object.entries(expenseByDate).map(([date, expenses]) => (
+      {Object.entries(expenseBy).map(([key, expenses]) => (
         <>
-          <div className={styles.itemHeader}>
-            <p className={styles.itemTitle}>{format(date, 'yyyy-MM-dd')}</p>
+          <div key={`${key}_header`} className={styles.itemHeader}>
+            <p className={styles.itemTitle}>{key}</p>
             <p className={styles.itemTitle}>
-              {formatValue(expenses.reduce((acc, expense) => acc + +expense.value, 0))}
+              {formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}
             </p>
           </div>
 
-          <div className={styles.items}>
+          <div key={`${key}_items`} className={styles.items}>
             {expenses.map(expense => (
               <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
                 <div className={styles.item}>
                   <p>
-                    {labelById[expense.label as string]?.icon} {expense.name}
+                    {searchParams.viewBy === B4hViewByType.byDate &&
+                      labelById[expense.label as string]?.icon}{' '}
+                    {expense.name}
                   </p>
                   <p>{formatValue(expense.value)}</p>
                 </div>
