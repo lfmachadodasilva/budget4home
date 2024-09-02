@@ -13,7 +13,14 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false
   },
-  swcMinify: true
+  swcMinify: true,
+  transpilePackages: [
+    '@b4h/models',
+    '@b4h/web-components',
+    '@b4h/firebase',
+    '@b4h/firebase-admin',
+    '@b4h/firestore'
+  ]
 };
 
 const plugins = [
