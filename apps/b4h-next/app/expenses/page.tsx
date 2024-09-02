@@ -42,17 +42,11 @@ export default async function ExpensesPage({
         </Link>
       </div>
 
-      {/* <B4hInput
-        onClick={handleOnMonthPicker}
-        className={styles.monthPicker}
-        type="month"
-        defaultValue={format(new Date(), 'yyyy-MM')}
-      /> */}
-
       <B4hMonthPicker
         className={styles.monthPicker}
         type="month"
         defaultValue={format(new Date(), 'yyyy-MM')}
+        widthFit
       />
 
       {expenses.map(expense => (

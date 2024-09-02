@@ -16,14 +16,10 @@ export const B4hButton = (props: B4hButtonProps) => {
   const widthFitStyle = widthFit ? styles.widthFit : '';
   const buttonTypeStyle =
     buttonType === 'secondary' ? styles.buttonSecondary : styles.buttonPrimary;
-  const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle].join(' ');
+  const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle, props.className].join(' ');
 
   return (
-    <button
-      className={`${buttonStyles} ${props.className}`}
-      {...propsCopy}
-      disabled={props.disabled || loading === true}
-    >
+    <button className={buttonStyles} {...propsCopy} disabled={props.disabled || loading === true}>
       {loading === true && <B4hSpinner size={16} />}
       {props.children}
     </button>
