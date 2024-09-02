@@ -8,7 +8,7 @@ export const metadata = {
   title: 'label | budget4home'
 };
 
-export default async function LabelPage({ params }: { params: { labelId: string } }) {
+export default async function UpdateLabelPage({ params }: { params: { labelId: string } }) {
   const { labelId } = params;
   const { userId } = useB4hSession();
   const groupId = await getGroupId(userId);

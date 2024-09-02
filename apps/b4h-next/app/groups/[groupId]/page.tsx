@@ -7,7 +7,7 @@ export const metadata = {
   title: 'group | budget4home'
 };
 
-export default async function GroupPage({ params }: { params: { groupId: string } }) {
+export default async function UpdateGroupPage({ params }: { params: { groupId: string } }) {
   const { groupId } = params;
   const { userId } = useB4hSession();
   const groupIdFav = await getGroupId(userId);

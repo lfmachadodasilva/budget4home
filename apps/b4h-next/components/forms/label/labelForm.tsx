@@ -27,7 +27,7 @@ export const LabelForm = async ({
       label
         ? await updateLabel(userId, groupId, newLabel)
         : await addLabel(userId, groupId, newLabel);
-      redirect(B4hRoutes.groups);
+      redirect(B4hRoutes.labels);
     } catch (err) {
       console.error('LabelForm', err);
     }
