@@ -7,6 +7,9 @@
     "start:next": "npm run nx dev b4h-next",
     "build:next": "npm run nx build b4h-next",
     "build:prod:next": "npm run build:next --prod",
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
     "prettier:check": "prettier . --check",
     "prettier:fix": "prettier . --write"
   },
@@ -20,6 +23,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-icons": "^5.3.0",
+    "react-router-dom": "6.11.2",
     "tslib": "^2.7.0"
   },
   "devDependencies": {
@@ -38,6 +42,7 @@
     "@nx/workspace": "19.6.2",
     "@playwright/test": "^1.36.0",
     "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.3.12",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@testing-library/react": "15.0.6",
