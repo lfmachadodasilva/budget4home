@@ -1,53 +1,65 @@
+'use client';
+
+import { useB4hAuth } from '@/providers/authProvider';
 import { B4hRoutes } from '@/shared/routes';
-import { addExpense, deleteExpense, updateExpense } from '@b4h/firestore';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { B4hButton, B4hForm, B4hInput, B4hSelect } from '@b4h/web-components';
 import { format } from 'date-fns';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { MouseEvent } from 'react';
 
 export const ExpenseForm = async ({
   userId,
   groupId,
-  labels,
-  expense
+  labelsJson,
+  expenseJson
 }: {
   userId: string;
   groupId: string;
-  labels: LabelModel[];
-  expense?: ExpenseModel | null;
+  labelsJson: string;
+  expenseJson?: string;
 }) => {
-  const handleOnSubmit = async (formData: FormData) => {
-    'use server';
+  const { token } = useB4hAuth();
+  const { push } = useRouter();
 
-    const newExpense = {
-      ...expense,
-      type: formData.get('type') as string,
-      name: formData.get('name') as string,
-      value: (formData.get('value') ?? 0) as number,
-      label: formData.get('label') as string,
-      date: new Date(formData.get('date') as string)
-    } as ExpenseModel;
+  const labels = JSON.parse(labelsJson) as LabelModel[];
+  const expense = expenseJson ? (JSON.parse(expenseJson) as ExpenseModel) : undefined;
 
-    try {
-      expense
-        ? await updateExpense(userId, groupId, newExpense)
-        : await addExpense(userId, groupId, newExpense);
-      // redirect(B4hRoutes.expenses);
-    } catch (err) {
-      console.error('ExpenseForm', err);
+  // const handleOnSubmit = async (formData: FormData) => {
+  //   'use server';
+
+  //   const newExpense = {
+  //     ...expense,
+  //     type: formData.get('type') as string,
+  //     name: formData.get('name') as string,
+  //     value: (formData.get('value') ?? 0) as number,
+  //     label: formData.get('label') as string,
+  //     date: new Date(formData.get('date') as string)
+  //   } as ExpenseModel;
+
+  //   try {
+  //     expense
+  //       ? await updateExpense(userId, groupId, newExpense)
+  //       : await addExpense(userId, groupId, newExpense);
+  //     // redirect(B4hRoutes.expenses);
+  //   } catch (err) {
+  //     console.error('ExpenseForm', err);
+  //   }
+  // };
+
+  const handleOnDelete = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (!confirm('Are you sure?')) {
+      return;
     }
-  };
 
-  const handleOnDelete = async () => {
-    'use server';
-    await deleteExpense(groupId, expense?.id as string);
-    redirect(B4hRoutes.expenses);
+    push(B4hRoutes.expenses);
   };
 
   return (
     <>
-      <B4hForm action={handleOnSubmit}>
+      <B4hForm>
         <label htmlFor="name">type</label>
         <B4hSelect id="type" name="type" defaultValue={expense?.type ?? ExpenseType.outcoming}>
           <option value={ExpenseType.outcoming}>outcoming</option>
@@ -81,13 +93,9 @@ export const ExpenseForm = async ({
         </B4hSelect>
 
         <B4hButton type="submit">{expense ? 'update' : 'add'}</B4hButton>
-        <Link href={B4hRoutes.expenses}>
-          <B4hButton buttonType="secondary" widthFit>
-            cancel
-          </B4hButton>
-        </Link>
+
         {expense && (
-          <B4hButton buttonType="delete" widthFit formAction={handleOnDelete}>
+          <B4hButton buttonType="delete" widthFit onClick={handleOnDelete}>
             delete
           </B4hButton>
         )}
