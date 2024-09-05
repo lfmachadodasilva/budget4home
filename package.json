@@ -20,6 +20,7 @@
   },
   "private": true,
   "dependencies": {
+    "@tanstack/react-query": "^5.54.1",
     "date-fns": "^3.6.0",
     "firebase": "^10.13.0",
     "firebase-admin": "^12.4.0",
