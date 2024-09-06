@@ -1,40 +1,39 @@
 'use client';
 
 import { GroupModel } from '@b4h/models';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { getGroups } from '../clients/groups';
 import { useB4hAuth } from './authProvider';
 
 interface B4hGroupsContextProps {
-  groups?: GroupModel[] | null;
-  isPending?: boolean | null;
-  error?: Error | null;
+  query?: UseQueryResult<GroupModel[], Error>;
 
   groupId?: string | null;
   setGroupId?: (groupId: string) => void;
 }
 
-export const B4hAuthContext = createContext<B4hGroupsContextProps>({
-  groups: undefined,
-  isPending: undefined,
-  error: undefined
+export const B4hGroupContext = createContext<B4hGroupsContextProps>({
+  query: undefined,
+
+  groupId: null,
+  setGroupId: () => {}
 });
 
 export function B4hGroupsProvider({ children }: { children: ReactNode | ReactNode[] }) {
   const { token } = useB4hAuth();
   const [groupId, setGroupId] = useState<string | null>(null);
 
-  const {
-    isPending,
-    error,
-    data: groups
-  } = useQuery<GroupModel[]>({
+  console.log('token', token, !!token);
+
+  const query = useQuery<GroupModel[]>({
     queryKey: ['groups', token],
     queryFn: () => getGroups(token as string),
     enabled: !!token,
     retry: 3
   });
+
+  const { data: groups } = query;
 
   useEffect(() => {
     const lsGroupId = localStorage.getItem('groupId');
@@ -46,20 +45,18 @@ export function B4hGroupsProvider({ children }: { children: ReactNode | ReactNod
   }, [groups]);
 
   return (
-    <B4hAuthContext.Provider
+    <B4hGroupContext.Provider
       value={{
-        groups: groups,
-        isPending: isPending,
-        error: error,
+        query: query,
         groupId: groupId,
         setGroupId: setGroupId
       }}
     >
       {children}
-    </B4hAuthContext.Provider>
+    </B4hGroupContext.Provider>
   );
 }
 
 export function useB4hGroups() {
-  return useContext(B4hAuthContext);
+  return useContext(B4hGroupContext);
 }

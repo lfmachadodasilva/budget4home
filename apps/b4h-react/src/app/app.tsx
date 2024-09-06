@@ -1,50 +1,27 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
 
-import NxWelcome from './nx-welcome';
-
-import { Route, Routes, Link } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
+import { HomePage } from '../pages/home';
+import { LoginPage } from '../pages/login';
+import { B4hRoutes } from '../shared/routes';
 
 export function App() {
   return (
     <div>
-      <NxWelcome title="b4h-react" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
       <div role="navigation">
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to={B4hRoutes.home}>Home</Link>
           </li>
           <li>
-            <Link to="/page-2">Page 2</Link>
+            <Link to={B4hRoutes.login}>login</Link>
           </li>
         </ul>
       </div>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route. <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
+        <Route path={B4hRoutes.home} Component={HomePage} />
+        <Route path={B4hRoutes.login} Component={LoginPage} />
       </Routes>
-      {/* END: routes */}
     </div>
   );
 }

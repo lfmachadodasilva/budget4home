@@ -1,13 +1,40 @@
 'use client';
 
+import { ExpenseModel } from '@b4h/models';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { createContext, ReactNode, useContext } from 'react';
+import { getExpenses } from '../clients/expenses';
+import { useB4hAuth } from './authProvider';
+import { useB4hGroups } from './groupsProvider';
 
-interface B4hExpesesContextProps {}
+interface B4hExpesesContextProps {
+  query?: UseQueryResult<ExpenseModel[], Error>;
+}
 
-export const B4hAuthContext = createContext<B4hExpesesContextProps>({});
+export const B4hAuthContext = createContext<B4hExpesesContextProps>({
+  query: undefined
+});
 
 export function B4hExpesesProvider({ children }: { children: ReactNode | ReactNode[] }) {
-  return <B4hAuthContext.Provider value={{}}>{children}</B4hAuthContext.Provider>;
+  const { groupId } = useB4hGroups();
+  const { token } = useB4hAuth();
+
+  const query = useQuery<ExpenseModel[]>({
+    queryKey: ['expenses', token],
+    queryFn: () => getExpenses(token as string, groupId as string),
+    enabled: !!token && !!groupId,
+    retry: 3
+  });
+
+  return (
+    <B4hAuthContext.Provider
+      value={{
+        query: query
+      }}
+    >
+      {children}
+    </B4hAuthContext.Provider>
+  );
 }
 
 export function useB4hExpeses() {

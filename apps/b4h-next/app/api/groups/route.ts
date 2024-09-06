@@ -13,3 +13,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(groups, { status: 200 });
 }
+
+export async function OPTIONS(request: NextRequest) {
+  return NextResponse.json({ message: 'ok' }, { status: 200 });
+}

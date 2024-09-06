@@ -1,6 +1,8 @@
-const baseUrl = 'http://localhost:3000/api';
+import { GroupModel } from '@b4h/models';
 
-export const getGroups = async (token: string) =>
+const baseUrl = 'http://localhost:3000';
+
+export const getGroups = async (token: string): Promise<GroupModel[]> =>
   fetch(baseUrl + '/api/groups', {
     method: 'GET',
     headers: {
