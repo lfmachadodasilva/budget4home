@@ -1,0 +1,59 @@
+{
+  "short_name": "budget4home",
+  "name": "budget4home",
+  "description": "budget4home - Project to control my personal budget",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "64x64"
+    },
+    {
+      "src": "logo16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "logo24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "logo32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "logo64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "logo213.png",
+      "type": "image/png",
+      "sizes": "213x213"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "logo320.png",
+      "sizes": "320x320",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "budget4home"
+    },
+    {
+      "src": "logo320.png",
+      "sizes": "320x320",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "budget4home"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#612F74",
+  "background_color": "#612F74"
+}
