@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--size-m);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+
+  :last-child {
+    border: none;
+  }
+}
+
+.item {
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--size-s);
+}

@@ -1,5 +1,5 @@
 import { getUserId } from '@/shared/getUserId';
-import { getLabels } from '@b4h/firestore';
+import { getExpenses } from '@b4h/firestore';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -10,7 +10,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: 'NOT AUTHENTICATED' }, { status: 401 });
   }
 
-  const labels = await getLabels(groupId, userId);
+  const labels = await getExpenses(groupId, userId);
 
   return NextResponse.json(labels, { status: 200 });
+}
+
+export async function OPTIONS(_request: NextRequest) {
+  return NextResponse.json({ message: 'ok' }, { status: 200 });
 }

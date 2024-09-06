@@ -11,6 +11,7 @@ import {
 } from '@b4h/firebase';
 
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { B4hLoading } from '../components/loading/loading';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];
@@ -45,13 +46,10 @@ export function B4hAuthProvider(props: AuthProviderProps) {
   useEffect(() => {
     setLoading(true);
     const unsubscribe = onAuthStateChanged(getFirebaseAuth(), async userCred => {
-      console.log('userCred', userCred);
       if (!userCred) {
         setUser({ user: null, token: null });
         return;
       }
-
-      console.log('userCred', userCred);
 
       const token = await userCred?.getIdToken();
 
@@ -91,7 +89,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
         resetPassword
       }}
     >
-      {props.children}
+      {loading ? <B4hLoading /> : props.children}
     </B4hAuthContext.Provider>
   );
 }

@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--size-m);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--size-s);
+  gap: var(--size-m);
+  color: var(--secondary-fg-color);
+}
+
+.itemTitle {
+  padding: var(--size-xs);
+  padding-left: var(--size-s);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--border-color);
+  border-radius: var(--size-s);
+  padding: var(--size-xs);
+}
+
+.itemTxt {
+  display: 'inline';
+  margin: 0;
+}
+
+.itemLabel {
+  font-size: var(--size-l);
+}
+
+.monthPicker {
+  margin-bottom: var(--size-s);
+}
+
+.viewBy {
+  margin-bottom: var(--size-xl);
+}

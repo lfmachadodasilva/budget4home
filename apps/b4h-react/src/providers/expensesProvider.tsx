@@ -11,7 +11,7 @@ interface B4hExpesesContextProps {
   query?: UseQueryResult<ExpenseModel[], Error>;
 }
 
-export const B4hAuthContext = createContext<B4hExpesesContextProps>({
+export const B4hExpensesContext = createContext<B4hExpesesContextProps>({
   query: undefined
 });
 
@@ -27,16 +27,16 @@ export function B4hExpesesProvider({ children }: { children: ReactNode | ReactNo
   });
 
   return (
-    <B4hAuthContext.Provider
+    <B4hExpensesContext.Provider
       value={{
         query: query
       }}
     >
       {children}
-    </B4hAuthContext.Provider>
+    </B4hExpensesContext.Provider>
   );
 }
 
 export function useB4hExpeses() {
-  return useContext(B4hAuthContext);
+  return useContext(B4hExpensesContext);
 }
