@@ -1,6 +1,7 @@
 import { B4hButton, B4hInput } from '@b4h/web-components';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { B4hPageTitle } from '../components/pageTitle';
 import { useB4hAuth } from '../providers/authProvider';
 import { B4hRoutes } from '../shared/routes';
 
@@ -31,7 +32,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <title>home | login</title>
+      <B4hPageTitle>home | login</B4hPageTitle>
 
       <h1>login</h1>
       <form

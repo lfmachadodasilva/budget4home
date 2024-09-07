@@ -1,7 +1,9 @@
+import { B4hPageTitle } from '../components/pageTitle';
+
 export const HomePage = () => {
   return (
     <>
-      <title>home | budget4home</title>
+      <B4hPageTitle>home | budget4home</B4hPageTitle>
       Home
     </>
   );

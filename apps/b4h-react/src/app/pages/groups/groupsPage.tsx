@@ -1,6 +1,7 @@
 import { B4hButton } from '@b4h/web-components';
 import { Link } from 'react-router-dom';
 import { B4hLoading } from '../../components/loading/loading';
+import { B4hPageTitle } from '../../components/pageTitle';
 import { useB4hGroups } from '../../providers/groupsProvider';
 import { B4hRoutes } from '../../shared/routes';
 import styles from './groupsPage.module.scss';
@@ -16,7 +17,7 @@ export const GroupPage = () => {
 
   return (
     <>
-      <title>home | groups</title>
+      <B4hPageTitle>home | groups</B4hPageTitle>
 
       <div className={styles.container}>
         <div className={styles.header}>

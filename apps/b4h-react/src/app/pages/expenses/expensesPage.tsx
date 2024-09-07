@@ -3,6 +3,7 @@ import { B4hButton } from '@b4h/web-components';
 import { format } from 'date-fns';
 import { Link, useSearchParams } from 'react-router-dom';
 import { B4hLoading } from '../../components/loading/loading';
+import { B4hPageTitle } from '../../components/pageTitle';
 import { useB4hExpeses } from '../../providers/expensesProvider';
 import { useB4hLabels } from '../../providers/labelsProvider';
 import { expensesByDate, expensesByLabel } from '../../shared/expenseUtil';
@@ -44,7 +45,7 @@ export const ExpensesPage = () => {
 
   return (
     <>
-      <title>home | expenses</title>
+      <B4hPageTitle>home | expenses</B4hPageTitle>
 
       <div className={styles.container}>
         <div className={styles.header}>
