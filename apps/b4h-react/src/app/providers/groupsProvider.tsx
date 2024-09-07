@@ -44,12 +44,12 @@ export function B4hGroupsProvider({ children }: { children: ReactNode | ReactNod
 
   const handleSetGroupId = useCallback(
     (groupId: string) => {
-      if (groups?.find(group => group.id === groupId)) {
-        setGroupId(groupId);
-        localStorage.setItem(LocalStorageKeys.groupId, groupId);
+      const group = groups?.find(group => group.id === groupId) ?? groups?.[0] ?? null;
+      setGroupId(group?.id ?? null);
+      if (group) {
+        localStorage.setItem(LocalStorageKeys.groupId, group?.id as string);
       } else {
-        setGroupId(groups?.[0]?.id ?? null);
-        localStorage.setItem(LocalStorageKeys.groupId, groups?.[0]?.id ?? '');
+        localStorage.removeItem(LocalStorageKeys.groupId);
       }
     },
     [groups]
