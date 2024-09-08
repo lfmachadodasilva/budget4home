@@ -14,10 +14,23 @@
   padding: var(--size-xs);
 }
 
+.inputError {
+  border-color: var(--negative-color);
+}
+
 .container:focus {
   outline: none !important;
 }
 
 .widthFit {
   width: 100%;
+}
+
+.error {
+  color: var(--negative-color);
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
 }

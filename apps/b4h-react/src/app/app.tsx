@@ -7,7 +7,7 @@ import { GroupPage } from './pages/groups/groupsPage';
 import { HomePage } from './pages/home';
 import { AddLabelPage } from './pages/labels/addLabelPage/addLabelPage';
 import { LabelPage } from './pages/labels/labelsPage';
-import { LoginPage } from './pages/login';
+import { LoginPage } from './pages/login/login';
 import { B4hRoutes } from './shared/routes';
 
 export function App() {
