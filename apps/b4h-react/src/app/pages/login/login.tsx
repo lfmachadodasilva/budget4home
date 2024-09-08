@@ -1,9 +1,15 @@
-import { B4hButton, B4hInput } from '@b4h/web-components';
+import {
+  B4hButton,
+  B4hInput,
+  B4hInputErrorLabelControl,
+  B4hInputLabelControl
+} from '@b4h/web-components';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { B4hPageTitle } from '../../components/pageTitle';
 import { useB4hAuth } from '../../providers/authProvider';
+import { B4hRoutes } from '../../shared/routes';
 
 interface FormInput {
   email: string;
@@ -18,29 +24,20 @@ export const LoginPage = () => {
     formState: { errors, isSubmitting }
   } = useForm<FormInput>();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
-  const [loading, setLoading] = useState<boolean>(false);
-
-  // const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-
-  //   const email = event.currentTarget.email.value;
-  //   const password = event.currentTarget.password.value;
-
-  //   setLoading(true);
-  //   await login(email, password)
-  //     .then(async () => {
-  //       navigate(B4hRoutes.home);
-  //     })
-  //     .catch(err => {
-  //       console.error('LoginPage', err);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
-
-  const onSubmit: SubmitHandler<FormInput> = data => console.log(data);
+  const onSubmit: SubmitHandler<FormInput> = (data: FormInput) => {
+    setError(null);
+    login(data.email, data.password)
+      .then(async () => {
+        navigate(B4hRoutes.home);
+      })
+      .catch(err => {
+        setError(err.message);
+        console.error('LoginPage', err);
+      })
+      .finally(() => {});
+  };
 
   return (
     <>
@@ -51,27 +48,36 @@ export const LoginPage = () => {
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}
       >
-        <label htmlFor="email">email</label>
+        <B4hInputLabelControl htmlFor="email">email</B4hInputLabelControl>
         <B4hInput
           type="text"
-          id="email"
-          {...(register('email'), { required: true, minLength: 4, maxLength: 50 })}
+          hasError={!!errors.email}
+          {...register('email', { required: true, minLength: 4, maxLength: 50 })}
         />
         {errors.email && (
-          <caption aria-live="polite">{errors.email && 'email is required'}</caption>
+          <B4hInputErrorLabelControl>
+            {errors.email.type === 'minLength' && 'min length is 4'}
+            {errors.email.type === 'maxLength' && 'max length is 50'}
+            {errors.email.type === 'required' && 'this field is required'}
+          </B4hInputErrorLabelControl>
         )}
-        <label htmlFor="password">password</label>
+        <B4hInputLabelControl htmlFor="password">password</B4hInputLabelControl>
         <B4hInput
           type="password"
-          id="password"
+          hasError={!!errors.password}
           {...register('password', { required: true, minLength: 4, maxLength: 20 })}
         />
         {errors.password && (
-          <caption aria-live="polite">{errors.password && 'password is required'}</caption>
+          <B4hInputErrorLabelControl>
+            {errors.password.type === 'minLength' && 'min length is 4'}
+            {errors.password.type === 'maxLength' && 'max length is 20'}
+            {errors.password.type === 'required' && 'this field is required'}
+          </B4hInputErrorLabelControl>
         )}
-        <B4hButton type="submit" loading={loading}>
+        <B4hButton type="submit" loading={isSubmitting}>
           Submit
         </B4hButton>
+        <B4hInputErrorLabelControl>{error}</B4hInputErrorLabelControl>
       </form>
     </>
   );
