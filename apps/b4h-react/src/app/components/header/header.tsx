@@ -7,11 +7,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useB4hAuth } from '../../providers/authProvider';
 import { B4hRoutes } from '../../shared/routes';
 
+import { useTranslation } from 'react-i18next';
 import styles from './header.module.scss';
 
 export const B4hHeader = () => {
   const { user, logout } = useB4hAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
     switch (event.target.value) {
@@ -33,9 +35,9 @@ export const B4hHeader = () => {
     <div className={styles.container}>
       <B4hDropdown autoReset onChange={handleOnChange}>
         <GiHamburgerMenu size={24} />
-        <option value={B4hRoutes.groups}>groups</option>
-        <option value={B4hRoutes.labels}>labels</option>
-        <option value={B4hRoutes.expenses}>expenses</option>
+        <option value={B4hRoutes.groups}>{t('groups.pageTitle')}</option>
+        <option value={B4hRoutes.labels}>{t('labels.pageTitle')}</option>
+        <option value={B4hRoutes.expenses}>{t('expenses.pageTitle')}</option>
       </B4hDropdown>
       <Link to={B4hRoutes.home}>
         <h3 className={styles.headerTxt}>budget4home</h3>

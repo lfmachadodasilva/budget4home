@@ -36,8 +36,9 @@ export const LabelPage = () => {
           {labels?.map(label => (
             <Link to={`${B4hRoutes.labels}/${label.id}`} key={label.id}>
               <div className={styles.item}>
-                <label className={styles.itemLabel}>{label.icon}</label>
-                <p className={styles.itemTxt}>{label.name}</p>
+                <p>
+                  {label.icon} {label.name}
+                </p>
               </div>
             </Link>
           ))}
