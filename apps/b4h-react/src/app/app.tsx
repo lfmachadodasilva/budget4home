@@ -12,9 +12,11 @@ import { LoginPage } from './pages/login/login';
 import { RegisterPage } from './pages/register/register';
 import { B4hRoutes } from './shared/routes';
 
-export function App() {
+import styles from './app.module.scss';
+
+export const App = () => {
   return (
-    <>
+    <div className={styles.container}>
       <B4hHeader />
       <Routes>
         <Route path={B4hRoutes.home} Component={HomePage} />
@@ -29,8 +31,6 @@ export function App() {
           <Route path={B4hRoutes.expenses} Component={ExpensesPage} />
         </Route>
       </Routes>
-    </>
+    </div>
   );
-}
-
-export default App;
+};
