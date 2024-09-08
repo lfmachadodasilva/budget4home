@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { B4hHeader } from './components/header/header';
 import { ProtectedRoute } from './components/protectedRoute';
 import { ExpensesPage } from './pages/expenses/expensesPage';
+import { ForgotPage } from './pages/forgot/forgot';
 import { AddGroupPage } from './pages/groups/addGroupPage/addGroupPage';
 import { GroupPage } from './pages/groups/groupsPage';
 import { HomePage } from './pages/home';
@@ -19,6 +20,7 @@ export function App() {
         <Route path={B4hRoutes.home} Component={HomePage} />
         <Route path={B4hRoutes.login} Component={LoginPage} />
         <Route path={B4hRoutes.register} Component={RegisterPage} />
+        <Route path={B4hRoutes.forgot} Component={ForgotPage} />
         <Route element={<ProtectedRoute />}>
           <Route path={B4hRoutes.groups} Component={GroupPage} />
           <Route path={B4hRoutes.groupsAdd} Component={AddGroupPage} />
