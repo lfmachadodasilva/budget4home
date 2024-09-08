@@ -30,7 +30,7 @@ export function B4hGroupsProvider({ children }: { children: ReactNode | ReactNod
     retry: 3
   });
 
-  const { data: groups, status } = query;
+  const { data: groups, isPending } = query;
 
   useEffect(() => {
     const lsGroupId = localStorage.getItem(LocalStorageKeys.groupId);
@@ -44,6 +44,9 @@ export function B4hGroupsProvider({ children }: { children: ReactNode | ReactNod
 
   const handleSetGroupId = useCallback(
     (groupId: string) => {
+      if (isPending) {
+        return;
+      }
       const group = groups?.find(group => group.id === groupId) ?? groups?.[0] ?? null;
       setGroupId(group?.id ?? null);
       if (group) {
@@ -52,7 +55,7 @@ export function B4hGroupsProvider({ children }: { children: ReactNode | ReactNod
         localStorage.removeItem(LocalStorageKeys.groupId);
       }
     },
-    [groups]
+    [groups, isPending]
   );
 
   return (
