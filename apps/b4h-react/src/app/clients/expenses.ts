@@ -3,12 +3,17 @@ import { getHeaders } from '../shared/header';
 
 const baseUrl = (process.env['API_URL'] as string) ?? 'http://localhost:3000';
 
-export const getExpenses = async (token: string, groupId: string): Promise<ExpenseModel[]> =>
+export const getExpenses = async (
+  token: string,
+  groupId: string,
+  date?: Date | null
+): Promise<ExpenseModel[]> =>
   fetch(
     baseUrl +
       `/api/expenses?` +
       new URLSearchParams({
-        groupId: groupId
+        groupId: groupId,
+        date: (date ?? new Date()).toISOString()
       }),
     {
       method: 'GET',

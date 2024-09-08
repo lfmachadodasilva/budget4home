@@ -1,25 +1,30 @@
 import { ExpenseModel } from '@b4h/models';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { getExpenses } from '../clients/expenses';
 import { useB4hAuth } from './authProvider';
 import { useB4hGroups } from './groupsProvider';
 
 interface B4hExpesesContextProps {
   query?: UseQueryResult<ExpenseModel[], Error>;
+  date: Date;
+  setDate(date: Date): void;
 }
 
 export const B4hExpensesContext = createContext<B4hExpesesContextProps>({
-  query: undefined
+  query: undefined,
+  setDate: (date: Date) => {},
+  date: new Date()
 });
 
 export function B4hExpesesProvider({ children }: { children: ReactNode | ReactNode[] }) {
   const { groupId } = useB4hGroups();
   const { token } = useB4hAuth();
+  const [date, setDate] = useState<Date>(new Date());
 
   const query = useQuery<ExpenseModel[]>({
-    queryKey: ['expenses', token],
-    queryFn: () => getExpenses(token as string, groupId as string),
+    queryKey: ['expenses', token, date],
+    queryFn: () => getExpenses(token as string, groupId as string, date),
     enabled: !!token && !!groupId,
     retry: 3
   });
@@ -27,7 +32,9 @@ export function B4hExpesesProvider({ children }: { children: ReactNode | ReactNo
   return (
     <B4hExpensesContext.Provider
       value={{
-        query: query
+        query: query,
+        setDate: setDate,
+        date: date
       }}
     >
       {children}

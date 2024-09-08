@@ -19,7 +19,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
       createdAt: data.createdAt && new Date(data.createdAt.toDate()),
       updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
       date: data.date && new Date(data.date.toDate()),
-      label: labelRef?.id ?? data.label?.id,
+      label: labelRef?.id ?? data.label?.id ?? data.label,
       id: snapshot.id
     } as ExpenseModel;
   }

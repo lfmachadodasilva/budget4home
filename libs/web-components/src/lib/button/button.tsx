@@ -10,7 +10,7 @@ interface B4hButtonProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 export const B4hButton = (props: B4hButtonProps) => {
-  const { loading, widthFit, buttonType, ...propsCopy } = props;
+  const { loading, widthFit, buttonType, className, ...propsCopy } = props;
 
   const basicStyle = styles.button;
   const widthFitStyle = widthFit ? styles.widthFit : '';
@@ -20,10 +20,10 @@ export const B4hButton = (props: B4hButtonProps) => {
       : buttonType == 'delete'
       ? styles.buttonDelete
       : styles.buttonPrimary;
-  const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle, props.className].join(' ');
+  const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle, className].join(' ');
 
   return (
-    <button className={buttonStyles} {...propsCopy} disabled={props.disabled || loading === true}>
+    <button {...propsCopy} disabled={props.disabled || loading === true} className={buttonStyles}>
       {loading === true && <B4hSpinner size={16} />}
       {props.children}
     </button>

@@ -1,10 +1,13 @@
 import {
   B4hButton,
   B4hForm,
+  B4hFormActions,
   B4hInput,
   B4hInputControl,
   B4hInputError,
-  B4hInputLabel
+  B4hInputLabel,
+  B4hPageLayout,
+  B4hPageLayoutTitle
 } from '@b4h/web-components';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -48,28 +51,32 @@ export const ForgotPage = () => {
     <>
       <B4hPageTitle>reset password | budget4home</B4hPageTitle>
 
-      <h1>login</h1>
-      <B4hForm onSubmit={handleSubmit(onSubmit)} className={styles.container}>
-        <B4hInputControl>
-          <B4hInputLabel htmlFor="email">email</B4hInputLabel>
-          <B4hInput
-            type="text"
-            hasError={!!errors.email}
-            {...register('email', { required: true, minLength: 4, maxLength: 50 })}
-          />
-          {errors.email && (
-            <B4hInputError>
-              {errors.email.type === 'minLength' && 'min length is 4'}
-              {errors.email.type === 'maxLength' && 'max length is 50'}
-              {errors.email.type === 'required' && 'this field is required'}
-            </B4hInputError>
-          )}
-        </B4hInputControl>
-        <B4hButton type="submit" loading={isSubmitting}>
-          Submit
-        </B4hButton>
-        <B4hInputError>{error}</B4hInputError>
-      </B4hForm>
+      <B4hPageLayout>
+        <B4hPageLayoutTitle>reset password</B4hPageLayoutTitle>
+        <B4hForm onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+          <B4hInputControl>
+            <B4hInputLabel htmlFor="email">email</B4hInputLabel>
+            <B4hInput
+              type="text"
+              hasError={!!errors.email}
+              {...register('email', { required: true, minLength: 4, maxLength: 50 })}
+            />
+            {errors.email && (
+              <B4hInputError>
+                {errors.email.type === 'minLength' && 'min length is 4'}
+                {errors.email.type === 'maxLength' && 'max length is 50'}
+                {errors.email.type === 'required' && 'this field is required'}
+              </B4hInputError>
+            )}
+          </B4hInputControl>
+          <B4hFormActions>
+            <B4hButton type="submit" loading={isSubmitting}>
+              Submit
+            </B4hButton>
+          </B4hFormActions>
+          <B4hInputError>{error}</B4hInputError>
+        </B4hForm>
+      </B4hPageLayout>
     </>
   );
 };

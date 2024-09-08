@@ -5,12 +5,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const userId = await getUserId(request);
   const groupId = request.nextUrl.searchParams.get('groupId') as string;
+  const date = request.nextUrl.searchParams.get('date') as string;
 
   if (!userId) {
     return NextResponse.json({ message: 'NOT AUTHENTICATED' }, { status: 401 });
   }
 
-  const labels = await getExpenses(groupId, userId);
+  const labels = await getExpenses(groupId, userId, date ? new Date(date) : new Date());
 
   return NextResponse.json(labels, { status: 200 });
 }

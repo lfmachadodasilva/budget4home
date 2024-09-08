@@ -1,10 +1,13 @@
 import {
   B4hButton,
   B4hForm,
+  B4hFormActions,
   B4hInput,
   B4hInputControl,
   B4hInputError,
-  B4hInputLabel
+  B4hInputLabel,
+  B4hPageLayout,
+  B4hPageLayoutTitle
 } from '@b4h/web-components';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -45,70 +48,72 @@ export const RegisterPage = () => {
       .finally(() => {});
   };
 
-  console.log(errors, getValues('password1'));
-
   return (
     <>
       <B4hPageTitle>register | budget4home</B4hPageTitle>
 
-      <h1>login</h1>
-      <B4hForm onSubmit={handleSubmit(onSubmit)} className={styles.container}>
-        <B4hInputControl>
-          <B4hInputLabel htmlFor="email">email</B4hInputLabel>
-          <B4hInput
-            type="text"
-            hasError={!!errors.email}
-            {...register('email', { required: true, minLength: 4, maxLength: 50 })}
-          />
-          {errors.email && (
-            <B4hInputError>
-              {errors.email.type === 'minLength' && 'min length is 4'}
-              {errors.email.type === 'maxLength' && 'max length is 50'}
-              {errors.email.type === 'required' && 'this field is required'}
-            </B4hInputError>
-          )}
-        </B4hInputControl>
-        <B4hInputControl>
-          <B4hInputLabel htmlFor="password2">password</B4hInputLabel>
-          <B4hInput
-            type="password"
-            hasError={!!errors.password1}
-            {...register('password1', { required: true, minLength: 4, maxLength: 20 })}
-          />
-          {errors.password1 && (
-            <B4hInputError>
-              {errors.password1.type === 'minLength' && 'min length is 4'}
-              {errors.password1.type === 'maxLength' && 'max length is 20'}
-              {errors.password1.type === 'required' && 'this field is required'}
-            </B4hInputError>
-          )}
-        </B4hInputControl>
-        <B4hInputControl>
-          <B4hInputLabel htmlFor="password2">password</B4hInputLabel>
-          <B4hInput
-            type="password"
-            hasError={!!errors.password2}
-            {...register('password2', {
-              required: true,
-              minLength: 4,
-              maxLength: 20,
-              validate: value => value === getValues('password1') || 'passwords must match'
-            })}
-          />
-          {errors.password2 && (
-            <B4hInputError>
-              {errors.password2.type === 'minLength' && 'min length is 4'}
-              {errors.password2.type === 'maxLength' && 'max length is 20'}
-              {errors.password2.type === 'required' && 'this field is required'}
-              {errors.password2.type === 'validate' && errors.password2.message}
-            </B4hInputError>
-          )}
-        </B4hInputControl>
-        <B4hButton type="submit" loading={isSubmitting}>
-          Submit
-        </B4hButton>
-        <B4hInputError>{error}</B4hInputError>
-      </B4hForm>
+      <B4hPageLayout>
+        <B4hPageLayoutTitle>register</B4hPageLayoutTitle>
+        <B4hForm onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+          <B4hInputControl>
+            <B4hInputLabel htmlFor="email">email</B4hInputLabel>
+            <B4hInput
+              type="text"
+              hasError={!!errors.email}
+              {...register('email', { required: true, minLength: 4, maxLength: 50 })}
+            />
+            {errors.email && (
+              <B4hInputError>
+                {errors.email.type === 'minLength' && 'min length is 4'}
+                {errors.email.type === 'maxLength' && 'max length is 50'}
+                {errors.email.type === 'required' && 'this field is required'}
+              </B4hInputError>
+            )}
+          </B4hInputControl>
+          <B4hInputControl>
+            <B4hInputLabel htmlFor="password2">password</B4hInputLabel>
+            <B4hInput
+              type="password"
+              hasError={!!errors.password1}
+              {...register('password1', { required: true, minLength: 4, maxLength: 20 })}
+            />
+            {errors.password1 && (
+              <B4hInputError>
+                {errors.password1.type === 'minLength' && 'min length is 4'}
+                {errors.password1.type === 'maxLength' && 'max length is 20'}
+                {errors.password1.type === 'required' && 'this field is required'}
+              </B4hInputError>
+            )}
+          </B4hInputControl>
+          <B4hInputControl>
+            <B4hInputLabel htmlFor="password2">password</B4hInputLabel>
+            <B4hInput
+              type="password"
+              hasError={!!errors.password2}
+              {...register('password2', {
+                required: true,
+                minLength: 4,
+                maxLength: 20,
+                validate: value => value === getValues('password1') || 'passwords must match'
+              })}
+            />
+            {errors.password2 && (
+              <B4hInputError>
+                {errors.password2.type === 'minLength' && 'min length is 4'}
+                {errors.password2.type === 'maxLength' && 'max length is 20'}
+                {errors.password2.type === 'required' && 'this field is required'}
+                {errors.password2.type === 'validate' && errors.password2.message}
+              </B4hInputError>
+            )}
+          </B4hInputControl>
+          <B4hFormActions>
+            <B4hButton type="submit" loading={isSubmitting}>
+              Submit
+            </B4hButton>
+          </B4hFormActions>
+          <B4hInputError>{error}</B4hInputError>
+        </B4hForm>
+      </B4hPageLayout>
     </>
   );
 };

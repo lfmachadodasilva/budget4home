@@ -57,7 +57,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
       },
       error => console.error(error),
       () => {
-        console.log('B4hAuthProvider', 'completed');
+        console.debug('B4hAuthProvider', 'completed');
       }
     );
 
