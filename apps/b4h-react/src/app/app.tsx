@@ -8,6 +8,7 @@ import { HomePage } from './pages/home';
 import { AddLabelPage } from './pages/labels/addLabelPage/addLabelPage';
 import { LabelPage } from './pages/labels/labelsPage';
 import { LoginPage } from './pages/login/login';
+import { RegisterPage } from './pages/register/register';
 import { B4hRoutes } from './shared/routes';
 
 export function App() {
@@ -17,6 +18,7 @@ export function App() {
       <Routes>
         <Route path={B4hRoutes.home} Component={HomePage} />
         <Route path={B4hRoutes.login} Component={LoginPage} />
+        <Route path={B4hRoutes.register} Component={RegisterPage} />
         <Route element={<ProtectedRoute />}>
           <Route path={B4hRoutes.groups} Component={GroupPage} />
           <Route path={B4hRoutes.groupsAdd} Component={AddGroupPage} />
