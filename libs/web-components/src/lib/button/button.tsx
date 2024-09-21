@@ -17,8 +17,8 @@ export const B4hButton = (props: B4hButtonProps) => {
     buttonType === 'secondary'
       ? styles.buttonSecondary
       : buttonType == 'delete'
-      ? styles.buttonDelete
-      : styles.buttonPrimary;
+        ? styles.buttonDelete
+        : styles.buttonPrimary;
   const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle, className].join(' ');
 
   return (
