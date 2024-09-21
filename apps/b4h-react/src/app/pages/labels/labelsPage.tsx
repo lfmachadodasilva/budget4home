@@ -1,10 +1,4 @@
-import {
-  B4hButton,
-  B4hPageLayout,
-  B4hPageLayoutActions,
-  B4hPageLayoutContent,
-  B4hPageLayoutTitle
-} from '@b4h/web-components';
+import { B4hButton, B4hPageLayout } from '@b4h/web-components';
 import { Link } from 'react-router-dom';
 import { B4hLoading } from '../../components/loading/loading';
 import { B4hPageTitle } from '../../components/pageTitle';
@@ -25,14 +19,14 @@ export const LabelPage = () => {
     <>
       <B4hPageTitle>home | labels</B4hPageTitle>
 
-      <B4hPageLayout>
-        <B4hPageLayoutTitle>labels</B4hPageLayoutTitle>
-        <B4hPageLayoutActions>
+      <B4hPageLayout.Root>
+        <B4hPageLayout.Title>labels</B4hPageLayout.Title>
+        <B4hPageLayout.Actions>
           <Link to={B4hRoutes.labelsAdd}>
             <B4hButton>add</B4hButton>
           </Link>
-        </B4hPageLayoutActions>
-        <B4hPageLayoutContent>
+        </B4hPageLayout.Actions>
+        <B4hPageLayout.Content>
           {labels?.map(label => (
             <Link to={`${B4hRoutes.labels}/${label.id}`} key={label.id}>
               <div className={styles.item}>
@@ -42,8 +36,8 @@ export const LabelPage = () => {
               </div>
             </Link>
           ))}
-        </B4hPageLayoutContent>
-      </B4hPageLayout>
+        </B4hPageLayout.Content>
+      </B4hPageLayout.Root>
     </>
   );
 };

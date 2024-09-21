@@ -1,7 +1,7 @@
-import { ComponentPropsWithoutRef, memo } from 'react';
+import { memo, SelectHTMLAttributes } from 'react';
 import styles from './select.module.scss';
 
-export interface B4hSelectProps extends ComponentPropsWithoutRef<'select'> {
+export interface B4hSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   widthFit?: boolean;
 }
 

@@ -1,12 +1,5 @@
 import { ExpenseModel, LabelModel } from '@b4h/models';
-import {
-  B4hButton,
-  B4hPageLayout,
-  B4hPageLayoutActions,
-  B4hPageLayoutContent,
-  B4hPageLayoutTitle,
-  B4hSelect
-} from '@b4h/web-components';
+import { B4hButton, B4hPageLayout, B4hSelect } from '@b4h/web-components';
 import { ChangeEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { B4hLoading } from '../../components/loading/loading';
@@ -37,14 +30,14 @@ export const ExpensesPage = () => {
     <>
       <B4hPageTitle>home | expenses</B4hPageTitle>
 
-      <B4hPageLayout>
-        <B4hPageLayoutTitle>expenses</B4hPageLayoutTitle>
-        <B4hPageLayoutActions>
+      <B4hPageLayout.Root>
+        <B4hPageLayout.Title>expenses</B4hPageLayout.Title>
+        <B4hPageLayout.Actions>
           <Link to={B4hRoutes.expensesAdd}>
             <B4hButton>add</B4hButton>
           </Link>
-        </B4hPageLayoutActions>
-        <B4hPageLayoutContent>
+        </B4hPageLayout.Actions>
+        <B4hPageLayout.Content>
           <B4hMonthPicker className={styles.monthPicker} type="month" widthFit />
           <B4hSelect
             defaultValue={viewBy}
@@ -68,8 +61,8 @@ export const ExpensesPage = () => {
           {!loading && expenses.length > 1 && viewBy === 'byLabel' && (
             <ViewByLabel expenses={expenses} labels={labels} />
           )}
-        </B4hPageLayoutContent>
-      </B4hPageLayout>
+        </B4hPageLayout.Content>
+      </B4hPageLayout.Root>
     </>
   );
 };

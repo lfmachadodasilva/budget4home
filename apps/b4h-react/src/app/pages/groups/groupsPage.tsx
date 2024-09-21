@@ -1,10 +1,4 @@
-import {
-  B4hButton,
-  B4hPageLayout,
-  B4hPageLayoutActions,
-  B4hPageLayoutContent,
-  B4hPageLayoutTitle
-} from '@b4h/web-components';
+import { B4hButton, B4hPageLayout } from '@b4h/web-components';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { B4hLoading } from '../../components/loading/loading';
@@ -26,14 +20,14 @@ export const GroupPage = () => {
   return (
     <>
       <B4hPageTitle>{t('groups.browserTitle')}</B4hPageTitle>
-      <B4hPageLayout>
-        <B4hPageLayoutTitle>{t('groups.pageTitle')}</B4hPageLayoutTitle>
-        <B4hPageLayoutActions>
+      <B4hPageLayout.Root>
+        <B4hPageLayout.Title>{t('groups.pageTitle')}</B4hPageLayout.Title>
+        <B4hPageLayout.Actions>
           <Link to={B4hRoutes.groupsAdd}>
             <B4hButton>{t('groups.action')}</B4hButton>
           </Link>
-        </B4hPageLayoutActions>
-        <B4hPageLayoutContent className={styles.items}>
+        </B4hPageLayout.Actions>
+        <B4hPageLayout.Content className={styles.items}>
           {groups?.map(group => (
             <Link className={styles.item} key={group.id} to={`${B4hRoutes.groups}/${group.id}`}>
               <p>
@@ -41,8 +35,8 @@ export const GroupPage = () => {
               </p>
             </Link>
           ))}
-        </B4hPageLayoutContent>
-      </B4hPageLayout>
+        </B4hPageLayout.Content>
+      </B4hPageLayout.Root>
     </>
   );
 };

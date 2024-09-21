@@ -1,9 +1,8 @@
-import { ComponentPropsWithoutRef } from 'react';
-
+import { ButtonHTMLAttributes } from 'react';
 import { B4hSpinner } from '../spinner/spinner';
 import styles from './button.module.scss';
 
-interface B4hButtonProps extends ComponentPropsWithoutRef<'button'> {
+interface B4hButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   widthFit?: boolean;
   buttonType?: 'primary' | 'secondary' | 'delete';

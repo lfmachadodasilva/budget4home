@@ -1,8 +1,8 @@
-import { Children, ComponentPropsWithoutRef, memo } from 'react';
+import { Children, ComponentPropsWithoutRef, FormHTMLAttributes, memo } from 'react';
 import { getAndRemoveNode } from '../filterNodes';
 import styles from './form.module.scss';
 
-export interface B4hFormProps extends ComponentPropsWithoutRef<'form'> {}
+export interface B4hFormProps extends FormHTMLAttributes<HTMLFormElement> {}
 
 export const B4hForm = memo((props: B4hFormProps) => {
   const { className, children, ...propsCopy } = props;

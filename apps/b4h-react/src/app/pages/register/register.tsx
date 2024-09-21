@@ -6,8 +6,7 @@ import {
   B4hInputControl,
   B4hInputError,
   B4hInputLabel,
-  B4hPageLayout,
-  B4hPageLayoutTitle
+  B4hPageLayout
 } from '@b4h/web-components';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -52,8 +51,8 @@ export const RegisterPage = () => {
     <>
       <B4hPageTitle>register | budget4home</B4hPageTitle>
 
-      <B4hPageLayout>
-        <B4hPageLayoutTitle>register</B4hPageLayoutTitle>
+      <B4hPageLayout.Root>
+        <B4hPageLayout.Title>register</B4hPageLayout.Title>
         <B4hForm onSubmit={handleSubmit(onSubmit)} className={styles.container}>
           <B4hInputControl>
             <B4hInputLabel htmlFor="email">email</B4hInputLabel>
@@ -113,7 +112,7 @@ export const RegisterPage = () => {
           </B4hFormActions>
           <B4hInputError>{error}</B4hInputError>
         </B4hForm>
-      </B4hPageLayout>
+      </B4hPageLayout.Root>
     </>
   );
 };

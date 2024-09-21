@@ -1,13 +1,19 @@
-import { ComponentPropsWithoutRef, ForwardedRef, forwardRef } from 'react';
+import {
+  ForwardedRef,
+  forwardRef,
+  HTMLAttributes,
+  InputHTMLAttributes,
+  LabelHTMLAttributes
+} from 'react';
 import styles from './input.module.scss';
 
-export interface B4hInputProps extends ComponentPropsWithoutRef<'input'> {
+export interface B4hInputProps extends InputHTMLAttributes<HTMLInputElement> {
   widthFit?: boolean;
   hasError?: boolean;
 }
-export interface B4hInputControlProps extends ComponentPropsWithoutRef<'div'> {}
-export interface B4hInputLabelProps extends ComponentPropsWithoutRef<'label'> {}
-export interface B4hInputErrorProps extends ComponentPropsWithoutRef<'span'> {}
+export interface B4hInputControlProps extends HTMLAttributes<HTMLElement> {}
+export interface B4hInputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+export interface B4hInputErrorProps extends HTMLAttributes<HTMLElement> {}
 
 export const B4hInputControl = forwardRef(
   (props: B4hInputControlProps, ref: ForwardedRef<HTMLDivElement>) => {
