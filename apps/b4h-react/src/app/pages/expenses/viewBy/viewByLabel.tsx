@@ -26,7 +26,7 @@ export const ViewByLabel = ({ expenses, labels }: ViewByLabelProps) => {
 
       <div key={`${key}_items`} className={styles.items}>
         {expenses?.map(expense => (
-          <Link to={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
+          <Link to={`${B4hRoutes.expenses}?expense=${expense.id}`} key={expense.id}>
             <div className={styles.item}>
               <p>{expense.name}</p>
               <p>{formatValue(expense.value)}</p>

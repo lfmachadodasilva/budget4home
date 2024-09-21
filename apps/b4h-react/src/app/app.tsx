@@ -3,10 +3,8 @@ import { B4hHeader } from './components/header/header';
 import { ProtectedRoute } from './components/protectedRoute';
 import { ExpensesPage } from './pages/expenses/expensesPage';
 import { ForgotPage } from './pages/forgot/forgot';
-import { AddGroupPage } from './pages/groups/addGroupPage/addGroupPage';
 import { GroupPage } from './pages/groups/groupsPage';
 import { HomePage } from './pages/home';
-import { AddLabelPage } from './pages/labels/addLabelPage/addLabelPage';
 import { LabelPage } from './pages/labels/labelsPage';
 import { LoginPage } from './pages/login/login';
 import { RegisterPage } from './pages/register/register';
@@ -25,9 +23,7 @@ export const App = () => {
         <Route path={B4hRoutes.forgot} Component={ForgotPage} />
         <Route element={<ProtectedRoute />}>
           <Route path={B4hRoutes.groups} Component={GroupPage} />
-          <Route path={B4hRoutes.groupsAdd} Component={AddGroupPage} />
           <Route path={B4hRoutes.labels} Component={LabelPage} />
-          <Route path={B4hRoutes.labelsAdd} Component={AddLabelPage} />
           <Route path={B4hRoutes.expenses} Component={ExpensesPage} />
         </Route>
       </Routes>

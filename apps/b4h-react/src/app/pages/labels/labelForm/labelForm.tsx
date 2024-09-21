@@ -4,8 +4,16 @@ import { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { B4hRoutes } from '../../../shared/routes';
 
-export const LabelForm = ({ label }: { label?: LabelModel | null }) => {
-  const handleOnSubmit = (event: FormEvent<HTMLFormElement>) => {};
+export const B4hLabelForm = ({
+  label,
+  onDone
+}: {
+  label?: LabelModel | null;
+  onDone: () => void;
+}) => {
+  const handleOnSubmit = (event: FormEvent<HTMLFormElement>) => {
+    onDone();
+  };
 
   return (
     <>

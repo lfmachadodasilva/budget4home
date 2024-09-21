@@ -26,7 +26,7 @@ export const ViewByDate = ({ expenses, labels }: ViewByDateProps) => {
 
       <div key={`${key}_items`} className={styles.items}>
         {expenses?.map(expense => (
-          <Link to={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
+          <Link to={`${B4hRoutes.expenses}?expense=${expense.id}`} key={expense.id}>
             <div className={styles.item}>
               <p>
                 {labelById[expense.label as string]?.icon} {expense.name}
