@@ -33,6 +33,14 @@ export default defineConfig(({ mode }) => {
       })
     ],
 
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern'
+        }
+      }
+    },
+
     // Uncomment this if you are using workers.
     // worker: {
     //  plugins: [ nxViteTsPaths() ],
