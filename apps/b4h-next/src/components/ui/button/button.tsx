@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 // import { B4hSpinner } from '../spinner/spinner';
 import styles from './button.module.scss';
 
@@ -8,7 +8,7 @@ interface B4hButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonType?: 'primary' | 'secondary' | 'delete';
 }
 
-export const B4hButton = (props: B4hButtonProps) => {
+export const B4hButton = forwardRef<HTMLButtonElement, B4hButtonProps>((props, ref) => {
   const { loading, widthFit, buttonType, className, ...propsCopy } = props;
 
   const basicStyle = styles.button;
@@ -22,9 +22,14 @@ export const B4hButton = (props: B4hButtonProps) => {
   const buttonStyles = [basicStyle, widthFitStyle, buttonTypeStyle, className].join(' ');
 
   return (
-    <button {...propsCopy} disabled={props.disabled || loading === true} className={buttonStyles}>
+    <button
+      {...propsCopy}
+      disabled={props.disabled || loading === true}
+      ref={ref}
+      className={buttonStyles}
+    >
       {/* {loading === true && <B4hSpinner size={16} />} */}
       {props.children}
     </button>
   );
-};
+});

@@ -1,7 +1,7 @@
 'use client';
 
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
-import { B4hDropdown } from '../dropdown/dropdown';
+import { B4hDropdown } from '../ui/dropdown/dropdown';
 import styles from './header.module.scss';
 import { ChangeEvent } from 'react';
 

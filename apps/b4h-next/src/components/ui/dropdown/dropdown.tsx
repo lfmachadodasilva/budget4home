@@ -3,7 +3,7 @@
 import { Children, cloneElement, HTMLProps, ReactNode, useEffect, useRef, useState } from 'react';
 
 import styles from './dropdown.module.scss';
-import { getNodeByName } from '../../utils/reactNode';
+import { getNodeByName } from '../../../utils/reactNode';
 
 export interface B4hDropdownProps extends HTMLProps<HTMLSelectElement> {
   autoReset?: boolean;
