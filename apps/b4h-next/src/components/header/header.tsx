@@ -1,12 +1,16 @@
+import Link from 'next/link';
 import styles from './header.module.scss';
 import { B4hMenuMain } from './menuMain';
 import { B4hMenuUser } from './menuUser';
+import { B4hRoutes } from '../../utils/routes';
 
 export const B4hHeader = () => {
   return (
     <div className={styles.container}>
       <B4hMenuMain />
-      <h1 className={styles.title}>budget4home</h1>
+      <Link href={B4hRoutes.home}>
+        <h1 className={styles.title}>budget4home</h1>
+      </Link>
       <B4hMenuUser />
     </div>
   );
