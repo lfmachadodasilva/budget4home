@@ -9,11 +9,14 @@ export const B4hMenuMain = () => {
   const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {};
 
   return (
-    <B4hDropdown autoReset onChange={handleOnChange}>
-      <option>Option 1</option>
-      <option>Option 2</option>
-      <option>Option 3</option>
-      <HamburgerMenuIcon className={styles.icon} />
-    </B4hDropdown>
+    <B4hDropdown.Root
+      autoReset
+      onChange={handleOnChange}
+      trigger={<HamburgerMenuIcon className={styles.icon} />}
+    >
+      <B4hDropdown.Option>Option 1</B4hDropdown.Option>
+      <B4hDropdown.Option>Option 2</B4hDropdown.Option>
+      <B4hDropdown.Option>Option 3</B4hDropdown.Option>
+    </B4hDropdown.Root>
   );
 };
