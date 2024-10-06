@@ -67,6 +67,11 @@ export default function LoginClient() {
               register
             </B4hButton>
           </Link>
+          <Link href={B4hRoutes.reset}>
+            <B4hButton buttonType="secondary" widthFit>
+              reset password
+            </B4hButton>
+          </Link>
         </B4hForm.Actions>
       </B4hForm.Root>
     </>

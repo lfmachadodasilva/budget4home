@@ -8,7 +8,7 @@ export const B4hRoutes = {
   login: '/login',
   logout: '/logout',
   register: '/register',
-  forgot: '/forgot',
+  reset: '/reset',
 
   groups: '/groups',
   groupsAdd: '/groups/add',
