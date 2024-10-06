@@ -1,9 +1,11 @@
 .container {
+  background-color: var(--primary-color);
+  padding: var(--size-s);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--primary-color);
-  padding: var(--size-s);
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .title {
