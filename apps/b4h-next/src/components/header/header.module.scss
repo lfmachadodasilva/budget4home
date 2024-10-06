@@ -18,10 +18,12 @@
 }
 
 .avatar {
+  cursor: pointer;
   height: var(--size-icon);
   width: var(--size-icon);
 
   border-radius: 50%;
 
   object-fit: cover;
+  vertical-align: middle;
 }
