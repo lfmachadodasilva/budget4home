@@ -51,7 +51,7 @@ export const B4hDropdown = (props: B4hDropdownProps) => {
         </option>
         {options}
       </select>
-      <div ref={triggerRef} style={{ zIndex: '1' }}>
+      <div ref={triggerRef} className={styles.tigger}>
         {trigger}
       </div>
     </div>
