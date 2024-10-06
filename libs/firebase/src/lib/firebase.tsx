@@ -4,28 +4,14 @@ import { Auth, getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
 
-const firebasePrivatekey = process.env[
-  'NEXT_PUBLIC_FIREBASE_PRIVATE_KEY_ID'
-] as string;
-const firebaseAuthDomain = process.env[
-  'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN'
-] as string;
-const firebaseDatabaseUrl = process.env[
-  'NEXT_PUBLIC_FIREBASE_DATABASE_URL'
-] as string;
-const firebaseProjectId = process.env[
-  'NEXT_PUBLIC_FIREBASE_PROJECT_ID'
-] as string;
-const firebaseStorageBucket = process.env[
-  'NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET'
-] as string;
-const firebaseMessagingSenderId = process.env[
-  'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID'
-] as string;
+const firebasePrivatekey = process.env['NEXT_PUBLIC_FIREBASE_PRIVATE_KEY_ID'] as string;
+const firebaseAuthDomain = process.env['NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN'] as string;
+const firebaseDatabaseUrl = process.env['NEXT_PUBLIC_FIREBASE_DATABASE_URL'] as string;
+const firebaseProjectId = process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID'] as string;
+const firebaseStorageBucket = process.env['NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET'] as string;
+const firebaseMessagingSenderId = process.env['NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID'] as string;
 const firebaseAppId = process.env['NEXT_PUBLIC_FIREBASE_APP_ID'] as string;
-const firebaseMeasurementId = process.env[
-  'NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID'
-] as string;
+const firebaseMeasurementId = process.env['NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID'] as string;
 
 let firebaseApp: FirebaseApp;
 let firebaseAuth: Auth;
@@ -45,7 +31,7 @@ export const getFirebaseApp = () => {
           storageBucket: firebaseStorageBucket,
           messagingSenderId: firebaseMessagingSenderId,
           appId: firebaseAppId,
-          measurementId: firebaseMeasurementId,
+          measurementId: firebaseMeasurementId
         });
   return firebaseApp;
 };

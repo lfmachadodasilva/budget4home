@@ -5,15 +5,9 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
-  User,
+  User
 } from 'firebase/auth';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];
@@ -38,19 +32,18 @@ export const B4hAuthContext = createContext<B4hAuthContextProps>({
   login: async (email: string, password: string) => {},
   logout: async () => {},
   register: async (email: string, password: string) => {},
-  resetPassword: async (email: string) => {},
+  resetPassword: async (email: string) => {}
 });
 
-const baseUrl =
-  (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
+const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
 
 const loginFetch = async (token: string) =>
   fetch(new URL('/api/auth/login', baseUrl), {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
-    cache: 'no-cache',
+    cache: 'no-cache'
   });
 
 export function B4hAuthProvider(props: AuthProviderProps) {
@@ -62,31 +55,28 @@ export function B4hAuthProvider(props: AuthProviderProps) {
 
   useEffect(() => {
     setLoading(true);
-    const unsubscribe = onAuthStateChanged(
-      getFirebaseAuth(),
-      async (userCred) => {
-        if (!userCred) {
-          setUser({ user: null, token: null });
-          return;
-        }
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), async userCred => {
+      if (!userCred) {
+        setUser({ user: null, token: null });
+        return;
+      }
 
-        const token = await userCred?.getIdToken();
+      const token = await userCred?.getIdToken();
 
-        await loginFetch(token)
-          .then(async (response) => {
-            if (response.ok) {
-              setUser({ user: userCred, token: token });
-            } else {
-              setUser({ user: null, token: null });
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            setUser(undefined);
-          })
-          .finally(() => setLoading(false));
-      },
-    );
+      await loginFetch(token)
+        .then(async response => {
+          if (response.ok) {
+            setUser({ user: userCred, token: token });
+          } else {
+            setUser({ user: null, token: null });
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          setUser(undefined);
+        })
+        .finally(() => setLoading(false));
+    });
 
     return () => unsubscribe();
   }, []);
@@ -117,7 +107,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
         login,
         logout,
         register,
-        resetPassword,
+        resetPassword
       }}
     >
       {props.children}

@@ -6,7 +6,7 @@ const baseConfig = require('../../eslint.config.js');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
+  recommendedConfig: js.configs.recommended
 });
 
 module.exports = [
@@ -14,5 +14,5 @@ module.exports = [
   ...fixupConfigRules(compat.extends('next/core-web-vitals')),
   ...baseConfig,
   ...nx.configs['flat/react-typescript'],
-  { ignores: ['.next/**/*'] },
+  { ignores: ['.next/**/*'] }
 ];

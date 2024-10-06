@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  padding: var(--size-s);
+}
+
+.title {
+  font-size: var(--size-m);
+}
+
+.icon {
+  cursor: pointer;
+}
