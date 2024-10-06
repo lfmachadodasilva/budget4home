@@ -1,1 +1,2 @@
-export * from './lib/models';
+export * from './lib/expense';
+export * from './lib/label';

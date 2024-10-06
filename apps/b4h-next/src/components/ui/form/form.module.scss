@@ -8,7 +8,28 @@
   gap: var(--size-s);
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
 .input {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--size-m);
+  font-weight: var(--font-weight-bold);
+
+  border: 2px solid var(--primary-color);
+  border-radius: var(--size-xs);
+
+  padding: var(--size-xs);
+}
+
+.select {
   background-color: var(--bg-color);
   color: var(--fg-color);
 
