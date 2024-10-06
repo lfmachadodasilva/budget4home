@@ -1,9 +1,8 @@
 'use client';
 
-import { Children, cloneElement, HTMLProps, ReactNode, useEffect, useRef, useState } from 'react';
+import { HTMLProps, ReactNode, useEffect, useRef, useState } from 'react';
 
 import styles from './dropdown.module.scss';
-import { getNodeByName } from '../../../utils/reactNode';
 
 export interface B4hDropdownProps extends HTMLProps<HTMLSelectElement> {
   autoReset?: boolean;
@@ -19,10 +18,8 @@ const Root = (props: B4hDropdownProps) => {
 
   useEffect(() => {
     setSize({
-      // @ts-ignore
-      height: triggerRef?.current?.clientHeight,
-      // @ts-ignore
-      width: triggerRef?.current?.clientWidth
+      height: `${triggerRef?.current?.clientHeight ?? '24'}px`,
+      width: `${triggerRef?.current?.clientWidth ?? '24'}px`
     });
   }, [triggerRef.current]);
 

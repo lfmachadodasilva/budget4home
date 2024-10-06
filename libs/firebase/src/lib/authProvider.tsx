@@ -1,4 +1,3 @@
-import { getFirebaseAuth } from '@b4h/firebase';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -8,6 +7,7 @@ import {
   User
 } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { getFirebaseAuth } from './firebase';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];
@@ -29,10 +29,10 @@ export const B4hAuthContext = createContext<B4hAuthContextProps>({
   user: undefined,
   loading: false,
   token: undefined,
-  login: async (email: string, password: string) => {},
-  logout: async () => {},
-  register: async (email: string, password: string) => {},
-  resetPassword: async (email: string) => {}
+  login: async (email: string, password: string) => Promise.resolve(),
+  logout: async () => Promise.resolve(),
+  register: async (email: string, password: string) => Promise.resolve(),
+  resetPassword: async (email: string) => Promise.resolve()
 });
 
 const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';

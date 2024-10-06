@@ -6,7 +6,9 @@ import styles from './header.module.scss';
 import { ChangeEvent } from 'react';
 
 export const B4hMenuMain = () => {
-  const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {};
+  const handleOnChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
+  };
 
   return (
     <B4hDropdown.Root

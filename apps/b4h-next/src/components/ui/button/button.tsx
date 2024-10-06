@@ -33,3 +33,4 @@ export const B4hButton = forwardRef<HTMLButtonElement, B4hButtonProps>((props, r
     </button>
   );
 });
+B4hButton.displayName = 'B4hButton';

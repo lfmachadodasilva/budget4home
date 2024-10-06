@@ -38,6 +38,7 @@ export const getFirebaseAdminApp = (): App => {
             auth_provider_x509_cert_url: firebaseAuthProviderUrl,
             client_x509_cert_url: firebaseClientUrl,
             universe_domain: firebaseUniverseDomain
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any),
           projectId: firebaseProjectId,
           storageBucket: firebaseStorageBucket,
