@@ -7,9 +7,10 @@ import { HTMLProps } from 'react';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { B4hButton } from '../../components/ui/button/button';
 import { format } from 'date-fns';
-import { ArrowLeftIcon, CaretLeftIcon } from '@radix-ui/react-icons';
+import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { B4hRoutes } from '../../utils/routes';
+import styles from './expenses.module.scss';
 
 type ExpenseForm = {
   type: typeof ExpenseType;
@@ -48,7 +49,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     <>
       <h1>
         <Link href={B4hRoutes.expenses}>
-          <ArrowLeftIcon />
+          <ArrowLeftIcon className={styles.return} />
         </Link>{' '}
         {title}
       </h1>

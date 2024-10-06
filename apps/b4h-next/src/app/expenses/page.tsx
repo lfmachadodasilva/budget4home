@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { B4hButton } from '../../components/ui/button/button';
 import { B4hPageLayout } from '../../components/ui/layout/layout';
 import { B4hRoutes } from '../../utils/routes';
-import { ExpenseModel, LabelModel } from '@b4h/models';
 import { expensesByDate, formatValue } from '../../utils/expenses';
 
 import styles from './expenses.module.scss';
