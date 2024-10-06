@@ -1,0 +1,9 @@
+{
+  "name": "b4h-next-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/b4h-next-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["b4h-next"],
+  "// targets": "to see all targets run: nx show project b4h-next-e2e --web",
+  "targets": {}
+}
