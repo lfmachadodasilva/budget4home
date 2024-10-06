@@ -5,6 +5,7 @@ import { B4hForm } from '../../components/ui/form/form';
 import Link from 'next/link';
 import { B4hRoutes } from '../../utils/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useB4hAuth } from '@b4h/firebase';
 
 type ResetForm = {
   email: string;
@@ -14,13 +15,14 @@ export default function ResetClient() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<ResetForm>();
+  const { resetPassword } = useB4hAuth();
 
-  const onSubmit: SubmitHandler<ResetForm> = (data, event) => {
+  const onSubmit: SubmitHandler<ResetForm> = async (data, event) => {
     event?.preventDefault();
 
-    console.log(data);
+    await resetPassword(data.email);
   };
 
   return (
@@ -44,7 +46,9 @@ export default function ResetClient() {
         />
         {errors.email && <B4hForm.LabelError>{errors.email.message}</B4hForm.LabelError>}
         <B4hForm.Actions>
-          <B4hButton type="submit">reset</B4hButton>
+          <B4hButton type="submit" loading={isSubmitting}>
+            reset
+          </B4hButton>
           <Link href={B4hRoutes.login}>
             <B4hButton buttonType="secondary" widthFit>
               login

@@ -5,6 +5,8 @@ import { B4hButton } from '../../components/ui/button/button';
 import { B4hForm } from '../../components/ui/form/form';
 import { B4hRoutes } from '../../utils/routes';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useB4hAuth } from '@b4h/firebase';
+import { useRouter } from 'next/navigation';
 
 type LoginForm = {
   email: string;
@@ -15,13 +17,16 @@ export default function LoginClient() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm<LoginForm>();
+  const { login } = useB4hAuth();
+  const { push } = useRouter();
 
-  const onSubmit: SubmitHandler<LoginForm> = (data, event) => {
+  const onSubmit: SubmitHandler<LoginForm> = async (data, event) => {
     event?.preventDefault();
 
-    console.log(data);
+    await login(data.email, data.password);
+    push(B4hRoutes.home);
   };
 
   return (
@@ -61,7 +66,9 @@ export default function LoginClient() {
         />
         {errors.password && <B4hForm.LabelError>{errors.password.message}</B4hForm.LabelError>}
         <B4hForm.Actions>
-          <B4hButton>login</B4hButton>
+          <B4hButton type="submit" loading={isSubmitting}>
+            login
+          </B4hButton>
           <Link href={B4hRoutes.register}>
             <B4hButton buttonType="secondary" widthFit>
               register
