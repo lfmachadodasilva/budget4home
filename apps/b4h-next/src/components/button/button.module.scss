@@ -1,0 +1,50 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--size-xs);
+
+  padding: var(--size-xs);
+
+  cursor: pointer;
+
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--font-family);
+  font-size: var(--size-m);
+  font-weight: var(--font-weight-bold);
+}
+
+.buttonPrimary {
+  border: none;
+  border-radius: var(--size-xs);
+  background-color: var(--primary-color);
+  color: var(--fg-color);
+}
+
+.buttonSecondary {
+  border: 2px solid var(--secondary-fg-color);
+  border-radius: var(--size-xs);
+  background-color: var(--bg-color);
+  color: var(--secondary-fg-color);
+}
+
+.buttonDelete {
+  border: 2px solid var(--negative-color);
+  border-radius: var(--size-xs);
+  background-color: var(--bg-color);
+  color: var(--negative-color);
+}
+
+.button:disabled {
+  background-image: linear-gradient(rgb(0 0 0/60%) 0 0);
+  cursor: progress;
+}
+
+.button:hover:not([disabled]) {
+  background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
+}
+
+.widthFit {
+  width: 100%;
+}
