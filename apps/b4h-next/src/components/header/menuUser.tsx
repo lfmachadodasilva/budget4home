@@ -19,7 +19,7 @@ export const logoutFetch = async () =>
   });
 
 export const B4hMenuUser = () => {
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
   const { user, logout } = useB4hAuth();
 
   const handleOnChange = async (event: ChangeEvent<HTMLSelectElement>) => {
@@ -31,7 +31,7 @@ export const B4hMenuUser = () => {
           })
           .finally(() => {
             push(B4hRoutes.login);
-            // refresh();
+            refresh();
           });
         break;
       default:
