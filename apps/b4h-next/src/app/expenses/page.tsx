@@ -9,6 +9,11 @@ import { B4hForm } from '../../components/ui/form/form';
 import { format } from 'date-fns';
 import { labelsById } from '../../utils/label';
 import { expenses, labels } from './mock';
+import { B4hItem } from '../../components/ui/item/item';
+
+export const metadata = {
+  title: 'expenses | budget4home'
+};
 
 export default function Expeses() {
   const labelById = labelsById(labels);
@@ -36,29 +41,31 @@ export default function Expeses() {
           </B4hForm.Select>
         </B4hForm.Field>
 
-        {Object.entries(expenseBy).map(([key, expenses]) => (
-          <>
-            <div key={`${key}_header`} className={styles.itemHeader}>
-              <p className={styles.itemTitle}>{key}</p>
-              <p className={styles.itemTitle}>
-                {formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}
-              </p>
-            </div>
+        <B4hItem.Root>
+          {Object.entries(expenseBy).map(([key, expenses]) => (
+            <B4hItem.Group>
+              <B4hItem.GroupTitle>
+                <p className={styles.itemTitle}>{key}</p>
+                <p className={styles.itemTitle}>
+                  {formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}
+                </p>
+              </B4hItem.GroupTitle>
 
-            <div key={`${key}_items`} className={styles.items}>
-              {expenses.map(expense => (
-                <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
-                  <div className={styles.item}>
-                    <p>
-                      {labelById[expense.label]?.icon} {expense.name}
-                    </p>
-                    <p>{formatValue(expense.value)}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </>
-        ))}
+              <B4hItem.Items>
+                {expenses.map(expense => (
+                  <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
+                    <B4hItem.Item>
+                      <p>
+                        {labelById[expense.label]?.icon} {expense.name}
+                      </p>
+                      <p>{formatValue(expense.value)}</p>
+                    </B4hItem.Item>
+                  </Link>
+                ))}
+              </B4hItem.Items>
+            </B4hItem.Group>
+          ))}
+        </B4hItem.Root>
       </B4hPageLayout.Content>
     </B4hPageLayout.Root>
   );

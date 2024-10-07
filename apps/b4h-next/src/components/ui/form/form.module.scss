@@ -29,22 +29,19 @@
   padding: var(--size-xs);
 
   width: 100%;
+
+  box-sizing: border-box;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+
+  &:focus {
+    border-color: var(--secondary-fg-color);
+  }
 }
 
 .select {
-  background-color: var(--bg-color);
-  color: var(--fg-color);
-
-  font-style: normal;
-  font-weight: normal;
-  font-family: var(--font-family);
-  font-size: var(--size-m);
-  font-weight: var(--font-weight-bold);
-
-  border: 2px solid var(--primary-color);
-  border-radius: var(--size-xs);
-
-  padding: var(--size-xs);
+  @extend .input;
 }
 
 .label {
@@ -65,4 +62,11 @@
   gap: var(--size-s);
 
   margin-top: var(--size-m);
+}
+
+.return {
+  color: var(--secondary-fg-color);
+  width: var(--size-icon);
+  height: var(--size-icon);
+  margin-right: var(--size-s);
 }

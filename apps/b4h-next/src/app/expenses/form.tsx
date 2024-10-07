@@ -47,12 +47,10 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
   return (
     <>
-      <h1>
-        <Link href={B4hRoutes.expenses}>
-          <ArrowLeftIcon className={styles.return} />
-        </Link>{' '}
+      <B4hForm.Title>
+        <B4hForm.Return href={B4hRoutes.expenses} />
         {title}
-      </h1>
+      </B4hForm.Title>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
         <B4hForm.Field>
           <B4hForm.Label htmlFor="type">type</B4hForm.Label>

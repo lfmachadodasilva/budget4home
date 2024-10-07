@@ -1,0 +1,23 @@
+.root {
+}
+
+.group {
+}
+
+.groupTitle {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--border-color);
+  padding: var(--size-s);
+}
+
+.items {
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--size-s);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--secondary-fg-color);
+}
