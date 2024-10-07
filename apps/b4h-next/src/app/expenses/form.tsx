@@ -7,10 +7,7 @@ import { HTMLProps } from 'react';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { B4hButton } from '../../components/ui/button/button';
 import { format } from 'date-fns';
-import { ArrowLeftIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
 import { B4hRoutes } from '../../utils/routes';
-import styles from './expenses.module.scss';
 
 type ExpenseForm = {
   type: typeof ExpenseType;

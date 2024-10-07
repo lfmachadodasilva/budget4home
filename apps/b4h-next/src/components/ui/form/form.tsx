@@ -18,7 +18,7 @@ const Title = forwardRef<HTMLHeadingElement, HTMLProps<HTMLHeadingElement>>((pro
 Title.displayName = 'B4hForm.Title';
 
 const Return = (props: HTMLProps<HTMLHeadingElement>) => (
-  <Link href={props.href as any}>
+  <Link href={props.href as string}>
     <ArrowLeftIcon className={styles.return} />
   </Link>
 );

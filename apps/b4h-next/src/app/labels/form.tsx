@@ -1,29 +1,28 @@
 'use client';
 
-import { GroupModel, UserModel } from '@b4h/models';
+import { LabelModel } from '@b4h/models';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hForm } from '../../components/ui/form/form';
 import { B4hRoutes } from '../../utils/routes';
 import { B4hButton } from '../../components/ui/button/button';
 
-export interface B4hGroupFormProps {
-  group?: GroupModel;
-  users: UserModel[];
+export interface B4hLabelFormProps {
+  label?: LabelModel;
 }
 
-type GroupForm = {
+type LabelForm = {
   name: string;
-  userIds: string[];
+  icon: string;
 };
 
-export const B4hGroupForm = (props: B4hGroupFormProps) => {
+export const B4hLabelForm = (props: B4hLabelFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<GroupForm>();
+  } = useForm<LabelForm>();
 
-  const onSubmit: SubmitHandler<GroupForm> = async (data, event) => {
+  const onSubmit: SubmitHandler<LabelForm> = async (data, event) => {
     event?.preventDefault();
 
     // TODO
@@ -31,19 +30,19 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
     console.log(data);
   };
 
-  const title = props.group ? 'update group' : 'add group';
+  const title = props.label ? 'update label' : 'add label';
   return (
     <>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
         <B4hForm.Title>
-          <B4hForm.Return href={B4hRoutes.groups} />
+          <B4hForm.Return href={B4hRoutes.labels} />
           {title}
         </B4hForm.Title>
         <B4hForm.Field>
           <B4hForm.Label htmlFor="name">name</B4hForm.Label>
           <B4hForm.Input
             type="text"
-            defaultValue={props.group?.name}
+            defaultValue={props.label?.name}
             {...register('name', {
               required: 'value is required',
               minLength: { value: 4, message: 'name is too short. min 4 characters' },
@@ -52,21 +51,18 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
           />
           {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
         </B4hForm.Field>
+
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="userIds">users</B4hForm.Label>
-          <B4hForm.Select
-            multiple
-            rows={5}
-            defaultValue={props.group?.userIds}
-            {...register('userIds', { required: 'value is required' })}
-          >
-            {props.users.map(user => (
-              <B4hForm.Option key={user.id} value={user.id}>
-                {user.displayName ?? user.email}
-              </B4hForm.Option>
-            ))}
-          </B4hForm.Select>
-          {errors.userIds && <B4hForm.LabelError>{errors.userIds.message}</B4hForm.LabelError>}
+          <B4hForm.Label htmlFor="name">icon</B4hForm.Label>
+          <B4hForm.Input
+            type="text"
+            defaultValue={props.label?.icon}
+            {...register('icon', {
+              required: 'value is required',
+              maxLength: { value: 256, message: 'name is too long. max 256 characters' }
+            })}
+          />
+          {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Actions>

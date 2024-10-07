@@ -4,7 +4,6 @@ import { B4hPageLayout } from '../../components/ui/layout/layout';
 import { B4hRoutes } from '../../utils/routes';
 import { expensesByDate, formatValue } from '../../utils/expenses';
 
-import styles from './expenses.module.scss';
 import { B4hForm } from '../../components/ui/form/form';
 import { format } from 'date-fns';
 import { labelsById } from '../../utils/label';
@@ -43,12 +42,10 @@ export default function Expeses() {
 
         <B4hItem.Root>
           {Object.entries(expenseBy).map(([key, expenses]) => (
-            <B4hItem.Group>
+            <B4hItem.Group key={key}>
               <B4hItem.GroupTitle>
-                <p className={styles.itemTitle}>{key}</p>
-                <p className={styles.itemTitle}>
-                  {formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}
-                </p>
+                <p>{key}</p>
+                <p>{formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}</p>
               </B4hItem.GroupTitle>
 
               <B4hItem.Items>
