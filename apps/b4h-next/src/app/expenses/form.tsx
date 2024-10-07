@@ -35,7 +35,9 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     event?.preventDefault();
 
     // TODO
-    console.log(data);
+    const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
+
+    console.log({ data, submitterName: submitter?.name });
     push(B4hRoutes.expenses);
   };
 
@@ -116,9 +118,14 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Actions>
-          <B4hButton type="submit" loading={isSubmitting}>
+          <B4hButton type="submit" name="primary" loading={isSubmitting}>
             {title}
           </B4hButton>
+          {!props.expense && (
+            <B4hButton type="submit" buttonType="secondary" name="secondary" loading={isSubmitting}>
+              pile
+            </B4hButton>
+          )}
         </B4hForm.Actions>
       </B4hForm.Root>
     </>
