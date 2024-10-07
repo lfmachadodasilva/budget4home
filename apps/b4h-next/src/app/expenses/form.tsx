@@ -110,7 +110,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         <B4hForm.Field>
           <B4hForm.Label htmlFor="comments">comments</B4hForm.Label>
           <B4hForm.TextArea
-            rows={5}
+            rows={2}
             defaultValue={props.expense?.comments}
             {...register('comments')}
           />
