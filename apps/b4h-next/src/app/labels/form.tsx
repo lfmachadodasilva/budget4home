@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hForm } from '../../components/ui/form/form';
 import { B4hRoutes } from '../../utils/routes';
 import { B4hButton } from '../../components/ui/button/button';
+import { useRouter } from 'next/navigation';
 
 export interface B4hLabelFormProps {
   label?: LabelModel;
@@ -21,13 +22,14 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<LabelForm>();
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<LabelForm> = async (data, event) => {
     event?.preventDefault();
 
     // TODO
-    // push(B4hRoutes.home);
     console.log(data);
+    push(B4hRoutes.labels);
   };
 
   const title = props.label ? 'update label' : 'add label';

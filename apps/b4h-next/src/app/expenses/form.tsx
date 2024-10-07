@@ -29,15 +29,14 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<ExpenseForm>();
-
   const { push } = useRouter();
 
   const onSubmit: SubmitHandler<ExpenseForm> = async (data, event) => {
     event?.preventDefault();
 
     // TODO
-    // push(B4hRoutes.home);
     console.log(data);
+    push(B4hRoutes.expenses);
   };
 
   const title = props.expense ? 'update expense' : 'add expense';

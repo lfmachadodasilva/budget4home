@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hForm } from '../../components/ui/form/form';
 import { B4hRoutes } from '../../utils/routes';
 import { B4hButton } from '../../components/ui/button/button';
+import { useRouter } from 'next/navigation';
 
 export interface B4hGroupFormProps {
   group?: GroupModel;
@@ -22,13 +23,15 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
     handleSubmit,
     formState: { errors, isSubmitting }
   } = useForm<GroupForm>();
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<GroupForm> = async (data, event) => {
     event?.preventDefault();
 
     // TODO
-    // push(B4hRoutes.home);
+
     console.log(data);
+    push(B4hRoutes.groups);
   };
 
   const title = props.group ? 'update group' : 'add group';
