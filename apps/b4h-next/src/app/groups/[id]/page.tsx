@@ -1,12 +1,16 @@
+import { useB4hSession } from 'apps/b4h-next/src/utils/hooks/useB4hSession';
 import { B4hGroupForm } from '../form';
-import { groups, users } from '../mock';
+import { getGroupFirestore, getUsersFirestore } from '@b4h/firestore';
 
 export const metadata = {
   title: 'update group | budget4home'
 };
 
-export default function GroupUpdate({ params }: { params: { id: string } }) {
+export default async function GroupUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
+  const { userId } = useB4hSession();
 
-  return <B4hGroupForm users={users} group={groups.find(group => group.id === id)} />;
+  const [group, users] = await Promise.all([getGroupFirestore(userId, id), getUsersFirestore()]);
+
+  return <B4hGroupForm users={users} group={group} />;
 }

@@ -8,7 +8,7 @@ import { B4hButton } from '../../components/ui/button/button';
 import { useRouter } from 'next/navigation';
 
 export interface B4hGroupFormProps {
-  group?: GroupModel;
+  group?: GroupModel | null;
   users: UserModel[];
 }
 

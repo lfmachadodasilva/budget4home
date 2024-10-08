@@ -2,14 +2,18 @@ import Link from 'next/link';
 import { B4hPageLayout } from '../../components/ui/layout/layout';
 import { B4hRoutes } from '../../utils/routes';
 import { B4hButton } from '../../components/ui/button/button';
-import { groups } from './mock';
 import { B4hItem } from '../../components/ui/item/item';
+import { getGroupsFirestore } from '@b4h/firestore';
+import { useB4hSession } from '../../utils/hooks/useB4hSession';
 
 export const metadata = {
   title: 'groups | budget4home'
 };
 
-export default function Groups() {
+export default async function Groups() {
+  const { userId } = useB4hSession();
+  const groups = await getGroupsFirestore(userId);
+
   return (
     <B4hPageLayout.Root>
       <B4hPageLayout.Header>

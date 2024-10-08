@@ -1,4 +1,5 @@
 import { getFirebaseAdminAuth } from '@b4h/firebase-admin';
+import { SESSION_USER_ID } from 'apps/b4h-next/src/utils/constants';
 import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
       cookies().set(options);
 
       cookies().set({
-        name: 'session-user-id',
+        name: SESSION_USER_ID,
         value: decodedToken.uid,
         maxAge: expiresIn,
         httpOnly: true,
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
 export async function DELETE(request: NextRequest, response: NextResponse) {
   // clean cookies
   cookies().delete('session');
-  cookies().delete('session-user-id');
+  cookies().delete(SESSION_USER_ID);
 
   return NextResponse.json({}, { status: 200 });
 }
