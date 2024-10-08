@@ -1,5 +1,5 @@
 import { useB4hSession } from 'apps/b4h-next/src/utils/hooks/useB4hSession';
-import { B4hGroupForm } from '../form';
+import { B4hGroupForm } from '../form/form';
 import { getGroupFirestore, getUsersFirestore } from '@b4h/firestore';
 
 export const metadata = {
