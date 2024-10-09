@@ -26,7 +26,7 @@ export const getGroupsFirestore = async (userId: string): Promise<GroupModel[]> 
   const docs = await getFirebaseAdminFirestore()
     .collection(FirestorePath.groups)
     .where('userIds', 'array-contains', userId)
-    .orderBy('name', 'desc')
+    .orderBy('name', 'asc')
     .withConverter(groupConverter)
     .get();
 
