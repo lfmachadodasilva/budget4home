@@ -7,8 +7,8 @@ export const groupFormSchema = z.object({
     .min(1, {
       message: 'name is required'
     })
-    .min(4, {
-      message: 'name is too short, min 4 characters'
+    .min(3, {
+      message: 'name is too short, min 3 characters'
     })
     .max(100, {
       message: 'name is too long, max 100 characters'

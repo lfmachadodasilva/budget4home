@@ -25,5 +25,7 @@ export async function onSubmitAction(
 
   // TODO write to Firestore
 
-  return { message: 'User registered' };
+  console.log('data:', data);
+
+  return { message: 'Group registered' };
 }

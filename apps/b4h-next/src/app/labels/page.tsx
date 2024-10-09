@@ -2,14 +2,19 @@ import Link from 'next/link';
 import { B4hPageLayout } from '../../components/ui/layout/layout';
 import { B4hRoutes } from '../../utils/routes';
 import { B4hButton } from '../../components/ui/button/button';
-import { labels } from './mock';
 import { B4hItem } from '../../components/ui/item/item';
+import { useB4hSession } from '../../utils/hooks/useB4hSession';
+import { getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
 
 export const metadata = {
   title: 'labels | budget4home'
 };
 
-export default function Labels() {
+export default async function Labels() {
+  const { userId } = useB4hSession();
+  const groups = await getGroupsFirestore(userId);
+  const labels = await getLabelsFirestore(userId, groups[0].id);
+
   return (
     <B4hPageLayout.Root>
       <B4hPageLayout.Header>

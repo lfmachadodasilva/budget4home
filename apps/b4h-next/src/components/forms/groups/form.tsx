@@ -1,13 +1,12 @@
 'use client';
 
 import { GroupModel, UserModel } from '@b4h/models';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useFormState } from 'react-dom';
-import { B4hForm } from '../../../components/ui/form/form';
+import { B4hForm } from '../../ui/form/form';
 import { B4hRoutes } from '../../../utils/routes';
-import { B4hButton } from '../../../components/ui/button/button';
+import { B4hButton } from '../../ui/button/button';
 import { useRouter } from 'next/navigation';
-import { z } from 'zod';
 import { groupFormSchema, GroupFormType } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { onSubmitAction } from './action';
@@ -24,7 +23,6 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
-    control,
     register
   } = useForm<GroupFormType>({
     resolver: zodResolver(groupFormSchema),

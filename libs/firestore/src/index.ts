@@ -1,2 +1,3 @@
-export * from './lib/groups/groups';
-export * from './lib/users/users';
+export * from './lib/groups';
+export * from './lib/users';
+export * from './lib/labels';
