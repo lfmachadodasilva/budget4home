@@ -1,4 +1,4 @@
-import { B4hLabelForm } from '../../../components/forms/labels/form';
+import { B4hLabelForm } from '../../../components/forms/labels';
 
 export const metadata = {
   title: 'add label | budget4home'
