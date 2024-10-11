@@ -85,7 +85,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="value">value</B4hForm.Label>
-          <B4hForm.Input type="text" defaultValue={props.expense?.value} {...register('value')} />
+          <B4hForm.Input type="tel" defaultValue={props.expense?.value} {...register('value')} />
           {errors.value && <B4hForm.LabelError>{errors.value.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
@@ -115,6 +115,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         <B4hForm.Field>
           <B4hForm.Label htmlFor="comments">comments</B4hForm.Label>
           <B4hForm.TextArea
+            type="text"
             rows={2}
             defaultValue={props.expense?.comments}
             {...register('comments')}
