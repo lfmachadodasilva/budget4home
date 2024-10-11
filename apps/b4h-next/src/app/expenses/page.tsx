@@ -7,14 +7,21 @@ import { expensesByDate, formatValue } from '../../utils/expenses';
 import { B4hForm } from '../../components/ui/form/form';
 import { format } from 'date-fns';
 import { labelsById } from '../../utils/label';
-import { expenses, labels } from './mock';
+
 import { B4hItem } from '../../components/ui/item/item';
+import { getExpensesFirebase, getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
+import { useB4hSession } from '../../utils/hooks/useB4hSession';
 
 export const metadata = {
   title: 'expenses | budget4home'
 };
 
-export default function Expeses() {
+export default async function Expeses() {
+  const { userId } = useB4hSession();
+  const groups = await getGroupsFirestore(userId);
+  const labels = await getLabelsFirestore(userId, groups[0].id);
+  const expenses = await getExpensesFirebase(userId, groups[0].id);
+
   const labelById = labelsById(labels);
   const expenseBy = expensesByDate(expenses);
 

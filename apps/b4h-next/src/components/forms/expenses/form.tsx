@@ -1,16 +1,20 @@
 'use client';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { B4hForm } from '../../components/ui/form/form';
+import { B4hForm } from '../../../components/ui/form/form';
 import { useRouter } from 'next/navigation';
 import { HTMLProps } from 'react';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
-import { B4hButton } from '../../components/ui/button/button';
+import { B4hButton } from '../../../components/ui/button/button';
 import { format } from 'date-fns';
-import { B4hRoutes } from '../../utils/routes';
+import { B4hRoutes } from '../../../utils/routes';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { expenseFormSchema } from './schema';
+import { useFormState } from 'react-dom';
+import { onSubmitAction } from './action';
 
 type ExpenseForm = {
-  type: typeof ExpenseType;
+  type: keyof typeof ExpenseType;
   name: string;
   value: number;
   date: Date;
@@ -24,21 +28,36 @@ interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
 }
 
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
+  const [state, formAction] = useFormState(onSubmitAction, {
+    message: ''
+  });
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<ExpenseForm>();
+  } = useForm<ExpenseForm>({
+    resolver: zodResolver(expenseFormSchema),
+    defaultValues: {
+      name: props.expense?.name ?? '',
+      type: (props.expense?.type as keyof typeof ExpenseType) ?? ExpenseType.outcoming,
+      value: props.expense?.value,
+      date: props.expense?.date ?? new Date(),
+      label: props.expense?.label ?? props.labels[0].id,
+      comments: props.expense?.comments
+    }
+  });
   const { push } = useRouter();
 
   const onSubmit: SubmitHandler<ExpenseForm> = async (data, event) => {
+    // event?.preventDefault();
+
+    // // TODO
+    // const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
+
+    // console.log({ data, submitterName: submitter?.name });
+    // push(B4hRoutes.expenses);
     event?.preventDefault();
-
-    // TODO
-    const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
-
-    console.log({ data, submitterName: submitter?.name });
-    push(B4hRoutes.expenses);
+    formAction(data);
   };
 
   const title = props.expense ? 'update expense' : 'add expense';
@@ -60,28 +79,13 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="name">name</B4hForm.Label>
-          <B4hForm.Input
-            type="text"
-            defaultValue={props.expense?.name}
-            {...register('name', {
-              required: 'value is required',
-              minLength: { value: 4, message: 'name is too short. min 4 characters' },
-              maxLength: { value: 256, message: 'name is too long. max 256 characters' }
-            })}
-          />
+          <B4hForm.Input type="text" defaultValue={props.expense?.name} {...register('name')} />
           {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="value">value</B4hForm.Label>
-          <B4hForm.Input
-            type="text"
-            defaultValue={props.expense?.value}
-            {...register('value', {
-              required: 'value is required',
-              min: { value: 0.1, message: 'value must be greater than 0' }
-            })}
-          />
+          <B4hForm.Input type="text" defaultValue={props.expense?.value} {...register('value')} />
           {errors.value && <B4hForm.LabelError>{errors.value.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
