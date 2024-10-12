@@ -1,5 +1,10 @@
 'use server';
 
+import { addLabelFirestore, updateLabelFirestore } from '@b4h/firestore';
+import { LabelModel } from '@b4h/models';
+import { redirect } from 'next/navigation';
+import { useB4hSession } from '../../../utils/hooks/useB4hSession';
+import { B4hRoutes } from '../../../utils/routes';
 import { labelFormSchema, LabelFormType } from './schema';
 
 export type FormState = {
@@ -11,6 +16,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
+  const { userId, groupId } = useB4hSession();
   const parsed = labelFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -20,9 +26,11 @@ export async function onSubmitAction(
     };
   }
 
-  // TODO write to Firestore
-
-  console.log('data:', data);
-
-  return { message: 'Label registered' };
+  const label: Partial<LabelModel> = data;
+  if (label.id) {
+    updateLabelFirestore(userId, groupId, label);
+  } else {
+    addLabelFirestore(userId, groupId, label);
+  }
+  redirect(B4hRoutes.labels);
 }

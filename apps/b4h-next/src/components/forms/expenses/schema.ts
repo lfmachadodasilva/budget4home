@@ -1,5 +1,4 @@
 import { ExpenseType } from '@b4h/models';
-import { parse } from 'date-fns';
 import { z } from 'zod';
 
 export const expenseFormSchema = z.object({
@@ -28,12 +27,7 @@ export const expenseFormSchema = z.object({
     .min(1, {
       message: 'value is too short, min 1'
     }),
-  date: z
-    .string()
-    .trim()
-    .refine(val => parse(val, 'P', new Date()), {
-      message: 'date format is invalid'
-    }),
+  date: z.coerce.date(),
   label: z.string().trim().min(1, { message: 'label is required' }),
   comments: z.string().trim().optional()
 });

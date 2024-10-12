@@ -33,7 +33,7 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
 
   const onSubmit: SubmitHandler<GroupFormType> = async (data, event) => {
     event?.preventDefault();
-    formAction(data);
+    formAction({ ...props.group, ...data });
   };
 
   const title = props.group ? 'update group' : 'add group';

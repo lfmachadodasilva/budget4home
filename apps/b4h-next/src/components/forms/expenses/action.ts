@@ -1,5 +1,10 @@
 'use server';
 
+import { addExpenseFirebase, updateExpenseFirebase } from '@b4h/firestore';
+import { ExpenseModel } from '@b4h/models';
+import { redirect } from 'next/navigation';
+import { useB4hSession } from '../../../utils/hooks/useB4hSession';
+import { B4hRoutes } from '../../../utils/routes';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
 export type FormState = {
@@ -11,7 +16,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  console.log(data);
+  const { userId, groupId } = useB4hSession();
   const parsed = expenseFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -21,11 +26,11 @@ export async function onSubmitAction(
     };
   }
 
-  // const { userId } = useB4hSession();
-
-  // TODO write to Firestore
-  // const expense: Partial<ExpenseModel> = data;
-  // console.log({ expense });
-
-  return { message: 'Expense registered' };
+  const expense: Partial<ExpenseModel> = data;
+  if (expense.id) {
+    updateExpenseFirebase(userId, groupId, expense);
+  } else {
+    addExpenseFirebase(userId, groupId, expense);
+  }
+  redirect(B4hRoutes.expenses);
 }

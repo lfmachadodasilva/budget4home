@@ -32,7 +32,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
 
   const onSubmit: SubmitHandler<LabelFormType> = async (data, event) => {
     event?.preventDefault();
-    formAction(data);
+    formAction({ ...props.label, ...data });
   };
 
   const title = props.label ? 'update label' : 'add label';

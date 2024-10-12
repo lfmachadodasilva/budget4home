@@ -2,13 +2,13 @@
 
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DATE_TIME_FORMAT } from 'apps/b4h-next/src/utils/constants';
 import { format } from 'date-fns';
 import { HTMLProps } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hButton } from '../../../components/ui/button/button';
 import { B4hForm } from '../../../components/ui/form/form';
-import { DATE_TIME_FORMAT } from '../../../utils/constants';
 import { B4hRoutes } from '../../../utils/routes';
 import { onSubmitAction } from './action';
 import { expenseFormSchema, ExpenseFormType } from './schema';
@@ -32,10 +32,10 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       name: props.expense?.name ?? '',
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
-      date: format(
-        props.expense?.date ? new Date(props.expense?.date) : new Date(),
-        DATE_TIME_FORMAT
-      ),
+      // date: format(
+      //   props.expense?.date ? new Date(props.expense?.date) : new Date(),
+      //   DATE_TIME_FORMAT
+      // ),
       label: props.expense?.label ?? props.labels[0].id,
       comments: props.expense?.comments
     }
@@ -87,7 +87,14 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="date">date</B4hForm.Label>
-          <B4hForm.Input type="datetime-local" {...register('date')} />
+          <B4hForm.Input
+            type="datetime-local"
+            {...register('date')}
+            defaultValue={format(
+              props.expense?.date ? new Date(props.expense?.date) : new Date(),
+              DATE_TIME_FORMAT
+            )}
+          />
           {errors.date && <B4hForm.LabelError>{errors.date.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 

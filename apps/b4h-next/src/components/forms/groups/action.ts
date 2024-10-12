@@ -1,5 +1,10 @@
 'use server';
 
+import { addGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
+import { GroupModel } from '@b4h/models';
+import { redirect } from 'next/navigation';
+import { useB4hSession } from '../../../utils/hooks/useB4hSession';
+import { B4hRoutes } from '../../../utils/routes';
 import { groupFormSchema, GroupFormType } from './schema';
 
 export type FormState = {
@@ -11,8 +16,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  // data.name = '1';
-  // data.userIds = ['1', '2'];
+  const { userId } = useB4hSession();
 
   const parsed = groupFormSchema.safeParse(data);
 
@@ -23,9 +27,11 @@ export async function onSubmitAction(
     };
   }
 
-  // TODO write to Firestore
-
-  console.log('data:', data);
-
-  return { message: 'Group registered' };
+  const group: Partial<GroupModel> = data;
+  if (group.id) {
+    updateGroupFirestore(userId, group);
+  } else {
+    addGroupFirestore(userId, group);
+  }
+  redirect(B4hRoutes.groups);
 }
