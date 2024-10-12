@@ -4,9 +4,9 @@ import { sumBy } from 'lodash';
 import { DATE_FORMAT } from './constants';
 
 export type B4hExpenseHeaderType = {
-  month?: string | null;
-  year?: string | null;
-  viewBy?: 'byLabel' | 'byDate' | '' | null;
+  month: string;
+  year: string;
+  viewBy: string;
 };
 
 export const expensesByDate = (expenses: ExpenseModel[]) => {
