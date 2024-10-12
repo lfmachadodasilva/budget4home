@@ -12,13 +12,11 @@ import { useB4hSession } from '../../utils/hooks/useB4hSession';
 import { labelsById } from '../../utils/label';
 import { B4hRoutes } from '../../utils/routes';
 
-export interface B4hExpensesItemsProps {
-  searchParams: B4hExpenseHeaderType;
-}
+export interface B4hExpensesItemsProps extends B4hExpenseHeaderType {}
 
-export const B4hExpensesItems = async ({ searchParams }: B4hExpensesItemsProps) => {
+export const B4hExpensesItems = async (props: B4hExpensesItemsProps) => {
   const { userId } = useB4hSession();
-  const date = getDateFromQuery(searchParams);
+  const date = getDateFromQuery(props);
 
   // fetch data
   const groups = await getGroupsFirestore(userId);
@@ -30,9 +28,7 @@ export const B4hExpensesItems = async ({ searchParams }: B4hExpensesItemsProps) 
   // format data
   const labelById = labelsById(labels);
   const expenseBy =
-    searchParams.viewBy === 'byLabel'
-      ? expensesByLabel(expenses, labelById)
-      : expensesByDate(expenses);
+    props.viewBy === 'byLabel' ? expensesByLabel(expenses, labelById) : expensesByDate(expenses);
 
   return Object.entries(expenseBy).map(([key, expenses]) => (
     <B4hItem.Group key={key}>
