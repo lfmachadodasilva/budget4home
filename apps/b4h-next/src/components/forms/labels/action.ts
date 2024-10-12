@@ -16,7 +16,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
-  const { userId, groupId } = useB4hSession();
+  const { userId, getGroupId } = useB4hSession();
   const parsed = labelFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -26,6 +26,7 @@ export async function onSubmitAction(
     };
   }
 
+  const groupId = await getGroupId();
   const label: Partial<LabelModel> = data;
   if (label.id) {
     updateLabelFirestore(userId, groupId, label);

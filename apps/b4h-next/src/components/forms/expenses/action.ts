@@ -16,7 +16,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { userId, groupId } = useB4hSession();
+  const { userId, getGroupId } = useB4hSession();
   const parsed = expenseFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -26,6 +26,7 @@ export async function onSubmitAction(
     };
   }
 
+  const groupId = await getGroupId();
   const expense: Partial<ExpenseModel> = data;
   if (expense.id) {
     updateExpenseFirebase(userId, groupId, expense);
