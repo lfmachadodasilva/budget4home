@@ -12,9 +12,7 @@ import { useB4hSession } from '../../utils/hooks/useB4hSession';
 import { labelsById } from '../../utils/label';
 import { B4hRoutes } from '../../utils/routes';
 
-export interface B4hExpensesItemsProps extends B4hExpenseHeaderType {}
-
-export const B4hExpensesItems = async (props: B4hExpensesItemsProps) => {
+export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const { userId } = useB4hSession();
   const date = getDateFromQuery(props);
 

@@ -6,7 +6,7 @@ import { DATE_FORMAT } from './constants';
 export type B4hExpenseHeaderType = {
   month?: string | null;
   year?: string | null;
-  viewBy?: 'byLabel' | 'byDate' | null;
+  viewBy?: 'byLabel' | 'byDate' | '' | null;
 };
 
 export const expensesByDate = (expenses: ExpenseModel[]) => {
@@ -51,8 +51,10 @@ export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string,
 export const getDateFromQuery = (searchParams: B4hExpenseHeaderType) => {
   const date = new Date();
   date.setDate(1);
-  searchParams?.year && date.setFullYear(Number(searchParams.year));
-  searchParams?.month && date.setMonth(Number(searchParams.month) - 1);
+  searchParams?.year && searchParams.year.length > 0 && date.setFullYear(Number(searchParams.year));
+  searchParams?.month &&
+    searchParams.month.length > 0 &&
+    date.setMonth(Number(searchParams.month) - 1);
 
   return date;
 };
