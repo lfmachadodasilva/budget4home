@@ -48,13 +48,11 @@ export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string,
   );
 };
 
-export const getDateFromQuery = (searchParams: B4hExpenseHeaderType) => {
+export const getDateFromQuery = (year?: string | null, month?: string | null) => {
   const date = new Date();
   date.setDate(1);
-  searchParams?.year && searchParams.year.length > 0 && date.setFullYear(Number(searchParams.year));
-  searchParams?.month &&
-    searchParams.month.length > 0 &&
-    date.setMonth(Number(searchParams.month) - 1);
+  year && year.length > 0 && date.setFullYear(Number(year));
+  month && month.length > 0 && date.setMonth(Number(month) - 1);
 
   return date;
 };

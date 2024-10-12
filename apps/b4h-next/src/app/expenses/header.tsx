@@ -36,10 +36,7 @@ export const B4hExpensesHeader = () => {
     }
   };
 
-  const date = getDateFromQuery({
-    year: searchParams.get('year'),
-    month: searchParams.get('month')
-  });
+  const date = getDateFromQuery(searchParams.get('year'), searchParams.get('month'));
 
   return (
     <>

@@ -1,6 +1,5 @@
 'use server';
 
-import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
 export type FormState = {
@@ -22,7 +21,7 @@ export async function onSubmitAction(
     };
   }
 
-  const { userId } = useB4hSession();
+  // const { userId } = useB4hSession();
 
   // TODO write to Firestore
   // const expense: Partial<ExpenseModel> = data;

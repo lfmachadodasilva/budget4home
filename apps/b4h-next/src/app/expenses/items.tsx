@@ -14,7 +14,7 @@ import { B4hRoutes } from '../../utils/routes';
 
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const { userId } = useB4hSession();
-  const date = getDateFromQuery(props);
+  const date = getDateFromQuery(props.year, props.month);
 
   // fetch data
   const groups = await getGroupsFirestore(userId);
