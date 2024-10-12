@@ -1,7 +1,7 @@
-import { useB4hSession } from 'apps/b4h-next/src/utils/hooks/useB4hSession';
-import { B4hGroupForm } from '../../../components/forms/groups';
 import { getGroupFirestore, getUsersFirestore } from '@b4h/firestore';
-import { redirect } from 'next/navigation';
+import { useB4hSession } from '../../..//utils/hooks/useB4hSession';
+import { B4hGroupForm } from '../../../components/forms/groups';
+import { B4hNotFound } from '../../../components/notFound';
 
 export const metadata = {
   title: 'update group | budget4home'
@@ -14,8 +14,7 @@ export default async function GroupUpdate({ params }: { params: { id: string } }
   const [group, users] = await Promise.all([getGroupFirestore(userId, id), getUsersFirestore()]);
 
   if (!group) {
-    // TODO redirect to 404
-    redirect('/groups');
+    return <B4hNotFound />;
   }
 
   return <B4hGroupForm users={users} group={group} />;

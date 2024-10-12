@@ -1,4 +1,4 @@
-export const NotFoundPage = () => {
+export const B4hNotFound = () => {
   return (
     <>
       <h1>not found</h1>

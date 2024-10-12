@@ -1,5 +1,4 @@
-import { FirestoreDataConverter } from '@b4h/firebase-admin';
-import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
+import { FirestoreDataConverter, getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { GroupModel } from '@b4h/models';
 import { FirestorePath } from '../path';
 

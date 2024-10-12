@@ -1,7 +1,7 @@
+import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 import { forwardRef, HTMLProps } from 'react';
 import styles from './form.module.scss';
-import Link from 'next/link';
-import { ArrowLeftIcon } from '@radix-ui/react-icons';
 
 const Root = forwardRef<HTMLFormElement, HTMLProps<HTMLFormElement>>((props, ref) => {
   return (

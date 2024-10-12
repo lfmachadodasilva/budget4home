@@ -1,21 +1,21 @@
 'use client';
 
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { B4hForm } from '../../../components/ui/form/form';
+import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { HTMLProps } from 'react';
-import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
-import { B4hButton } from '../../../components/ui/button/button';
-import { format } from 'date-fns';
-import { B4hRoutes } from '../../../utils/routes';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { expenseFormSchema, ExpenseFormType } from './schema';
 import { useFormState } from 'react-dom';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { B4hButton } from '../../../components/ui/button/button';
+import { B4hForm } from '../../../components/ui/form/form';
+import { DATE_TIME_FORMAT } from '../../../utils/constants';
+import { B4hRoutes } from '../../../utils/routes';
 import { onSubmitAction } from './action';
-import { DATE_TIME_FORMAT } from 'apps/b4h-next/src/utils/constants';
+import { expenseFormSchema, ExpenseFormType } from './schema';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
-  expense?: Partial<ExpenseModel>;
+  expense?: ExpenseModel | null;
   labels: LabelModel[];
 }
 

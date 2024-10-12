@@ -1,7 +1,7 @@
 'use client';
 
-import { ErrorPage } from '../components/error';
+import { B4hError } from '../components/error';
 
 export default function Error() {
-  return <ErrorPage />;
+  return <B4hError />;
 }

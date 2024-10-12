@@ -1,5 +1,5 @@
-import { LoadingPage } from '../../../components/loading';
+import { B4hLoading } from '../../../components/loading';
 
 export default function Loading() {
-  return <LoadingPage />;
+  return <B4hLoading />;
 }

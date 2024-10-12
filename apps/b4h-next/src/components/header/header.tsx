@@ -1,8 +1,8 @@
 import Link from 'next/link';
+import { B4hRoutes } from '../../utils/routes';
 import styles from './header.module.scss';
 import { B4hMenuMain } from './menuMain';
 import { B4hMenuUser } from './menuUser';
-import { B4hRoutes } from '../../utils/routes';
 
 export const B4hHeader = () => {
   return (

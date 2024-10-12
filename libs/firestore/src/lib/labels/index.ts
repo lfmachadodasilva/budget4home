@@ -1,8 +1,7 @@
-import { FirestoreDataConverter } from '@b4h/firebase-admin';
+import { FirestoreDataConverter, getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
-import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
-import { FirestorePath } from '../path';
 import { getGroupFirestore } from '../groups';
+import { FirestorePath } from '../path';
 
 class LabelConverter implements FirestoreDataConverter<LabelModel> {
   toFirestore(modelObject: LabelModel): FirebaseFirestore.DocumentData {

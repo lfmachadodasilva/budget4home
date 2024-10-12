@@ -1,9 +1,13 @@
-import { FirestoreDataConverter, WithFieldValue } from '@b4h/firebase-admin';
+import {
+  FirestoreDataConverter,
+  getFirebaseAdminFirestore,
+  Timestamp,
+  WithFieldValue
+} from '@b4h/firebase-admin';
 import { ExpenseModel } from '@b4h/models';
-import { getFirebaseAdminFirestore, Timestamp } from '@b4h/firebase-admin';
 import { addMonths, startOfMonth } from 'date-fns';
-import { FirestorePath } from '../path';
 import { getGroupFirestore } from '../groups';
+import { FirestorePath } from '../path';
 
 class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
   toFirestore(modelObject: WithFieldValue<ExpenseModel>): FirebaseFirestore.DocumentData {

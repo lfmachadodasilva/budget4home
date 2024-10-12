@@ -2,7 +2,7 @@
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     // "source.fixAll": "explicit",
-    // "source.organizeImports": "explicit",
+    "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
   },
   "editor.tabSize": 2,
