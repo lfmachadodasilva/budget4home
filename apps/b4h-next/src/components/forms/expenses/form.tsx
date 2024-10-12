@@ -3,7 +3,6 @@
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { useRouter } from 'next/navigation';
 import { HTMLProps } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -41,16 +40,11 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       comments: props.expense?.comments
     }
   });
-  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<ExpenseFormType> = async (data, event) => {
-    // event?.preventDefault();
-
     // // TODO
     // const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
 
-    // console.log({ data, submitterName: submitter?.name });
-    // push(B4hRoutes.expenses);
     event?.preventDefault();
     formAction({ ...props.expense, ...data });
   };

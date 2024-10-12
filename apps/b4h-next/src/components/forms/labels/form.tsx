@@ -2,7 +2,6 @@
 
 import { LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hRoutes } from '../../../utils/routes';
@@ -30,7 +29,6 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
       icon: props.label?.icon ?? ''
     }
   });
-  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<LabelFormType> = async (data, event) => {
     event?.preventDefault();

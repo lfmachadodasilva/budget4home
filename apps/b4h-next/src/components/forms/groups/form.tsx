@@ -2,7 +2,6 @@
 
 import { GroupModel, UserModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hRoutes } from '../../../utils/routes';
@@ -31,9 +30,6 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
       userIds: props.group?.userIds ?? []
     }
   });
-  const { push } = useRouter();
-
-  console.log('state:', { state });
 
   const onSubmit: SubmitHandler<GroupFormType> = async (data, event) => {
     event?.preventDefault();

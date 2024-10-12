@@ -20,7 +20,7 @@ export const B4hMenuMain = () => {
         push(B4hRoutes.login);
       }
     },
-    [user]
+    [user, push]
   );
 
   return (

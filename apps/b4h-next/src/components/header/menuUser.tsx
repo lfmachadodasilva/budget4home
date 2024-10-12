@@ -46,6 +46,7 @@ export const B4hMenuUser = () => {
       onChange={handleOnChange}
       trigger={
         user?.photoURL ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img alt="avatar" className={styles.avatar} src={user?.photoURL} />
         ) : (
           <PersonIcon className={styles.icon} />
