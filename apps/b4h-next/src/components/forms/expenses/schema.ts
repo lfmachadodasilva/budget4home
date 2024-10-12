@@ -1,8 +1,14 @@
 import { ExpenseType } from '@b4h/models';
-import { date, z } from 'zod';
+import { parse } from 'date-fns';
+import { z } from 'zod';
 
 export const expenseFormSchema = z.object({
-  type: z.enum([ExpenseType.incoming, ExpenseType.outcoming]),
+  type: z
+    .string()
+    .trim()
+    .refine(val => val !== ExpenseType.incoming || val !== ExpenseType.outcoming, {
+      message: 'type is invalid'
+    }),
   name: z
     .string()
     .trim()
@@ -15,11 +21,20 @@ export const expenseFormSchema = z.object({
     .max(100, {
       message: 'name is too long, max 100 characters'
     }),
-  value: z.number().int().min(1, {
-    message: "value can't be zero"
-  }),
-  date: z.string().datetime(),
-  label: z.string().trim().uuid(),
+  value: z
+    .number({
+      message: 'value is required'
+    })
+    .min(1, {
+      message: 'value is too short, min 1'
+    }),
+  date: z
+    .string()
+    .trim()
+    .refine(val => parse(val, 'P', new Date()), {
+      message: 'date format is invalid'
+    }),
+  label: z.string().trim().min(1, { message: 'label is required' }),
   comments: z.string().trim().optional()
 });
 

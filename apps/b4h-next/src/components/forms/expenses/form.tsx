@@ -31,7 +31,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
       name: props.expense?.name ?? '',
-      type: (props.expense?.type as keyof typeof ExpenseType) ?? ExpenseType.outcoming,
+      type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
       date: format(
         props.expense?.date ? new Date(props.expense?.date) : new Date(),
@@ -52,7 +52,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     // console.log({ data, submitterName: submitter?.name });
     // push(B4hRoutes.expenses);
     event?.preventDefault();
-    formAction(data);
+    formAction({ ...props.expense, ...data });
   };
 
   const title = props.expense ? 'update expense' : 'add expense';
@@ -70,6 +70,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
             <B4hForm.Option value={ExpenseType.outcoming}>{ExpenseType.outcoming}</B4hForm.Option>
             <B4hForm.Option value={ExpenseType.incoming}>{ExpenseType.incoming}</B4hForm.Option>
           </B4hForm.Select>
+          {errors.type && <B4hForm.LabelError>{errors.type.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
@@ -80,13 +81,20 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="value">value</B4hForm.Label>
-          <B4hForm.Input type="tel" defaultValue={props.expense?.value} {...register('value')} />
+          <B4hForm.Input
+            type="number"
+            min={1}
+            {...register('value', {
+              setValueAs: value => (value === '' ? undefined : parseInt(value, 10))
+            })}
+          />
           {errors.value && <B4hForm.LabelError>{errors.value.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="date">date</B4hForm.Label>
           <B4hForm.Input type="datetime-local" {...register('date')} />
+          {errors.date && <B4hForm.LabelError>{errors.date.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
@@ -98,16 +106,12 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               </B4hForm.Option>
             ))}
           </B4hForm.Select>
+          {errors.label && <B4hForm.LabelError>{errors.label.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="comments">comments</B4hForm.Label>
-          <B4hForm.TextArea
-            type="text"
-            rows={2}
-            defaultValue={props.expense?.comments}
-            {...register('comments')}
-          />
+          <B4hForm.TextArea type="text" rows={2} {...register('comments')} />
         </B4hForm.Field>
 
         <B4hForm.Actions>
