@@ -1,28 +1,41 @@
 import { getExpensesFirebase, getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
-import { format } from 'date-fns';
 import Link from 'next/link';
 import { B4hButton } from '../../components/ui/button/button';
-import { B4hForm } from '../../components/ui/form/form';
 import { B4hItem } from '../../components/ui/item/item';
 import { B4hPageLayout } from '../../components/ui/layout/layout';
-import { MONTH_FORMAT } from '../../utils/constants';
-import { expensesByDate, formatValue } from '../../utils/expenses';
+import {
+  B4hExpenseHeaderType,
+  expensesByDate,
+  expensesByLabel,
+  formatValue,
+  getDateFromQuery
+} from '../../utils/expenses';
 import { useB4hSession } from '../../utils/hooks/useB4hSession';
 import { labelsById } from '../../utils/label';
 import { B4hRoutes } from '../../utils/routes';
+import { B4hExpensesHeader } from './header';
 
 export const metadata = {
   title: 'expenses | budget4home'
 };
 
-export default async function Expeses() {
+export default async function Expeses({ searchParams }: { searchParams: B4hExpenseHeaderType }) {
+  const date = getDateFromQuery(searchParams);
   const { userId } = useB4hSession();
-  const groups = await getGroupsFirestore(userId);
-  const labels = await getLabelsFirestore(userId, groups[0].id);
-  const expenses = await getExpensesFirebase(userId, groups[0].id);
 
+  // fetch data
+  const groups = await getGroupsFirestore(userId);
+  const [labels, expenses] = await Promise.all([
+    getLabelsFirestore(userId, groups[0].id),
+    getExpensesFirebase(userId, groups[0].id, date)
+  ]);
+
+  // format data
   const labelById = labelsById(labels);
-  const expenseBy = expensesByDate(expenses);
+  const expenseBy =
+    searchParams.viewBy === 'byLabel'
+      ? expensesByLabel(expenses, labelById)
+      : expensesByDate(expenses);
 
   return (
     <B4hPageLayout.Root>
@@ -33,18 +46,7 @@ export default async function Expeses() {
         </Link>
       </B4hPageLayout.Header>
       <B4hPageLayout.Content>
-        <B4hForm.Field>
-          <B4hForm.Label>month</B4hForm.Label>
-          <B4hForm.Input type="month" defaultValue={format(new Date(), MONTH_FORMAT)} />
-        </B4hForm.Field>
-
-        <B4hForm.Field>
-          <B4hForm.Label>view by</B4hForm.Label>
-          <B4hForm.Select>
-            <B4hForm.Option value="month">month</B4hForm.Option>
-            <B4hForm.Option value="year">year</B4hForm.Option>
-          </B4hForm.Select>
-        </B4hForm.Field>
+        <B4hExpensesHeader />
 
         <B4hItem.Root>
           {Object.entries(expenseBy).map(([key, expenses]) => (

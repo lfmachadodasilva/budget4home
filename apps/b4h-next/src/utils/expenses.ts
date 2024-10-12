@@ -1,6 +1,13 @@
-import { ExpenseModel } from '@b4h/models';
+import { ExpenseModel, LabelModel } from '@b4h/models';
 import { format } from 'date-fns';
+import { sumBy } from 'lodash';
 import { DATE_FORMAT } from './constants';
+
+export type B4hExpenseHeaderType = {
+  month?: string | null;
+  year?: string | null;
+  viewBy?: 'byLabel' | 'byDate' | null;
+};
 
 export const expensesByDate = (expenses: ExpenseModel[]) => {
   const labelsById = {
@@ -19,4 +26,33 @@ export const expensesByDate = (expenses: ExpenseModel[]) => {
 
 export const formatValue = (value: number) => {
   return (value / 100).toFixed(2).replace(/[.,]00$/, '');
+};
+
+export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string, LabelModel>) => {
+  const labelsById = {
+    ...expenses.reduce(
+      (acc, expense) => {
+        const label = labels[expense.label as string];
+        const labelTitle = `${label.icon} ${label.name}`;
+        acc[labelTitle] = acc[labelTitle] || [];
+        acc[labelTitle].push(expense);
+        return acc;
+      },
+      {} as Record<string, ExpenseModel[]>
+    )
+  };
+  return Object.fromEntries(
+    Object.entries(labelsById).sort(
+      ([, a], [, b]) => sumBy(a, c => c.value) - sumBy(b, c => c.value)
+    )
+  );
+};
+
+export const getDateFromQuery = (searchParams: B4hExpenseHeaderType) => {
+  const date = new Date();
+  date.setDate(1);
+  searchParams?.year && date.setFullYear(Number(searchParams.year));
+  searchParams?.month && date.setMonth(Number(searchParams.month) - 1);
+
+  return date;
 };
