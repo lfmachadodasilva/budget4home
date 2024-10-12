@@ -58,8 +58,8 @@ export const getExpensesFirebase = async (userId: string, groupId: string, date?
 };
 
 export const getExpenseFirebase = async (
-  groupId: string,
   userId: string,
+  groupId: string,
   labelId: string
 ): Promise<ExpenseModel | undefined | null> => {
   const group = getGroupFirestore(userId, groupId);
