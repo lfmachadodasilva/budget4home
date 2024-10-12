@@ -15,12 +15,12 @@ export const expenseFormSchema = z.object({
     .max(100, {
       message: 'name is too long, max 100 characters'
     }),
-  value: z.number().min(1, {
+  value: z.number().int().min(1, {
     message: "value can't be zero"
   }),
-  date: z.date(),
-  label: z.string().uuid(),
-  comments: z.string().optional()
+  date: z.string().datetime(),
+  label: z.string().trim().uuid(),
+  comments: z.string().trim().optional()
 });
 
 export type ExpenseFormType = z.output<typeof expenseFormSchema>;

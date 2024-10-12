@@ -11,6 +11,7 @@ import { labelsById } from '../../utils/label';
 import { B4hItem } from '../../components/ui/item/item';
 import { getExpensesFirebase, getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
 import { useB4hSession } from '../../utils/hooks/useB4hSession';
+import { MONTH_FORMAT } from '../../utils/constants';
 
 export const metadata = {
   title: 'expenses | budget4home'
@@ -36,7 +37,7 @@ export default async function Expeses() {
       <B4hPageLayout.Content>
         <B4hForm.Field>
           <B4hForm.Label>month</B4hForm.Label>
-          <B4hForm.Input type="month" defaultValue={format(new Date(), 'yyyy-MM')} />
+          <B4hForm.Input type="month" defaultValue={format(new Date(), MONTH_FORMAT)} />
         </B4hForm.Field>
 
         <B4hForm.Field>

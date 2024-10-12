@@ -9,18 +9,10 @@ import { B4hButton } from '../../../components/ui/button/button';
 import { format } from 'date-fns';
 import { B4hRoutes } from '../../../utils/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { expenseFormSchema } from './schema';
+import { expenseFormSchema, ExpenseFormType } from './schema';
 import { useFormState } from 'react-dom';
 import { onSubmitAction } from './action';
-
-type ExpenseForm = {
-  type: keyof typeof ExpenseType;
-  name: string;
-  value: number;
-  date: Date;
-  label: string;
-  comments?: string;
-};
+import { DATE_TIME_FORMAT } from 'apps/b4h-next/src/utils/constants';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
   expense?: Partial<ExpenseModel>;
@@ -35,20 +27,23 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<ExpenseForm>({
+  } = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
       name: props.expense?.name ?? '',
       type: (props.expense?.type as keyof typeof ExpenseType) ?? ExpenseType.outcoming,
       value: props.expense?.value,
-      date: props.expense?.date ?? new Date(),
+      date: format(
+        props.expense?.date ? new Date(props.expense?.date) : new Date(),
+        DATE_TIME_FORMAT
+      ),
       label: props.expense?.label ?? props.labels[0].id,
       comments: props.expense?.comments
     }
   });
   const { push } = useRouter();
 
-  const onSubmit: SubmitHandler<ExpenseForm> = async (data, event) => {
+  const onSubmit: SubmitHandler<ExpenseFormType> = async (data, event) => {
     // event?.preventDefault();
 
     // // TODO
@@ -91,14 +86,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="date">date</B4hForm.Label>
-          <B4hForm.Input
-            type="datetime-local"
-            defaultValue={format(
-              props.expense?.date ? new Date(props.expense?.date) : new Date(),
-              "yyyy-MM-dd'T'HH:mm"
-            )}
-            {...register('date')}
-          />
+          <B4hForm.Input type="datetime-local" {...register('date')} />
         </B4hForm.Field>
 
         <B4hForm.Field>
