@@ -4,13 +4,16 @@ import { FirestorePath } from '../path';
 
 class GroupConverter implements FirestoreDataConverter<GroupModel> {
   toFirestore(modelObject: GroupModel): FirebaseFirestore.DocumentData {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
     return model;
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): GroupModel {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
+
     return {
       ...data,
       createdAt: data.createdAt && new Date(data.createdAt.toDate()),
@@ -66,7 +69,8 @@ export const updateGroupFirestore = async (userId: string, group: Partial<GroupM
     updatedAt: new Date(),
     updatedBy: userId
   } as GroupModel;
-  const col = await getFirebaseAdminFirestore()
+
+  await getFirebaseAdminFirestore()
     .doc(FirestorePath.group(group.id as string))
     .withConverter(groupConverter)
     .set(groupToUpdate, {

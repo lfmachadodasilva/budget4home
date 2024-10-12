@@ -11,15 +11,17 @@ import { FirestorePath } from '../path';
 
 class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
   toFirestore(modelObject: WithFieldValue<ExpenseModel>): FirebaseFirestore.DocumentData {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
     return {
       ...model,
-      value: Number(model.value) ?? 0
+      value: model.value
     };
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): ExpenseModel {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { labelRef, ...data } = snapshot.data() as any;
 
     return {

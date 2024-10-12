@@ -5,12 +5,14 @@ import { FirestorePath } from '../path';
 
 class LabelConverter implements FirestoreDataConverter<LabelModel> {
   toFirestore(modelObject: LabelModel): FirebaseFirestore.DocumentData {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
     return model;
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): LabelModel {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = snapshot.data() as any;
 
     return {

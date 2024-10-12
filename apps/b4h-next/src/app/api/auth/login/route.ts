@@ -1,7 +1,7 @@
 import { getFirebaseAdminAuth } from '@b4h/firebase-admin';
-import { SESSION_USER_ID } from 'apps/b4h-next/src/utils/constants';
 import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { SESSION_USER_ID } from '../../../../utils/constants';
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const authorization = headers().get('Authorization');
