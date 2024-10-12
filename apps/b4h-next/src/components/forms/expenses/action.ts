@@ -1,10 +1,9 @@
 'use server';
 
-import { addExpenseFirebase, updateExpenseFirebase } from '@b4h/firestore';
+import { addExpenseFirebase, deleteExpenseFirebase, updateExpenseFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
-import { redirect } from 'next/navigation';
+import { ACTION_DONE } from '../../../utils/constants';
 import { useB4hSession } from '../../../utils/hooks/useB4hSession';
-import { B4hRoutes } from '../../../utils/routes';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
 export type FormState = {
@@ -26,12 +25,45 @@ export async function onSubmitAction(
     };
   }
 
-  const groupId = await getGroupId();
-  const expense: Partial<ExpenseModel> = data;
-  if (expense.id) {
-    updateExpenseFirebase(userId, groupId, expense);
-  } else {
-    addExpenseFirebase(userId, groupId, expense);
+  try {
+    const groupId = await getGroupId();
+    const expense: Partial<ExpenseModel> = data;
+    if (expense.id) {
+      updateExpenseFirebase(userId, groupId, expense);
+    } else {
+      addExpenseFirebase(userId, groupId, expense);
+    }
+    return {
+      message: ACTION_DONE
+    };
+  } catch (err) {
+    console.error();
+    return {
+      message: 'fail to manipulate expense'
+    } as FormState;
   }
-  redirect(B4hRoutes.expenses);
+}
+
+export async function onDeleteAction(
+  prevState: FormState,
+  data: ExpenseFormType
+): Promise<FormState> {
+  const { userId, getGroupId } = useB4hSession();
+  const groupId = await getGroupId();
+
+  try {
+    const expense: Partial<ExpenseModel> = data;
+    await deleteExpenseFirebase(userId, groupId, expense.id as string);
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
+  } catch (err) {
+    console.error(err);
+    return {
+      message: 'fail to delete expense'
+    } as FormState;
+  }
+
+  // redirect(B4hRoutes.expenses);
 }

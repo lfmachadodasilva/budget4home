@@ -2,15 +2,21 @@
 
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DATE_TIME_FORMAT } from 'apps/b4h-next/src/utils/constants';
 import { format } from 'date-fns';
-import { HTMLProps } from 'react';
+import { useRouter } from 'next/navigation';
+import { HTMLProps, useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hButton } from '../../../components/ui/button/button';
 import { B4hForm } from '../../../components/ui/form/form';
+import {
+  ACTION_DELETE,
+  ACTION_DONE,
+  ACTION_SUBMIT,
+  DATE_TIME_FORMAT
+} from '../../../utils/constants';
 import { B4hRoutes } from '../../../utils/routes';
-import { onSubmitAction } from './action';
+import { onDeleteAction, onSubmitAction } from './action';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
@@ -19,7 +25,11 @@ interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
 }
 
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
+  const { push } = useRouter();
   const [state, formAction] = useFormState(onSubmitAction, {
+    message: ''
+  });
+  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
     message: ''
   });
   const {
@@ -32,22 +42,37 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       name: props.expense?.name ?? '',
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
-      // date: format(
-      //   props.expense?.date ? new Date(props.expense?.date) : new Date(),
-      //   DATE_TIME_FORMAT
-      // ),
       label: props.expense?.label ?? props.labels[0].id,
       comments: props.expense?.comments
     }
   });
 
   const onSubmit: SubmitHandler<ExpenseFormType> = async (data, event) => {
-    // // TODO
-    // const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
+    const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
 
     event?.preventDefault();
-    formAction({ ...props.expense, ...data });
+
+    switch (submitter.name) {
+      case ACTION_SUBMIT: {
+        formAction({ ...props.expense, ...data });
+        break;
+      }
+      case ACTION_DELETE:
+        if (confirm('are you sure?')) {
+          deleteFormAction({ ...props.expense, ...data });
+        }
+        break;
+      default:
+        console.error('invalid submit action');
+        break;
+    }
   };
+
+  useEffect(() => {
+    if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
+      push(B4hRoutes.expenses);
+    }
+  }, [state, deleteState]);
 
   const title = props.expense ? 'update expense' : 'add expense';
 
@@ -116,12 +141,22 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Actions>
-          <B4hButton type="submit" name="primary" loading={isSubmitting}>
+          <B4hButton type="submit" name={ACTION_SUBMIT} loading={isSubmitting}>
             {title}
           </B4hButton>
           {!props.expense && (
-            <B4hButton type="submit" buttonType="secondary" name="secondary" loading={isSubmitting}>
+            <B4hButton type="submit" buttonType="secondary" name="pile" loading={isSubmitting}>
               pile
+            </B4hButton>
+          )}
+          {props.expense && (
+            <B4hButton
+              type="submit"
+              buttonType="delete"
+              name={ACTION_DELETE}
+              loading={isSubmitting}
+            >
+              delete
             </B4hButton>
           )}
         </B4hForm.Actions>
