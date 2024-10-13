@@ -2,7 +2,7 @@
 
 import { addExpenseFirebase, deleteExpenseFirebase, updateExpenseFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
-import { ACTION_DONE } from '../../../../utils/constants';
+import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '../../../../utils/constants';
 import { useB4hSession } from '../../../../utils/hooks/useB4hSession';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
@@ -20,7 +20,7 @@ export async function onSubmitAction(
 
   if (!parsed.success) {
     return {
-      message: 'Invalid form data',
+      message: ACTION_INVALID,
       issues: [...new Set(parsed.error.issues.map(issue => issue.message))]
     };
   }
@@ -37,9 +37,9 @@ export async function onSubmitAction(
       message: ACTION_DONE
     };
   } catch (err) {
-    console.error();
+    console.error(err);
     return {
-      message: 'fail to manipulate expense'
+      message: ACTION_FAIL
     } as FormState;
   }
 }
@@ -61,9 +61,7 @@ export async function onDeleteAction(
   } catch (err) {
     console.error(err);
     return {
-      message: 'fail to delete expense'
+      message: ACTION_FAIL
     } as FormState;
   }
-
-  // redirect(B4hRoutes.expenses);
 }

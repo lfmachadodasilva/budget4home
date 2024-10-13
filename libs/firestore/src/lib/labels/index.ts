@@ -1,6 +1,6 @@
 import { FirestoreDataConverter, getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
-import { getGroupFirestore } from '../groups';
+import { tryGroupIsValidFirestore } from '../groups';
 import { FirestorePath } from '../path';
 
 class LabelConverter implements FirestoreDataConverter<LabelModel> {
@@ -26,10 +26,8 @@ class LabelConverter implements FirestoreDataConverter<LabelModel> {
 const labelConverter = new LabelConverter();
 
 export const getLabelsFirestore = async (userId: string, groupId: string) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
+
   const docs = await getFirebaseAdminFirestore()
     .collection(FirestorePath.labels(groupId))
     .orderBy('name', 'asc')
@@ -44,10 +42,7 @@ export const getLabelFirestore = async (
   groupId: string,
   labelId: string
 ): Promise<LabelModel | undefined | null> => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const doc = await getFirebaseAdminFirestore()
     .doc(FirestorePath.label(groupId, labelId))
@@ -62,10 +57,7 @@ export const addLabelFirestore = async (
   groupId: string,
   label: Partial<LabelModel>
 ) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const labelToAdd = {
     ...label,
@@ -87,10 +79,7 @@ export const updateLabelFirestore = async (
   groupId: string,
   label: Partial<LabelModel>
 ) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const labelToUpdate = {
     ...label,
@@ -105,10 +94,6 @@ export const updateLabelFirestore = async (
 };
 
 export const deleteLabelFirestore = async (userId: string, groupId: string, labelId: string) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
-
+  await tryGroupIsValidFirestore(userId, groupId);
   await getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, labelId)).delete();
 };

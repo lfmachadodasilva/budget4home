@@ -2,12 +2,15 @@
 
 import { GroupModel, UserModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hButton } from '../../../../components/ui/button/button';
 import { B4hForm } from '../../../../components/ui/form/form';
+import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT } from '../../../../utils/constants';
 import { B4hRoutes } from '../../../../utils/routes';
-import { onSubmitAction } from './action';
+import { onDeleteAction, onSubmitAction } from './action';
 import { groupFormSchema, GroupFormType } from './schema';
 
 export interface B4hGroupFormProps {
@@ -16,7 +19,11 @@ export interface B4hGroupFormProps {
 }
 
 export const B4hGroupForm = (props: B4hGroupFormProps) => {
+  const { push } = useRouter();
   const [state, formAction] = useFormState(onSubmitAction, {
+    message: ''
+  });
+  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
     message: ''
   });
   const {
@@ -32,9 +39,28 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
   });
 
   const onSubmit: SubmitHandler<GroupFormType> = async (data, event) => {
+    const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
+
     event?.preventDefault();
+
+    switch (submitter.name) {
+      case ACTION_SUBMIT: {
+        formAction({ ...props.group, ...data });
+        break;
+      }
+      case ACTION_DELETE: {
+        deleteFormAction({ ...props.group, ...data });
+        break;
+      }
+    }
     formAction({ ...props.group, ...data });
   };
+
+  useEffect(() => {
+    if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
+      push(B4hRoutes.expenses);
+    }
+  }, [state, deleteState]);
 
   const title = props.group ? 'update group' : 'add group';
   return (
@@ -75,9 +101,14 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Actions>
-          <B4hButton type="submit" loading={isSubmitting}>
+          <B4hButton type="submit" loading={isSubmitting} name={ACTION_SUBMIT}>
             {title}
           </B4hButton>
+          {props.group && (
+            <B4hButton type="submit" loading={isSubmitting} name={ACTION_DELETE}>
+              delete
+            </B4hButton>
+          )}
         </B4hForm.Actions>
       </B4hForm.Root>
     </>

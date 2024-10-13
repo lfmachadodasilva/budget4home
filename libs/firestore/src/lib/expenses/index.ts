@@ -6,7 +6,7 @@ import {
 } from '@b4h/firebase-admin';
 import { ExpenseModel } from '@b4h/models';
 import { addMonths, startOfMonth } from 'date-fns';
-import { getGroupFirestore } from '../groups';
+import { tryGroupIsValidFirestore } from '../groups';
 import { FirestorePath } from '../path';
 
 class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
@@ -37,10 +37,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
 const expenseConverter = new ExpenseConverter();
 
 export const getExpensesFirebase = async (userId: string, groupId: string, date?: Date | null) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const now = date ?? new Date();
   const from = startOfMonth(now);
@@ -62,10 +59,7 @@ export const getExpenseFirebase = async (
   groupId: string,
   labelId: string
 ): Promise<ExpenseModel | undefined | null> => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const doc = await getFirebaseAdminFirestore()
     .doc(FirestorePath.expese(groupId, labelId))
@@ -80,10 +74,7 @@ export const addExpenseFirebase = async (
   groupId: string,
   expense: Partial<ExpenseModel>
 ) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const toAdd = {
     ...expense,
@@ -107,10 +98,7 @@ export const updateExpenseFirebase = async (
   groupId: string,
   expense: Partial<ExpenseModel>
 ) => {
-  const group = getGroupFirestore(userId, groupId);
-  if (!group) {
-    throw new Error('Group not found');
-  }
+  await tryGroupIsValidFirestore(userId, groupId);
 
   const toUpdate = {
     ...expense,
@@ -125,5 +113,6 @@ export const updateExpenseFirebase = async (
 };
 
 export const deleteExpenseFirebase = async (userId: string, groupId: string, expenseId: string) => {
+  await tryGroupIsValidFirestore(userId, groupId);
   await getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, expenseId)).delete();
 };

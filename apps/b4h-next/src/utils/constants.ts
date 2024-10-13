@@ -5,5 +5,7 @@ export const DATE_FORMAT = 'yyyy-MM-dd';
 export const MONTH_FORMAT = 'yyyy-MM';
 
 export const ACTION_DONE = 'DONE';
+export const ACTION_FAIL = 'FAIL';
+export const ACTION_INVALID = 'INVALID';
 export const ACTION_SUBMIT = 'SUBMIT';
 export const ACTION_DELETE = 'DELETE';

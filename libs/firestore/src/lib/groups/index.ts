@@ -80,6 +80,15 @@ export const updateGroupFirestore = async (userId: string, group: Partial<GroupM
   return groupToUpdate;
 };
 
-export const deleteGroupFirestore = async (groupId: string) => {
+export const deleteGroupFirestore = async (userId: string, groupId: string) => {
+  await tryGroupIsValidFirestore(userId, groupId);
   await getFirebaseAdminFirestore().doc(FirestorePath.group(groupId)).delete();
+};
+
+export const tryGroupIsValidFirestore = async (userId: string, groupId: string) => {
+  const group = await getGroupFirestore(userId, groupId);
+  if (!group) {
+    throw new Error('Group not found');
+  }
+  return group;
 };
