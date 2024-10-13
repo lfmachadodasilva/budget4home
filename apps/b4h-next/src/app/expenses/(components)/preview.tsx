@@ -16,14 +16,11 @@ export interface B4hExpensePreviewProps {
 }
 
 export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) => {
-  if (expenses.length === 0) {
-    return null;
-  }
-
   const { push } = useRouter();
   const [state, formAction] = useFormState(onSubmitAllAction, {
     message: ''
   });
+
   const onSubmit = () => {
     formAction(expenses);
   };
@@ -33,6 +30,10 @@ export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) 
       push(B4hRoutes.expenses);
     }
   }, [state, push]);
+
+  if (expenses.length === 0) {
+    return null;
+  }
 
   // format data
   const labelById = labelsById(labels);
@@ -49,7 +50,7 @@ export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) 
 
           <B4hItem.Items>
             {expenses.map(expense => (
-              <B4hItem.Item>
+              <B4hItem.Item key={expense.id}>
                 <p>
                   {labelById[expense.label]?.icon} {expense.name}
                 </p>

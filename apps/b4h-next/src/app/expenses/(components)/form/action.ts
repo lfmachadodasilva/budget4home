@@ -74,7 +74,7 @@ export async function onSubmitAllAction(
   const groupId = await getGroupId();
 
   try {
-    var promises = data.map(async expense => {
+    const promises = data.map(async expense => {
       await addExpenseFirebase(userId, groupId, expense);
     });
     await Promise.all(promises);
