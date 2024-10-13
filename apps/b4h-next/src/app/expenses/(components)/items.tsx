@@ -1,6 +1,7 @@
+import { B4hItem } from '@/components/ui/item/item';
+import styles from '@/components/ui/item/item.module.scss';
 import { getExpensesFirebase, getLabelsFirestore } from '@b4h/firestore';
 import Link from 'next/link';
-import { B4hItem } from '../../../components/ui/item/item';
 import {
   B4hExpenseHeaderType,
   expensesByDate,
@@ -40,8 +41,10 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
           <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
             <B4hItem.Item>
               <p>
-                {labelById[expense.label]?.icon} {expense.name}
+                {labelById[expense.label]?.icon} {expense.name}{' '}
+                {expense.scheduled && <small className={styles.small}>{expense.scheduled}</small>}
               </p>
+
               <p>{formatValue(expense.value)}</p>
             </B4hItem.Item>
           </Link>

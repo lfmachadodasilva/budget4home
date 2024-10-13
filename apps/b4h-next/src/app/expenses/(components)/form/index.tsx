@@ -8,9 +8,10 @@ import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { HTMLProps, useEffect } from 'react';
+import { HTMLProps, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { B4hExpensePreview } from '../preview';
 import { onDeleteAction, onSubmitAction } from './action';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
@@ -27,6 +28,8 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
     message: ''
   });
+  const [preview, setPreview] = useState<ExpenseModel[]>([]);
+
   const {
     register,
     handleSubmit,
@@ -56,6 +59,13 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         if (confirm('are you sure?')) {
           deleteFormAction({ ...props.expense, ...data });
         }
+        break;
+
+      case 'pile':
+        setPreview(x => {
+          x = [...x, data as ExpenseModel];
+          return x;
+        });
         break;
 
       default:
@@ -137,12 +147,19 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Actions>
-          <B4hButton type="submit" name={ACTION_SUBMIT} loading={isSubmitting}>
-            {title}
-          </B4hButton>
+          {preview.length === 0 && (
+            <B4hButton type="submit" name={ACTION_SUBMIT} loading={isSubmitting}>
+              {title}
+            </B4hButton>
+          )}
           {!props.expense && (
-            <B4hButton type="submit" buttonType="secondary" name="pile" loading={isSubmitting}>
-              pile
+            <B4hButton
+              type="submit"
+              buttonType={preview.length === 0 ? 'secondary' : 'primary'}
+              name="pile"
+              loading={isSubmitting}
+            >
+              {preview.length === 0 ? 'pile' : 'add'}
             </B4hButton>
           )}
           {props.expense && (
@@ -157,6 +174,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
           )}
         </B4hForm.Actions>
       </B4hForm.Root>
+      <B4hExpensePreview expenses={preview} labels={props.labels} />
     </>
   );
 };

@@ -65,3 +65,27 @@ export async function onDeleteAction(
     } as FormState;
   }
 }
+
+export async function onSubmitAllAction(
+  prevState: FormState,
+  data: ExpenseFormType[]
+): Promise<FormState> {
+  const { userId, getFavoriteGroupId: getGroupId } = b4hSession();
+  const groupId = await getGroupId();
+
+  try {
+    var promises = data.map(async expense => {
+      await addExpenseFirebase(userId, groupId, expense);
+    });
+    await Promise.all(promises);
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
+  } catch (err) {
+    console.error(err);
+    return {
+      message: ACTION_FAIL
+    } as FormState;
+  }
+}
