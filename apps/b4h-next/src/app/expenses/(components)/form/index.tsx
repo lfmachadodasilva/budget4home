@@ -21,7 +21,7 @@ interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
 }
 
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
   const [state, formAction] = useFormState(onSubmitAction, {
     message: ''
   });
@@ -77,6 +77,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   useEffect(() => {
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
       push(B4hRoutes.expenses);
+      refresh();
     }
   }, [state, deleteState, push]);
 
