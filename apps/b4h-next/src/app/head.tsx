@@ -3,11 +3,6 @@ import Head from 'next/head';
 export default function B4hHead() {
   return (
     <Head>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"
-        rel="stylesheet"
-      />
-
       <meta name="name" content="budget4home" />
       <meta name="description" content="budget4home - Project to control my personal budget" />
 
