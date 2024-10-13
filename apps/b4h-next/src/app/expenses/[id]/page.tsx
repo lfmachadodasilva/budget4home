@@ -1,7 +1,7 @@
+import { B4hNotFound } from '@/components/notFound';
+import { useB4hSession } from '@/utils/hooks/useB4hSession';
 import { getExpenseFirebase, getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
 import { B4hExpensesForm } from '../(components)/form';
-import { B4hNotFound } from '../../../components/notFound';
-import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 
 export const metadata = {
   title: 'update expense | budget4home'

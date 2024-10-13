@@ -1,11 +1,11 @@
 'use client';
 
+import { B4hDropdown } from '@/components/ui/dropdown/dropdown';
+import { B4hRoutes } from '@/utils/routes';
 import { useB4hAuth } from '@b4h/firebase';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback } from 'react';
-import { B4hRoutes } from '../../utils/routes';
-import { B4hDropdown } from '../ui/dropdown/dropdown';
 import styles from './header.module.scss';
 
 export const B4hMenuMain = () => {

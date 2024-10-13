@@ -1,11 +1,11 @@
 'use client';
 
-import { B4hButton } from '../../components/ui/button/button';
-import { B4hForm } from '../../components/ui/form/form';
-import Link from 'next/link';
-import { B4hRoutes } from '../../utils/routes';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { B4hButton } from '@/components/ui/button/button';
+import { B4hForm } from '@/components/ui/form/form';
+import { B4hRoutes } from '@/utils/routes';
 import { useB4hAuth } from '@b4h/firebase';
+import Link from 'next/link';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 type RegisterForm = {
   email: string;

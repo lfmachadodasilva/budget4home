@@ -1,15 +1,15 @@
 'use client';
 
+import { B4hButton } from '@/components/ui/button/button';
+import { B4hForm } from '@/components/ui/form/form';
+import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT } from '@/utils/constants';
+import { B4hRoutes } from '@/utils/routes';
 import { GroupModel, UserModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { B4hButton } from '../../../../components/ui/button/button';
-import { B4hForm } from '../../../../components/ui/form/form';
-import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT } from '../../../../utils/constants';
-import { B4hRoutes } from '../../../../utils/routes';
 import { onDeleteAction, onSubmitAction } from './action';
 import { groupFormSchema, GroupFormType } from './schema';
 

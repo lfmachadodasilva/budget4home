@@ -16,7 +16,16 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "baseUrl": ".",
+    "paths": {
+      "@b4h/firebase": ["../../libs/firebase/src/index.ts"],
+      "@b4h/firebase-admin": ["../../libs/firebase-admin/src/index.ts"],
+      "@b4h/firestore": ["../../libs/firestore/src/index.ts"],
+      "@b4h/models": ["../../libs/models/src/index.ts"],
+      "@b4h/web-components": ["../../libs/web-components/src/index.ts"],
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
     "**/*.ts",

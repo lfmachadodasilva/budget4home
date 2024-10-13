@@ -1,11 +1,11 @@
 'use client';
 
+import { B4hDropdown } from '@/components/ui/dropdown/dropdown';
+import { B4hApiRoutes, B4hRoutes } from '@/utils/routes';
 import { useB4hAuth } from '@b4h/firebase';
 import { PersonIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
-import { B4hApiRoutes, B4hRoutes } from '../../utils/routes';
-import { B4hDropdown } from '../ui/dropdown/dropdown';
 import styles from './header.module.scss';
 
 const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';

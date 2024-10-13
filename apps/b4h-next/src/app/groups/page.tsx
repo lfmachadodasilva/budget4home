@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { B4hPageLayout } from '../../components/ui/layout/layout';
-import { B4hRoutes } from '../../utils/routes';
-import { B4hButton } from '../../components/ui/button/button';
-import { B4hItem } from '../../components/ui/item/item';
+import { B4hButton } from '@/components/ui/button/button';
+import { B4hItem } from '@/components/ui/item/item';
+import { B4hPageLayout } from '@/components/ui/layout/layout';
+import { useB4hSession } from '@/utils/hooks/useB4hSession';
+import { B4hRoutes } from '@/utils/routes';
 import { getGroupsFirestore } from '@b4h/firestore';
-import { useB4hSession } from '../../utils/hooks/useB4hSession';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'groups | budget4home'

@@ -1,12 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import { B4hButton } from '../../components/ui/button/button';
-import { B4hForm } from '../../components/ui/form/form';
-import { B4hRoutes } from '../../utils/routes';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { B4hButton } from '@/components/ui/button/button';
+import { B4hForm } from '@/components/ui/form/form';
+import { B4hRoutes } from '@/utils/routes';
 import { useB4hAuth } from '@b4h/firebase';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 type LoginForm = {
   email: string;

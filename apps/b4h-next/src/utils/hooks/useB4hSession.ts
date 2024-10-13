@@ -1,9 +1,9 @@
+import { SESSION_GROUP_ID, SESSION_USER_ID } from '@/utils/constants';
+import { B4hRoutes } from '@/utils/routes';
 import { getGroupsFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { SESSION_GROUP_ID, SESSION_USER_ID } from '../constants';
-import { B4hRoutes } from '../routes';
 
 let groups: GroupModel[];
 

@@ -1,6 +1,6 @@
+import { useB4hSession } from '@/utils/hooks/useB4hSession';
 import { getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
 import { B4hExpensesForm } from '../(components)/form';
-import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 
 export const metadata = {
   title: 'add expense | budget4home'

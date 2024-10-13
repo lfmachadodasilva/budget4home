@@ -1,4 +1,4 @@
-import { B4hHeader } from '../components/header/header';
+import { B4hHeader } from '@/components/header/header';
 import './global.scss';
 import B4hHead from './head';
 import { Providers } from './providers';
