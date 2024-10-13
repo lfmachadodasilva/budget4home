@@ -116,3 +116,47 @@ export const deleteExpenseFirebase = async (userId: string, groupId: string, exp
   await tryGroupIsValidFirestore(userId, groupId);
   await getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, expenseId)).delete();
 };
+
+export const deleteExpensesByLabelFirebase = async (
+  userId: string,
+  groupId: string,
+  labelId: string
+) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+  const query = getFirebaseAdminFirestore()
+    .collection(FirestorePath.expeses(groupId))
+    .where('label', '==', labelId)
+    .withConverter(expenseConverter)
+    .limit(10);
+
+  return new Promise((resolve, reject) => {
+    deleteQueryBatch(query, resolve).catch(reject);
+  });
+};
+
+async function deleteQueryBatch(
+  query: FirebaseFirestore.Query<ExpenseModel, FirebaseFirestore.DocumentData>,
+  resolve: (value?: any) => void
+) {
+  const snapshot = await query.get();
+
+  const batchSize = snapshot.size;
+  if (batchSize === 0) {
+    // When there are no documents left, we are done
+    resolve();
+    return;
+  }
+
+  // Delete documents in a batch
+  const batch = getFirebaseAdminFirestore().batch();
+  snapshot.docs.forEach(doc => {
+    batch.delete(doc.ref);
+  });
+  await batch.commit();
+
+  // Recurse on the next process tick, to avoid
+  // exploding the stack.
+  process.nextTick(() => {
+    deleteQueryBatch(query, resolve);
+  });
+}

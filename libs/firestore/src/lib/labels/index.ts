@@ -1,5 +1,6 @@
 import { FirestoreDataConverter, getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
+import { deleteExpensesByLabelFirebase } from '../expenses';
 import { tryGroupIsValidFirestore } from '../groups';
 import { FirestorePath } from '../path';
 
@@ -96,4 +97,5 @@ export const updateLabelFirestore = async (
 export const deleteLabelFirestore = async (userId: string, groupId: string, labelId: string) => {
   await tryGroupIsValidFirestore(userId, groupId);
   await getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, labelId)).delete();
+  await deleteExpensesByLabelFirebase(userId, groupId, labelId);
 };

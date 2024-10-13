@@ -60,7 +60,7 @@ export async function onDeleteAction(
   } catch (err) {
     console.error(err);
     return {
-      message: 'fail to delete expense'
+      message: ACTION_FAIL
     } as FormState;
   }
 }

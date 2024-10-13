@@ -1,10 +1,9 @@
 'use server';
 
-import { addLabelFirestore, updateLabelFirestore } from '@b4h/firestore';
+import { addLabelFirestore, deleteLabelFirestore, updateLabelFirestore } from '@b4h/firestore';
 import { LabelModel } from '@b4h/models';
-import { redirect } from 'next/navigation';
+import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '../../../../utils/constants';
 import { useB4hSession } from '../../../../utils/hooks/useB4hSession';
-import { B4hRoutes } from '../../../../utils/routes';
 import { labelFormSchema, LabelFormType } from './schema';
 
 export type FormState = {
@@ -21,17 +20,49 @@ export async function onSubmitAction(
 
   if (!parsed.success) {
     return {
-      message: 'Invalid form data',
+      message: ACTION_INVALID,
       issues: [...new Set(parsed.error.issues.map(issue => issue.message))]
     };
   }
 
-  const groupId = await getGroupId();
-  const label: Partial<LabelModel> = data;
-  if (label.id) {
-    updateLabelFirestore(userId, groupId, label);
-  } else {
-    addLabelFirestore(userId, groupId, label);
+  try {
+    const groupId = await getGroupId();
+    const label: Partial<LabelModel> = data;
+    if (label.id) {
+      updateLabelFirestore(userId, groupId, label);
+    } else {
+      addLabelFirestore(userId, groupId, label);
+    }
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
+  } catch (err) {
+    console.error(err);
+    return {
+      message: ACTION_FAIL
+    } as FormState;
   }
-  redirect(B4hRoutes.labels);
+}
+
+export async function onDeleteAction(
+  prevState: FormState,
+  data: LabelFormType
+): Promise<FormState> {
+  const { userId, getGroupId } = useB4hSession();
+  const groupId = await getGroupId();
+
+  try {
+    const label: Partial<LabelModel> = data;
+    await deleteLabelFirestore(userId, groupId, label.id as string);
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
+  } catch (err) {
+    console.error(err);
+    return {
+      message: ACTION_FAIL
+    } as FormState;
+  }
 }

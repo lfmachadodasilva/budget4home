@@ -49,16 +49,20 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
         break;
       }
       case ACTION_DELETE: {
-        deleteFormAction({ ...props.group, ...data });
+        if (confirm('are you sure?')) {
+          deleteFormAction({ ...props.group, ...data });
+        }
         break;
       }
+      default:
+        console.error('invalid submit action');
+        break;
     }
-    formAction({ ...props.group, ...data });
   };
 
   useEffect(() => {
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
-      push(B4hRoutes.expenses);
+      push(B4hRoutes.groups);
     }
   }, [state, deleteState]);
 
@@ -105,7 +109,12 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
             {title}
           </B4hButton>
           {props.group && (
-            <B4hButton type="submit" loading={isSubmitting} name={ACTION_DELETE}>
+            <B4hButton
+              type="submit"
+              buttonType="delete"
+              loading={isSubmitting}
+              name={ACTION_DELETE}
+            >
               delete
             </B4hButton>
           )}
