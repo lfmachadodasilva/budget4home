@@ -16,8 +16,6 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
   );
   const totalLeft = totalIncoming - totalOutcoming;
 
-  console.log(totalOutcoming, totalIncoming, totalLeft);
-
   return (
     <div className={styles.container}>
       <p>
