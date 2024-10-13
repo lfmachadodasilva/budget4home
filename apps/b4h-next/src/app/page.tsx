@@ -1,6 +1,3 @@
-import { b4hSession } from '@/utils/session';
-import { getExpensesFirebase } from '@b4h/firestore';
-import { B4hExpenseSummary } from './expenses/(components)/summary';
 import styles from './page.module.scss';
 
 export const metadata = {
@@ -8,20 +5,21 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const { userId, getFavoriteGroupId } = b4hSession();
-  const groupId = await getFavoriteGroupId();
-  const expenses = groupId && (await getExpensesFirebase(userId, groupId));
+  // const { userId, getFavoriteGroupId } = b4hSession();
+  // const groupId = await getFavoriteGroupId();
+  // const expenses = groupId && (await getExpensesFirebase(userId, groupId));
   return (
     <div className={styles.page}>
       <h1>home</h1>
       <p>welcome to budget4home!</p>
-      <br />
+      {/* <br />
       {expenses && (
         <>
           <p>summary of your ⭐️ group</p>
           <B4hExpenseSummary expenses={expenses} />
         </>
       )}
+      */}
     </div>
   );
 }
