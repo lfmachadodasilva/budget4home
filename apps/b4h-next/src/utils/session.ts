@@ -13,7 +13,7 @@ export const b4hSession = () => {
     redirect(B4hRoutes.login);
   }
 
-  const getFavoriteGroupId = async () => {
+  const getFavoriteGroupId = async (setCookie: boolean = true) => {
     if (groups.length === 0) {
       groups = await getGroupsFirestore(userId);
     }
@@ -28,13 +28,15 @@ export const b4hSession = () => {
       redirect(B4hRoutes.groups);
     }
 
-    cookies().set({
-      name: SESSION_GROUP_ID,
-      value: groupId,
-      // maxAge: 60 * 60 * 24 * 5 * 1000,
-      httpOnly: true,
-      secure: true
-    });
+    if (setCookie) {
+      cookies().set({
+        name: SESSION_GROUP_ID,
+        value: groupId,
+        // maxAge: 60 * 60 * 24 * 5 * 1000,
+        httpOnly: true,
+        secure: true
+      });
+    }
     return groupId;
   };
 

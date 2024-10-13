@@ -13,7 +13,7 @@ export default async function Home() {
 
   let expenses: ExpenseModel[] | undefined | null;
   try {
-    const groupId = await getFavoriteGroupId();
+    const groupId = await getFavoriteGroupId(false);
     if (groupId) {
       expenses = await getExpensesFirebase(userId, groupId);
     }

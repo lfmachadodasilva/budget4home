@@ -19,7 +19,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const date = getDateFromQuery(props.year, props.month);
 
   // fetch data
-  const groupId = await getFavoriteGroupId();
+  const groupId = await getFavoriteGroupId(false);
   const [labels, expenses] = await Promise.all([
     getLabelsFirestore(userId, groupId),
     getExpensesFirebase(userId, groupId, date)
