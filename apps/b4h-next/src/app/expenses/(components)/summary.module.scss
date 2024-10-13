@@ -1,0 +1,9 @@
+.container {
+  border: 1px solid var(--fg-color);
+  border-radius: var(--size-xs);
+  padding: var(--size-s);
+}
+
+.negative {
+  color: var(--negative-color);
+}

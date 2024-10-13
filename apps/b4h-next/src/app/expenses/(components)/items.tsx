@@ -12,6 +12,7 @@ import {
 import { labelsById } from '../../../utils/label';
 import { B4hRoutes } from '../../../utils/routes';
 import { b4hSession } from '../../../utils/session';
+import { B4hExpenseSummary } from './summary';
 
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const { userId, getFavoriteGroupId } = b4hSession();
@@ -29,27 +30,34 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const expenseBy =
     props.viewBy === 'byLabel' ? expensesByLabel(expenses, labelById) : expensesByDate(expenses);
 
-  return Object.entries(expenseBy).map(([key, expenses]) => (
-    <B4hItem.Group key={key}>
-      <B4hItem.GroupTitle>
-        <p>{key}</p>
-        <p>{formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}</p>
-      </B4hItem.GroupTitle>
+  return (
+    <>
+      <B4hExpenseSummary expenses={expenses} />
+      {Object.entries(expenseBy).map(([key, expenses]) => (
+        <B4hItem.Group key={key}>
+          <B4hItem.GroupTitle>
+            <p>{key}</p>
+            <p>{formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}</p>
+          </B4hItem.GroupTitle>
 
-      <B4hItem.Items>
-        {expenses.map(expense => (
-          <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
-            <B4hItem.Item>
-              <p>
-                {labelById[expense.label]?.icon} {expense.name}{' '}
-                {expense.scheduled && <small className={styles.small}>{expense.scheduled}</small>}
-              </p>
+          <B4hItem.Items>
+            {expenses.map(expense => (
+              <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
+                <B4hItem.Item>
+                  <p>
+                    {labelById[expense.label]?.icon} {expense.name}{' '}
+                    {expense.scheduled && (
+                      <small className={styles.small}>{expense.scheduled}</small>
+                    )}
+                  </p>
 
-              <p>{formatValue(expense.value)}</p>
-            </B4hItem.Item>
-          </Link>
-        ))}
-      </B4hItem.Items>
-    </B4hItem.Group>
-  ));
+                  <p>{formatValue(expense.value)}</p>
+                </B4hItem.Item>
+              </Link>
+            ))}
+          </B4hItem.Items>
+        </B4hItem.Group>
+      ))}
+    </>
+  );
 };
