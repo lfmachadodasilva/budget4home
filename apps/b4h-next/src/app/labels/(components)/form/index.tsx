@@ -43,16 +43,16 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
     event?.preventDefault();
 
     switch (submitter.name) {
-      case ACTION_SUBMIT: {
+      case ACTION_SUBMIT:
         formAction({ ...props.label, ...data });
         break;
-      }
-      case ACTION_DELETE: {
+
+      case ACTION_DELETE:
         if (confirm('are you sure?')) {
           deleteFormAction({ ...props.label, ...data });
         }
         break;
-      }
+
       default:
         console.error('invalid submit action');
         break;
@@ -63,7 +63,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
       push(B4hRoutes.labels);
     }
-  }, [state, deleteState]);
+  }, [state, deleteState, push]);
 
   const title = props.label ? 'update label' : 'add label';
   return (

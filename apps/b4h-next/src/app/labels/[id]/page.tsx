@@ -1,6 +1,6 @@
 import { B4hNotFound } from '@/components/notFound';
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
-import { getGroupsFirestore, getLabelFirestore } from '@b4h/firestore';
+import { b4hSession } from '@/utils/session';
+import { getLabelFirestore } from '@b4h/firestore';
 import { B4hLabelForm } from '../(components)/form';
 
 export const metadata = {
@@ -10,9 +10,9 @@ export const metadata = {
 export default async function LabelUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  const { userId } = useB4hSession();
-  const groups = await getGroupsFirestore(userId);
-  const label = await getLabelFirestore(userId, groups[0].id, id);
+  const { userId, getFavoriteGroupId } = b4hSession();
+  const groupId = await getFavoriteGroupId();
+  const label = await getLabelFirestore(userId, groupId, id);
 
   if (!label) {
     return <B4hNotFound />;

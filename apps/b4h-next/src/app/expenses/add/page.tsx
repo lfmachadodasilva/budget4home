@@ -1,4 +1,4 @@
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
+import { b4hSession } from '@/utils/session';
 import { getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
 import { B4hExpensesForm } from '../(components)/form';
 
@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 export default async function ExpesesAdd() {
-  const { userId } = useB4hSession();
+  const { userId } = b4hSession();
   const groups = await getGroupsFirestore(userId);
   const labels = await getLabelsFirestore(userId, groups[0].id);
 

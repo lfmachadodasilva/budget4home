@@ -1,4 +1,4 @@
-import { getExpensesFirebase, getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
+import { getExpensesFirebase, getLabelsFirestore } from '@b4h/firestore';
 import Link from 'next/link';
 import { B4hItem } from '../../../components/ui/item/item';
 import {
@@ -8,19 +8,19 @@ import {
   formatValue,
   getDateFromQuery
 } from '../../../utils/expenses';
-import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 import { labelsById } from '../../../utils/label';
 import { B4hRoutes } from '../../../utils/routes';
+import { b4hSession } from '../../../utils/session';
 
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
-  const { userId } = useB4hSession();
+  const { userId, getFavoriteGroupId } = b4hSession();
   const date = getDateFromQuery(props.year, props.month);
 
   // fetch data
-  const groups = await getGroupsFirestore(userId);
+  const groupId = await getFavoriteGroupId();
   const [labels, expenses] = await Promise.all([
-    getLabelsFirestore(userId, groups[0].id),
-    getExpensesFirebase(userId, groups[0].id, date)
+    getLabelsFirestore(userId, groupId),
+    getExpensesFirebase(userId, groupId, date)
   ]);
 
   // format data

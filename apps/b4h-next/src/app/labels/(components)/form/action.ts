@@ -1,7 +1,7 @@
 'use server';
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
+import { b4hSession } from '@/utils/session';
 import { addLabelFirestore, deleteLabelFirestore, updateLabelFirestore } from '@b4h/firestore';
 import { LabelModel } from '@b4h/models';
 import { labelFormSchema, LabelFormType } from './schema';
@@ -15,7 +15,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
-  const { userId, getGroupId } = useB4hSession();
+  const { userId, getFavoriteGroupId } = b4hSession();
   const parsed = labelFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -26,7 +26,7 @@ export async function onSubmitAction(
   }
 
   try {
-    const groupId = await getGroupId();
+    const groupId = await getFavoriteGroupId();
     const label: Partial<LabelModel> = data;
     if (label.id) {
       updateLabelFirestore(userId, groupId, label);
@@ -49,8 +49,8 @@ export async function onDeleteAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
-  const { userId, getGroupId } = useB4hSession();
-  const groupId = await getGroupId();
+  const { userId, getFavoriteGroupId } = b4hSession();
+  const groupId = await getFavoriteGroupId();
 
   try {
     const label: Partial<LabelModel> = data;

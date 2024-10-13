@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { onDeleteAction, onSubmitAction } from './action';
+import { onDeleteAction, onFavoriteAction, onSubmitAction } from './action';
 import { groupFormSchema, GroupFormType } from './schema';
 
 export interface B4hGroupFormProps {
@@ -24,6 +24,9 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
     message: ''
   });
   const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
+    message: ''
+  });
+  const [favoriteState, favoriteFormAction] = useFormState(onFavoriteAction, {
     message: ''
   });
   const {
@@ -44,16 +47,20 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
     event?.preventDefault();
 
     switch (submitter.name) {
-      case ACTION_SUBMIT: {
+      case ACTION_SUBMIT:
         formAction({ ...props.group, ...data });
         break;
-      }
-      case ACTION_DELETE: {
+
+      case ACTION_DELETE:
         if (confirm('are you sure?')) {
           deleteFormAction({ ...props.group, ...data });
         }
         break;
-      }
+
+      case 'favorite':
+        favoriteFormAction({ ...props.group, ...data });
+        break;
+
       default:
         console.error('invalid submit action');
         break;
@@ -61,10 +68,10 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
   };
 
   useEffect(() => {
-    if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
+    if ([state.message, deleteState.message, favoriteState.message].includes(ACTION_DONE)) {
       push(B4hRoutes.groups);
     }
-  }, [state, deleteState]);
+  }, [state, deleteState, favoriteState, push]);
 
   const title = props.group ? 'update group' : 'add group';
   return (
@@ -116,6 +123,11 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
               name={ACTION_DELETE}
             >
               delete
+            </B4hButton>
+          )}
+          {props.group && (
+            <B4hButton type="submit" buttonType="secondary" name="favorite" loading={isSubmitting}>
+              ⭐️
             </B4hButton>
           )}
         </B4hForm.Actions>

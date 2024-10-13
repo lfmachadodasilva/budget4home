@@ -48,15 +48,16 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     event?.preventDefault();
 
     switch (submitter.name) {
-      case ACTION_SUBMIT: {
+      case ACTION_SUBMIT:
         formAction({ ...props.expense, ...data });
         break;
-      }
+
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
           deleteFormAction({ ...props.expense, ...data });
         }
         break;
+
       default:
         console.error('invalid submit action');
         break;
@@ -67,7 +68,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
       push(B4hRoutes.expenses);
     }
-  }, [state, deleteState]);
+  }, [state, deleteState, push]);
 
   const title = props.expense ? 'update expense' : 'add expense';
 

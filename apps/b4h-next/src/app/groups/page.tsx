@@ -1,8 +1,8 @@
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hItem } from '@/components/ui/item/item';
 import { B4hPageLayout } from '@/components/ui/layout/layout';
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
 import { B4hRoutes } from '@/utils/routes';
+import { b4hSession } from '@/utils/session';
 import { getGroupsFirestore } from '@b4h/firestore';
 import Link from 'next/link';
 
@@ -11,7 +11,9 @@ export const metadata = {
 };
 
 export default async function Groups() {
-  const { userId } = useB4hSession();
+  const { userId, getFavoriteGroupId } = b4hSession();
+
+  const fav = await getFavoriteGroupId();
   const groups = await getGroupsFirestore(userId);
 
   return (
@@ -28,7 +30,9 @@ export default async function Groups() {
             {groups.map(group => (
               <Link href={`${B4hRoutes.groups}/${group.id}`} key={group.id}>
                 <B4hItem.Item>
-                  <p>{group.name}</p>
+                  <p>
+                    {fav === group.id && '⭐️'} {group.name}
+                  </p>
                 </B4hItem.Item>
               </Link>
             ))}

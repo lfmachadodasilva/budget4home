@@ -1,7 +1,7 @@
 'use server';
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
+import { b4hSession } from '@/utils/session';
 import { addGroupFirestore, deleteGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
 import { groupFormSchema, GroupFormType } from './schema';
@@ -15,7 +15,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { userId } = useB4hSession();
+  const { userId, cleanGroupsCache } = b4hSession();
 
   const parsed = groupFormSchema.safeParse(data);
 
@@ -33,6 +33,7 @@ export async function onSubmitAction(
     } else {
       addGroupFirestore(userId, group);
     }
+    cleanGroupsCache();
     return {
       message: ACTION_DONE
     };
@@ -48,11 +49,33 @@ export async function onDeleteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { userId } = useB4hSession();
+  const { userId, cleanGroupsCache } = b4hSession();
 
   try {
     const group: Partial<GroupModel> = data;
     await deleteGroupFirestore(userId, group.id as string);
+    cleanGroupsCache();
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
+  } catch (err) {
+    console.error(err);
+    return {
+      message: ACTION_FAIL
+    } as FormState;
+  }
+}
+
+export async function onFavoriteAction(
+  prevState: FormState,
+  data: GroupFormType
+): Promise<FormState> {
+  const { setFavoriteGroupId } = b4hSession();
+
+  try {
+    const group: Partial<GroupModel> = data;
+    await setFavoriteGroupId(group.id as string);
 
     return {
       message: ACTION_DONE

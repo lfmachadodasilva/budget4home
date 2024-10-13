@@ -1,7 +1,7 @@
 'use server';
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
+import { b4hSession } from '@/utils/session';
 import { addExpenseFirebase, deleteExpenseFirebase, updateExpenseFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
 import { expenseFormSchema, ExpenseFormType } from './schema';
@@ -15,7 +15,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { userId, getGroupId } = useB4hSession();
+  const { userId, getFavoriteGroupId } = b4hSession();
   const parsed = expenseFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -26,7 +26,7 @@ export async function onSubmitAction(
   }
 
   try {
-    const groupId = await getGroupId();
+    const groupId = await getFavoriteGroupId();
     const expense: Partial<ExpenseModel> = data;
     if (expense.id) {
       updateExpenseFirebase(userId, groupId, expense);
@@ -48,7 +48,7 @@ export async function onDeleteAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { userId, getGroupId } = useB4hSession();
+  const { userId, getFavoriteGroupId: getGroupId } = b4hSession();
   const groupId = await getGroupId();
 
   try {

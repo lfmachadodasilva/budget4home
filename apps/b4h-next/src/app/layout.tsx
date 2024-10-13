@@ -4,7 +4,8 @@ import B4hHead from './head';
 import { Providers } from './providers';
 
 export const metadata = {
-  title: 'budget4home'
+  title: 'budget4home',
+  description: 'budget4home - Project to control my personal budget'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

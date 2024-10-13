@@ -1,7 +1,7 @@
 import { B4hNotFound } from '@/components/notFound';
-import { useB4hSession } from '@/utils/hooks/useB4hSession';
+import { b4hSession } from '@/utils/session';
 import { getGroupFirestore, getUsersFirestore } from '@b4h/firestore';
-import { B4hGroupForm } from '../(components)/forms';
+import { B4hGroupForm } from '../(components)/form';
 
 export const metadata = {
   title: 'update group | budget4home'
@@ -9,7 +9,7 @@ export const metadata = {
 
 export default async function GroupUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { userId } = useB4hSession();
+  const { userId } = b4hSession();
 
   const [group, users] = await Promise.all([getGroupFirestore(userId, id), getUsersFirestore()]);
 
