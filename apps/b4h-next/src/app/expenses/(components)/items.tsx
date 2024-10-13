@@ -1,16 +1,16 @@
 import { getExpensesFirebase, getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
 import Link from 'next/link';
-import { B4hItem } from '../../components/ui/item/item';
+import { B4hItem } from '../../../components/ui/item/item';
 import {
   B4hExpenseHeaderType,
   expensesByDate,
   expensesByLabel,
   formatValue,
   getDateFromQuery
-} from '../../utils/expenses';
-import { useB4hSession } from '../../utils/hooks/useB4hSession';
-import { labelsById } from '../../utils/label';
-import { B4hRoutes } from '../../utils/routes';
+} from '../../../utils/expenses';
+import { useB4hSession } from '../../../utils/hooks/useB4hSession';
+import { labelsById } from '../../../utils/label';
+import { B4hRoutes } from '../../../utils/routes';
 
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const { userId } = useB4hSession();

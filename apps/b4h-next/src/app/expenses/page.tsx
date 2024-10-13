@@ -6,8 +6,8 @@ import { B4hItem } from '../../components/ui/item/item';
 import { B4hPageLayout } from '../../components/ui/layout/layout';
 import { B4hExpenseHeaderType } from '../../utils/expenses';
 import { B4hRoutes } from '../../utils/routes';
-import { B4hExpensesHeader } from './header';
-import { B4hExpensesItems } from './items';
+import { B4hExpensesHeader } from './(components)/header';
+import { B4hExpensesItems } from './(components)/items';
 
 export const metadata = {
   title: 'expenses | budget4home'

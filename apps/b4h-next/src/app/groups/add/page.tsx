@@ -1,5 +1,5 @@
 import { getUsersFirestore } from '@b4h/firestore';
-import { B4hGroupForm } from '../../../components/forms/groups';
+import { B4hGroupForm } from '../(components)/forms';
 
 export const metadata = {
   title: 'add group | budget4home'

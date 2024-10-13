@@ -1,5 +1,5 @@
 import { getGroupsFirestore, getLabelsFirestore } from '@b4h/firestore';
-import { B4hExpensesForm } from '../../../components/forms/expenses';
+import { B4hExpensesForm } from '../(components)/form';
 import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 
 export const metadata = {

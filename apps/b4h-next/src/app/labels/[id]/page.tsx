@@ -1,5 +1,5 @@
 import { getGroupsFirestore, getLabelFirestore } from '@b4h/firestore';
-import { B4hLabelForm } from '../../../components/forms/labels';
+import { B4hLabelForm } from '../(components)/form';
 import { B4hNotFound } from '../../../components/notFound';
 import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 

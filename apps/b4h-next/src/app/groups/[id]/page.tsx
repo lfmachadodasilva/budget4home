@@ -1,7 +1,7 @@
 import { getGroupFirestore, getUsersFirestore } from '@b4h/firestore';
-import { useB4hSession } from '../../..//utils/hooks/useB4hSession';
-import { B4hGroupForm } from '../../../components/forms/groups';
+import { B4hGroupForm } from '../(components)/forms';
 import { B4hNotFound } from '../../../components/notFound';
+import { useB4hSession } from '../../../utils/hooks/useB4hSession';
 
 export const metadata = {
   title: 'update group | budget4home'
