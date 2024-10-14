@@ -1,10 +1,14 @@
 .container {
   background-color: var(--primary-color);
+}
+
+.subContainer {
+  max-width: var(--max-width);
+
   padding: var(--size-s);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: var(--max-width);
   margin: 0 auto;
 }
 

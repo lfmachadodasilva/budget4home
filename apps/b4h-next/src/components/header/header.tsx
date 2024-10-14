@@ -7,11 +7,13 @@ import { B4hMenuUser } from './menuUser';
 export const B4hHeader = () => {
   return (
     <div className={styles.container}>
-      <B4hMenuMain />
-      <Link href={B4hRoutes.home}>
-        <h1 className={styles.title}>budget4home</h1>
-      </Link>
-      <B4hMenuUser />
+      <div className={styles.subContainer}>
+        <B4hMenuMain />
+        <Link href={B4hRoutes.home}>
+          <h1 className={styles.title}>budget4home</h1>
+        </Link>
+        <B4hMenuUser />
+      </div>
     </div>
   );
 };

@@ -8,9 +8,6 @@
   --size-xxl: 64px;
 
   --size-icon: var(--size-l);
-  @media (min-width: 720px) {
-    --size-icon: var(--size-m);
-  }
 
   --min-width: 250px;
   --max-width: 720px;
