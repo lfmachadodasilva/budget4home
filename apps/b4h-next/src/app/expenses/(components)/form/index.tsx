@@ -38,7 +38,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   } = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
-      name: props.expense?.name ?? 'test',
+      name: props.expense?.name,
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
       label: props.expense?.label ?? props.labels[0]?.id,
