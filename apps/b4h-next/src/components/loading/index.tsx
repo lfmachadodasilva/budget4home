@@ -15,7 +15,7 @@ export const B4hLoadingLogo = ({ size }: { size?: number }) => {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       className={styles.loadingLogo}
-      src="/logo64.png"
+      src="/logo.svg"
       alt="loading"
       width={size ?? 64}
       height={size ?? 64}
