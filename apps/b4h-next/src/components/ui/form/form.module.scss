@@ -68,6 +68,11 @@
   gap: var(--size-s);
 
   margin-top: var(--size-m);
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 }
 
 .return {

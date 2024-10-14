@@ -1,7 +1,13 @@
+import { b4hSession } from '@/utils/session';
 import { getFirebaseAdminAuth } from '@b4h/firebase-admin';
 import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_USER_ID } from '../../../../utils/constants';
+import {
+  SESSION,
+  SESSION_GROUP_ID,
+  SESSION_GROUP_IDS,
+  SESSION_USER_ID
+} from '../../../../utils/constants';
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const authorization = headers().get('Authorization');
@@ -33,6 +39,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
         httpOnly: true,
         secure: true
       });
+
+      const { getFavoriteGroupId } = b4hSession();
+      await getFavoriteGroupId();
     }
   }
 
@@ -40,7 +49,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 }
 
 export async function GET(request: NextRequest) {
-  const session = cookies().get('session')?.value || '';
+  const session = cookies().get(SESSION)?.value || '';
 
   // validate if the cookie exist in the request
   if (!session) {
@@ -54,13 +63,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 
+  const { getFavoriteGroupId } = b4hSession();
+  await getFavoriteGroupId();
+
   return NextResponse.json({ isLogged: true }, { status: 200 });
 }
 
 export async function DELETE(request: NextRequest, response: NextResponse) {
   // clean cookies
-  cookies().delete('session');
+  cookies().delete(SESSION);
   cookies().delete(SESSION_USER_ID);
+  cookies().delete(SESSION_GROUP_IDS);
+  cookies().delete(SESSION_GROUP_ID);
+
+  const { cleanGroupsCache } = b4hSession();
+  cleanGroupsCache();
 
   return NextResponse.json({}, { status: 200 });
 }

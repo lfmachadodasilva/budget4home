@@ -1,3 +1,4 @@
+export const SESSION = 'session';
 export const SESSION_USER_ID = 'session-user-id';
 export const SESSION_GROUP_ID = 'session-group-id';
 export const SESSION_GROUP_IDS = 'session-group-ids';

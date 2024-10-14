@@ -5,7 +5,17 @@ import { GroupModel } from '@b4h/models';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-let groups: GroupModel[] = [];
+let groupsCache: GroupModel[] = [];
+
+const buildInMemoryCache = async (userId: string) => {
+  if (groupsCache.length === 0) {
+    groupsCache = await getGroupsFirestore(userId);
+  }
+  return groupsCache;
+};
+const cleanMemoryCache = () => {
+  groupsCache = [];
+};
 
 export const b4hSession = () => {
   const getUserUid = () => {
@@ -15,18 +25,18 @@ export const b4hSession = () => {
 
   const getFavoriteGroupId = async (setCookie: boolean = true) => {
     const userId = getUserUid();
-    if (groups.length === 0) {
-      groups = await getGroupsFirestore(userId);
-    }
+    const groups = await buildInMemoryCache(userId);
+
     let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
     if (groups.find(g => g.id === groupId)) {
       return groupId;
     }
 
     groupId = groups[0]?.id;
+
     if (!groupId) {
-      console.error('first group not found in cache');
-      redirect(B4hRoutes.groups);
+      console.warn('first group not found in cache');
+      redirect(B4hRoutes.groupsAdd);
     }
 
     if (setCookie) {
@@ -41,30 +51,38 @@ export const b4hSession = () => {
     return groupId;
   };
 
-  const setFavoriteGroupId = async (groupId: string) => {
+  const setFavoriteGroupId = async (groupId: string | null | undefined) => {
     const userId = getUserUid();
-    if (groups.length === 0) {
-      groups = await getGroupsFirestore(userId);
+    const groups = await buildInMemoryCache(userId);
+
+    if (!groupId || groupId === '') {
+      cookies().delete(SESSION_GROUP_ID);
+
+      groupId = groups[0]?.id;
     }
 
     if (!groups.find(g => g.id === groupId)) {
       console.error('group not found in cache');
-      return groupId;
+      groupId = null;
     }
 
-    cookies().delete(SESSION_GROUP_ID);
-    cookies().set({
-      name: SESSION_GROUP_ID,
-      value: groupId,
-      // maxAge: 60 * 60 * 24 * 5 * 1000,
-      httpOnly: true,
-      secure: true
-    });
+    if (groupId) {
+      cookies().set({
+        name: SESSION_GROUP_ID,
+        value: groupId,
+        // maxAge: 60 * 60 * 24 * 5 * 1000,
+        httpOnly: true,
+        secure: true
+      });
+    } else {
+      cookies().delete(SESSION_GROUP_ID);
+    }
+
     return groupId;
   };
 
   const cleanGroupsCache = () => {
-    groups = [];
+    cleanMemoryCache();
   };
 
   return {

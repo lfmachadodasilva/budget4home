@@ -35,6 +35,7 @@ export async function onSubmitAction(
       addGroupFirestore(userId, group);
     }
     cleanGroupsCache();
+
     return {
       message: ACTION_DONE
     };
@@ -50,13 +51,19 @@ export async function onDeleteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { getUserUid, cleanGroupsCache } = b4hSession();
+  const { getUserUid, cleanGroupsCache, getFavoriteGroupId, setFavoriteGroupId } = b4hSession();
   const userId = getUserUid();
+  const groupId = await getFavoriteGroupId();
 
   try {
     const group: Partial<GroupModel> = data;
+
     await deleteGroupFirestore(userId, group.id as string);
     cleanGroupsCache();
+
+    if (groupId === group.id) {
+      setFavoriteGroupId(null);
+    }
 
     return {
       message: ACTION_DONE
