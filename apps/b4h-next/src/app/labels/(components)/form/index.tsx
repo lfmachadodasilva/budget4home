@@ -6,6 +6,7 @@ import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
 import { LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
@@ -65,7 +66,9 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
   useEffect(() => {
     setIsLoading(null);
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
-      prefetch(B4hRoutes.labels);
+      prefetch(B4hRoutes.labels, {
+        kind: PrefetchKind.FULL
+      });
       push(B4hRoutes.labels);
     }
   }, [state, deleteState, push]);

@@ -1,21 +1,8 @@
+import { fetchGroups } from '@/clients/groups';
 import { SESSION_GROUP_ID, SESSION_USER_ID } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
-import { getGroupsFirestore } from '@b4h/firestore';
-import { GroupModel } from '@b4h/models';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-
-let groupsCache: GroupModel[] = [];
-
-const buildInMemoryCache = async (userId: string) => {
-  if (groupsCache.length === 0) {
-    groupsCache = await getGroupsFirestore(userId);
-  }
-  return groupsCache;
-};
-const cleanMemoryCache = () => {
-  groupsCache = [];
-};
 
 export const b4hSession = () => {
   const getUserUid = () => {
@@ -24,8 +11,7 @@ export const b4hSession = () => {
   };
 
   const getFavoriteGroupId = async (setCookie: boolean = true) => {
-    const userId = getUserUid();
-    const groups = await buildInMemoryCache(userId);
+    const groups = await fetchGroups();
 
     let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
     if (groups.find(g => g.id === groupId)) {
@@ -52,8 +38,7 @@ export const b4hSession = () => {
   };
 
   const setFavoriteGroupId = async (groupId: string | null | undefined) => {
-    const userId = getUserUid();
-    const groups = await buildInMemoryCache(userId);
+    const groups = await fetchGroups();
 
     if (!groupId || groupId === '') {
       cookies().delete(SESSION_GROUP_ID);
@@ -82,7 +67,7 @@ export const b4hSession = () => {
   };
 
   const cleanGroupsCache = () => {
-    cleanMemoryCache();
+    // revalidateTag(FETCH_GROUPS);
   };
 
   return {

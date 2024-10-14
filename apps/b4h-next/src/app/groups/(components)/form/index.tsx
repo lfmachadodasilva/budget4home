@@ -6,6 +6,7 @@ import { ACTION_DELETE, ACTION_DONE, ACTION_FAVORITE, ACTION_SUBMIT } from '@/ut
 import { B4hRoutes } from '@/utils/routes';
 import { GroupModel, UserModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
@@ -74,7 +75,9 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
   useEffect(() => {
     setIsLoading(null);
     if ([state.message, deleteState.message, favoriteState.message].includes(ACTION_DONE)) {
-      prefetch(B4hRoutes.groups);
+      prefetch(B4hRoutes.groups, {
+        kind: PrefetchKind.FULL
+      });
       push(B4hRoutes.groups);
     }
   }, [state, deleteState, favoriteState, push]);

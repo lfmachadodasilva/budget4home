@@ -21,16 +21,15 @@ export async function POST(request: NextRequest, response: NextResponse) {
       const sessionCookie = await getFirebaseAdminAuth().createSessionCookie(idToken, {
         expiresIn
       });
-      const options = {
-        name: 'session',
+
+      // add the cookie to the browser
+      cookies().set({
+        name: SESSION,
         value: sessionCookie,
         maxAge: expiresIn,
         httpOnly: true,
         secure: true
-      };
-
-      // add the cookie to the browser
-      cookies().set(options);
+      });
 
       cookies().set({
         name: SESSION_USER_ID,

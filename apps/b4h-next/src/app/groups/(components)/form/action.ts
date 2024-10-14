@@ -55,25 +55,26 @@ export async function onDeleteAction(
   const userId = getUserUid();
   const groupId = await getFavoriteGroupId();
 
+  const group: Partial<GroupModel> = data;
+
   try {
-    const group: Partial<GroupModel> = data;
-
     await deleteGroupFirestore(userId, group.id as string);
-    cleanGroupsCache();
-
-    if (groupId === group.id) {
-      setFavoriteGroupId(null);
-    }
-
-    return {
-      message: ACTION_DONE
-    } as FormState;
   } catch (err) {
     console.error(err);
     return {
       message: ACTION_FAIL
     } as FormState;
   }
+
+  cleanGroupsCache();
+
+  if (groupId === group.id) {
+    setFavoriteGroupId(null);
+  }
+
+  return {
+    message: ACTION_DONE
+  } as FormState;
 }
 
 export async function onFavoriteAction(

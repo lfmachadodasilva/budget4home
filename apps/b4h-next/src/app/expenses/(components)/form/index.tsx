@@ -7,6 +7,7 @@ import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
+import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
 import { HTMLProps, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
@@ -80,7 +81,9 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   useEffect(() => {
     setIsLoading(null);
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
-      prefetch(B4hRoutes.expenses);
+      prefetch(B4hRoutes.expenses, {
+        kind: PrefetchKind.FULL
+      });
       push(B4hRoutes.expenses);
     }
   }, [state, deleteState, push]);

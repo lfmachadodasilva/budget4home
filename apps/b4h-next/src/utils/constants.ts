@@ -13,3 +13,5 @@ export const ACTION_INVALID = 'INVALID';
 export const ACTION_SUBMIT = 'SUBMIT';
 export const ACTION_DELETE = 'DELETE';
 export const ACTION_FAVORITE = 'FAVORITE';
+
+export const FETCH_GROUPS = 'groups';
