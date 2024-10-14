@@ -89,12 +89,13 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="icon">icon</B4hForm.Label>
-          <B4hForm.Input
+          <B4hForm.Emoji
             type="text"
             defaultValue={props.label?.icon}
             {...register('icon')}
             disabled={!!isLoading}
           />
+
           {errors.icon && <B4hForm.LabelError>{errors.icon.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 

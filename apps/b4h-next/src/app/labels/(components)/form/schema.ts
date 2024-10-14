@@ -13,14 +13,7 @@ export const labelFormSchema = z.object({
     .max(100, {
       message: 'name is too long, max 100 characters'
     }),
-  icon: z
-    .string()
-    .trim()
-    .emoji()
-    .min(1, {
-      message: 'icon is required'
-    })
-    .max(100, { message: 'icon is too long, max 100 characters' })
+  icon: z.string().emoji({ message: 'contains non-emoji characters' })
 });
 
 export type LabelFormType = z.output<typeof labelFormSchema>;

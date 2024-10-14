@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
+import EmojiPicker, { Theme } from 'emoji-picker-react';
 import Link from 'next/link';
-import { forwardRef, HTMLProps } from 'react';
+import { forwardRef, HTMLProps, useState } from 'react';
 import styles from './form.module.scss';
 
 const Root = forwardRef<HTMLFormElement, HTMLProps<HTMLFormElement>>((props, ref) => {
@@ -39,6 +40,37 @@ const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, 
 ));
 Input.displayName = 'B4hForm.Input';
 
+const Emoji = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, ref) => {
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [value, setValue] = useState<string>();
+
+  const handleEmojiSelect = (event: { emoji: string }) => {
+    setValue(event.emoji);
+    setShowEmojiPicker(false);
+  };
+  const OpenEmojiPicker = () => setShowEmojiPicker(true);
+
+  return (
+    <>
+      <input
+        {...props}
+        ref={ref}
+        className={styles.input}
+        onFocus={OpenEmojiPicker}
+        value={value}
+      />
+      <EmojiPicker
+        onEmojiClick={handleEmojiSelect}
+        theme={Theme.DARK}
+        width={'100%'}
+        open={showEmojiPicker}
+        reactionsDefaultOpen={false}
+      />
+    </>
+  );
+});
+Emoji.displayName = 'B4hForm.Emoji';
+
 const TextArea = forwardRef<HTMLTextAreaElement, HTMLProps<HTMLTextAreaElement>>((props, ref) => (
   <textarea {...props} ref={ref} className={styles.input} />
 ));
@@ -70,6 +102,7 @@ export const B4hForm = {
   Return,
   Field,
   Input,
+  Emoji,
   TextArea,
   Select,
   Option,
