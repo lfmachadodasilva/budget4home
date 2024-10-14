@@ -1,5 +1,6 @@
 export const B4hApiRoutes = {
-  login: '/api/auth/login'
+  login: '/api/auth/login',
+  groups: '/api/groups'
 };
 
 export const B4hRoutes = {
