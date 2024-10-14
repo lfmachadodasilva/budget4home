@@ -2,7 +2,12 @@
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
 import { b4hSession } from '@/utils/session';
-import { addExpenseFirebase, deleteExpenseFirebase, updateExpenseFirebase } from '@b4h/firestore';
+import {
+  addExpenseFirebase,
+  addExpensesFirebase,
+  deleteExpenseFirebase,
+  updateExpenseFirebase
+} from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
@@ -77,10 +82,11 @@ export async function onSubmitAllAction(
   const groupId = await getGroupId();
 
   try {
-    const promises = data.map(async expense => {
-      await addExpenseFirebase(userId, groupId, expense);
-    });
-    await Promise.all(promises);
+    // const promises = data.map(async expense => {
+    //   await addExpenseFirebase(userId, groupId, expense);
+    // });
+    // await Promise.all(promises);
+    await addExpensesFirebase(userId, groupId, data);
 
     return {
       message: ACTION_DONE

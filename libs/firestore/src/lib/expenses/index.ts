@@ -93,6 +93,31 @@ export const addExpenseFirebase = async (
   return doc.data();
 };
 
+export const addExpensesFirebase = async (
+  userId: string,
+  groupId: string,
+  expenses: Partial<ExpenseModel>[]
+) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+
+  const batch = getFirebaseAdminFirestore().batch();
+  const doc = getFirebaseAdminFirestore().collection(FirestorePath.expeses(groupId)).doc();
+
+  expenses.map(expense => {
+    const toAdd = {
+      ...expense,
+      createdAt: new Date(),
+      createdBy: userId,
+      updatedAt: new Date(),
+      updatedBy: userId
+    } as ExpenseModel;
+
+    batch.set(doc, toAdd, { merge: true });
+  });
+
+  await batch.commit();
+};
+
 export const updateExpenseFirebase = async (
   userId: string,
   groupId: string,
