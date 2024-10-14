@@ -71,7 +71,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
       });
       push(B4hRoutes.labels);
     }
-  }, [state, deleteState, push]);
+  }, [state, deleteState, push, prefetch]);
 
   const title = props.label ? 'update label' : 'add label';
   return (

@@ -161,6 +161,7 @@ export const deleteExpensesByLabelFirebase = async (
 
 async function deleteQueryBatch(
   query: FirebaseFirestore.Query<ExpenseModel, FirebaseFirestore.DocumentData>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolve: (value?: any) => void
 ) {
   const snapshot = await query.get();

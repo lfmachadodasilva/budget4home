@@ -80,7 +80,7 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
       });
       push(B4hRoutes.groups);
     }
-  }, [state, deleteState, favoriteState, push]);
+  }, [state, deleteState, favoriteState, push, prefetch]);
 
   const title = props.group ? 'update group' : 'add group';
   return (

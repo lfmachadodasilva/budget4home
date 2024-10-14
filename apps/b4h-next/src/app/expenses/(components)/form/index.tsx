@@ -86,7 +86,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       });
       push(B4hRoutes.expenses);
     }
-  }, [state, deleteState, push]);
+  }, [state, deleteState, push, prefetch]);
 
   const title = props.expense ? 'update expense' : 'add expense';
 

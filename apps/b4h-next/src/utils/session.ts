@@ -10,6 +10,7 @@ export const b4hSession = () => {
     return userId;
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   const getFavoriteGroupId = async (setCookie: boolean = true) => {
     const groups = await fetchGroups();
 
