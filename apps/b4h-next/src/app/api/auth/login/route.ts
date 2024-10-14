@@ -40,8 +40,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
         secure: true
       });
 
-      // const { getFavoriteGroupId } = b4hSession();
-      // await getFavoriteGroupId();
+      const { getFavoriteGroupId } = b4hSession();
+      await getFavoriteGroupId();
     }
   }
 
