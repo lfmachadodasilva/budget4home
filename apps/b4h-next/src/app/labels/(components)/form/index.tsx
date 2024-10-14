@@ -7,7 +7,7 @@ import { B4hRoutes } from '@/utils/routes';
 import { LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { onDeleteAction, onSubmitAction } from './action';
@@ -18,7 +18,8 @@ export interface B4hLabelFormProps {
 }
 
 export const B4hLabelForm = (props: B4hLabelFormProps) => {
-  const { push } = useRouter();
+  const { push, prefetch } = useRouter();
+  const [isLoading, setIsLoading] = useState<string | null>(null);
   const [state, formAction] = useFormState(onSubmitAction, {
     message: ''
   });
@@ -28,7 +29,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<LabelFormType>({
     resolver: zodResolver(labelFormSchema),
     defaultValues: {
@@ -44,11 +45,13 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
 
     switch (submitter.name) {
       case ACTION_SUBMIT:
+        setIsLoading(ACTION_SUBMIT);
         formAction({ ...props.label, ...data });
         break;
 
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
+          setIsLoading(ACTION_DELETE);
           deleteFormAction({ ...props.label, ...data });
         }
         break;
@@ -60,7 +63,9 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
   };
 
   useEffect(() => {
+    setIsLoading(null);
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
+      prefetch(B4hRoutes.labels);
       push(B4hRoutes.labels);
     }
   }, [state, deleteState, push]);
@@ -75,18 +80,23 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
         </B4hForm.Title>
         <B4hForm.Field>
           <B4hForm.Label htmlFor="name">name</B4hForm.Label>
-          <B4hForm.Input type="text" {...register('name')} />
+          <B4hForm.Input type="text" {...register('name')} disabled={!!isLoading} />
           {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="icon">icon</B4hForm.Label>
-          <B4hForm.Input type="text" defaultValue={props.label?.icon} {...register('icon')} />
+          <B4hForm.Input
+            type="text"
+            defaultValue={props.label?.icon}
+            {...register('icon')}
+            disabled={!!isLoading}
+          />
           {errors.icon && <B4hForm.LabelError>{errors.icon.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Actions>
-          <B4hButton type="submit" loading={isSubmitting} name={ACTION_SUBMIT}>
+          <B4hButton type="submit" loading={isLoading === ACTION_SUBMIT} name={ACTION_SUBMIT}>
             {title}
           </B4hButton>
           {props.label && (
@@ -94,7 +104,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
               type="submit"
               buttonType="delete"
               name={ACTION_DELETE}
-              loading={isSubmitting}
+              loading={isLoading === ACTION_DELETE}
             >
               delete
             </B4hButton>

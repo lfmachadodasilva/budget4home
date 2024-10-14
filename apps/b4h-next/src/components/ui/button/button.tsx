@@ -1,5 +1,5 @@
+import { B4hLoadingLogo } from '@/components/loading';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
-// import { B4hSpinner } from '../spinner/spinner';
 import styles from './button.module.scss';
 
 interface B4hButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,6 +11,7 @@ interface B4hButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const B4hButton = forwardRef<HTMLButtonElement, B4hButtonProps>((props, ref) => {
   const { loading, widthFit, buttonType, className, ...propsCopy } = props;
 
+  propsCopy.disabled = props.disabled || loading === true;
   const basicStyle = styles.button;
   const widthFitStyle = widthFit ? styles.widthFit : '';
   const buttonTypeStyle =
@@ -28,7 +29,7 @@ export const B4hButton = forwardRef<HTMLButtonElement, B4hButtonProps>((props, r
       ref={ref}
       className={buttonStyles}
     >
-      {/* {loading === true && <B4hSpinner size={16} />} */}
+      {loading === true && <B4hLoadingLogo size={16} />}
       {props.children}
     </button>
   );

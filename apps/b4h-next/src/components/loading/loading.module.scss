@@ -1,12 +1,12 @@
 .container {
   display: flex;
   justify-content: center;
-  justify-items: center;
+  align-items: center;
   margin-top: var(--size-m);
+}
 
-  img {
-    animation: rotate 2s linear infinite;
-  }
+.loadingLogo {
+  animation: rotate 2s linear infinite;
 }
 
 @keyframes rotate {

@@ -21,7 +21,8 @@ interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
 }
 
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
-  const { push, refresh } = useRouter();
+  const { push, prefetch } = useRouter();
+  const [isLoading, setIsLoading] = useState<string | null>(null);
   const [state, formAction] = useFormState(onSubmitAction, {
     message: ''
   });
@@ -33,11 +34,11 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
-      name: props.expense?.name ?? '',
+      name: props.expense?.name ?? 'test',
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
       label: props.expense?.label ?? props.labels[0]?.id,
@@ -52,11 +53,13 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
     switch (submitter.name) {
       case ACTION_SUBMIT:
+        setIsLoading(ACTION_SUBMIT);
         formAction({ ...props.expense, ...data });
         break;
 
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
+          setIsLoading(ACTION_DELETE);
           deleteFormAction({ ...props.expense, ...data });
         }
         break;
@@ -75,9 +78,10 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   };
 
   useEffect(() => {
+    setIsLoading(null);
     if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
+      prefetch(B4hRoutes.expenses);
       push(B4hRoutes.expenses);
-      refresh();
     }
   }, [state, deleteState, push]);
 
@@ -92,7 +96,11 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
         <B4hForm.Field>
           <B4hForm.Label htmlFor="type">type</B4hForm.Label>
-          <B4hForm.Select defaultValue={ExpenseType.outcoming} {...register('type')}>
+          <B4hForm.Select
+            defaultValue={ExpenseType.outcoming}
+            {...register('type')}
+            disabled={!!isLoading}
+          >
             <B4hForm.Option value={ExpenseType.outcoming}>{ExpenseType.outcoming}</B4hForm.Option>
             <B4hForm.Option value={ExpenseType.incoming}>{ExpenseType.incoming}</B4hForm.Option>
           </B4hForm.Select>
@@ -101,7 +109,12 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="name">name</B4hForm.Label>
-          <B4hForm.Input type="text" defaultValue={props.expense?.name} {...register('name')} />
+          <B4hForm.Input
+            type="text"
+            defaultValue={props.expense?.name}
+            {...register('name')}
+            disabled={!!isLoading}
+          />
           {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
@@ -113,6 +126,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
             {...register('value', {
               setValueAs: value => (value === '' ? undefined : parseInt(value, 10))
             })}
+            disabled={!!isLoading}
           />
           {errors.value && <B4hForm.LabelError>{errors.value.message}</B4hForm.LabelError>}
         </B4hForm.Field>
@@ -126,13 +140,18 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               props.expense?.date ? new Date(props.expense?.date) : new Date(),
               DATE_TIME_FORMAT
             )}
+            disabled={!!isLoading}
           />
           {errors.date && <B4hForm.LabelError>{errors.date.message}</B4hForm.LabelError>}
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="label">label</B4hForm.Label>
-          <B4hForm.Select defaultValue={ExpenseType.outcoming} {...register('label')}>
+          <B4hForm.Select
+            defaultValue={ExpenseType.outcoming}
+            {...register('label')}
+            disabled={!!isLoading}
+          >
             {props.labels?.map(label => (
               <B4hForm.Option key={label.id} value={label.id}>
                 {label.icon} {label.name}
@@ -144,12 +163,12 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="comments">comments</B4hForm.Label>
-          <B4hForm.TextArea type="text" rows={2} {...register('comments')} />
+          <B4hForm.TextArea type="text" rows={2} {...register('comments')} disabled={!!isLoading} />
         </B4hForm.Field>
 
         <B4hForm.Actions>
           {preview.length === 0 && (
-            <B4hButton type="submit" name={ACTION_SUBMIT} loading={isSubmitting}>
+            <B4hButton type="submit" name={ACTION_SUBMIT} loading={isLoading === ACTION_SUBMIT}>
               {title}
             </B4hButton>
           )}
@@ -158,7 +177,6 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               type="submit"
               buttonType={preview.length === 0 ? 'secondary' : 'primary'}
               name="pile"
-              loading={isSubmitting}
             >
               {preview.length === 0 ? 'pile' : 'add'}
             </B4hButton>
@@ -168,7 +186,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               type="submit"
               buttonType="delete"
               name={ACTION_DELETE}
-              loading={isSubmitting}
+              loading={isLoading === ACTION_DELETE}
             >
               delete
             </B4hButton>
