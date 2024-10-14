@@ -9,8 +9,9 @@ export const metadata = {
 
 export default async function LabelUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
 
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const userId = getUserUid();
   const groupId = await getFavoriteGroupId(false);
   const label = await getLabelFirestore(userId, groupId, id);
 

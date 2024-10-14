@@ -86,7 +86,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Actions>
-          <B4hButton type="submit" loading={isSubmitting}>
+          <B4hButton type="submit" loading={isSubmitting} name={ACTION_SUBMIT}>
             {title}
           </B4hButton>
           {props.label && (

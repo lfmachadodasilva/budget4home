@@ -15,7 +15,8 @@ import { b4hSession } from '../../../utils/session';
 import { B4hExpenseSummary } from './summary';
 
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
+  const userId = getUserUid();
   const date = getDateFromQuery(props.year, props.month);
 
   // fetch data

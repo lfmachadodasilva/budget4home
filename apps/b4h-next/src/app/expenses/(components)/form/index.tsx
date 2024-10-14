@@ -40,7 +40,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       name: props.expense?.name ?? '',
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
-      label: props.expense?.label ?? props.labels[0].id,
+      label: props.expense?.label ?? props.labels[0]?.id,
       comments: props.expense?.comments
     }
   });

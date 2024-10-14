@@ -9,8 +9,11 @@ export const metadata = {
 
 export default async function ExpesesUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
+
+  const userId = getUserUid();
   const groupId = await getFavoriteGroupId();
+
   const [labels, expense] = await Promise.all([
     getLabelsFirestore(userId, groupId),
     getExpenseFirebase(userId, groupId, id)

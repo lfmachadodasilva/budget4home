@@ -7,8 +7,10 @@ export const metadata = {
 };
 
 export default async function ExpesesAdd() {
-  const { userId, getFavoriteGroupId } = b4hSession();
-  const groupId = await getFavoriteGroupId();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
+
+  const userId = getUserUid();
+  const groupId = await getFavoriteGroupId(false);
   const labels = await getLabelsFirestore(userId, groupId);
 
   return <B4hExpensesForm labels={labels} />;

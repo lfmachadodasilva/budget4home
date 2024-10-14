@@ -15,7 +15,8 @@ export async function onSubmitAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { userId, cleanGroupsCache } = b4hSession();
+  const { getUserUid, cleanGroupsCache } = b4hSession();
+  const userId = getUserUid();
 
   const parsed = groupFormSchema.safeParse(data);
 
@@ -49,7 +50,8 @@ export async function onDeleteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { userId, cleanGroupsCache } = b4hSession();
+  const { getUserUid, cleanGroupsCache } = b4hSession();
+  const userId = getUserUid();
 
   try {
     const group: Partial<GroupModel> = data;

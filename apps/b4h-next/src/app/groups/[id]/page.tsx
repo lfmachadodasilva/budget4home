@@ -9,7 +9,8 @@ export const metadata = {
 
 export default async function GroupUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { userId } = b4hSession();
+  const { getUserUid } = b4hSession();
+  const userId = getUserUid();
 
   const [group, users] = await Promise.all([getGroupFirestore(userId, id), getUsersFirestore()]);
 

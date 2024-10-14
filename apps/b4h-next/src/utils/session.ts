@@ -8,12 +8,13 @@ import { redirect } from 'next/navigation';
 let groups: GroupModel[] = [];
 
 export const b4hSession = () => {
-  const userId = cookies().get(SESSION_USER_ID)?.value as string;
-  if (!userId) {
-    redirect(B4hRoutes.login);
-  }
+  const getUserUid = () => {
+    const userId = cookies().get(SESSION_USER_ID)?.value as string;
+    return userId;
+  };
 
   const getFavoriteGroupId = async (setCookie: boolean = true) => {
+    const userId = getUserUid();
     if (groups.length === 0) {
       groups = await getGroupsFirestore(userId);
     }
@@ -41,6 +42,7 @@ export const b4hSession = () => {
   };
 
   const setFavoriteGroupId = async (groupId: string) => {
+    const userId = getUserUid();
     if (groups.length === 0) {
       groups = await getGroupsFirestore(userId);
     }
@@ -66,7 +68,7 @@ export const b4hSession = () => {
   };
 
   return {
-    userId: userId,
+    getUserUid: getUserUid,
     getFavoriteGroupId: getFavoriteGroupId,
     cleanGroupsCache: cleanGroupsCache,
     setFavoriteGroupId: setFavoriteGroupId

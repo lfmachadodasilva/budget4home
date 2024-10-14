@@ -15,7 +15,8 @@ export async function onSubmitAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
+  const userId = getUserUid();
   const parsed = expenseFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -48,7 +49,8 @@ export async function onDeleteAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { userId, getFavoriteGroupId: getGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId: getGroupId } = b4hSession();
+  const userId = getUserUid();
   const groupId = await getGroupId();
 
   try {
@@ -70,7 +72,8 @@ export async function onSubmitAllAction(
   prevState: FormState,
   data: ExpenseFormType[]
 ): Promise<FormState> {
-  const { userId, getFavoriteGroupId: getGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId: getGroupId } = b4hSession();
+  const userId = getUserUid();
   const groupId = await getGroupId();
 
   try {

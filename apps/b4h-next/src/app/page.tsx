@@ -9,16 +9,20 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
 
   let expenses: ExpenseModel[] | undefined | null;
-  try {
-    const groupId = await getFavoriteGroupId(false);
-    if (groupId) {
-      expenses = await getExpensesFirebase(userId, groupId);
+
+  const userId = getUserUid();
+  if (userId) {
+    try {
+      const groupId = await getFavoriteGroupId(false);
+      if (groupId) {
+        expenses = await getExpensesFirebase(userId, groupId);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
   }
 
   return (

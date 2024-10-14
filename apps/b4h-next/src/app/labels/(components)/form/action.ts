@@ -15,7 +15,9 @@ export async function onSubmitAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
+
+  const userId = getUserUid();
   const parsed = labelFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -49,7 +51,9 @@ export async function onDeleteAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
-  const { userId, getFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
+
+  const userId = getUserUid();
   const groupId = await getFavoriteGroupId();
 
   try {
