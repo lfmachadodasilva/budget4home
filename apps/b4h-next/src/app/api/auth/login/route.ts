@@ -21,15 +21,16 @@ export async function POST(request: NextRequest, response: NextResponse) {
       const sessionCookie = await getFirebaseAdminAuth().createSessionCookie(idToken, {
         expiresIn
       });
-
-      // add the cookie to the browser
-      cookies().set({
+      const options = {
         name: SESSION,
         value: sessionCookie,
         maxAge: expiresIn,
         httpOnly: true,
         secure: true
-      });
+      };
+
+      // add the cookie to the browser
+      cookies().set(options);
 
       cookies().set({
         name: SESSION_USER_ID,
@@ -39,8 +40,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
         secure: true
       });
 
-      const { getFavoriteGroupId } = b4hSession();
-      await getFavoriteGroupId();
+      // const { getFavoriteGroupId } = b4hSession();
+      // await getFavoriteGroupId();
     }
   }
 
