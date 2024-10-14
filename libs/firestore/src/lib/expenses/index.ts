@@ -22,7 +22,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
   ): ExpenseModel {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { labelRef, ...data } = snapshot.data() as any;
+    const { labelRef, parentRef, ...data } = snapshot.data() as any;
 
     return {
       ...data,
@@ -30,6 +30,7 @@ class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
       updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
       date: data.date && new Date(data.date.toDate()),
       label: labelRef?.id ?? data.label?.id ?? data.label,
+      parent: parentRef?.id ?? data.parent?.id ?? data.parent,
       id: snapshot.id
     } as ExpenseModel;
   }
