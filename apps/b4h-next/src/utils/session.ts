@@ -28,8 +28,7 @@ export const b4hSession = () => {
     return userId;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  const getFavoriteGroupId = async () => {
+  async function getFavoriteGroupId() {
     const groups = await fetchGroups();
 
     let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
@@ -47,7 +46,7 @@ export const b4hSession = () => {
     }
 
     return groupId;
-  };
+  }
 
   const setFavoriteGroupId = async (groupId: string | null | undefined) => {
     const groups = await fetchGroups();
