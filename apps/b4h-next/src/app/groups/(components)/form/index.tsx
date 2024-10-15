@@ -105,7 +105,7 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
         <B4hForm.Field>
           <B4hForm.Label htmlFor="name">name</B4hForm.Label>
           <B4hForm.Input type="text" {...register('name')} disabled={!!isLoading} />
-          {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
+          <B4hForm.LabelError>{errors?.name?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
@@ -117,7 +117,7 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
               </B4hForm.Option>
             ))}
           </B4hForm.Select>
-          {errors.userIds && <B4hForm.LabelError>{errors.userIds.message}</B4hForm.LabelError>}
+          <B4hForm.LabelError>{errors?.userIds?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Actions>

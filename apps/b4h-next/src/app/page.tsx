@@ -1,6 +1,8 @@
+import { B4hFade } from '@/components/ui/fade';
 import { b4hSession } from '@/utils/session';
 import { getExpensesFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
+import { AnimatePresence } from 'framer-motion';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
 import styles from './page.module.scss';
 
@@ -30,12 +32,14 @@ export default async function Home() {
       <h1>home</h1>
       <p>welcome to budget4home!</p>
       <br />
-      {expenses && (
-        <>
-          <p>summary of your ⭐️ group</p>
-          <B4hExpenseSummary expenses={expenses} />
-        </>
-      )}
+      <AnimatePresence>
+        {expenses && (
+          <B4hFade>
+            <p>summary of your ⭐️ group</p>
+            <B4hExpenseSummary expenses={expenses} />
+          </B4hFade>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

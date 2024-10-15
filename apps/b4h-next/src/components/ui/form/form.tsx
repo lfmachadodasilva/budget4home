@@ -1,7 +1,9 @@
 import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
+import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { forwardRef, HTMLProps, useState } from 'react';
+import { B4hFade } from '../fade';
 import styles from './form.module.scss';
 
 const Root = forwardRef<HTMLFormElement, HTMLProps<HTMLFormElement>>((props, ref) => {
@@ -91,9 +93,17 @@ const Label = forwardRef<HTMLLabelElement, HTMLProps<HTMLLabelElement>>((props, 
 ));
 Label.displayName = 'B4hForm.Label';
 
-const LabelError = forwardRef<HTMLLabelElement, HTMLProps<HTMLLabelElement>>((props, ref) => (
-  <label {...props} ref={ref} className={styles.labelError} />
-));
+const LabelError = forwardRef<HTMLLabelElement, HTMLProps<HTMLLabelElement>>((props, ref) => {
+  return (
+    <AnimatePresence>
+      {props.children && (
+        <B4hFade direction="right">
+          <label {...props} ref={ref} className={styles.labelError} />
+        </B4hFade>
+      )}
+    </AnimatePresence>
+  );
+});
 LabelError.displayName = 'B4hForm.LabelError';
 
 export const B4hForm = {

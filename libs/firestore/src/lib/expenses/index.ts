@@ -102,9 +102,8 @@ export const addExpensesFirebase = async (
   await tryGroupIsValidFirestore(userId, groupId);
 
   const batch = getFirebaseAdminFirestore().batch();
-  const doc = getFirebaseAdminFirestore().collection(FirestorePath.expeses(groupId)).doc();
 
-  expenses.map(expense => {
+  expenses.forEach(expense => {
     const toAdd = {
       ...expense,
       createdAt: new Date(),
@@ -113,6 +112,7 @@ export const addExpensesFirebase = async (
       updatedBy: userId
     } as ExpenseModel;
 
+    const doc = getFirebaseAdminFirestore().collection(FirestorePath.expeses(groupId)).doc();
     batch.set(doc, toAdd, { merge: true });
   });
 

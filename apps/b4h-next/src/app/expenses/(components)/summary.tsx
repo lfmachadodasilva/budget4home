@@ -18,11 +18,9 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
 
   return (
     <div className={styles.container}>
-      <p>
-        <strong>Total used:</strong> {formatValue(totalOutcoming)}
-      </p>
+      <p>Total used: {formatValue(totalOutcoming)}</p>
       <p className={totalLeft <= 0 ? styles.negative : ''}>
-        <strong>Total left:</strong> {formatValue(totalLeft)}{' '}
+        Total left: {formatValue(totalLeft)}{' '}
         {totalIncoming > 0 && (
           <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>
         )}

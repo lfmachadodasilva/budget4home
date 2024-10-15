@@ -82,12 +82,7 @@ export async function onSubmitAllAction(
   const groupId = await getGroupId();
 
   try {
-    // const promises = data.map(async expense => {
-    //   await addExpenseFirebase(userId, groupId, expense);
-    // });
-    // await Promise.all(promises);
     await addExpensesFirebase(userId, groupId, data);
-
     return {
       message: ACTION_DONE
     } as FormState;

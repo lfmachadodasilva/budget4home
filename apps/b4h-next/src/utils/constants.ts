@@ -15,3 +15,5 @@ export const ACTION_DELETE = 'DELETE';
 export const ACTION_FAVORITE = 'FAVORITE';
 
 export const FETCH_GROUPS = 'groups';
+
+export const ANIMATION_DELAY = 0.05;

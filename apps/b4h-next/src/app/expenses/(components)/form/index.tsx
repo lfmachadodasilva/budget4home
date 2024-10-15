@@ -99,26 +99,17 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
         <B4hForm.Field>
           <B4hForm.Label htmlFor="type">type</B4hForm.Label>
-          <B4hForm.Select
-            defaultValue={ExpenseType.outcoming}
-            {...register('type')}
-            disabled={!!isLoading}
-          >
+          <B4hForm.Select {...register('type')} disabled={!!isLoading}>
             <B4hForm.Option value={ExpenseType.outcoming}>{ExpenseType.outcoming}</B4hForm.Option>
             <B4hForm.Option value={ExpenseType.incoming}>{ExpenseType.incoming}</B4hForm.Option>
           </B4hForm.Select>
-          {errors.type && <B4hForm.LabelError>{errors.type.message}</B4hForm.LabelError>}
+          <B4hForm.LabelError>{errors?.type?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="name">name</B4hForm.Label>
-          <B4hForm.Input
-            type="text"
-            defaultValue={props.expense?.name}
-            {...register('name')}
-            disabled={!!isLoading}
-          />
-          {errors.name && <B4hForm.LabelError>{errors.name.message}</B4hForm.LabelError>}
+          <B4hForm.Input type="text" {...register('name')} disabled={!!isLoading} />
+          <B4hForm.LabelError>{errors?.name?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
@@ -131,7 +122,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
             })}
             disabled={!!isLoading}
           />
-          {errors.value && <B4hForm.LabelError>{errors.value.message}</B4hForm.LabelError>}
+          <B4hForm.LabelError>{errors?.value?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
@@ -145,28 +136,25 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
             )}
             disabled={!!isLoading}
           />
-          {errors.date && <B4hForm.LabelError>{errors.date.message}</B4hForm.LabelError>}
+          <B4hForm.LabelError>{errors?.date?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="label">label</B4hForm.Label>
-          <B4hForm.Select
-            defaultValue={ExpenseType.outcoming}
-            {...register('label')}
-            disabled={!!isLoading}
-          >
+          <B4hForm.Select {...register('label')} disabled={!!isLoading}>
             {props.labels?.map(label => (
               <B4hForm.Option key={label.id} value={label.id}>
                 {label.icon} {label.name}
               </B4hForm.Option>
             ))}
           </B4hForm.Select>
-          {errors.label && <B4hForm.LabelError>{errors.label.message}</B4hForm.LabelError>}
+          <B4hForm.LabelError>{errors?.label?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="comments">comments</B4hForm.Label>
           <B4hForm.TextArea type="text" rows={2} {...register('comments')} disabled={!!isLoading} />
+          <B4hForm.LabelError>{errors?.comments?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Actions>
