@@ -1,7 +1,6 @@
 import { type App, cert, getApps, initializeApp } from 'firebase-admin/app';
 import { type Auth, getAuth } from 'firebase-admin/auth';
 import { type Firestore, getFirestore } from 'firebase-admin/firestore';
-import { type RemoteConfig, getRemoteConfig, ServerConfig } from 'firebase-admin/remote-config';
 import { type Storage, getStorage } from 'firebase-admin/storage';
 
 const firebaseProjectId = process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID'] as string;
@@ -21,8 +20,6 @@ let firebaseAdminApp: App;
 let firebaseAdminFirestore: Firestore;
 let firebaseAdminAuth: Auth;
 let firebaseAdminStorage: Storage;
-let firebaseAdminRemoteConfig: RemoteConfig;
-let firebaseAdminRemoteConfigServerConfig: ServerConfig;
 
 export const getFirebaseAdminApp = (): App => {
   firebaseAdminApp ??=
@@ -63,17 +60,4 @@ export const getFirebaseAdminAuth = () => {
 export const getFirebaseAdminStorage = () => {
   firebaseAdminStorage ??= getStorage(getFirebaseAdminApp());
   return firebaseAdminStorage;
-};
-
-export const getFirebaseAdminRemoteConfig = async () => {
-  if (!firebaseAdminRemoteConfig) {
-    firebaseAdminRemoteConfig = getRemoteConfig(getFirebaseAdminApp());
-  }
-
-  if (!firebaseAdminRemoteConfigServerConfig) {
-    var template = await firebaseAdminRemoteConfig.getServerTemplate();
-    firebaseAdminRemoteConfigServerConfig = template.evaluate();
-  }
-
-  return firebaseAdminRemoteConfigServerConfig;
 };

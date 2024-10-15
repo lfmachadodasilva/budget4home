@@ -2,14 +2,8 @@
 
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hForm } from '@/components/ui/form/form';
-import {
-  ACTION_DELETE,
-  ACTION_DONE,
-  ACTION_SUBMIT,
-  FEATURE_FLAG_EMOJIPICKER
-} from '@/utils/constants';
+import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
-import { getFirebaseRemoteConfigValue } from '@b4h/firebase';
 import { LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
@@ -27,7 +21,6 @@ export interface B4hLabelFormProps {
 export const B4hLabelForm = (props: B4hLabelFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const [state, formAction] = useFormState(onSubmitAction, {
     message: ''
   });
@@ -80,14 +73,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
     }
   }, [state, deleteState, push, prefetch]);
 
-  useEffect(() => {
-    getFirebaseRemoteConfigValue(FEATURE_FLAG_EMOJIPICKER).then(v => {
-      setShowEmojiPicker(v.asBoolean());
-    });
-  }, []);
-
   const title = props.label ? 'update label' : 'add label';
-
   return (
     <>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
@@ -103,12 +89,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="icon">icon</B4hForm.Label>
-          {showEmojiPicker && (
-            <B4hForm.Emoji type="text" {...register('icon')} disabled={!!isLoading} />
-          )}
-          {!showEmojiPicker && (
-            <B4hForm.Input type="text" {...register('icon')} disabled={!!isLoading} />
-          )}
+          <B4hForm.Emoji type="text" {...register('icon')} disabled={!!isLoading} />
           <B4hForm.LabelError>{errors?.icon?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 

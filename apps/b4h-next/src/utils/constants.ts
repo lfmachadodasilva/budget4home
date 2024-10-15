@@ -17,5 +17,3 @@ export const ACTION_FAVORITE = 'FAVORITE';
 export const FETCH_GROUPS = 'groups';
 
 export const ANIMATION_DELAY = 0.05;
-
-export const FEATURE_FLAG_EMOJIPICKER = 'emojiPicker';
