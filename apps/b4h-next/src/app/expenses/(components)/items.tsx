@@ -1,3 +1,5 @@
+'use server';
+
 import { B4hFade } from '@/components/ui/fade';
 import { B4hItem } from '@/components/ui/item/item';
 import styles from '@/components/ui/item/item.module.scss';
@@ -22,7 +24,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const date = getDateFromQuery(props.year, props.month);
 
   // fetch data
-  const groupId = await getFavoriteGroupId(false);
+  const groupId = await getFavoriteGroupId();
   const [labels, expenses] = await Promise.all([
     getLabelsFirestore(userId, groupId),
     getExpensesFirebase(userId, groupId, date)

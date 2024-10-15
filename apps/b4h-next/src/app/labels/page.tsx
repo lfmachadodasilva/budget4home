@@ -16,7 +16,7 @@ export default async function Labels() {
   const { getUserUid, getFavoriteGroupId } = b4hSession();
 
   const userId = getUserUid();
-  const groupId = await getFavoriteGroupId(false);
+  const groupId = await getFavoriteGroupId();
   const labels = await getLabelsFirestore(userId, groupId);
 
   return (

@@ -31,9 +31,9 @@ export async function onSubmitAction(
     const groupId = await getFavoriteGroupId();
     const label: Partial<LabelModel> = data;
     if (label.id) {
-      updateLabelFirestore(userId, groupId, label);
+      await updateLabelFirestore(userId, groupId, label);
     } else {
-      addLabelFirestore(userId, groupId, label);
+      await addLabelFirestore(userId, groupId, label);
     }
 
     return {

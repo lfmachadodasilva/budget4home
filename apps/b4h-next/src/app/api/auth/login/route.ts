@@ -77,7 +77,7 @@ export async function DELETE(request: NextRequest, response: NextResponse) {
   cookies().delete(SESSION_GROUP_ID);
 
   const { cleanGroupsCache } = b4hSession();
-  cleanGroupsCache();
+  await cleanGroupsCache();
 
   return NextResponse.json({}, { status: 200 });
 }

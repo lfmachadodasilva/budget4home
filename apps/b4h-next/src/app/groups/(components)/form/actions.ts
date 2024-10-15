@@ -30,11 +30,11 @@ export async function onSubmitAction(
   try {
     const group: Partial<GroupModel> = data;
     if (group.id) {
-      updateGroupFirestore(userId, group);
+      await updateGroupFirestore(userId, group);
     } else {
-      addGroupFirestore(userId, group);
+      await addGroupFirestore(userId, group);
     }
-    cleanGroupsCache();
+    await cleanGroupsCache();
 
     return {
       message: ACTION_DONE
@@ -66,10 +66,10 @@ export async function onDeleteAction(
     } as FormState;
   }
 
-  cleanGroupsCache();
+  await cleanGroupsCache();
 
   if (groupId === group.id) {
-    setFavoriteGroupId(null);
+    await setFavoriteGroupId(null);
   }
 
   return {

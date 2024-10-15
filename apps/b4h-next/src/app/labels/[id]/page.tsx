@@ -12,7 +12,7 @@ export default async function LabelUpdate({ params }: { params: { id: string } }
   const { getUserUid, getFavoriteGroupId } = b4hSession();
 
   const userId = getUserUid();
-  const groupId = await getFavoriteGroupId(false);
+  const groupId = await getFavoriteGroupId();
   const label = await getLabelFirestore(userId, groupId, id);
 
   if (!label) {

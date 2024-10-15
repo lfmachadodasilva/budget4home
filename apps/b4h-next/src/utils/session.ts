@@ -1,8 +1,26 @@
 import { fetchGroups } from '@/clients/groups';
-import { SESSION_GROUP_ID, SESSION_USER_ID } from '@/utils/constants';
+import { FETCH_GROUPS, SESSION_GROUP_ID, SESSION_USER_ID } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
+import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+const setGroupCookieServer = async (groupId?: string | null) => {
+  'use server';
+
+  if (!groupId) {
+    cookies().delete(SESSION_GROUP_ID);
+    return;
+  }
+
+  cookies().set({
+    name: SESSION_GROUP_ID,
+    value: groupId,
+    // maxAge: 60 * 60 * 24 * 5 * 1000,
+    httpOnly: true,
+    secure: true
+  });
+};
 
 export const b4hSession = () => {
   const getUserUid = () => {
@@ -11,7 +29,7 @@ export const b4hSession = () => {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-  const getFavoriteGroupId = async (setCookie: boolean = true) => {
+  const getFavoriteGroupId = async () => {
     const groups = await fetchGroups();
 
     let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
@@ -21,20 +39,13 @@ export const b4hSession = () => {
 
     groupId = groups[0]?.id;
 
+    await setGroupCookieServer(groupId);
+
     if (!groupId) {
       console.warn('first group not found in cache');
       redirect(B4hRoutes.groupsAdd);
     }
 
-    if (setCookie) {
-      cookies().set({
-        name: SESSION_GROUP_ID,
-        value: groupId,
-        // maxAge: 60 * 60 * 24 * 5 * 1000,
-        httpOnly: true,
-        secure: true
-      });
-    }
     return groupId;
   };
 
@@ -52,23 +63,14 @@ export const b4hSession = () => {
       groupId = null;
     }
 
-    if (groupId) {
-      cookies().set({
-        name: SESSION_GROUP_ID,
-        value: groupId,
-        // maxAge: 60 * 60 * 24 * 5 * 1000,
-        httpOnly: true,
-        secure: true
-      });
-    } else {
-      cookies().delete(SESSION_GROUP_ID);
-    }
+    await setGroupCookieServer(groupId);
 
     return groupId;
   };
 
-  const cleanGroupsCache = () => {
-    // revalidateTag(FETCH_GROUPS);
+  const cleanGroupsCache = async () => {
+    'use server';
+    revalidateTag(FETCH_GROUPS);
   };
 
   return {

@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { onDeleteAction, onSubmitAction } from './action';
+import { onDeleteAction, onSubmitAction } from './actions';
 import { labelFormSchema, LabelFormType } from './schema';
 
 export interface B4hLabelFormProps {

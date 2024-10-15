@@ -13,7 +13,7 @@ import { HTMLProps, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hExpensePreview } from '../preview';
-import { onDeleteAction, onSubmitAction } from './action';
+import { onDeleteAction, onSubmitAction } from './actions';
 import { expenseFormSchema, ExpenseFormType } from './schema';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {

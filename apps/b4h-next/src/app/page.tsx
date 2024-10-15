@@ -18,7 +18,7 @@ export default async function Home() {
   const userId = getUserUid();
   if (userId) {
     try {
-      const groupId = await getFavoriteGroupId(false);
+      const groupId = await getFavoriteGroupId();
       if (groupId) {
         expenses = await getExpensesFirebase(userId, groupId);
       }

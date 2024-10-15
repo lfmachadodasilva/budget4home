@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { onDeleteAction, onFavoriteAction, onSubmitAction } from './action';
+import { onDeleteAction, onFavoriteAction, onSubmitAction } from './actions';
 import { groupFormSchema, GroupFormType } from './schema';
 
 export interface B4hGroupFormProps {

@@ -35,9 +35,9 @@ export async function onSubmitAction(
     const groupId = await getFavoriteGroupId();
     const expense: Partial<ExpenseModel> = data;
     if (expense.id) {
-      updateExpenseFirebase(userId, groupId, expense);
+      await updateExpenseFirebase(userId, groupId, expense);
     } else {
-      addExpenseFirebase(userId, groupId, expense);
+      await addExpenseFirebase(userId, groupId, expense);
     }
     return {
       message: ACTION_DONE

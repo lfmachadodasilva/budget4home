@@ -9,7 +9,7 @@ import { ExpenseModel, LabelModel } from '@b4h/models';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
-import { onSubmitAllAction } from './form/action';
+import { onSubmitAllAction } from './form/actions';
 
 export interface B4hExpensePreviewProps {
   labels: LabelModel[];

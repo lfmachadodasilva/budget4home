@@ -10,7 +10,7 @@ export default async function ExpesesAdd() {
   const { getUserUid, getFavoriteGroupId } = b4hSession();
 
   const userId = getUserUid();
-  const groupId = await getFavoriteGroupId(false);
+  const groupId = await getFavoriteGroupId();
   const labels = await getLabelsFirestore(userId, groupId);
 
   return <B4hExpensesForm labels={labels} />;

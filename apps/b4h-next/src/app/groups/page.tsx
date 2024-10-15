@@ -16,7 +16,7 @@ export default async function Groups() {
   const { getUserUid, getFavoriteGroupId } = b4hSession();
 
   const userId = getUserUid();
-  const fav = await getFavoriteGroupId(false);
+  const fav = await getFavoriteGroupId();
   const groups = await getGroupsFirestore(userId);
 
   return (
