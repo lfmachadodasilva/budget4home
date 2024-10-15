@@ -2,6 +2,13 @@ import { Analytics, getAnalytics } from 'firebase/analytics';
 import { FirebaseApp, getApps, initializeApp } from 'firebase/app';
 import { Auth, getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
+import {
+  type RemoteConfig,
+  fetchAndActivate,
+  getAll,
+  getRemoteConfig,
+  getValue
+} from 'firebase/remote-config';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
 
 const firebasePrivatekey = process.env['NEXT_PUBLIC_FIREBASE_PRIVATE_KEY_ID'] as string;
@@ -18,6 +25,7 @@ let firebaseAuth: Auth;
 let firebaseFirestore: Firestore;
 let firebaseStorage: FirebaseStorage;
 let firebaseAnalytic: Analytics;
+let firebaseRemoteConfig: RemoteConfig;
 
 export const getFirebaseApp = () => {
   firebaseApp ??=
@@ -54,4 +62,21 @@ export const getFirebaseStorage = () => {
 export const getFirebaseAnalytics = () => {
   firebaseAnalytic ??= getAnalytics(getFirebaseApp());
   return firebaseAnalytic;
+};
+
+const initFirebaseRemoteConfig = async () => {
+  firebaseRemoteConfig ??= getRemoteConfig(getFirebaseApp());
+
+  await fetchAndActivate(firebaseRemoteConfig);
+  return firebaseRemoteConfig;
+};
+
+export const getFirebaseRemoteConfigValues = async () => {
+  await initFirebaseRemoteConfig();
+  return getAll(firebaseRemoteConfig);
+};
+
+export const getFirebaseRemoteConfigValue = async (key: string) => {
+  await initFirebaseRemoteConfig();
+  return getValue(firebaseRemoteConfig, key);
 };
