@@ -21,6 +21,7 @@ const Root = (props: B4hDropdownProps) => {
       height: `${triggerRef?.current?.clientHeight ?? '24'}px`,
       width: `${triggerRef?.current?.clientWidth ?? '24'}px`
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggerRef.current]);
 
   const { autoReset, trigger, ...propsCopy } = props;

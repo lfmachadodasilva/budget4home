@@ -20,7 +20,7 @@ export default function LoginClient() {
     formState: { errors, isSubmitting }
   } = useForm<LoginForm>();
   const { login } = useB4hAuth();
-  const { push, refresh } = useRouter();
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<LoginForm> = async (data, event) => {
     event?.preventDefault();
