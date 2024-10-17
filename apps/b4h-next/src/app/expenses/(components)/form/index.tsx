@@ -53,6 +53,8 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
     event?.preventDefault();
 
+    let expenses: ExpenseModel[] = [];
+
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
@@ -67,7 +69,6 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         break;
 
       case 'pile':
-        let expenses: ExpenseModel[] = [];
         if (data.scheduled > 1) {
           // create temporary id
           data.id = Math.random().toString();
