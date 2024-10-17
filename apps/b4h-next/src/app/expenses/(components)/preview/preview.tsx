@@ -9,8 +9,7 @@ import { ExpenseModel, LabelModel } from '@b4h/models';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
-import { onSubmitAllAction } from './form/actions';
-import { expenseModelToType } from './form/schema';
+import { onSubmitAllAction } from './action';
 
 export interface B4hExpensePreviewProps {
   labels: LabelModel[];
@@ -26,7 +25,7 @@ export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) 
 
   const onSubmit = () => {
     setIsLoading(ACTION_SUBMIT);
-    formAction(expenses.map(expense => expenseModelToType(expense)));
+    formAction(expenses);
   };
 
   useEffect(() => {

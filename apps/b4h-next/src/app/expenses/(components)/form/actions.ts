@@ -1,6 +1,7 @@
 'use server';
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
+import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
 import {
   addExpenseFirebase,
@@ -8,12 +9,8 @@ import {
   deleteExpenseFirebase,
   updateExpenseFirebase
 } from '@b4h/firestore';
+import { addMonths } from 'date-fns';
 import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema';
-
-export type FormState = {
-  message: string;
-  issues?: string[];
-};
 
 export async function onSubmitAction(
   prevState: FormState,
@@ -45,7 +42,8 @@ export async function onSubmitAction(
             return {
               ...expenseTypeToModel(data),
               parent: parent.id,
-              scheduled: `${index + 2}/${data.scheduled}`
+              scheduled: `${index + 2}/${data.scheduled}`,
+              data: addMonths(parent.date, index + 1)
             };
           });
           await addExpensesFirebase(userId, groupId, expenses);
@@ -81,27 +79,6 @@ export async function onDeleteAction(
     }
     await deleteExpenseFirebase(userId, groupId, expenseId);
 
-    return {
-      message: ACTION_DONE
-    } as FormState;
-  } catch (err) {
-    console.error(err);
-    return {
-      message: ACTION_FAIL
-    } as FormState;
-  }
-}
-
-export async function onSubmitAllAction(
-  prevState: FormState,
-  data: ExpenseFormType[]
-): Promise<FormState> {
-  const { getUserUid, getFavoriteGroupId: getGroupId } = b4hSession();
-  const userId = getUserUid();
-  const groupId = await getGroupId();
-
-  try {
-    await addExpensesFirebase(userId, groupId, data.map(expenseTypeToModel));
     return {
       message: ACTION_DONE
     } as FormState;

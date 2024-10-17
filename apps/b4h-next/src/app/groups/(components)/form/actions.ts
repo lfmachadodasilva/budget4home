@@ -1,15 +1,11 @@
 'use server';
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
+import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
 import { addGroupFirestore, deleteGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
 import { groupFormSchema, GroupFormType } from './schema';
-
-export type FormState = {
-  message: string;
-  issues?: string[];
-};
 
 export async function onSubmitAction(
   prevState: FormState,

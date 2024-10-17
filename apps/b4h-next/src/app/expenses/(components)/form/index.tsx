@@ -6,13 +6,13 @@ import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT, DATE_TIME_FORMAT } from '@/u
 import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
+import { addMonths, format } from 'date-fns';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
 import { HTMLProps, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { B4hExpensePreview } from '../preview';
+import { B4hExpensePreview } from '../preview/preview';
 import { onDeleteAction, onSubmitAction } from './actions';
 import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema';
 
@@ -67,8 +67,25 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         break;
 
       case 'pile':
+        let expenses: ExpenseModel[] = [];
+        if (data.scheduled > 1) {
+          // create temporary id
+          data.id = Math.random().toString();
+
+          const parentExpense = expenseTypeToModel(data);
+          // create schedule expenses
+          expenses = Array.from(Array(data.scheduled - 1).keys()).map((_, index) => {
+            return {
+              ...parentExpense,
+              date: addMonths(data.date, index + 1),
+              scheduled: `${index + 2}/${data.scheduled}`,
+              parent: data.id
+            } as ExpenseModel;
+          });
+        }
+
         setPreview(x => {
-          x = [...x, expenseTypeToModel(data)];
+          x = [...x, expenseTypeToModel(data), ...expenses];
           return x;
         });
         break;
@@ -191,6 +208,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               type="submit"
               buttonType={preview.length === 0 ? 'secondary' : 'primary'}
               name="pile"
+              widthFit={preview.length > 0}
             >
               {preview.length === 0 ? 'pile' : 'add'}
             </B4hButton>
