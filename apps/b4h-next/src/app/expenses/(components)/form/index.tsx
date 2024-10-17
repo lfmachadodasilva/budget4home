@@ -14,7 +14,7 @@ import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hExpensePreview } from '../preview';
 import { onDeleteAction, onSubmitAction } from './actions';
-import { expenseFormSchema, ExpenseFormType } from './schema';
+import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
   expense?: ExpenseModel | null;
@@ -43,7 +43,8 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
       label: props.expense?.label ?? props.labels[0]?.id,
-      comments: props.expense?.comments
+      comments: props.expense?.comments,
+      scheduled: 1
     }
   });
 
@@ -55,7 +56,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
-        formAction({ ...props.expense, ...data });
+        formAction({ id: props.expense?.id, ...data });
         break;
 
       case ACTION_DELETE:
@@ -67,7 +68,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
       case 'pile':
         setPreview(x => {
-          x = [...x, data as ExpenseModel];
+          x = [...x, expenseTypeToModel(data)];
           return x;
         });
         break;
@@ -89,6 +90,14 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   }, [state, deleteState, push, prefetch]);
 
   const title = props.expense ? 'update expense' : 'add expense';
+  const scheduled = Array.from(Array(12).keys()).map((_, index) => {
+    index++;
+    return {
+      key: index,
+      value: `${index} month${index === 1 ? '' : 's'}`
+    };
+  });
+  console.log('scheduled ', scheduled);
 
   return (
     <>
@@ -156,6 +165,20 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
           <B4hForm.TextArea type="text" rows={2} {...register('comments')} disabled={!!isLoading} />
           <B4hForm.LabelError>{errors?.comments?.message}</B4hForm.LabelError>
         </B4hForm.Field>
+
+        {!props?.expense?.id && (
+          <B4hForm.Field>
+            <B4hForm.Label htmlFor="type">scheduled</B4hForm.Label>
+            <B4hForm.Select {...register('scheduled')} disabled={!!isLoading}>
+              {scheduled.map(x => (
+                <B4hForm.Option key={x.key} value={x.key}>
+                  {x.value}
+                </B4hForm.Option>
+              ))}
+            </B4hForm.Select>
+            <B4hForm.LabelError>{errors?.scheduled?.message}</B4hForm.LabelError>
+          </B4hForm.Field>
+        )}
 
         <B4hForm.Actions>
           {preview.length === 0 && (
