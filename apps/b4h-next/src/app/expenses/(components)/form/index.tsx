@@ -6,15 +6,15 @@ import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT, DATE_TIME_FORMAT } from '@/u
 import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns';
+import { addMonths, format } from 'date-fns';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
 import { HTMLProps, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { B4hExpensePreview } from '../preview';
+import { B4hExpensePreview } from '../preview/preview';
 import { onDeleteAction, onSubmitAction } from './actions';
-import { expenseFormSchema, ExpenseFormType } from './schema';
+import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
   expense?: ExpenseModel | null;
@@ -43,7 +43,8 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       type: props.expense?.type ?? ExpenseType.outcoming,
       value: props.expense?.value,
       label: props.expense?.label ?? props.labels[0]?.id,
-      comments: props.expense?.comments
+      comments: props.expense?.comments,
+      scheduled: 1
     }
   });
 
@@ -52,10 +53,12 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
     event?.preventDefault();
 
+    let expenses: ExpenseModel[] = [];
+
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
-        formAction({ ...props.expense, ...data });
+        formAction({ id: props.expense?.id, ...data });
         break;
 
       case ACTION_DELETE:
@@ -66,8 +69,24 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         break;
 
       case 'pile':
+        if (data.scheduled > 1) {
+          // create temporary id
+          data.id = Math.random().toString();
+
+          const parentExpense = expenseTypeToModel(data);
+          // create schedule expenses
+          expenses = Array.from(Array(data.scheduled - 1).keys()).map((_, index) => {
+            return {
+              ...parentExpense,
+              date: addMonths(data.date, index + 1),
+              scheduled: `${index + 2}/${data.scheduled}`,
+              parent: data.id
+            } as ExpenseModel;
+          });
+        }
+
         setPreview(x => {
-          x = [...x, data as ExpenseModel];
+          x = [...x, expenseTypeToModel(data), ...expenses];
           return x;
         });
         break;
@@ -89,6 +108,14 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   }, [state, deleteState, push, prefetch]);
 
   const title = props.expense ? 'update expense' : 'add expense';
+  const scheduled = Array.from(Array(12).keys()).map((_, index) => {
+    index++;
+    return {
+      key: index,
+      value: `${index} month${index === 1 ? '' : 's'}`
+    };
+  });
+  console.log('scheduled ', scheduled);
 
   return (
     <>
@@ -157,6 +184,20 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
           <B4hForm.LabelError>{errors?.comments?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
+        {!props?.expense?.id && (
+          <B4hForm.Field>
+            <B4hForm.Label htmlFor="type">scheduled</B4hForm.Label>
+            <B4hForm.Select {...register('scheduled')} disabled={!!isLoading}>
+              {scheduled.map(x => (
+                <B4hForm.Option key={x.key} value={x.key}>
+                  {x.value}
+                </B4hForm.Option>
+              ))}
+            </B4hForm.Select>
+            <B4hForm.LabelError>{errors?.scheduled?.message}</B4hForm.LabelError>
+          </B4hForm.Field>
+        )}
+
         <B4hForm.Actions>
           {preview.length === 0 && (
             <B4hButton type="submit" name={ACTION_SUBMIT} loading={isLoading === ACTION_SUBMIT}>
@@ -168,6 +209,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               type="submit"
               buttonType={preview.length === 0 ? 'secondary' : 'primary'}
               name="pile"
+              widthFit={preview.length > 0}
             >
               {preview.length === 0 ? 'pile' : 'add'}
             </B4hButton>

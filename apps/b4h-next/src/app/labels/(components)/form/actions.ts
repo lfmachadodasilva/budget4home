@@ -1,15 +1,11 @@
 'use server';
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
+import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
 import { addLabelFirestore, deleteLabelFirestore, updateLabelFirestore } from '@b4h/firestore';
 import { LabelModel } from '@b4h/models';
 import { labelFormSchema, LabelFormType } from './schema';
-
-export type FormState = {
-  message: string;
-  issues?: string[];
-};
 
 export async function onSubmitAction(
   prevState: FormState,

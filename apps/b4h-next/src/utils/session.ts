@@ -32,7 +32,7 @@ export const b4hSession = () => {
     const groups = await fetchGroups();
 
     let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
-    if (groups.find(g => g.id === groupId)) {
+    if (groups?.find(g => g.id === groupId)) {
       return groupId;
     }
 
