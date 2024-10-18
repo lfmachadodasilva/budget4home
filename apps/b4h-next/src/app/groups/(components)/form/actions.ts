@@ -2,12 +2,10 @@
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
-import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { cleanGroupsCache, setFavoriteGroupIdSession } from '@/utils/session.actions';
 import { addGroupFirestore, deleteGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
-import { revalidatePath } from 'next/cache';
 import { groupFormSchema, GroupFormType } from './schema';
 
 export async function onSubmitAction(
@@ -34,7 +32,7 @@ export async function onSubmitAction(
       await addGroupFirestore(userId, group);
     }
     await cleanGroupsCache();
-    revalidatePath(B4hRoutes.groups, 'page');
+    // revalidatePath(B4hRoutes.groups, 'page');
 
     return {
       message: ACTION_DONE
@@ -66,7 +64,7 @@ export async function onDeleteAction(
     } as FormState;
   }
   await cleanGroupsCache();
-  revalidatePath(B4hRoutes.groups, 'page');
+  // revalidatePath(B4hRoutes.groups, 'page');
 
   if (groupId === group.id) {
     await setFavoriteGroupIdSession(null);

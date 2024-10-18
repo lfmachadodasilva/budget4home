@@ -30,7 +30,8 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm<LabelFormType>({
     resolver: zodResolver(labelFormSchema),
     defaultValues: {
@@ -73,6 +74,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
   }, [state, deleteState, push, prefetch]);
 
   const title = props.label ? 'update label' : 'add label';
+  const handleSetEmoji = (value: string) => setValue('icon', value);
   return (
     <>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
@@ -88,13 +90,13 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="icon">icon</B4hForm.Label>
-          <B4hForm.Input
+
+          <B4hForm.Emoji
             type="text"
             {...register('icon')}
             disabled={!!isLoading}
-            placeholder="add your emoji. example: 🛒"
+            setEmoji={handleSetEmoji}
           />
-          {/* <B4hForm.Emoji type="text" {...register('icon')} disabled={!!isLoading} /> */}
           <B4hForm.LabelError>{errors?.icon?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 

@@ -86,3 +86,13 @@
   height: var(--size-icon);
   margin-right: var(--size-s);
 }
+
+.emoji {
+  display: flex;
+  gap: var(--size-s);
+
+  button {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

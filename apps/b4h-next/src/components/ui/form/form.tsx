@@ -2,7 +2,8 @@ import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { forwardRef, HTMLProps, useState } from 'react';
+import { forwardRef, HTMLProps, InputHTMLAttributes, useState } from 'react';
+import { B4hButton } from '../button/button';
 import { B4hFade } from '../fade';
 import styles from './form.module.scss';
 
@@ -42,25 +43,28 @@ const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, 
 ));
 Input.displayName = 'B4hForm.Input';
 
-const Emoji = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>((props, ref) => {
+interface EmojiProps extends InputHTMLAttributes<HTMLInputElement> {
+  setEmoji: (value: string) => void;
+}
+const Emoji = forwardRef<HTMLInputElement, EmojiProps>((props, ref) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [value, setValue] = useState<string>();
+  const { setEmoji, ...propsCopy } = props; // Destructure setEmoji from props
 
   const handleEmojiSelect = (event: { emoji: string }) => {
-    setValue(event.emoji);
+    props.setEmoji(event.emoji);
     setShowEmojiPicker(false);
   };
-  const OpenEmojiPicker = () => setShowEmojiPicker(true);
+  const openCloseEmojiPicker = () => setShowEmojiPicker(x => !x);
 
   return (
     <>
-      <input
-        {...props}
-        ref={ref}
-        className={styles.input}
-        onFocus={OpenEmojiPicker}
-        value={value}
-      />
+      <div className={styles.emoji}>
+        <input {...propsCopy} ref={ref} className={styles.input} />
+        <B4hButton type="button" onClick={openCloseEmojiPicker}>
+          😀
+        </B4hButton>
+      </div>
+
       <EmojiPicker
         onEmojiClick={handleEmojiSelect}
         theme={Theme.DARK}
