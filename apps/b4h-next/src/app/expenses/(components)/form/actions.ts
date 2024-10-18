@@ -55,7 +55,7 @@ export async function onSubmitAction(
       }
     }
 
-    revalidatePath(B4hRoutes.groups, 'page');
+    revalidatePath(B4hRoutes.expenses, 'page');
 
     return {
       message: ACTION_DONE
@@ -82,7 +82,7 @@ export async function onDeleteAction(
       throw new Error('delete action: invalid expense id');
     }
     await deleteExpenseFirebase(userId, groupId, expenseId);
-    revalidatePath(B4hRoutes.groups, 'page');
+    revalidatePath(B4hRoutes.expenses, 'page');
 
     return {
       message: ACTION_DONE
