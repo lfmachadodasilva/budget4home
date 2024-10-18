@@ -1,2 +1,13 @@
 .page {
 }
+
+.shortcuts {
+  display: flex;
+  gap: var(--size-m);
+  flex-wrap: wrap;
+}
+
+.buttom {
+  height: var(--size-xxl);
+  width: calc(var(--max-width) / 4);
+}

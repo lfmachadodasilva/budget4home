@@ -17,14 +17,19 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
     expenses.filter(x => x.type === ExpenseType.incoming).map(x => x.value)
   );
   const totalLeft = totalIncoming - totalOutcoming;
+  const percentage = (totalLeft / totalIncoming) * 100 * 100;
 
   return (
     <div className={styles.container}>
-      <p>Total used: {formatValue(totalOutcoming)}</p>
-      <p className={totalLeft <= 0 ? styles.negative : ''}>
-        Total left: {formatValue(totalLeft)}{' '}
+      <p>
+        <small>Total used:</small> {formatValue(totalOutcoming)}
+      </p>
+      <p>
+        <small>Total left:</small> {formatValue(totalLeft)}{' '}
         {totalIncoming > 0 && (
-          <small>{formatValue((totalLeft / totalIncoming) * 100 * 100)}%</small>
+          <small className={percentage < 0 ? styles.negative : ''}>
+            {formatValue(percentage)}%
+          </small>
         )}
       </p>
     </div>

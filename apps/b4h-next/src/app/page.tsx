@@ -1,8 +1,12 @@
+import { B4hButton } from '@/components/ui/button/button';
 import { B4hFade } from '@/components/ui/fade';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { getExpensesFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
 import styles from './page.module.scss';
 
@@ -40,6 +44,36 @@ export default async function Home() {
           </B4hFade>
         )}
       </AnimatePresence>
+      <br />
+      {userId && <Shortcuts />}
     </div>
   );
 }
+
+const Shortcuts = () => {
+  return (
+    <>
+      <p>shortcuts:</p>
+      <div className={styles.shortcuts}>
+        <Link href={B4hRoutes.groupsAdd}>
+          <B4hButton buttonType="secondary" className={styles.buttom}>
+            <PlusIcon />
+            add groups
+          </B4hButton>
+        </Link>
+        <Link href={B4hRoutes.labelsAdd}>
+          <B4hButton buttonType="secondary" className={styles.buttom}>
+            <PlusIcon />
+            add labels
+          </B4hButton>
+        </Link>
+        <Link href={B4hRoutes.expensesAdd}>
+          <B4hButton buttonType="secondary" className={styles.buttom}>
+            <PlusIcon />
+            add expenses
+          </B4hButton>
+        </Link>
+      </div>
+    </>
+  );
+};
