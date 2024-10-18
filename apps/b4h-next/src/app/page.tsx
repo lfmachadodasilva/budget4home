@@ -51,30 +51,38 @@ export default async function Home() {
 }
 
 const Shortcuts = () => {
+  let item = 1;
+  const delay = 0.5;
   return (
     <>
       <p>shortcuts:</p>
       <div className={styles.shortcuts}>
-        <Link href={B4hRoutes.expensesAdd}>
-          <B4hButton buttonType="secondary" className={styles.buttom}>
-            <PlusIcon />
-            add expenses
-          </B4hButton>
-        </Link>
+        <B4hFade key={B4hRoutes.expensesAdd} delay={item++ * delay}>
+          <Link href={B4hRoutes.expensesAdd}>
+            <B4hButton buttonType="secondary" className={styles.buttom}>
+              <PlusIcon />
+              add expenses
+            </B4hButton>
+          </Link>
+        </B4hFade>
 
-        <Link href={B4hRoutes.expenses}>
-          <B4hButton buttonType="secondary" className={styles.buttom}>
-            <ListBulletIcon />
-            expenses
-          </B4hButton>
-        </Link>
+        <B4hFade key={B4hRoutes.expenses} delay={item++ * delay}>
+          <Link href={B4hRoutes.expenses}>
+            <B4hButton buttonType="secondary" className={styles.buttom}>
+              <ListBulletIcon />
+              expenses
+            </B4hButton>
+          </Link>
+        </B4hFade>
 
-        <Link href={B4hRoutes.expensesByLabel}>
-          <B4hButton buttonType="secondary" className={styles.buttom}>
-            <ListBulletIcon />
-            expenses by label
-          </B4hButton>
-        </Link>
+        <B4hFade key={B4hRoutes.expensesByLabel} delay={item++ * delay}>
+          <Link href={B4hRoutes.expensesByLabel}>
+            <B4hButton buttonType="secondary" className={styles.buttom}>
+              <ListBulletIcon />
+              expenses by label
+            </B4hButton>
+          </Link>
+        </B4hFade>
       </div>
     </>
   );
