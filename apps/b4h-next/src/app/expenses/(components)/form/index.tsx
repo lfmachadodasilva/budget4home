@@ -161,7 +161,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               setValueAs: value => (value === '' ? undefined : parseInt(value, 10))
             })}
             disabled={!!isLoading}
-            placeholder="example: 100 means 1.00. only numbers including the decimals"
+            placeholder="example: 100 means 1.00"
           />
           <B4hForm.LabelError>{errors?.value?.message}</B4hForm.LabelError>
         </B4hForm.Field>

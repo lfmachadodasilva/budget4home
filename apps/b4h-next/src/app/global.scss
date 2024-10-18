@@ -1,5 +1,9 @@
 @import './theme.scss';
 
+* {
+  text-transform: lowercase;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   font-family: var(--font-family);
