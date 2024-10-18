@@ -9,9 +9,9 @@ export const metadata = {
 
 export default async function ExpesesUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { getUserUid, getFavoriteGroupId } = b4hSession();
+  const { getUserId, getFavoriteGroupId } = b4hSession();
 
-  const userId = getUserUid();
+  const userId = getUserId();
   const groupId = await getFavoriteGroupId();
 
   const [labels, expense] = await Promise.all([

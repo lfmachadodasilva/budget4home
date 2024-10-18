@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const b4hSession = () => {
-  const getUserUid = () => {
+  const getUserId = () => {
     const userId = cookies().get(SESSION_USER_ID)?.value as string;
     return userId;
   };
@@ -31,7 +31,7 @@ export const b4hSession = () => {
   }
 
   return {
-    getUserUid: getUserUid,
-    getFavoriteGroupId: getFavoriteGroupId
+    getUserId,
+    getFavoriteGroupId
   };
 };

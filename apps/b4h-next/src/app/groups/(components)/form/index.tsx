@@ -15,6 +15,7 @@ import { onDeleteAction, onFavoriteAction, onSubmitAction } from './actions';
 import { groupFormSchema, GroupFormType } from './schema';
 
 export interface B4hGroupFormProps {
+  userId: string;
   group?: GroupModel | null;
   users: UserModel[];
 }
@@ -38,7 +39,11 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
   } = useForm<GroupFormType>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: {
-      ...props.group
+      ...props.group,
+      userIds:
+        !props.group?.userIds || props.group?.userIds?.length === 0
+          ? [props.userId]
+          : props.group.userIds
     }
   });
 

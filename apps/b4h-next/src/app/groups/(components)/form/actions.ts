@@ -12,8 +12,8 @@ export async function onSubmitAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { getUserUid } = b4hSession();
-  const userId = getUserUid();
+  const { getUserId } = b4hSession();
+  const userId = getUserId();
 
   const parsed = groupFormSchema.safeParse(data);
 
@@ -49,8 +49,8 @@ export async function onDeleteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { getUserUid, getFavoriteGroupId } = b4hSession();
-  const userId = getUserUid();
+  const { getUserId, getFavoriteGroupId } = b4hSession();
+  const userId = getUserId();
   const groupId = await getFavoriteGroupId();
 
   const group: Partial<GroupModel> = data;

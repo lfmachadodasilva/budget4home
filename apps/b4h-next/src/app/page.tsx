@@ -11,11 +11,11 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const { getUserUid, getFavoriteGroupId } = b4hSession();
+  const { getUserId, getFavoriteGroupId } = b4hSession();
 
   let expenses: ExpenseModel[] | undefined | null;
 
-  const userId = getUserUid();
+  const userId = getUserId();
   if (userId) {
     try {
       const groupId = await getFavoriteGroupId();

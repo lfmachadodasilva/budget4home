@@ -43,6 +43,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
       ...props.expense,
+      date: format(props.expense?.date ?? new Date(), DATE_TIME_FORMAT),
       type: props.expense?.type ?? ExpenseType.outcoming,
       label: props.expense?.label ?? props.labels[0]?.id,
       scheduled: props.expense?.scheduled ? parseInt(props.expense?.scheduled.split('/')[1], 10) : 1
@@ -168,15 +169,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="date">date</B4hForm.Label>
-          <B4hForm.Input
-            type="datetime-local"
-            {...register('date')}
-            defaultValue={format(
-              props.expense?.date ? new Date(props.expense?.date) : new Date(),
-              DATE_TIME_FORMAT
-            )}
-            disabled={!!isLoading}
-          />
+          <B4hForm.Input type="datetime-local" {...register('date')} disabled={!!isLoading} />
           <B4hForm.LabelError>{errors?.date?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 

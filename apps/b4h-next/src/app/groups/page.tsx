@@ -13,9 +13,9 @@ export const metadata = {
 };
 
 export default async function Groups() {
-  const { getUserUid, getFavoriteGroupId } = b4hSession();
+  const { getUserId, getFavoriteGroupId } = b4hSession();
 
-  const userId = getUserUid();
+  const userId = getUserId();
   const fav = await getFavoriteGroupId();
   const groups = await getGroupsFirestore(userId);
 

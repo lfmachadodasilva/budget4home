@@ -1,20 +1,25 @@
+import { FORM_MAX_LENGTH, FORM_MAX_LONG_LENGTH, FORM_MIN_LENGTH } from '@/utils/constants';
 import { z } from 'zod';
 
 export const labelFormSchema = z.object({
   name: z
-    .string()
+    .string({
+      required_error: 'name is required',
+      invalid_type_error: 'name must be a string'
+    })
     .trim()
-    .min(1, {
-      message: 'name is required'
+    .min(FORM_MIN_LENGTH, `name is too short, min ${FORM_MIN_LENGTH} characters`)
+    .max(FORM_MAX_LENGTH, `name is too long, max ${FORM_MAX_LENGTH} characters`),
+  icon: z
+    .string({
+      required_error: 'icon is required',
+      invalid_type_error: 'icon must be a emoji'
     })
-    .min(3, {
-      message: 'name is too short, min 3 characters'
-    })
-    .max(100, {
-      message: 'name is too long, max 100 characters'
-    }),
-  icon: z.string().emoji({ message: 'contains non-emoji characters' }),
-  keys: z.string().optional()
+    .emoji('icon must be a emoji'),
+  keys: z
+    .string()
+    .max(FORM_MAX_LONG_LENGTH, `key is too long, max ${FORM_MAX_LONG_LENGTH} characters`)
+    .optional()
 });
 
 export type LabelFormType = z.output<typeof labelFormSchema>;

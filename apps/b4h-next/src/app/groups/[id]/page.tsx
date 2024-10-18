@@ -9,8 +9,8 @@ export const metadata = {
 
 export default async function GroupUpdate({ params }: { params: { id: string } }) {
   const { id } = params;
-  const { getUserUid } = b4hSession();
-  const userId = getUserUid();
+  const { getUserId } = b4hSession();
+  const userId = getUserId();
 
   const [group, users] = await Promise.all([getGroupFirestore(userId, id), getUsersFirestore()]);
 
@@ -18,5 +18,5 @@ export default async function GroupUpdate({ params }: { params: { id: string } }
     return <B4hNotFound />;
   }
 
-  return <B4hGroupForm users={users} group={group} />;
+  return <B4hGroupForm users={users} group={group} userId={userId} />;
 }
