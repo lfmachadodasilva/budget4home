@@ -34,8 +34,7 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
   } = useForm<LabelFormType>({
     resolver: zodResolver(labelFormSchema),
     defaultValues: {
-      name: props.label?.name,
-      icon: props.label?.icon
+      ...props.label
     }
   });
 
@@ -89,8 +88,15 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
 
         <B4hForm.Field>
           <B4hForm.Label htmlFor="icon">icon</B4hForm.Label>
-          <B4hForm.Emoji type="text" {...register('icon')} disabled={!!isLoading} />
+          <B4hForm.Input type="text" {...register('icon')} disabled={!!isLoading} />
+          {/* <B4hForm.Emoji type="text" {...register('icon')} disabled={!!isLoading} /> */}
           <B4hForm.LabelError>{errors?.icon?.message}</B4hForm.LabelError>
+        </B4hForm.Field>
+
+        <B4hForm.Field>
+          <B4hForm.Label htmlFor="keys">keys</B4hForm.Label>
+          <B4hForm.Input type="text" {...register('keys')} disabled={!!isLoading} />
+          <B4hForm.LabelError>{errors?.keys?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Actions>

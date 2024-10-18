@@ -18,5 +18,8 @@ export const fetchGroups = async () => {
     }
   });
 
-  return (await res.json()) as GroupModel[];
+  if (res.ok) {
+    return (await res.json()) as GroupModel[];
+  }
+  return null;
 };

@@ -3,6 +3,7 @@
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hForm } from '@/components/ui/form/form';
 import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT, DATE_TIME_FORMAT } from '@/utils/constants';
+import { selectLabelByExpenseName } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,16 +36,16 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue,
+    watch
   } = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseFormSchema),
     defaultValues: {
-      name: props.expense?.name,
+      ...props.expense,
       type: props.expense?.type ?? ExpenseType.outcoming,
-      value: props.expense?.value,
       label: props.expense?.label ?? props.labels[0]?.id,
-      comments: props.expense?.comments,
-      scheduled: 1
+      scheduled: props.expense?.scheduled ? parseInt(props.expense?.scheduled.split('/')[1], 10) : 1
     }
   });
 
@@ -107,6 +108,19 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     }
   }, [state, deleteState, push, prefetch]);
 
+  useEffect(() => {
+    // update label by expense name
+    const subscription = watch((value, { name }) => {
+      if (name === 'name' && value.name && value.name.length > 3) {
+        const label = selectLabelByExpenseName(props.labels, value.name);
+        if (label) {
+          setValue('label', label.id);
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, props.labels, setValue]);
+
   const title = props.expense ? 'update expense' : 'add expense';
   const scheduled = Array.from(Array(12).keys()).map((_, index) => {
     index++;
@@ -115,7 +129,6 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       value: `${index} month${index === 1 ? '' : 's'}`
     };
   });
-  console.log('scheduled ', scheduled);
 
   return (
     <>

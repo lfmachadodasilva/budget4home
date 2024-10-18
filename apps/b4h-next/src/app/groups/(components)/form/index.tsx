@@ -38,8 +38,7 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
   } = useForm<GroupFormType>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: {
-      name: props.group?.name ?? '',
-      userIds: props.group?.userIds ?? []
+      ...props.group
     }
   });
 

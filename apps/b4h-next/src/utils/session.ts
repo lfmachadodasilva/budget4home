@@ -1,26 +1,9 @@
 import { fetchGroups } from '@/clients/groups';
-import { FETCH_GROUPS, SESSION_GROUP_ID, SESSION_USER_ID } from '@/utils/constants';
+import { SESSION_GROUP_ID, SESSION_USER_ID } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
-import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-
-const setGroupCookieServer = async (groupId?: string | null) => {
-  'use server';
-
-  if (!groupId) {
-    cookies().delete(SESSION_GROUP_ID);
-    return;
-  }
-
-  cookies().set({
-    name: SESSION_GROUP_ID,
-    value: groupId,
-    // maxAge: 60 * 60 * 24 * 5 * 1000,
-    httpOnly: true,
-    secure: true
-  });
-};
+import { setGroupCookieServer } from './session.actions';
 
 export const b4hSession = () => {
   const getUserUid = () => {
@@ -30,6 +13,9 @@ export const b4hSession = () => {
 
   async function getFavoriteGroupId() {
     const groups = await fetchGroups();
+    if (!groups) {
+      redirect(B4hRoutes.home);
+    }
 
     let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
     if (groups?.find(g => g.id === groupId)) {
@@ -50,6 +36,9 @@ export const b4hSession = () => {
 
   const setFavoriteGroupId = async (groupId: string | null | undefined) => {
     const groups = await fetchGroups();
+    if (!groups) {
+      throw new Error('setFavoriteGroupId: groups not found');
+    }
 
     if (!groupId || groupId === '') {
       cookies().delete(SESSION_GROUP_ID);
@@ -68,8 +57,8 @@ export const b4hSession = () => {
   };
 
   const cleanGroupsCache = async () => {
-    'use server';
-    revalidateTag(FETCH_GROUPS);
+    // 'use server';
+    // revalidateTag(FETCH_GROUPS);
   };
 
   return {
