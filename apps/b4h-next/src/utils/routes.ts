@@ -18,6 +18,7 @@ export const B4hRoutes = {
   labelsAdd: '/labels/add',
 
   expenses: '/expenses',
+  expensesByLabel: '/expenses?viewBy=byLabel',
   expensesAdd: '/expenses/add'
 };
 

@@ -4,7 +4,7 @@ import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { getExpensesFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
-import { PlusIcon } from '@radix-ui/react-icons';
+import { ListBulletIcon, PlusIcon } from '@radix-ui/react-icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
@@ -55,22 +55,24 @@ const Shortcuts = () => {
     <>
       <p>shortcuts:</p>
       <div className={styles.shortcuts}>
-        <Link href={B4hRoutes.groupsAdd}>
-          <B4hButton buttonType="secondary" className={styles.buttom}>
-            <PlusIcon />
-            add groups
-          </B4hButton>
-        </Link>
-        <Link href={B4hRoutes.labelsAdd}>
-          <B4hButton buttonType="secondary" className={styles.buttom}>
-            <PlusIcon />
-            add labels
-          </B4hButton>
-        </Link>
         <Link href={B4hRoutes.expensesAdd}>
           <B4hButton buttonType="secondary" className={styles.buttom}>
             <PlusIcon />
             add expenses
+          </B4hButton>
+        </Link>
+
+        <Link href={B4hRoutes.expenses}>
+          <B4hButton buttonType="secondary" className={styles.buttom}>
+            <ListBulletIcon />
+            expenses
+          </B4hButton>
+        </Link>
+
+        <Link href={B4hRoutes.expensesByLabel}>
+          <B4hButton buttonType="secondary" className={styles.buttom}>
+            <ListBulletIcon />
+            expenses by label
           </B4hButton>
         </Link>
       </div>
