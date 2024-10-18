@@ -1,3 +1,4 @@
+import { B4hSeparator } from '@/components/separator';
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hFade } from '@/components/ui/fade';
 import { ANIMATION_DELAY } from '@/utils/constants';
@@ -16,6 +17,17 @@ export const metadata = {
 };
 
 export default async function Home() {
+  return (
+    <div className={styles.page}>
+      <h2>welcome to budget4home!</h2>
+
+      <GroupExpenseSummary />
+      <Shortcuts />
+    </div>
+  );
+}
+
+const GroupExpenseSummary = async () => {
   const { getUserId, getFavoriteGroupId } = b4hSession();
 
   let expenses: ExpenseModel[] | undefined | null;
@@ -30,31 +42,34 @@ export default async function Home() {
     } catch (error) {
       console.error(error);
     }
+  } else {
+    return null;
   }
 
   return (
-    <div className={styles.page}>
-      <h1>home</h1>
-      <p>welcome to budget4home!</p>
-      <br />
-      <AnimatePresence>
-        {expenses && (
-          <B4hFade>
-            <p>summary of your ⭐️ group</p>
-            <B4hExpenseSummary expenses={expenses} />
-          </B4hFade>
-        )}
-      </AnimatePresence>
-      <br />
-      {userId && <Shortcuts />}
-    </div>
+    <AnimatePresence>
+      <p>summary of your ⭐️ group</p>
+      {expenses && (
+        <B4hFade>
+          <B4hExpenseSummary expenses={expenses} />
+        </B4hFade>
+      )}
+    </AnimatePresence>
   );
-}
+};
 
 const Shortcuts = () => {
+  const { getUserId } = b4hSession();
+
+  const userId = getUserId();
+  if (!userId) {
+    return null;
+  }
+
   let itemAnimation = 1;
   return (
     <>
+      <B4hSeparator />
       <p>shortcuts:</p>
       <div className={styles.shortcuts}>
         <B4hFade key={B4hRoutes.expensesAdd} delay={itemAnimation++ * ANIMATION_DELAY}>
@@ -70,16 +85,7 @@ const Shortcuts = () => {
           <Link href={B4hRoutes.expenses}>
             <B4hButton buttonType="secondary" className={styles.buttom}>
               <ListBulletIcon />
-              expenses
-            </B4hButton>
-          </Link>
-        </B4hFade>
-
-        <B4hFade key={B4hRoutes.expensesByLabel} delay={itemAnimation++ * ANIMATION_DELAY}>
-          <Link href={B4hRoutes.expensesByLabel}>
-            <B4hButton buttonType="secondary" className={styles.buttom}>
-              <ListBulletIcon />
-              expenses by label
+              view expenses
             </B4hButton>
           </Link>
         </B4hFade>
