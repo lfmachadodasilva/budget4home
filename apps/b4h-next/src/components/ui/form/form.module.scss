@@ -29,6 +29,7 @@
   padding: var(--size-xs);
 
   width: 100%;
+  min-height: var(--min-height-input);
 
   box-sizing: border-box;
   -webkit-transition: 0.5s;
@@ -43,6 +44,10 @@
     background: linear-gradient(rgb(0 0 0/60%) 0 0);
     color: var(--disable-fg-color);
     border-color: var(--disable-fg-color);
+  }
+
+  &::placeholder {
+    font-size: var(--font-size-placeholder);
   }
 }
 

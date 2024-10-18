@@ -7,6 +7,8 @@
   --size-xl: 32px;
   --size-xxl: 64px;
 
+  --min-height-input: 30px;
+
   --size-icon: var(--size-l);
 
   --min-width: 250px;
@@ -27,6 +29,5 @@
   --font-family: Poppins, sans-serif;
   --font-weight-normal: 400;
   --font-weight-bold: 700;
-
-  --max-width: 720px;
+  --font-size-placeholder: 14px;
 }
