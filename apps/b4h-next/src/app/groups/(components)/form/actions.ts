@@ -3,6 +3,7 @@
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
+import { cleanGroupsCache, setFavoriteGroupIdSession } from '@/utils/session.actions';
 import { addGroupFirestore, deleteGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
 import { groupFormSchema, GroupFormType } from './schema';
@@ -11,7 +12,7 @@ export async function onSubmitAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { getUserUid, cleanGroupsCache } = b4hSession();
+  const { getUserUid } = b4hSession();
   const userId = getUserUid();
 
   const parsed = groupFormSchema.safeParse(data);
@@ -47,7 +48,7 @@ export async function onDeleteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { getUserUid, cleanGroupsCache, getFavoriteGroupId, setFavoriteGroupId } = b4hSession();
+  const { getUserUid, getFavoriteGroupId } = b4hSession();
   const userId = getUserUid();
   const groupId = await getFavoriteGroupId();
 
@@ -61,11 +62,10 @@ export async function onDeleteAction(
       message: ACTION_FAIL
     } as FormState;
   }
-
   await cleanGroupsCache();
 
   if (groupId === group.id) {
-    await setFavoriteGroupId(null);
+    await setFavoriteGroupIdSession(null);
   }
 
   return {
@@ -77,11 +77,9 @@ export async function onFavoriteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { setFavoriteGroupId } = b4hSession();
-
   try {
     const group: Partial<GroupModel> = data;
-    await setFavoriteGroupId(group.id as string);
+    await setFavoriteGroupIdSession(group.id as string);
 
     return {
       message: ACTION_DONE

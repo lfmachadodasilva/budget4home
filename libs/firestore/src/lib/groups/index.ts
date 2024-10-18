@@ -88,7 +88,7 @@ export const deleteGroupFirestore = async (userId: string, groupId: string) => {
 export const tryGroupIsValidFirestore = async (userId: string, groupId: string) => {
   const group = await getGroupFirestore(userId, groupId);
   if (!group) {
-    throw new Error('Group not found');
+    console.error('tryGroupIsValidFirestore: Group not found');
   }
   return group;
 };

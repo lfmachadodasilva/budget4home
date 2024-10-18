@@ -13,7 +13,7 @@ export const fetchGroups = async () => {
       session: session
     },
     next: {
-      revalidate: 3600,
+      revalidate: 900, // 15 minutes
       tags: [FETCH_GROUPS]
     }
   });

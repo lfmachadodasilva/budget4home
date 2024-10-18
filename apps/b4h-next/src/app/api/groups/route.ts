@@ -1,3 +1,5 @@
+'use server';
+
 import { SESSION } from '@/utils/constants';
 import { getFirebaseAdminAuth } from '@b4h/firebase-admin';
 import { getGroupsFirestore } from '@b4h/firestore';

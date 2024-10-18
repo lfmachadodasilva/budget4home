@@ -1,13 +1,11 @@
+'use server';
+
 import { b4hSession } from '@/utils/session';
+import { cleanGroupsCache, setFavoriteGroupIdSession } from '@/utils/session.actions';
 import { getFirebaseAdminAuth } from '@b4h/firebase-admin';
 import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  SESSION,
-  SESSION_GROUP_ID,
-  SESSION_GROUP_IDS,
-  SESSION_USER_ID
-} from '../../../../utils/constants';
+import { SESSION, SESSION_USER_ID, SESSIONS } from '../../../../utils/constants';
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const authorization = headers().get('Authorization');
@@ -40,8 +38,10 @@ export async function POST(request: NextRequest, response: NextResponse) {
         secure: true
       });
 
+      // set the first group as favorite if it doesn't exist
       const { getFavoriteGroupId } = b4hSession();
-      await getFavoriteGroupId();
+      const favoriteGroupId = await getFavoriteGroupId();
+      await setFavoriteGroupIdSession(favoriteGroupId);
     }
   }
 
@@ -63,20 +63,18 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 
+  // set the first group as favorite if it doesn't exist
   const { getFavoriteGroupId } = b4hSession();
-  await getFavoriteGroupId();
+  const favoriteGroupId = await getFavoriteGroupId();
+  await setFavoriteGroupIdSession(favoriteGroupId);
 
   return NextResponse.json({ isLogged: true }, { status: 200 });
 }
 
 export async function DELETE(request: NextRequest, response: NextResponse) {
   // clean cookies
-  cookies().delete(SESSION);
-  cookies().delete(SESSION_USER_ID);
-  cookies().delete(SESSION_GROUP_IDS);
-  cookies().delete(SESSION_GROUP_ID);
+  SESSIONS.forEach(session => cookies().delete(session));
 
-  const { cleanGroupsCache } = b4hSession();
   await cleanGroupsCache();
 
   return NextResponse.json({}, { status: 200 });
