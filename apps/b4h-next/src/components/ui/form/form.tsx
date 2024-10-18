@@ -71,6 +71,7 @@ const Emoji = forwardRef<HTMLInputElement, EmojiProps>((props, ref) => {
         width={'100%'}
         open={showEmojiPicker}
         reactionsDefaultOpen={false}
+        autoFocusSearch={false}
       />
     </>
   );
