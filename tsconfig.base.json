@@ -18,7 +18,8 @@
       "@b4h/firebase": ["libs/firebase/src/index.ts"],
       "@b4h/firebase-admin": ["libs/firebase-admin/src/index.ts"],
       "@b4h/firestore": ["libs/firestore/src/index.ts"],
-      "@b4h/models": ["libs/models/src/index.ts"]
+      "@b4h/models": ["libs/models/src/index.ts"],
+      "@bh4/shadcn": ["libs/shadcn/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

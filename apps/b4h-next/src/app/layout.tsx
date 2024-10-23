@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={poppings.className}>
         <Providers>
           <B4hHeader />
-          <main>{children}</main>
+          <main className="m-2">{children}</main>
         </Providers>
       </body>
     </html>

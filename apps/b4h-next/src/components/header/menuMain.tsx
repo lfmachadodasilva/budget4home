@@ -6,7 +6,6 @@ import { useB4hAuth } from '@b4h/firebase';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback } from 'react';
-import styles from './header.module.scss';
 
 export const B4hMenuMain = () => {
   const { user } = useB4hAuth();
@@ -27,7 +26,7 @@ export const B4hMenuMain = () => {
     <B4hDropdown.Root
       autoReset
       onChange={handleOnChange}
-      trigger={<HamburgerMenuIcon className={styles.icon} />}
+      trigger={<HamburgerMenuIcon className="w-5 h-5" />}
     >
       <B4hDropdown.Option value={B4hRoutes.groups}>groups</B4hDropdown.Option>
       <B4hDropdown.Option value={B4hRoutes.labels}>labels</B4hDropdown.Option>

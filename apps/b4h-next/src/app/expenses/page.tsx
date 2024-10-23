@@ -1,9 +1,9 @@
 import { B4hLoading } from '@/components/loading';
-import { B4hButton } from '@/components/ui/button/button';
 import { B4hItem } from '@/components/ui/item/item';
 import { B4hPageLayout } from '@/components/ui/layout/layout';
 import { B4hExpenseHeaderType } from '@/utils/expenses';
 import { B4hRoutes } from '@/utils/routes';
+import { Button } from '@b4h/shadcn';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { B4hExpensesHeader } from './(components)/header';
@@ -19,9 +19,9 @@ export default async function Expeses({ searchParams }: { searchParams: B4hExpen
   return (
     <B4hPageLayout.Root>
       <B4hPageLayout.Header>
-        <h1>expenses</h1>
+        <h1 className="text-3xl text-bold">expenses</h1>
         <Link href={B4hRoutes.expensesAdd}>
-          <B4hButton>add</B4hButton>
+          <Button>add</Button>
         </Link>
       </B4hPageLayout.Header>
       <B4hPageLayout.Content>

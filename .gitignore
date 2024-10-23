@@ -46,3 +46,4 @@ Thumbs.db
 out
 
 vite.config.mts.timestamp*
+**/vite.config.{js,ts,mjs,mts,cjs,cts}.timestamp*

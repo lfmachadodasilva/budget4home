@@ -3,7 +3,7 @@
 import { formatValue } from '@/utils/expenses';
 import { ExpenseModel, ExpenseType } from '@b4h/models';
 import { sum } from 'lodash';
-import styles from './summary.module.scss';
+// import styles from './summary.module.scss';
 
 export interface B4hExpenseSummary {
   expenses: ExpenseModel[];
@@ -20,16 +20,14 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
   const percentage = (totalLeft / totalIncoming) * 100 * 100;
 
   return (
-    <div className={styles.container}>
+    <div className="flex flex-col border-1 border-gray-600	rounded p-2">
       <p>
         <small>Total used:</small> {formatValue(totalOutcoming)}
       </p>
       <p>
         <small>Total left:</small> {formatValue(totalLeft)}{' '}
         {totalIncoming > 0 && (
-          <small className={percentage < 0 ? styles.negative : ''}>
-            {formatValue(percentage)}%
-          </small>
+          <small className={percentage < 0 ? 'text-red-600' : ''}>{formatValue(percentage)}%</small>
         )}
       </p>
     </div>

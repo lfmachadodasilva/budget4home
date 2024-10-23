@@ -1,56 +1,55 @@
+@import '../../../../libs/shadcn/src/lib/global.css';
+
+// this is temporary
 @import './theme.scss';
 
-* {
-  text-transform: lowercase;
-}
+// html {
+//   -webkit-text-size-adjust: 100%;
+//   font-family: var(--font-family);
+//   line-height: 1.5;
+//   tab-size: 4;
+//   scroll-behavior: smooth;
 
-html {
-  -webkit-text-size-adjust: 100%;
-  font-family: var(--font-family);
-  line-height: 1.5;
-  tab-size: 4;
-  scroll-behavior: smooth;
+//   color-scheme: dark !important;
 
-  color-scheme: dark !important;
-
-  background-color: var(--bg-color);
-  color: var(--fg-color);
-}
-body {
-  font-family: inherit;
-  line-height: inherit;
-  margin: 0;
-}
-main {
-  padding: var(--size-s);
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-h1,
-h2,
-p,
-pre {
-  margin: 0;
-}
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
-  border-color: currentColor;
-}
-h1,
-h2 {
-  /* font-size: inherit;
-  font-weight: inherit; */
-}
-a {
-  color: inherit;
-  text-decoration: inherit;
-}
-svg {
-  fill: currentColor;
-  width: var(--size-icon);
-  height: var(--size-icon);
-}
+//   background-color: var(--bg-color);
+//   color: var(--fg-color);
+// }
+// body {
+//   font-family: inherit;
+//   line-height: inherit;
+//   margin: 0;
+// }
+// main {
+//   padding: var(--size-s);
+//   max-width: var(--max-width);
+//   margin: 0 auto;
+// }
+// h1,
+// h2,
+// p,
+// pre {
+//   margin: 0;
+// }
+// *,
+// ::before,
+// ::after {
+//   box-sizing: border-box;
+//   border-width: 0;
+//   border-style: solid;
+//   border-color: currentColor;
+// }
+// h1,
+// h2 {
+//   /* font-size: inherit;
+//   font-weight: inherit; */
+// }
+// a {
+//   color: inherit;
+//   text-decoration: inherit;
+// }
+// svg {
+//   fill: currentColor;
+//   width: var(--size-icon);
+//   height: var(--size-icon);
+// }

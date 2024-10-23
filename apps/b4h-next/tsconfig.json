@@ -23,7 +23,7 @@
       "@b4h/firebase-admin": ["../../libs/firebase-admin/src/index.ts"],
       "@b4h/firestore": ["../../libs/firestore/src/index.ts"],
       "@b4h/models": ["../../libs/models/src/index.ts"],
-      "@b4h/web-components": ["../../libs/web-components/src/index.ts"],
+      "@b4h/shadcn": ["../../libs/shadcn/src/index.ts"],
       "@/*": ["./src/*"]
     }
   },

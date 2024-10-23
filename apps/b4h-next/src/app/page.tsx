@@ -1,16 +1,15 @@
 import { B4hSeparator } from '@/components/separator';
-import { B4hButton } from '@/components/ui/button/button';
 import { B4hFade } from '@/components/ui/fade';
 import { ANIMATION_DELAY } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { getExpensesFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
+import { Button } from '@b4h/shadcn';
 import { ListBulletIcon, PlusIcon } from '@radix-ui/react-icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
-import styles from './page.module.scss';
 
 export const metadata = {
   title: 'budget4home'
@@ -18,8 +17,8 @@ export const metadata = {
 
 export default async function Home() {
   return (
-    <div className={styles.page}>
-      <h2>welcome to budget4home!</h2>
+    <div className="flex flex-col gap-3">
+      <h1>Welcome to budget4home!</h1>
 
       <GroupExpenseSummary />
       <Shortcuts />
@@ -50,7 +49,7 @@ const GroupExpenseSummary = async () => {
     <AnimatePresence>
       <p>summary of your ⭐️ group</p>
       {expenses && (
-        <B4hFade>
+        <B4hFade key="group-expense-summary">
           <B4hExpenseSummary expenses={expenses} />
         </B4hFade>
       )}
@@ -71,22 +70,22 @@ const Shortcuts = () => {
     <>
       <B4hSeparator />
       <p>shortcuts:</p>
-      <div className={styles.shortcuts}>
+      <div className="flex gap-2">
         <B4hFade key={B4hRoutes.expensesAdd} delay={itemAnimation++ * ANIMATION_DELAY}>
           <Link href={B4hRoutes.expensesAdd}>
-            <B4hButton buttonType="secondary" className={styles.buttom}>
+            <Button variant="outline" className="h-20">
               <PlusIcon />
               add expenses
-            </B4hButton>
+            </Button>
           </Link>
         </B4hFade>
 
         <B4hFade key={B4hRoutes.expenses} delay={itemAnimation++ * ANIMATION_DELAY}>
           <Link href={B4hRoutes.expenses}>
-            <B4hButton buttonType="secondary" className={styles.buttom}>
+            <Button variant="outline" className="h-20">
               <ListBulletIcon />
               view expenses
-            </B4hButton>
+            </Button>
           </Link>
         </B4hFade>
       </div>
