@@ -40,11 +40,6 @@ pre {
   border-style: solid;
   border-color: currentColor;
 }
-h1,
-h2 {
-  /* font-size: inherit;
-  font-weight: inherit; */
-}
 a {
   color: inherit;
   text-decoration: inherit;
@@ -58,27 +53,21 @@ svg {
 .flex {
   display: flex;
 }
-
 .flex-col {
   flex-direction: column;
 }
-
 .justify-center {
   justify-content: center;
 }
-
 .justify-between {
   justify-content: space-between;
 }
-
 .gap-sm {
   gap: var(--size-sm);
 }
-
 .gap-m {
   gap: var(--size-m);
 }
-
 .flex-wrap {
   flex-wrap: wrap;
 }
