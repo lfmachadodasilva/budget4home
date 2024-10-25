@@ -3,6 +3,7 @@
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hForm } from '@/components/ui/form/form';
 import { ACTION_DELETE, ACTION_DONE, ACTION_FAVORITE, ACTION_SUBMIT } from '@/utils/constants';
+import { defaultFormState } from '@/utils/formState';
 import { B4hRoutes } from '@/utils/routes';
 import { GroupModel, UserModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,15 +24,9 @@ export interface B4hGroupFormProps {
 export const B4hGroupForm = (props: B4hGroupFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAction, {
-    message: ''
-  });
-  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
-    message: ''
-  });
-  const [favoriteState, favoriteFormAction] = useFormState(onFavoriteAction, {
-    message: ''
-  });
+  const [state, formAction] = useFormState(onSubmitAction, defaultFormState);
+  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, defaultFormState);
+  const [favoriteState, favoriteFormAction] = useFormState(onFavoriteAction, defaultFormState);
   const {
     handleSubmit,
     formState: { errors },

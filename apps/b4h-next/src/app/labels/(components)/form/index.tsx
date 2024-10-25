@@ -3,6 +3,7 @@
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hForm } from '@/components/ui/form/form';
 import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT } from '@/utils/constants';
+import { defaultFormState } from '@/utils/formState';
 import { B4hRoutes } from '@/utils/routes';
 import { LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,12 +22,8 @@ export interface B4hLabelFormProps {
 export const B4hLabelForm = (props: B4hLabelFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAction, {
-    message: ''
-  });
-  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
-    message: ''
-  });
+  const [state, formAction] = useFormState(onSubmitAction, defaultFormState);
+  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, defaultFormState);
   const {
     register,
     handleSubmit,

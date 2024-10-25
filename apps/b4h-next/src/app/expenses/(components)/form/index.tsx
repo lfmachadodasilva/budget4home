@@ -10,6 +10,7 @@ import {
   ACTION_SUBMIT_ALL,
   DATE_TIME_FORMAT
 } from '@/utils/constants';
+import { defaultFormState } from '@/utils/formState';
 import { selectLabelByExpenseName } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
@@ -32,18 +33,10 @@ interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAction, {
-    message: ''
-  });
-  const [updateAllState, updateAllformAction] = useFormState(onUpdateAllAction, {
-    message: ''
-  });
-  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
-    message: ''
-  });
-  const [deleteAllState, deleteAllFormAction] = useFormState(onDeleteAllAction, {
-    message: ''
-  });
+  const [state, formAction] = useFormState(onSubmitAction, defaultFormState);
+  const [updateAllState, updateAllformAction] = useFormState(onUpdateAllAction, defaultFormState);
+  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, defaultFormState);
+  const [deleteAllState, deleteAllFormAction] = useFormState(onDeleteAllAction, defaultFormState);
   const [preview, setPreview] = useState<ExpenseModel[]>([]);
 
   const {

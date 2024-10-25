@@ -1,5 +1,3 @@
-'use server';
-
 import { B4hFade } from '@/components/ui/fade';
 import { B4hItem } from '@/components/ui/item/item';
 import styles from '@/components/ui/item/item.module.scss';
