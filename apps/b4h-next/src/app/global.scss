@@ -54,3 +54,31 @@ svg {
   width: var(--size-icon);
   height: var(--size-icon);
 }
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm {
+  gap: var(--size-sm);
+}
+
+.gap-m {
+  gap: var(--size-m);
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}

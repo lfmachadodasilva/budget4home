@@ -10,7 +10,6 @@ import { ListBulletIcon, PlusIcon } from '@radix-ui/react-icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
-import styles from './page.module.scss';
 
 export const metadata = {
   title: 'budget4home'
@@ -18,7 +17,7 @@ export const metadata = {
 
 export default async function Home() {
   return (
-    <div className={styles.page}>
+    <div className="flex flex-col gap-sm">
       <h2>welcome to budget4home!</h2>
 
       <GroupExpenseSummary />
@@ -71,10 +70,10 @@ const Shortcuts = () => {
     <>
       <B4hSeparator />
       <p>shortcuts:</p>
-      <div className={styles.shortcuts}>
+      <div className="flex flex-wrap gap-m">
         <B4hFade key={B4hRoutes.expensesAdd} delay={itemAnimation++ * ANIMATION_DELAY}>
           <Link href={B4hRoutes.expensesAdd}>
-            <B4hButton buttonType="secondary" className={styles.buttom}>
+            <B4hButton buttonType="secondary" style={{ height: 'var(--size-xxl)' }}>
               <PlusIcon />
               add expenses
             </B4hButton>
@@ -83,7 +82,7 @@ const Shortcuts = () => {
 
         <B4hFade key={B4hRoutes.expenses} delay={itemAnimation++ * ANIMATION_DELAY}>
           <Link href={B4hRoutes.expenses}>
-            <B4hButton buttonType="secondary" className={styles.buttom}>
+            <B4hButton buttonType="secondary" style={{ height: 'var(--size-xxl)' }}>
               <ListBulletIcon />
               view expenses
             </B4hButton>
