@@ -49,7 +49,8 @@ export const expenseFormSchema = z.object({
     .trim()
     .max(FORM_MAX_LONG_LENGTH, `comments is too long, max ${FORM_MAX_LONG_LENGTH} characters`)
     .optional(),
-  scheduled: z.preprocess(x => parseInt(x as string, 10), z.number().positive().min(1).max(12))
+  scheduled: z.preprocess(x => parseInt(x as string, 10), z.number().positive().min(1).max(12)),
+  parent: z.string().nullable().optional()
 });
 
 export type ExpenseFormType = z.output<typeof expenseFormSchema>;

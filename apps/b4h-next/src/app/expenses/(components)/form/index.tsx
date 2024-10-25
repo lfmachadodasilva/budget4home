@@ -2,7 +2,14 @@
 
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hForm } from '@/components/ui/form/form';
-import { ACTION_DELETE, ACTION_DONE, ACTION_SUBMIT, DATE_TIME_FORMAT } from '@/utils/constants';
+import {
+  ACTION_DELETE,
+  ACTION_DELETE_ALL,
+  ACTION_DONE,
+  ACTION_SUBMIT,
+  ACTION_SUBMIT_ALL,
+  DATE_TIME_FORMAT
+} from '@/utils/constants';
 import { selectLabelByExpenseName } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
@@ -14,7 +21,7 @@ import { HTMLProps, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hExpensePreview } from '../preview/preview';
-import { onDeleteAction, onSubmitAction } from './actions';
+import { onDeleteAction, onDeleteAllAction, onSubmitAction, onUpdateAllAction } from './actions';
 import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema';
 
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
@@ -28,7 +35,13 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const [state, formAction] = useFormState(onSubmitAction, {
     message: ''
   });
+  const [updateAllState, updateAllformAction] = useFormState(onUpdateAllAction, {
+    message: ''
+  });
   const [deleteState, deleteFormAction] = useFormState(onDeleteAction, {
+    message: ''
+  });
+  const [deleteAllState, deleteAllFormAction] = useFormState(onDeleteAllAction, {
     message: ''
   });
   const [preview, setPreview] = useState<ExpenseModel[]>([]);
@@ -46,7 +59,10 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       date: format(props.expense?.date ?? new Date(), DATE_TIME_FORMAT),
       type: props.expense?.type ?? ExpenseType.outcoming,
       label: props.expense?.label ?? props.labels[0]?.id,
-      scheduled: props.expense?.scheduled ? parseInt(props.expense?.scheduled.split('/')[1], 10) : 1
+      scheduled: props.expense?.scheduled
+        ? parseInt(props.expense?.scheduled.split('/')[1], 10)
+        : 1,
+      parent: props.expense?.parent
     }
   });
 
@@ -62,11 +78,23 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         setIsLoading(ACTION_SUBMIT);
         formAction({ id: props.expense?.id, ...data });
         break;
+      case ACTION_SUBMIT_ALL:
+        if (confirm('update all. are you sure?')) {
+          setIsLoading(ACTION_SUBMIT_ALL);
+          updateAllformAction({ id: props.expense?.id, ...data });
+        }
+        break;
 
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
           setIsLoading(ACTION_DELETE);
           deleteFormAction({ ...props.expense, ...data });
+        }
+        break;
+      case ACTION_DELETE_ALL:
+        if (confirm('delete all. are you sure?')) {
+          setIsLoading(ACTION_DELETE_ALL);
+          deleteAllFormAction({ ...props.expense, ...data });
         }
         break;
 
@@ -101,13 +129,17 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
   useEffect(() => {
     setIsLoading(null);
-    if (state.message === ACTION_DONE || deleteState.message === ACTION_DONE) {
+    if (
+      [state.message, updateAllState.message, deleteState.message, deleteAllState.message].includes(
+        ACTION_DONE
+      )
+    ) {
       prefetch(B4hRoutes.expenses, {
         kind: PrefetchKind.FULL
       });
       push(B4hRoutes.expenses);
     }
-  }, [state, deleteState, push, prefetch]);
+  }, [state, updateAllState, deleteState, deleteAllState, push, prefetch]);
 
   useEffect(() => {
     // update label by expense name
@@ -122,7 +154,9 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     return () => subscription.unsubscribe();
   }, [watch, props.labels, setValue]);
 
-  const title = props.expense ? 'update expense' : 'add expense';
+  const isAdd = !props.expense?.id;
+  const isUpdate = !!props.expense?.id;
+  const title = isUpdate ? 'update expense' : 'add expense';
   const scheduled = Array.from(Array(12).keys()).map((_, index) => {
     index++;
     return {
@@ -207,11 +241,23 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
         <B4hForm.Actions>
           {preview.length === 0 && (
-            <B4hButton type="submit" name={ACTION_SUBMIT} loading={isLoading === ACTION_SUBMIT}>
-              {title}
-            </B4hButton>
+            <div className="flex gap-s">
+              <B4hButton
+                type="submit"
+                name={ACTION_SUBMIT}
+                loading={isLoading === ACTION_SUBMIT}
+                widthFit
+              >
+                {title}
+              </B4hButton>
+              {props.expense?.scheduled && (
+                <B4hButton type="submit" name={ACTION_SUBMIT_ALL} buttonType="secondary">
+                  all
+                </B4hButton>
+              )}
+            </div>
           )}
-          {!props.expense && (
+          {isAdd && (
             <B4hButton
               type="submit"
               buttonType={preview.length === 0 ? 'secondary' : 'primary'}
@@ -221,15 +267,23 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
               {preview.length === 0 ? 'pile' : 'add'}
             </B4hButton>
           )}
-          {props.expense && (
-            <B4hButton
-              type="submit"
-              buttonType="delete"
-              name={ACTION_DELETE}
-              loading={isLoading === ACTION_DELETE}
-            >
-              delete
-            </B4hButton>
+          {isUpdate && (
+            <div className="flex gap-s">
+              <B4hButton
+                type="submit"
+                buttonType="delete"
+                name={ACTION_DELETE}
+                loading={isLoading === ACTION_DELETE}
+                widthFit
+              >
+                delete
+              </B4hButton>
+              {props.expense?.scheduled && (
+                <B4hButton type="submit" name={ACTION_DELETE_ALL} buttonType="delete">
+                  all
+                </B4hButton>
+              )}
+            </div>
           )}
         </B4hForm.Actions>
       </B4hForm.Root>

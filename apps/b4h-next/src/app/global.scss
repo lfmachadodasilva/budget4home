@@ -62,6 +62,9 @@ svg {
 .justify-between {
   justify-content: space-between;
 }
+.gap-s {
+  gap: var(--size-s);
+}
 .gap-sm {
   gap: var(--size-sm);
 }

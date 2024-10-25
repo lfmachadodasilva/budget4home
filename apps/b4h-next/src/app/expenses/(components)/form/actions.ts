@@ -7,8 +7,12 @@ import {
   addExpenseFirebase,
   addExpensesFirebase,
   deleteExpenseFirebase,
-  updateExpenseFirebase
+  deleteExpensesFirebase,
+  getExpensesByParentFirebase,
+  updateExpenseFirebase,
+  updateExpensesFirebase
 } from '@b4h/firestore';
+import { ExpenseModel } from '@b4h/models';
 import { addMonths } from 'date-fns';
 import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema';
 
@@ -43,7 +47,7 @@ export async function onSubmitAction(
               ...expenseTypeToModel(data),
               parent: parent.id,
               scheduled: `${index + 2}/${data.scheduled}`,
-              data: addMonths(parent.date, index + 1)
+              date: addMonths(parent.date, index + 1)
             };
           });
           await addExpensesFirebase(userId, groupId, expenses);
@@ -58,6 +62,45 @@ export async function onSubmitAction(
     return {
       message: ACTION_DONE
     };
+  } catch (err) {
+    console.error(err);
+    return {
+      message: ACTION_FAIL
+    } as FormState;
+  }
+}
+
+export async function onUpdateAllAction(
+  prevState: FormState,
+  data: ExpenseFormType
+): Promise<FormState> {
+  const { getUserId, getFavoriteGroupId: getGroupId } = b4hSession();
+  const userId = getUserId();
+  const groupId = await getGroupId();
+
+  try {
+    const parentId = data.parent ?? data.id;
+    if (!parentId) {
+      throw new Error('update all action: invalid parent id');
+    }
+    const childrens = await getExpensesByParentFirebase(userId, groupId, parentId);
+    const childrensIds = childrens.map(expense => expense.id);
+    const ids = [parentId, ...childrensIds];
+
+    const expenses = ids.map(id => {
+      return {
+        name: data.name,
+        value: data.value,
+        label: data.label,
+        id
+      } as ExpenseModel;
+    });
+
+    await updateExpensesFirebase(userId, groupId, expenses);
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
   } catch (err) {
     console.error(err);
     return {
@@ -81,6 +124,36 @@ export async function onDeleteAction(
     }
     await deleteExpenseFirebase(userId, groupId, expenseId);
     // revalidatePath(B4hRoutes.expenses, 'page');
+
+    return {
+      message: ACTION_DONE
+    } as FormState;
+  } catch (err) {
+    console.error(err);
+    return {
+      message: ACTION_FAIL
+    } as FormState;
+  }
+}
+
+export async function onDeleteAllAction(
+  prevState: FormState,
+  data: ExpenseFormType
+): Promise<FormState> {
+  const { getUserId, getFavoriteGroupId: getGroupId } = b4hSession();
+  const userId = getUserId();
+  const groupId = await getGroupId();
+
+  try {
+    const parentId = data.parent ?? data.id;
+    if (!parentId) {
+      throw new Error('delete all action: invalid parent id');
+    }
+    const childrens = await getExpensesByParentFirebase(userId, groupId, parentId);
+    const childrensIds = childrens.map(expense => expense.id);
+    const ids = [parentId, ...childrensIds];
+
+    await deleteExpensesFirebase(userId, groupId, ids);
 
     return {
       message: ACTION_DONE

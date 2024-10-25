@@ -49,7 +49,7 @@ const GroupExpenseSummary = async () => {
     <AnimatePresence>
       <p>summary of your ⭐️ group</p>
       {expenses && (
-        <B4hFade>
+        <B4hFade key="GroupExpenseSummary">
           <B4hExpenseSummary expenses={expenses} />
         </B4hFade>
       )}

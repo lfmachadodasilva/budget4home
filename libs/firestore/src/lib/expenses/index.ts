@@ -55,6 +55,22 @@ export const getExpensesFirebase = async (userId: string, groupId: string, date?
   return docs.docs.map(doc => doc.data());
 };
 
+export const getExpensesByParentFirebase = async (
+  userId: string,
+  groupId: string,
+  parentId: string
+) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+
+  const docs = await getFirebaseAdminFirestore()
+    .collection(FirestorePath.expeses(groupId))
+    .where('parent', '==', parentId)
+    .withConverter(expenseConverter)
+    .get();
+
+  return docs.docs.map(doc => doc.data());
+};
+
 export const getExpenseFirebase = async (
   userId: string,
   groupId: string,
@@ -106,14 +122,39 @@ export const addExpensesFirebase = async (
   expenses.forEach(expense => {
     const toAdd = {
       ...expense,
-      createdAt: new Date(),
-      createdBy: userId,
+      createdAt: expense.createdAt ?? new Date(),
+      createdBy: expense.createdBy ?? userId,
       updatedAt: new Date(),
       updatedBy: userId
     } as ExpenseModel;
 
     const doc = getFirebaseAdminFirestore().collection(FirestorePath.expeses(groupId)).doc();
     batch.set(doc, toAdd, { merge: true });
+  });
+
+  await batch.commit();
+};
+
+export const updateExpensesFirebase = async (
+  userId: string,
+  groupId: string,
+  expenses: Partial<ExpenseModel>[]
+) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+
+  const batch = getFirebaseAdminFirestore().batch();
+
+  expenses.forEach(expense => {
+    const toUpdate = {
+      ...expense,
+      updatedAt: new Date(),
+      updatedBy: userId
+    } as ExpenseModel;
+
+    const doc = getFirebaseAdminFirestore().doc(
+      FirestorePath.expese(groupId, expense.id as string)
+    );
+    batch.set(doc, toUpdate, { merge: true });
   });
 
   await batch.commit();
@@ -141,6 +182,23 @@ export const updateExpenseFirebase = async (
 export const deleteExpenseFirebase = async (userId: string, groupId: string, expenseId: string) => {
   await tryGroupIsValidFirestore(userId, groupId);
   await getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, expenseId)).delete();
+};
+
+export const deleteExpensesFirebase = async (
+  userId: string,
+  groupId: string,
+  expenseIds: string[]
+) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+
+  const batch = getFirebaseAdminFirestore().batch();
+
+  expenseIds.forEach(id => {
+    const doc = getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, id));
+    batch.delete(doc);
+  });
+
+  await batch.commit();
 };
 
 export const deleteExpensesByLabelFirebase = async (

@@ -17,7 +17,9 @@ export const ACTION_DONE = 'DONE';
 export const ACTION_FAIL = 'FAIL';
 export const ACTION_INVALID = 'INVALID';
 export const ACTION_SUBMIT = 'SUBMIT';
+export const ACTION_SUBMIT_ALL = 'SUBMIT_ALL';
 export const ACTION_DELETE = 'DELETE';
+export const ACTION_DELETE_ALL = 'DELETE_ALL';
 export const ACTION_FAVORITE = 'FAVORITE';
 
 export const FETCH_GROUPS = 'groups';
