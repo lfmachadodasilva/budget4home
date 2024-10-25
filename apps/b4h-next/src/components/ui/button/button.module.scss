@@ -33,10 +33,10 @@
 }
 
 .buttonSecondary {
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--secondary-fg-color);
   border-radius: var(--size-xs);
   background-color: var(--bg-color);
-  color: var(--primary-color);
+  color: var(--secondary-fg-color);
 
   &:disabled {
     border-color: var(--disable-fg-color);

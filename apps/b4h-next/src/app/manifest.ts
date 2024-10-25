@@ -42,7 +42,7 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: '/',
     display_override: ['standalone'],
     display: 'standalone',
-    theme_color: '#996DFF',
-    background_color: '#996DFF'
+    theme_color: '#6b21a8',
+    background_color: '#6b21a8'
   };
 }
