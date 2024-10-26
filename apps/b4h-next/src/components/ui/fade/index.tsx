@@ -16,6 +16,7 @@ export const B4hFade = ({
   duration?: number;
 }) => (
   <motion.div
+    style={{ zIndex: 1 }}
     variants={{
       hidden: {
         opacity: 0,

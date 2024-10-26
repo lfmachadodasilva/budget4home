@@ -2,8 +2,9 @@
   opacity: 0;
   position: absolute;
   cursor: pointer;
+  z-index: 2;
 }
 
 .tigger {
-  z-index: '1';
+  z-index: 1;
 }

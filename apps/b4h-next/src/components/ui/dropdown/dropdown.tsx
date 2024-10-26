@@ -35,8 +35,7 @@ const Root = (props: B4hDropdownProps) => {
         {...propsCopy}
         style={{
           height: size.height,
-          width: size.width,
-          zIndex: '2'
+          width: size.width
         }}
       >
         <option disabled value="not-selected" key="not-selected">

@@ -1,5 +1,9 @@
 .container {
   background-color: var(--primary-color);
+  z-index: 2;
+
+  position: sticky;
+  top: 0;
 }
 
 .subContainer {
