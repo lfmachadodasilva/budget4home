@@ -7,7 +7,7 @@ import {
   User
 } from 'firebase/auth';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { getFirebaseAuth } from './firebase';
+import { getFirebaseAuth } from './auth';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];
