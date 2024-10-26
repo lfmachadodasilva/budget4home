@@ -7,10 +7,10 @@ export const metadata = {
   title: 'update group | budget4home'
 };
 
-export default async function GroupUpdate({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function GroupUpdate({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const { getUserId } = b4hSession();
-  const userId = getUserId();
+  const userId = await getUserId();
 
   const [group, users] = await Promise.all([getGroupFirestore(userId, id), getUsersFirestore()]);
 

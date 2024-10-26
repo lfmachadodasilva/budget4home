@@ -13,10 +13,9 @@ export const metadata = {
 };
 
 export default async function Labels() {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
+  const { getFavoriteGroupId } = b4hSession();
 
-  const userId = getUserId();
-  const groupId = await getFavoriteGroupId();
+  const { userId, groupId } = await getFavoriteGroupId();
   const labels = await getLabelsFirestore(userId, groupId);
 
   return (

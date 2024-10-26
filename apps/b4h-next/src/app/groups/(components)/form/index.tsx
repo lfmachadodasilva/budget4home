@@ -9,8 +9,7 @@ import { GroupModel, UserModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { startTransition, useActionState, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { onDeleteAction, onFavoriteAction, onSubmitAction } from './actions';
 import { groupFormSchema, GroupFormType } from './schema';
@@ -24,9 +23,9 @@ export interface B4hGroupFormProps {
 export const B4hGroupForm = (props: B4hGroupFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAction, defaultFormState);
-  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, defaultFormState);
-  const [favoriteState, favoriteFormAction] = useFormState(onFavoriteAction, defaultFormState);
+  const [state, formAction] = useActionState(onSubmitAction, defaultFormState);
+  const [deleteState, deleteFormAction] = useActionState(onDeleteAction, defaultFormState);
+  const [favoriteState, favoriteFormAction] = useActionState(onFavoriteAction, defaultFormState);
   const {
     handleSubmit,
     formState: { errors },
@@ -50,19 +49,25 @@ export const B4hGroupForm = (props: B4hGroupFormProps) => {
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
-        formAction({ ...props.group, ...data });
+        startTransition(() => {
+          formAction({ ...props.group, ...data });
+        });
         break;
 
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
           setIsLoading(ACTION_DELETE);
-          deleteFormAction({ ...props.group, ...data });
+          startTransition(() => {
+            deleteFormAction({ ...props.group, ...data });
+          });
         }
         break;
 
       case ACTION_FAVORITE:
         setIsLoading(ACTION_FAVORITE);
-        favoriteFormAction({ ...props.group, ...data });
+        startTransition(() => {
+          favoriteFormAction({ ...props.group, ...data });
+        });
         break;
 
       default:

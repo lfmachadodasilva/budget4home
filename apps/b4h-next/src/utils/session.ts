@@ -5,20 +5,27 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const b4hSession = () => {
-  const getUserId = () => {
-    const userId = cookies().get(SESSION_USER_ID)?.value as string;
+  const getUserId = async () => {
+    const cookie = await cookies();
+    const userId = cookie.get(SESSION_USER_ID)?.value as string;
     return userId;
   };
 
   async function getFavoriteGroupId() {
-    const groups = await fetchGroups();
+    const [cookie, groups] = await Promise.all([cookies(), fetchGroups()]);
+
+    const userId = cookie.get(SESSION_USER_ID)?.value as string;
+
     if (!groups) {
       redirect(B4hRoutes.home);
     }
 
-    let groupId = cookies().get(SESSION_GROUP_ID)?.value as string;
+    let groupId = cookie.get(SESSION_GROUP_ID)?.value as string;
     if (groups?.find(g => g.id === groupId)) {
-      return groupId;
+      return {
+        groupId,
+        userId
+      };
     }
 
     groupId = groups[0]?.id;
@@ -27,7 +34,10 @@ export const b4hSession = () => {
       console.warn('getFavoriteGroupId: groups is empty');
     }
 
-    return groupId;
+    return {
+      groupId,
+      userId
+    };
   }
 
   return {

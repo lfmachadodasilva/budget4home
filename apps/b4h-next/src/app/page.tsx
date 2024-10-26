@@ -31,10 +31,10 @@ const GroupExpenseSummary = async () => {
 
   let expenses: ExpenseModel[] | undefined | null;
 
-  const userId = getUserId();
+  const userId = await getUserId();
   if (userId) {
     try {
-      const groupId = await getFavoriteGroupId();
+      const { groupId } = await getFavoriteGroupId();
       if (groupId) {
         expenses = await getExpensesFirebase(userId, groupId);
       }
@@ -57,10 +57,10 @@ const GroupExpenseSummary = async () => {
   );
 };
 
-const Shortcuts = () => {
+const Shortcuts = async () => {
   const { getUserId } = b4hSession();
 
-  const userId = getUserId();
+  const userId = await getUserId();
   if (!userId) {
     return null;
   }

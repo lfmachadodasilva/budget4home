@@ -17,12 +17,12 @@ import { b4hSession } from '../../../utils/session';
 import { B4hExpenseSummary } from './summary';
 
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
-  const userId = getUserId();
+  const { getFavoriteGroupId } = b4hSession();
   const date = getDateFromQuery(props.year, props.month);
 
   // fetch data
-  const groupId = await getFavoriteGroupId();
+  const { userId, groupId } = await getFavoriteGroupId();
+
   const [labels, expenses] = await Promise.all([
     getLabelsFirestore(userId, groupId),
     getExpensesFirebase(userId, groupId, date)

@@ -7,12 +7,14 @@ import { cookies } from 'next/headers';
 import { FETCH_GROUPS, SESSION_GROUP_ID } from './constants';
 
 const setGroupCookieServer = async (groupId?: string | null) => {
+  const cookie = await cookies();
+
   if (!groupId) {
-    cookies().delete(SESSION_GROUP_ID);
+    cookie.delete(SESSION_GROUP_ID);
     return;
   }
 
-  cookies().set({
+  cookie.set({
     name: SESSION_GROUP_ID,
     value: groupId,
     // maxAge: 60 * 60 * 24 * 5 * 1000,
@@ -22,13 +24,14 @@ const setGroupCookieServer = async (groupId?: string | null) => {
 };
 
 export const setFavoriteGroupIdSession = async (groupId: string | null | undefined) => {
-  const groups = await fetchGroups();
+  const [cookie, groups] = await Promise.all([cookies(), fetchGroups()]);
+
   if (!groups) {
     throw new Error('setFavoriteGroupId: groups not found');
   }
 
   if (!groupId || groupId === '') {
-    cookies().delete(SESSION_GROUP_ID);
+    cookie.delete(SESSION_GROUP_ID);
 
     groupId = groups[0]?.id;
   }
@@ -38,7 +41,7 @@ export const setFavoriteGroupIdSession = async (groupId: string | null | undefin
     groupId = null;
   }
 
-  const currentGroupId = cookies().get(SESSION_GROUP_ID)?.value as string;
+  const currentGroupId = cookie.get(SESSION_GROUP_ID)?.value as string;
   if (groupId && currentGroupId !== groupId) {
     await setGroupCookieServer(groupId);
   }

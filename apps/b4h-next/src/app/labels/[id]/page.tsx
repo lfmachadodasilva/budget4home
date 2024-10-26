@@ -7,12 +7,11 @@ export const metadata = {
   title: 'update label | budget4home'
 };
 
-export default async function LabelUpdate({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const { getUserId, getFavoriteGroupId } = b4hSession();
+export default async function LabelUpdate({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const { getFavoriteGroupId } = b4hSession();
 
-  const userId = getUserId();
-  const groupId = await getFavoriteGroupId();
+  const { userId, groupId } = await getFavoriteGroupId();
   const label = await getLabelFirestore(userId, groupId, id);
 
   if (!label) {

@@ -1,6 +1,10 @@
+// import theme first
+import './theme.scss';
+// import global second
+import './global.scss';
+
 import { B4hHeader } from '@/components/header/header';
 import { Poppins } from 'next/font/google';
-import './global.scss';
 import B4hHead from './head';
 import { Providers } from './providers';
 

@@ -1,5 +1,3 @@
-'use server';
-
 import { formatValue } from '@/utils/expenses';
 import { ExpenseModel, ExpenseType } from '@b4h/models';
 import { sum } from 'lodash';

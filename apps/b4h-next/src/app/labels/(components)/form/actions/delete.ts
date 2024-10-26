@@ -11,10 +11,8 @@ export async function onDeleteAction(
   prevState: FormState,
   data: LabelFormType
 ): Promise<FormState> {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
-
-  const userId = getUserId();
-  const groupId = await getFavoriteGroupId();
+  const { getFavoriteGroupId } = b4hSession();
+  const { userId, groupId } = await getFavoriteGroupId();
 
   try {
     const label: Partial<LabelModel> = data;

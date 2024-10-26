@@ -13,8 +13,13 @@ export const metadata = {
   title: 'expenses | budget4home'
 };
 
-export default async function Expeses({ searchParams }: { searchParams: B4hExpenseHeaderType }) {
-  const key = JSON.stringify(searchParams);
+export default async function Expeses({
+  searchParams
+}: {
+  searchParams: Promise<B4hExpenseHeaderType>;
+}) {
+  const params = await searchParams;
+  const key = JSON.stringify(params);
 
   return (
     <B4hPageLayout.Root>
@@ -29,9 +34,9 @@ export default async function Expeses({ searchParams }: { searchParams: B4hExpen
         <B4hItem.Root>
           <Suspense key={key} fallback={<B4hLoading />}>
             <B4hExpensesItems
-              month={searchParams?.month ?? ''}
-              year={searchParams?.year ?? ''}
-              viewBy={searchParams?.viewBy ?? ''}
+              month={params?.month ?? ''}
+              year={params?.year ?? ''}
+              viewBy={params?.viewBy ?? ''}
             />
           </Suspense>
         </B4hItem.Root>

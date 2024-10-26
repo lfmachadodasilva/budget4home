@@ -12,9 +12,8 @@ export async function onDeleteAction(
   prevState: FormState,
   data: GroupFormType
 ): Promise<FormState> {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
-  const userId = getUserId();
-  const groupId = await getFavoriteGroupId();
+  const { getFavoriteGroupId } = b4hSession();
+  const { userId, groupId } = await getFavoriteGroupId();
 
   const group: Partial<GroupModel> = data;
 

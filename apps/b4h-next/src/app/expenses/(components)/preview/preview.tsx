@@ -7,8 +7,7 @@ import { labelsById } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
 import { ExpenseModel, LabelModel } from '@b4h/models';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect, useState } from 'react';
 import { onSubmitAllAction } from './action';
 
 export interface B4hExpensePreviewProps {
@@ -19,7 +18,7 @@ export interface B4hExpensePreviewProps {
 export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) => {
   const { push } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAllAction, {
+  const [state, formAction] = useActionState(onSubmitAllAction, {
     message: ''
   });
 

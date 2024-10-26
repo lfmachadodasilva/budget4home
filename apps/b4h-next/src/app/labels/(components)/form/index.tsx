@@ -9,8 +9,7 @@ import { LabelModel } from '@b4h/models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { startTransition, useActionState, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { onDeleteAction, onSubmitAction } from './actions';
 import { labelFormSchema, LabelFormType } from './schema';
@@ -22,8 +21,8 @@ export interface B4hLabelFormProps {
 export const B4hLabelForm = (props: B4hLabelFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAction, defaultFormState);
-  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, defaultFormState);
+  const [state, formAction] = useActionState(onSubmitAction, defaultFormState);
+  const [deleteState, deleteFormAction] = useActionState(onDeleteAction, defaultFormState);
   const {
     register,
     handleSubmit,
@@ -44,13 +43,17 @@ export const B4hLabelForm = (props: B4hLabelFormProps) => {
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
-        formAction({ ...props.label, ...data });
+        startTransition(() => {
+          formAction({ ...props.label, ...data });
+        });
         break;
 
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
           setIsLoading(ACTION_DELETE);
-          deleteFormAction({ ...props.label, ...data });
+          startTransition(() => {
+            deleteFormAction({ ...props.label, ...data });
+          });
         }
         break;
 

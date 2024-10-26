@@ -5,7 +5,8 @@ import { cookies } from 'next/headers';
 
 const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
 export const fetchGroups = async () => {
-  const session = cookies().get(SESSION)?.value || '';
+  const cookie = await cookies();
+  const session = cookie.get(SESSION)?.value || '';
 
   const res = await fetch(new URL(B4hApiRoutes.groups, baseUrl), {
     method: 'GET',

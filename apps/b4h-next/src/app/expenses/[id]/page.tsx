@@ -7,13 +7,11 @@ export const metadata = {
   title: 'update expense | budget4home'
 };
 
-export default async function ExpesesUpdate({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const { getUserId, getFavoriteGroupId } = b4hSession();
+export default async function ExpesesUpdate({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const { getFavoriteGroupId } = b4hSession();
 
-  const userId = getUserId();
-  const groupId = await getFavoriteGroupId();
-
+  const { userId, groupId } = await getFavoriteGroupId();
   const [labels, expense] = await Promise.all([
     getLabelsFirestore(userId, groupId),
     getExpenseFirebase(userId, groupId, id)

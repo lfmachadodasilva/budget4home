@@ -11,9 +11,8 @@ export async function onSubmitAllAction(
   prevState: FormState,
   data: ExpenseModel[]
 ): Promise<FormState> {
-  const { getUserId, getFavoriteGroupId: getGroupId } = b4hSession();
-  const userId = getUserId();
-  const groupId = await getGroupId();
+  const { getFavoriteGroupId } = b4hSession();
+  const { userId, groupId } = await getFavoriteGroupId();
 
   try {
     const expensesGroupById = groupBy(data, expense => expense.id);

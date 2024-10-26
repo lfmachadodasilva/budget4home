@@ -13,8 +13,7 @@ export async function onSubmitAction(
   data: GroupFormType
 ): Promise<FormState> {
   const { getUserId } = b4hSession();
-  const userId = getUserId();
-
+  const userId = await getUserId();
   const parsed = groupFormSchema.safeParse(data);
 
   if (!parsed.success) {

@@ -8,8 +8,7 @@ export const metadata = {
 
 export default async function GroupAdd() {
   const { getUserId } = b4hSession();
-  const userId = getUserId();
-  const users = await getUsersFirestore();
+  const [userId, users] = await Promise.all([getUserId(), getUsersFirestore()]);
 
   return <B4hGroupForm users={users} userId={userId} />;
 }

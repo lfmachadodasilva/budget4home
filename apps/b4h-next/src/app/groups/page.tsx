@@ -13,10 +13,9 @@ export const metadata = {
 };
 
 export default async function Groups() {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
+  const { getFavoriteGroupId } = b4hSession();
 
-  const userId = getUserId();
-  const fav = await getFavoriteGroupId();
+  const { userId, groupId } = await getFavoriteGroupId();
   const groups = await getGroupsFirestore(userId);
 
   return (
@@ -35,7 +34,7 @@ export default async function Groups() {
                 <Link href={`${B4hRoutes.groups}/${group.id}`} key={group.id}>
                   <B4hItem.Item>
                     <p>
-                      {fav === group.id && '⭐️'} {group.name}
+                      {groupId === group.id && '⭐️'} {group.name}
                     </p>
                   </B4hItem.Item>
                 </Link>

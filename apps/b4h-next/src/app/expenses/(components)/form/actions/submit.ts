@@ -11,8 +11,9 @@ export async function onSubmitAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
-  const userId = getUserId();
+  const { getFavoriteGroupId } = b4hSession();
+
+  const { userId, groupId } = await getFavoriteGroupId();
   const parsed = expenseFormSchema.safeParse(data);
 
   if (!parsed.success) {
@@ -23,7 +24,6 @@ export async function onSubmitAction(
   }
 
   try {
-    const groupId = await getFavoriteGroupId();
     const expense = expenseTypeToModel(data);
 
     if (expense.id) {

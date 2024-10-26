@@ -11,9 +11,8 @@ export async function onUpdateAllAction(
   prevState: FormState,
   data: ExpenseFormType
 ): Promise<FormState> {
-  const { getUserId, getFavoriteGroupId: getGroupId } = b4hSession();
-  const userId = getUserId();
-  const groupId = await getGroupId();
+  const { getFavoriteGroupId } = b4hSession();
+  const { userId, groupId } = await getFavoriteGroupId();
 
   try {
     const parentId = data.parent ?? data.id;

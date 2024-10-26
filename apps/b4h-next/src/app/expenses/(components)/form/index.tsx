@@ -18,8 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { addMonths, format } from 'date-fns';
 import { PrefetchKind } from 'next/dist/client/components/router-reducer/router-reducer-types';
 import { useRouter } from 'next/navigation';
-import { HTMLProps, useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { HTMLProps, startTransition, useActionState, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { B4hExpensePreview } from '../preview/preview';
 import { onDeleteAction, onDeleteAllAction, onSubmitAction, onUpdateAllAction } from './actions';
@@ -33,10 +32,10 @@ interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const { push, prefetch } = useRouter();
   const [isLoading, setIsLoading] = useState<string | null>(null);
-  const [state, formAction] = useFormState(onSubmitAction, defaultFormState);
-  const [updateAllState, updateAllformAction] = useFormState(onUpdateAllAction, defaultFormState);
-  const [deleteState, deleteFormAction] = useFormState(onDeleteAction, defaultFormState);
-  const [deleteAllState, deleteAllFormAction] = useFormState(onDeleteAllAction, defaultFormState);
+  const [state, formAction] = useActionState(onSubmitAction, defaultFormState);
+  const [updateAllState, updateAllformAction] = useActionState(onUpdateAllAction, defaultFormState);
+  const [deleteState, deleteFormAction] = useActionState(onDeleteAction, defaultFormState);
+  const [deleteAllState, deleteAllFormAction] = useActionState(onDeleteAllAction, defaultFormState);
   const [preview, setPreview] = useState<ExpenseModel[]>([]);
 
   const {
@@ -69,25 +68,33 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
-        formAction({ id: props.expense?.id, ...data });
+        startTransition(() => {
+          formAction({ id: props.expense?.id, ...data });
+        });
         break;
       case ACTION_SUBMIT_ALL:
         if (confirm('update all. are you sure?')) {
           setIsLoading(ACTION_SUBMIT_ALL);
-          updateAllformAction({ id: props.expense?.id, ...data });
+          startTransition(() => {
+            updateAllformAction({ id: props.expense?.id, ...data });
+          });
         }
         break;
 
       case ACTION_DELETE:
         if (confirm('are you sure?')) {
           setIsLoading(ACTION_DELETE);
-          deleteFormAction({ ...props.expense, ...data });
+          startTransition(() => {
+            deleteFormAction({ ...props.expense, ...data });
+          });
         }
         break;
       case ACTION_DELETE_ALL:
         if (confirm('delete all. are you sure?')) {
           setIsLoading(ACTION_DELETE_ALL);
-          deleteAllFormAction({ ...props.expense, ...data });
+          startTransition(() => {
+            deleteAllFormAction({ ...props.expense, ...data });
+          });
         }
         break;
 

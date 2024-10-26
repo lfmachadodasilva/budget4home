@@ -7,8 +7,10 @@ import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { SESSION, SESSION_USER_ID, SESSIONS } from '../../../../utils/constants';
 
-export async function POST(request: NextRequest, response: NextResponse) {
-  const authorization = headers().get('Authorization');
+export async function POST(_request: NextRequest) {
+  const [header, cookie] = await Promise.all([headers(), cookies()]);
+
+  const authorization = header.get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
     const decodedToken = await getFirebaseAdminAuth().verifyIdToken(idToken);
@@ -28,9 +30,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
       };
 
       // add the cookie to the browser
-      cookies().set(options);
+      cookie.set(options);
 
-      cookies().set({
+      cookie.set({
         name: SESSION_USER_ID,
         value: decodedToken.uid,
         maxAge: expiresIn,
@@ -40,16 +42,18 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
       // set the first group as favorite if it doesn't exist
       const { getFavoriteGroupId } = b4hSession();
-      const favoriteGroupId = await getFavoriteGroupId();
-      await setFavoriteGroupIdSession(favoriteGroupId);
+      const { groupId } = await getFavoriteGroupId();
+      await setFavoriteGroupIdSession(groupId);
     }
   }
 
   return NextResponse.json({}, { status: 200 });
 }
 
-export async function GET(request: NextRequest) {
-  const session = cookies().get(SESSION)?.value || '';
+export async function GET(_request: NextRequest) {
+  const cookie = await cookies();
+
+  const session = cookie.get(SESSION)?.value || '';
 
   // validate if the cookie exist in the request
   if (!session) {
@@ -65,15 +69,17 @@ export async function GET(request: NextRequest) {
 
   // set the first group as favorite if it doesn't exist
   const { getFavoriteGroupId } = b4hSession();
-  const favoriteGroupId = await getFavoriteGroupId();
-  await setFavoriteGroupIdSession(favoriteGroupId);
+  const { groupId } = await getFavoriteGroupId();
+  await setFavoriteGroupIdSession(groupId);
 
   return NextResponse.json({ isLogged: true }, { status: 200 });
 }
 
-export async function DELETE(request: NextRequest, response: NextResponse) {
+export async function DELETE(_request: NextRequest) {
+  const cookie = await cookies();
+
   // clean cookies
-  SESSIONS.forEach(session => cookies().delete(session));
+  SESSIONS.forEach(session => cookie.delete(session));
 
   await cleanGroupsCache();
 
