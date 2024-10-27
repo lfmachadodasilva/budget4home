@@ -28,6 +28,7 @@ export async function onSubmitAction(
     const expense = expenseTypeToModel(data);
 
     if (expense.id) {
+      revalidateTag(FETCH_EXPENSES(expense.date));
       await updateExpenseFirebase(userId, groupId, expense);
     } else {
       const parent = await addExpenseFirebase(userId, groupId, expense);
