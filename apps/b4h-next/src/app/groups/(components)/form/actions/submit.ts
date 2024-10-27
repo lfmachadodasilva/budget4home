@@ -1,11 +1,12 @@
 'use server';
 
-import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
+import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID, FETCH_GROUPS } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
 import { cleanGroupsCache } from '@/utils/session.actions';
 import { addGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
+import { revalidateTag } from 'next/cache';
 import { GroupFormType, groupFormSchema } from '../schema';
 
 export async function onSubmitAction(
@@ -31,7 +32,7 @@ export async function onSubmitAction(
       await addGroupFirestore(userId, group);
     }
     await cleanGroupsCache();
-    // revalidatePath(B4hRoutes.groups, 'page');
+    revalidateTag(FETCH_GROUPS);
 
     return {
       message: ACTION_DONE

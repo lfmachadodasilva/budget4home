@@ -1,10 +1,15 @@
 'use server';
 
-import { ACTION_DONE, ACTION_FAIL } from '@/utils/constants';
+import { ACTION_DONE, ACTION_FAIL, FETCH_EXPENSES } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
-import { getExpensesByParentFirebase, updateExpensesFirebase } from '@b4h/firestore';
+import {
+  getExpenseFirebase,
+  getExpensesByParentFirebase,
+  updateExpensesFirebase
+} from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
+import { revalidateTag } from 'next/cache';
 import { ExpenseFormType } from '../schema';
 
 export async function onUpdateAllAction(
@@ -19,28 +24,31 @@ export async function onUpdateAllAction(
     if (!parentId) {
       throw new Error('update all action: invalid parent id');
     }
-    const childrens = await getExpensesByParentFirebase(userId, groupId, parentId);
-    const childrensIds = childrens.map(expense => expense.id);
-    const ids = [parentId, ...childrensIds];
-
-    const expenses = ids.map(id => {
-      return {
-        name: data.name,
-        value: data.value,
-        label: data.label,
-        id
-      } as ExpenseModel;
-    });
+    const [parent, childrens] = await Promise.all([
+      getExpenseFirebase(userId, groupId, parentId),
+      getExpensesByParentFirebase(userId, groupId, parentId)
+    ]);
+    const expenses = [parent, ...childrens]
+      .filter(expense => !!expense)
+      .map(expense => {
+        revalidateTag(FETCH_EXPENSES(expense?.date));
+        return {
+          name: data.name,
+          value: data.value,
+          label: data.label,
+          id: expense?.id
+        } as ExpenseModel;
+      });
 
     await updateExpensesFirebase(userId, groupId, expenses);
-
-    return {
-      message: ACTION_DONE
-    } as FormState;
   } catch (err) {
     console.error(err);
     return {
       message: ACTION_FAIL
     } as FormState;
   }
+
+  return {
+    message: ACTION_DONE
+  } as FormState;
 }

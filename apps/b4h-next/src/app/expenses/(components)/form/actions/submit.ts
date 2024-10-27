@@ -1,10 +1,11 @@
 'use server';
 
-import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID } from '@/utils/constants';
+import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID, FETCH_EXPENSES } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
 import { addExpenseFirebase, addExpensesFirebase, updateExpenseFirebase } from '@b4h/firestore';
 import { addMonths } from 'date-fns';
+import { revalidateTag } from 'next/cache';
 import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from '../schema';
 
 export async function onSubmitAction(
@@ -33,7 +34,12 @@ export async function onSubmitAction(
 
       if (parent) {
         if (expense.scheduled) {
+          revalidateTag(FETCH_EXPENSES(parent.date));
+
           const expenses = Array.from(Array(data.scheduled - 1).keys()).map((_, index) => {
+            const date = addMonths(parent.date, index + 1);
+            revalidateTag(FETCH_EXPENSES(date));
+
             return {
               ...expenseTypeToModel(data),
               parent: parent.id,
@@ -47,16 +53,14 @@ export async function onSubmitAction(
         throw new Error('expense submit action: fail to add expense');
       }
     }
-
-    // revalidatePath(B4hRoutes.expenses, 'page');
-
-    return {
-      message: ACTION_DONE
-    };
   } catch (err) {
     console.error(err);
     return {
       message: ACTION_FAIL
     } as FormState;
   }
+
+  return {
+    message: ACTION_DONE
+  } as FormState;
 }

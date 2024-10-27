@@ -96,6 +96,8 @@ export const updateLabelFirestore = async (
 
 export const deleteLabelFirestore = async (userId: string, groupId: string, labelId: string) => {
   await tryGroupIsValidFirestore(userId, groupId);
-  await getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, labelId)).delete();
-  await deleteExpensesByLabelFirebase(userId, groupId, labelId);
+  await Promise.all([
+    getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, labelId)).delete(),
+    deleteExpensesByLabelFirebase(userId, groupId, labelId)
+  ]);
 };

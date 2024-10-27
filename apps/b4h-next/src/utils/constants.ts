@@ -23,6 +23,9 @@ export const ACTION_DELETE_ALL = 'DELETE_ALL';
 export const ACTION_FAVORITE = 'FAVORITE';
 
 export const FETCH_GROUPS = 'groups';
-export const FETCH_EXPENSES = 'expenses';
+export const FETCH_EXPENSES = (date: Date | undefined | null) =>
+  `expenses-${date?.getFullYear() ?? 0}-${date?.getMonth() ?? 0}`;
+export const FETCH_LABELS = 'labels';
+export const FETCH_REVALIDATE_TIME = 900; // 15 minutes
 
 export const ANIMATION_DELAY = 0.05;

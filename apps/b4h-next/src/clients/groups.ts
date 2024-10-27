@@ -1,10 +1,10 @@
-import { FETCH_GROUPS, SESSION } from '@/utils/constants';
+import { FETCH_GROUPS, FETCH_REVALIDATE_TIME, SESSION } from '@/utils/constants';
 import { B4hApiRoutes } from '@/utils/routes';
 import { GroupModel } from '@b4h/models';
 import { cookies } from 'next/headers';
 
 const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
-export const fetchGroups = async () => {
+export const fetchGroups = async (): Promise<GroupModel[] | null> => {
   const cookie = await cookies();
   const session = cookie.get(SESSION)?.value || '';
 
@@ -14,7 +14,7 @@ export const fetchGroups = async () => {
       session: session
     },
     next: {
-      revalidate: 900, // 15 minutes
+      revalidate: FETCH_REVALIDATE_TIME,
       tags: [FETCH_GROUPS]
     }
   });

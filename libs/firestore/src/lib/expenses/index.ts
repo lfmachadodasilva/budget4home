@@ -194,8 +194,10 @@ export const deleteExpensesFirebase = async (
   const batch = getFirebaseAdminFirestore().batch();
 
   expenseIds.forEach(id => {
-    const doc = getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, id));
-    batch.delete(doc);
+    if (id) {
+      const doc = getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, id));
+      batch.delete(doc);
+    }
   });
 
   await batch.commit();

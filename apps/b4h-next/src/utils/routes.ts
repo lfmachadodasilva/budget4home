@@ -1,7 +1,8 @@
 export const B4hApiRoutes = {
   login: '/api/auth/login',
   groups: '/api/groups',
-  expenses: (groupId: string) => `/api/groups/${groupId}/expenses`
+  expenses: (groupId: string) => `/api/groups/${groupId}/expenses`,
+  labels: (groupId: string) => `/api/groups/${groupId}/labels`
 };
 
 export const B4hRoutes = {

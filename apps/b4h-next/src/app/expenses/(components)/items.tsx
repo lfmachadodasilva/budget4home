@@ -1,15 +1,15 @@
+import { fetchExpenses } from '@/clients/expenses';
+import { fetchLabels } from '@/clients/labels';
 import { B4hFade } from '@/components/ui/fade';
 import { B4hItem } from '@/components/ui/item/item';
 import styles from '@/components/ui/item/item.module.scss';
 import { ANIMATION_DELAY } from '@/utils/constants';
-import { getExpensesFirebase, getLabelsFirestore } from '@b4h/firestore';
 import Link from 'next/link';
 import {
   B4hExpenseHeaderType,
   expensesByDate,
   expensesByLabel,
-  formatValue,
-  getDateFromQuery
+  formatValue
 } from '../../../utils/expenses';
 import { labelsById } from '../../../utils/label';
 import { B4hRoutes } from '../../../utils/routes';
@@ -19,25 +19,26 @@ import { B4hExpenseSummary } from './summary';
 export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   const { getFavoriteGroupId } = b4hSession();
 
-  const date = getDateFromQuery(props.year, props.month);
-
   // fetch data
-  const { userId, groupId } = await getFavoriteGroupId();
+  const { groupId } = await getFavoriteGroupId();
+
   const [labels, expenses] = await Promise.all([
-    getLabelsFirestore(userId, groupId),
-    getExpensesFirebase(userId, groupId, date)
+    fetchLabels(groupId),
+    fetchExpenses(groupId, props.month, props.year)
   ]);
 
   // format data
-  const labelById = labelsById(labels);
+  const labelById = labelsById(labels ?? []);
   const expenseBy =
-    props.viewBy === 'byLabel' ? expensesByLabel(expenses, labelById) : expensesByDate(expenses);
+    props.viewBy === 'byLabel'
+      ? expensesByLabel(expenses ?? [], labelById)
+      : expensesByDate(expenses ?? []);
   let item = 1;
 
   return (
     <>
       <B4hFade key="summary" delay={item++ * ANIMATION_DELAY}>
-        <B4hExpenseSummary expenses={expenses} />
+        <B4hExpenseSummary expenses={expenses ?? []} />
       </B4hFade>
       {Object.entries(expenseBy).map(([key, expenses]) => (
         <B4hItem.Group key={key}>

@@ -1,9 +1,14 @@
 'use server';
 
-import { ACTION_DONE, ACTION_FAIL } from '@/utils/constants';
+import { ACTION_DONE, ACTION_FAIL, FETCH_EXPENSES } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
 import { b4hSession } from '@/utils/session';
-import { deleteExpensesFirebase, getExpensesByParentFirebase } from '@b4h/firestore';
+import {
+  deleteExpensesFirebase,
+  getExpenseFirebase,
+  getExpensesByParentFirebase
+} from '@b4h/firestore';
+import { revalidateTag } from 'next/cache';
 import { ExpenseFormType } from '../schema';
 
 export async function onDeleteAllAction(
@@ -18,19 +23,27 @@ export async function onDeleteAllAction(
     if (!parentId) {
       throw new Error('delete all action: invalid parent id');
     }
-    const childrens = await getExpensesByParentFirebase(userId, groupId, parentId);
-    const childrensIds = childrens.map(expense => expense.id);
-    const ids = [parentId, ...childrensIds];
+    const [parent, childrens] = await Promise.all([
+      getExpenseFirebase(userId, groupId, parentId),
+      getExpensesByParentFirebase(userId, groupId, parentId)
+    ]);
+    const expenses = [parent, ...childrens];
+    const ids = expenses
+      .filter(expense => !!expense)
+      .map(expense => {
+        revalidateTag(FETCH_EXPENSES(expense?.date));
+        return expense?.id;
+      });
 
     await deleteExpensesFirebase(userId, groupId, ids);
-
-    return {
-      message: ACTION_DONE
-    } as FormState;
   } catch (err) {
     console.error(err);
     return {
       message: ACTION_FAIL
     } as FormState;
   }
+
+  return {
+    message: ACTION_DONE
+  } as FormState;
 }
