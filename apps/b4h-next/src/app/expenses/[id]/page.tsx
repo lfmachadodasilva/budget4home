@@ -2,6 +2,7 @@ import { B4hNotFound } from '@/components/notFound';
 import { b4hSession } from '@/utils/session';
 import { getExpenseFirebase, getLabelsFirestore } from '@b4h/firestore';
 import { B4hExpensesForm } from '../(components)/form';
+import { UpdateExpenseAnalytics } from '../analytics';
 
 export const metadata = {
   title: 'update expense | budget4home'
@@ -21,5 +22,10 @@ export default async function ExpesesUpdate({ params }: { params: Promise<{ id: 
     return <B4hNotFound />;
   }
 
-  return <B4hExpensesForm labels={labels} expense={expense} />;
+  return (
+    <>
+      <UpdateExpenseAnalytics />
+      <B4hExpensesForm labels={labels} expense={expense} />
+    </>
+  );
 }
