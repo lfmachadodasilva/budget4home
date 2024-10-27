@@ -49,6 +49,10 @@ export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string,
 };
 
 export const getDateFromQuery = (year?: string | null, month?: string | null) => {
+  if ((year && isNaN(Number(year))) || (month && isNaN(Number(month)))) {
+    throw new Error('getDateFromQuery: Invalid date');
+  }
+
   const date = new Date();
   date.setDate(1);
   year && year.length > 0 && date.setFullYear(Number(year));
