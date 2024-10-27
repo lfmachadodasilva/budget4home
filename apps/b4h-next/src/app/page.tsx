@@ -1,10 +1,10 @@
+import { fetchExpenses } from '@/clients/expenses';
 import { B4hSeparator } from '@/components/separator';
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hFade } from '@/components/ui/fade';
 import { ANIMATION_DELAY } from '@/utils/constants';
 import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
-import { getExpensesFirebase } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
 import { ListBulletIcon, PlusIcon } from '@radix-ui/react-icons';
 import { AnimatePresence } from 'framer-motion';
@@ -27,21 +27,24 @@ export default async function Home() {
 }
 
 const GroupExpenseSummary = async () => {
-  const { getUserId, getFavoriteGroupId } = b4hSession();
+  const { getFavoriteGroupId, getUserId } = b4hSession();
 
   let expenses: ExpenseModel[] | undefined | null;
 
   const userId = await getUserId();
-  if (userId) {
-    try {
-      const { groupId } = await getFavoriteGroupId();
-      if (groupId) {
-        expenses = await getExpensesFirebase(userId, groupId);
-      }
-    } catch (error) {
-      console.error(error);
+  if (!userId) {
+    return null;
+  }
+
+  try {
+    const { groupId } = await getFavoriteGroupId();
+    if (groupId) {
+      expenses = await fetchExpenses(groupId);
+    } else {
+      return null;
     }
-  } else {
+  } catch (error) {
+    console.error(error);
     return null;
   }
 
