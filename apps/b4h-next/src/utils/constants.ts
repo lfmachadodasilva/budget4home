@@ -23,5 +23,6 @@ export const ACTION_DELETE_ALL = 'DELETE_ALL';
 export const ACTION_FAVORITE = 'FAVORITE';
 
 export const FETCH_GROUPS = 'groups';
+export const FETCH_EXPENSES = 'expenses';
 
 export const ANIMATION_DELAY = 0.05;
