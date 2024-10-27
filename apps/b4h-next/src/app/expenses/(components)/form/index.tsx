@@ -144,7 +144,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   useEffect(() => {
     // update label by expense name
     const subscription = watch((value, { name }) => {
-      if (name === 'name' && value.name && value.name.length > 3) {
+      if (name === 'name' && value.name && value.name.length > 2) {
         const label = selectLabelByExpenseName(props.labels, value.name);
         if (label) {
           setValue('label', label.id);
