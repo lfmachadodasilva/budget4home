@@ -1,3 +1,5 @@
+import type { Config } from 'jest';
+
 export default {
   displayName: 'b4h-next',
   preset: '../../jest.preset.js',
@@ -7,4 +9,4 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/apps/b4h-next'
-};
+} as Config;
