@@ -1,7 +1,4 @@
 import { type App, cert, getApps, initializeApp } from 'firebase-admin/app';
-import { type Auth, getAuth } from 'firebase-admin/auth';
-import { type Firestore, getFirestore } from 'firebase-admin/firestore';
-import { type Storage, getStorage } from 'firebase-admin/storage';
 
 const firebaseProjectId = process.env['NEXT_PUBLIC_FIREBASE_PROJECT_ID'] as string;
 const firebasePrivateKey = process.env['FIREBASE_PRIVATE_KEY'] as string;
@@ -17,9 +14,6 @@ const firebaseStorageBucket = process.env['FIREBASE_STORAGE_BUCKET'] as string;
 const firebaseDatabaseUrl = process.env['FIREBASE_DATABASE_URL'] as string;
 
 let firebaseAdminApp: App;
-let firebaseAdminFirestore: Firestore;
-let firebaseAdminAuth: Auth;
-let firebaseAdminStorage: Storage;
 
 export const getFirebaseAdminApp = (): App => {
   firebaseAdminApp ??=
@@ -45,19 +39,4 @@ export const getFirebaseAdminApp = (): App => {
           databaseURL: firebaseDatabaseUrl
         });
   return firebaseAdminApp;
-};
-
-export const getFirebaseAdminFirestore = () => {
-  firebaseAdminFirestore ??= getFirestore(getFirebaseAdminApp());
-  return firebaseAdminFirestore;
-};
-
-export const getFirebaseAdminAuth = () => {
-  firebaseAdminAuth ??= getAuth(getFirebaseAdminApp());
-  return firebaseAdminAuth;
-};
-
-export const getFirebaseAdminStorage = () => {
-  firebaseAdminStorage ??= getStorage(getFirebaseAdminApp());
-  return firebaseAdminStorage;
 };
