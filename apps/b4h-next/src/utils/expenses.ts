@@ -9,24 +9,16 @@ export type B4hExpenseHeaderType = {
   viewBy: string;
 };
 
-export const expensesByDate = (expenses: ExpenseModel[]) => {
-  const labelsById = {
-    ...expenses.reduce(
-      (acc, expense) => {
-        const date = format(expense.date, DATE_FORMAT);
-        acc[date] = acc[date] || [];
-        acc[date].push(expense);
-        return acc;
-      },
-      {} as Record<string, ExpenseModel[]>
-    )
-  };
-  return labelsById;
-};
-
-export const formatValue = (value: number) => {
-  return (value / 100).toFixed(2).replace(/[.,]00$/, '');
-};
+export const expensesByDate = (expenses: ExpenseModel[]) =>
+  expenses.reduce(
+    (acc, expense) => {
+      const date = format(expense.date, DATE_FORMAT);
+      acc[date] = acc[date] || [];
+      acc[date].push(expense);
+      return acc;
+    },
+    {} as Record<string, ExpenseModel[]>
+  );
 
 export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string, LabelModel>) => {
   const labelsById = {
@@ -46,6 +38,10 @@ export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string,
       ([, a], [, b]) => sumBy(a, c => c.value) - sumBy(b, c => c.value)
     )
   );
+};
+
+export const formatValue = (value: number): string => {
+  return (value / 100).toFixed(2).replace(/[.,]00$/, '');
 };
 
 export const getDateFromQuery = (year?: string | null, month?: string | null) => {
