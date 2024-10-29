@@ -23,8 +23,8 @@ export async function onDeleteAction(
 
     const expense = await getExpenseFirebase(userId, groupId, expenseId);
 
-    revalidatePath(B4hRoutes.expenses, 'page');
     revalidateTag(FETCH_EXPENSES(expense?.date));
+    revalidatePath(B4hRoutes.expenses, 'page');
 
     await deleteExpenseFirebase(userId, groupId, expenseId);
   } catch (err) {
