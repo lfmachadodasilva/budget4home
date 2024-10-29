@@ -21,7 +21,7 @@ export async function onDeleteAction(
       throw new Error('delete action: invalid expense id');
     }
 
-    revalidatePath(B4hRoutes.expenses);
+    revalidatePath(B4hRoutes.expenses, 'page');
 
     const expense = await getExpenseFirebase(userId, groupId, expenseId);
     revalidateTag(FETCH_EXPENSES(expense?.date));
