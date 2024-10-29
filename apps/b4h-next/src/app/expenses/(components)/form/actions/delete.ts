@@ -1,11 +1,9 @@
 'use server';
 
-import { ACTION_DONE, ACTION_FAIL, FETCH_EXPENSES } from '@/utils/constants';
+import { ACTION_DONE, ACTION_FAIL } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
-import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
-import { deleteExpenseFirebase, getExpenseFirebase } from '@b4h/firestore';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { deleteExpenseFirebase } from '@b4h/firestore';
 import { ExpenseFormType } from '../schema';
 
 export async function onDeleteAction(
@@ -21,10 +19,9 @@ export async function onDeleteAction(
       throw new Error('delete action: invalid expense id');
     }
 
-    const expense = await getExpenseFirebase(userId, groupId, expenseId);
-
-    revalidateTag(FETCH_EXPENSES(expense?.date));
-    revalidatePath(B4hRoutes.expenses, 'page');
+    // const expense = await getExpenseFirebase(userId, groupId, expenseId);
+    // revalidateTag(FETCH_EXPENSES(expense?.date));
+    // revalidatePath(B4hRoutes.expenses, 'page');
 
     await deleteExpenseFirebase(userId, groupId, expenseId);
   } catch (err) {
