@@ -2,11 +2,12 @@
 
 import { ACTION_DONE, ACTION_FAIL, FETCH_GROUPS } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { cleanGroupsCache, setFavoriteGroupIdSession } from '@/utils/session.actions';
 import { deleteGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { GroupFormType } from '../schema';
 
 export async function onDeleteAction(
@@ -15,6 +16,9 @@ export async function onDeleteAction(
 ): Promise<FormState> {
   const { getFavoriteGroupId } = b4hSession();
   const { userId, groupId } = await getFavoriteGroupId();
+
+  revalidatePath(B4hRoutes.groups, 'page');
+  revalidateTag(FETCH_GROUPS);
 
   const group: Partial<GroupModel> = data;
 
@@ -27,7 +31,6 @@ export async function onDeleteAction(
     } as FormState;
   }
   await cleanGroupsCache();
-  revalidateTag(FETCH_GROUPS);
 
   if (groupId === group.id) {
     await setFavoriteGroupIdSession(null);

@@ -2,6 +2,7 @@
 
 import { ACTION_DONE, ACTION_FAIL, FETCH_EXPENSES } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import {
   getExpenseFirebase,
@@ -9,7 +10,7 @@ import {
   updateExpensesFirebase
 } from '@b4h/firestore';
 import { ExpenseModel } from '@b4h/models';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { ExpenseFormType } from '../schema';
 
 export async function onUpdateAllAction(
@@ -18,6 +19,8 @@ export async function onUpdateAllAction(
 ): Promise<FormState> {
   const { getFavoriteGroupId } = b4hSession();
   const { userId, groupId } = await getFavoriteGroupId();
+
+  revalidatePath(B4hRoutes.expenses, 'page');
 
   try {
     const parentId = data.parent ?? data.id;

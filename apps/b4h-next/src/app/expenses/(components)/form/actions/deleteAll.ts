@@ -2,13 +2,14 @@
 
 import { ACTION_DONE, ACTION_FAIL, FETCH_EXPENSES } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import {
   deleteExpensesFirebase,
   getExpenseFirebase,
   getExpensesByParentFirebase
 } from '@b4h/firestore';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { ExpenseFormType } from '../schema';
 
 export async function onDeleteAllAction(
@@ -23,6 +24,9 @@ export async function onDeleteAllAction(
     if (!parentId) {
       throw new Error('delete all action: invalid parent id');
     }
+
+    revalidatePath(B4hRoutes.expenses, 'page');
+
     const [parent, childrens] = await Promise.all([
       getExpenseFirebase(userId, groupId, parentId),
       getExpensesByParentFirebase(userId, groupId, parentId)

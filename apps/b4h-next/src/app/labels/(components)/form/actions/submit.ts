@@ -2,10 +2,11 @@
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID, FETCH_LABELS } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { addLabelFirestore, updateLabelFirestore } from '@b4h/firestore';
 import { LabelModel } from '@b4h/models';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { LabelFormType, labelFormSchema } from '../schema';
 
 export async function onSubmitAction(
@@ -23,6 +24,8 @@ export async function onSubmitAction(
       issues: [...new Set(parsed.error.issues.map(issue => issue.message))]
     };
   }
+
+  revalidatePath(B4hRoutes.labels, 'page');
 
   try {
     const label: Partial<LabelModel> = data;

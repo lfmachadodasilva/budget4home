@@ -2,11 +2,12 @@
 
 import { ACTION_DONE, ACTION_FAIL, ACTION_INVALID, FETCH_GROUPS } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { cleanGroupsCache } from '@/utils/session.actions';
 import { addGroupFirestore, updateGroupFirestore } from '@b4h/firestore';
 import { GroupModel } from '@b4h/models';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { GroupFormType, groupFormSchema } from '../schema';
 
 export async function onSubmitAction(
@@ -24,6 +25,9 @@ export async function onSubmitAction(
     };
   }
 
+  revalidatePath(B4hRoutes.labels, 'page');
+  revalidateTag(FETCH_GROUPS);
+
   try {
     const group: Partial<GroupModel> = data;
     if (group.id) {
@@ -32,7 +36,6 @@ export async function onSubmitAction(
       await addGroupFirestore(userId, group);
     }
     await cleanGroupsCache();
-    revalidateTag(FETCH_GROUPS);
 
     return {
       message: ACTION_DONE

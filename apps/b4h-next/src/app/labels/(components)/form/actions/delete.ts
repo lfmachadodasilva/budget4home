@@ -2,10 +2,11 @@
 
 import { ACTION_DONE, ACTION_FAIL, FETCH_LABELS } from '@/utils/constants';
 import { FormState } from '@/utils/formState';
+import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { deleteLabelFirestore } from '@b4h/firestore';
 import { LabelModel } from '@b4h/models';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { LabelFormType } from '../schema';
 
 export async function onDeleteAction(
@@ -14,6 +15,7 @@ export async function onDeleteAction(
 ): Promise<FormState> {
   const { getFavoriteGroupId } = b4hSession();
   const { userId, groupId } = await getFavoriteGroupId();
+  revalidatePath(B4hRoutes.labels, 'page');
 
   try {
     const label: Partial<LabelModel> = data;
