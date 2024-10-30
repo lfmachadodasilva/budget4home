@@ -2,7 +2,7 @@
   "name": "@b4h/firebase-admin",
   "version": "0.0.1",
   "dependencies": {
-    "firebase-admin": "^12.6.0"
+    "firebase-admin": "^12.7.0"
   },
   "main": "./index.js",
   "module": "./index.mjs",
