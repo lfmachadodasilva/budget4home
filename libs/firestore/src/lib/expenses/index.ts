@@ -55,6 +55,18 @@ export const getExpensesFirebase = async (userId: string, groupId: string, date?
   return docs.docs.map(doc => doc.data());
 };
 
+export const getAllExpensesFirebase = async (userId: string, groupId: string) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+
+  const docs = await getFirebaseAdminFirestore()
+    .collection(FirestorePath.expeses(groupId))
+    .orderBy('date', 'desc')
+    .withConverter(expenseConverter)
+    .get();
+
+  return docs.docs.map(doc => doc.data());
+};
+
 export const getExpensesByParentFirebase = async (
   userId: string,
   groupId: string,

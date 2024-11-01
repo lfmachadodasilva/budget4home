@@ -13,6 +13,8 @@ export const B4hRoutes = {
   register: '/register',
   reset: '/reset',
 
+  export: '/export',
+
   groups: '/groups',
   groupsAdd: '/groups/add',
 
