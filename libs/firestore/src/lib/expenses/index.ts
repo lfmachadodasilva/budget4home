@@ -1,21 +1,19 @@
-import {
-  FirestoreDataConverter,
-  getFirebaseAdminFirestore,
-  Timestamp,
-  WithFieldValue
-} from '@b4h/firebase-admin';
+import { FirestoreDataConverter, getFirebaseAdminFirestore, Timestamp } from '@b4h/firebase-admin';
 import { ExpenseModel } from '@b4h/models';
 import { addMonths, startOfMonth } from 'date-fns';
 import { tryGroupIsValidFirestore } from '../groups';
 import { FirestorePath } from '../path';
 
 class ExpenseConverter implements FirestoreDataConverter<ExpenseModel> {
-  toFirestore(modelObject: WithFieldValue<ExpenseModel>): FirebaseFirestore.DocumentData {
+  toFirestore(modelObject: ExpenseModel): FirebaseFirestore.DocumentData {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
     return {
       ...model,
-      value: model.value
+      value: model.value,
+      createdAt: Timestamp.fromDate(new Date(model.createdAt)),
+      updatedAt: Timestamp.fromDate(new Date(model.updatedAt)),
+      date: Timestamp.fromDate(new Date(model.date))
     };
   }
   fromFirestore(
@@ -140,7 +138,10 @@ export const addExpensesFirebase = async (
       updatedBy: userId
     } as ExpenseModel;
 
-    const doc = getFirebaseAdminFirestore().collection(FirestorePath.expeses(groupId)).doc();
+    const doc = getFirebaseAdminFirestore()
+      .collection(FirestorePath.expeses(groupId))
+      .doc()
+      .withConverter(expenseConverter);
     batch.set(doc, toAdd, { merge: true });
   });
 
@@ -163,9 +164,9 @@ export const updateExpensesFirebase = async (
       updatedBy: userId
     } as ExpenseModel;
 
-    const doc = getFirebaseAdminFirestore().doc(
-      FirestorePath.expese(groupId, expense.id as string)
-    );
+    const doc = getFirebaseAdminFirestore()
+      .doc(FirestorePath.expese(groupId, expense.id as string))
+      .withConverter(expenseConverter);
     batch.set(doc, toUpdate, { merge: true });
   });
 
@@ -185,7 +186,9 @@ export const updateExpenseFirebase = async (
     updatedBy: userId
   } as ExpenseModel;
 
-  const doc = getFirebaseAdminFirestore().doc(FirestorePath.expese(groupId, expense.id as string));
+  const doc = getFirebaseAdminFirestore()
+    .doc(FirestorePath.expese(groupId, expense.id as string))
+    .withConverter(expenseConverter);
   await doc.set(toUpdate, { merge: true });
 
   return toUpdate;
