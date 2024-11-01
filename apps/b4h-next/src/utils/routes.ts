@@ -14,6 +14,7 @@ export const B4hRoutes = {
   reset: '/reset',
 
   export: '/export',
+  import: '/import',
 
   groups: '/groups',
   groupsAdd: '/groups/add',
