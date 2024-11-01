@@ -1,4 +1,4 @@
-import { FirestoreDataConverter, getFirebaseAdminFirestore } from '@b4h/firebase-admin';
+import { FirestoreDataConverter, getFirebaseAdminFirestore, Timestamp } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
 import { deleteExpensesByLabelFirebase } from '../expenses';
 import { tryGroupIsValidFirestore } from '../groups';
@@ -8,7 +8,11 @@ class LabelConverter implements FirestoreDataConverter<LabelModel> {
   toFirestore(modelObject: LabelModel): FirebaseFirestore.DocumentData {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
-    return model;
+    return {
+      ...model,
+      createdAt: Timestamp.fromDate(new Date(model.createdAt)),
+      updatedAt: Timestamp.fromDate(new Date(model.updatedAt))
+    };
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
@@ -18,8 +22,8 @@ class LabelConverter implements FirestoreDataConverter<LabelModel> {
 
     return {
       ...data,
-      createdAt: data.createdAt && new Date(data.createdAt.toDate()),
-      updatedAt: data.updatedAt && new Date(data.updatedAt.toDate()),
+      createdAt: new Date(data.createdAt.toDate()),
+      updatedAt: new Date(data.updatedAt.toDate()),
       id: snapshot.id
     } as LabelModel;
   }
@@ -92,6 +96,31 @@ export const updateLabelFirestore = async (
   await doc.set(labelToUpdate, { merge: true });
 
   return labelToUpdate;
+};
+
+export const updateLabelsFirebase = async (
+  userId: string,
+  groupId: string,
+  labels: Partial<LabelModel>[]
+) => {
+  await tryGroupIsValidFirestore(userId, groupId);
+
+  const batch = getFirebaseAdminFirestore().batch();
+
+  labels.forEach(label => {
+    const toUpdate = {
+      ...label,
+      updatedAt: new Date(),
+      updatedBy: userId
+    } as LabelModel;
+
+    const doc = getFirebaseAdminFirestore()
+      .doc(FirestorePath.label(groupId, label.id as string))
+      .withConverter(labelConverter);
+    batch.set(doc, toUpdate, { merge: true });
+  });
+
+  await batch.commit();
 };
 
 export const deleteLabelFirestore = async (userId: string, groupId: string, labelId: string) => {

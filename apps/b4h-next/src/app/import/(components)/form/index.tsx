@@ -35,6 +35,16 @@ export const B4hImportForm = (props: B4hImportFormProps) => {
   const onSubmit: SubmitHandler<ImportFormType> = async (data, event) => {
     event?.preventDefault();
 
+    const readFileAsString = (file: File): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsText(file);
+      });
+    };
+    data.fileData = await readFileAsString(data.file[0] as File);
+
     setIsLoading(ACTION_SUBMIT);
     startTransition(() => {
       formAction(data);
@@ -73,14 +83,14 @@ export const B4hImportForm = (props: B4hImportFormProps) => {
         <B4hForm.Field>
           <B4hForm.Label htmlFor="format">format</B4hForm.Label>
           <B4hForm.Select {...register('format')} disabled={!!isLoading}>
-            <B4hForm.Option key="budget4home - json" value="budget4home - json">
-              budget4home - json
+            <B4hForm.Option key="budget4home" value="budget4home">
+              budget4home
             </B4hForm.Option>
-            <B4hForm.Option key="monzo" value="monzo">
-              monzo
+            <B4hForm.Option key="monzo" value="monzo" disabled>
+              monzo 🚧
             </B4hForm.Option>
-            <B4hForm.Option key="revolut" value="revolut">
-              revolut
+            <B4hForm.Option key="revolut" value="revolut" disabled>
+              revolut 🚧
             </B4hForm.Option>
           </B4hForm.Select>
           <B4hForm.LabelError>{errors?.group?.message}</B4hForm.LabelError>

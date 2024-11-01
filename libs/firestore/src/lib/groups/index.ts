@@ -1,4 +1,4 @@
-import { FirestoreDataConverter, getFirebaseAdminFirestore } from '@b4h/firebase-admin';
+import { FirestoreDataConverter, getFirebaseAdminFirestore, Timestamp } from '@b4h/firebase-admin';
 import { GroupModel } from '@b4h/models';
 import { FirestorePath } from '../path';
 
@@ -6,7 +6,11 @@ class GroupConverter implements FirestoreDataConverter<GroupModel> {
   toFirestore(modelObject: GroupModel): FirebaseFirestore.DocumentData {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
-    return model;
+    return {
+      ...model,
+      createdAt: Timestamp.fromDate(new Date(model.createdAt)),
+      updatedAt: Timestamp.fromDate(new Date(model.updatedAt))
+    };
   }
   fromFirestore(
     snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>

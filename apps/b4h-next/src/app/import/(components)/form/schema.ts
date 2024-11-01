@@ -11,13 +11,14 @@ export const importFormSchema = z.object({
     .min(FORM_MIN_LENGTH, `group is too short, min ${FORM_MIN_LENGTH} characters`)
     .max(FORM_MAX_LENGTH, `group is too long, max ${FORM_MAX_LENGTH} characters`),
   file: z
-    .instanceof(File)
+    .instanceof(FileList)
+    .refine(files => files?.length == 1, 'file is required')
     .refine(
-      file => ['application/json', 'text/csv'].includes(file.type),
-      'Only JSON or CSV files are allowed'
+      files => ['application/json', 'text/csv'].includes(files[0]?.type),
+      'only JSON or CSV files are allowed'
     ),
-
-  format: z.enum(['budget4home', 'csv'])
+  fileData: z.string().optional().nullable(),
+  format: z.enum(['budget4home', 'monzo', 'revolut'])
 });
 
 export type ImportFormType = z.output<typeof importFormSchema>;
