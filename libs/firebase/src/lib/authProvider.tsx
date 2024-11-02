@@ -35,10 +35,16 @@ export const B4hAuthContext = createContext<B4hAuthContextProps>({
   resetPassword: async (email: string) => Promise.resolve()
 });
 
-const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
+const HTTPS = 'https://';
+export const BASE_URL =
+  process.env.VERCEL_ENV === 'production'
+    ? HTTPS + (process.env['VERCEL_PROJECT_PRODUCTION_URL'] as string)
+    : process.env.VERCEL_ENV === 'preview' || process.env.VERCEL_ENV === 'development'
+      ? HTTPS + (process.env['VERCEL_URL'] as string)
+      : ((process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000');
 
 const loginFetch = async (token: string) =>
-  fetch(new URL('/api/auth/login', baseUrl), {
+  fetch(new URL('/api/auth/login', BASE_URL), {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`

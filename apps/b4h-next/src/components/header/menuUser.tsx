@@ -1,6 +1,7 @@
 'use client';
 
 import { B4hDropdown } from '@/components/ui/dropdown/dropdown';
+import { BASE_URL } from '@/utils/config';
 import { B4hApiRoutes, B4hRoutes } from '@/utils/routes';
 import { useB4hAuth } from '@b4h/firebase';
 import { PersonIcon } from '@radix-ui/react-icons';
@@ -8,9 +9,8 @@ import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 import styles from './header.module.scss';
 
-const baseUrl = (process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000';
 export const logoutFetch = async () =>
-  fetch(new URL(B4hApiRoutes.login, baseUrl), {
+  fetch(new URL(B4hApiRoutes.login, BASE_URL), {
     headers: {
       'Content-Type': 'application/json'
     },
