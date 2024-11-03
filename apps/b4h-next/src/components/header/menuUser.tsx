@@ -57,6 +57,7 @@ export const B4hMenuUser = () => {
         <>
           <B4hDropdown.Option value={B4hRoutes.export}>export</B4hDropdown.Option>
           <B4hDropdown.Option value={B4hRoutes.import}>import</B4hDropdown.Option>
+          <B4hDropdown.Option value={B4hRoutes.settings}>settings</B4hDropdown.Option>
           <B4hDropdown.Option value={B4hRoutes.logout}>logout</B4hDropdown.Option>
         </>
       )}
