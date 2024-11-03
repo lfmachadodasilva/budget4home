@@ -45,4 +45,8 @@ Thumbs.db
 .next
 out
 
+# Vite
 vite.config.mts.timestamp*
+
+# yarn
+.yarn/install-state.gz
