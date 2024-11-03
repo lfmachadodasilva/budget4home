@@ -1,7 +1,16 @@
 # firebase
 
-This library was generated with [Nx](https://nx.dev).
+The `@b4h/firebase` library provides a convenient wrapper around the [npm Firebase](https://www.npmjs.com/package/firebase) package. With this library, you can easily access Firebase features such as authentication, firestore, cloud storage, and more, without dealing with the complexities of the underlying Firebase API.
 
-## Running unit tests
+### example
 
-Run `nx test firebase` to execute the unit tests via [Vitest](https://vitest.dev/).
+```ts
+import { useB4hAuth } from '@b4h/firebase';
+
+export const B4hMenuMain = () => {
+  const { user } = useB4hAuth();
+
+  ...
+}
+
+```

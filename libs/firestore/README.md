@@ -1,11 +1,16 @@
 # firestore
 
-This library was generated with [Nx](https://nx.dev).
+# firestore
 
-## Building
+The `@b4h/firestore` library provides seamless access to Firestore documents for the Budget4Home project. This library is designed to simplify interactions with Firestore, allowing you to manage and query your budget4home-related data efficiently.
 
-Run `nx build firestore` to build the library.
+### example
 
-## Running unit tests
+```ts
+import { getLabelsFirestore } from '@b4h/firestore';
 
-Run `nx test firestore` to execute the unit tests via [Vitest](https://vitest.dev/).
+const userId = 'userId';
+const groupId = 'groupId';
+
+const labels = await getLabelsFirestore(userId, groupId);
+```

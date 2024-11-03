@@ -1,7 +1,20 @@
 # firebase-admin
 
-This library was generated with [Nx](https://nx.dev).
+The `@b4h/firebase-admin` library provides a convenient wrapper around the [npm Firebase Admin](https://www.npmjs.com/package/firebase-admin) package from Google. With this library, you can easily manage Firebase features such as authentication, firebase, cloud storage, and more, without dealing with the complexities of the underlying Firebase Admin API.
 
-## Building
+attention: this component is only available by server components
 
-Run `nx build firebase-admin` to build the library.
+### example
+
+```ts
+"use server";
+
+import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
+
+export const ServerComponent = () => {
+  const docs = await getFirebaseAdminFirestore()
+
+  ...
+}
+
+```
