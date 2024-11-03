@@ -59,6 +59,7 @@ export const B4hExpensesHeader = () => {
         >
           <B4hForm.Option value="byDate">date</B4hForm.Option>
           <B4hForm.Option value="byLabel">label</B4hForm.Option>
+          <B4hForm.Option value="byChart">chart</B4hForm.Option>
         </B4hForm.Select>
       </B4hForm.Field>
     </>
