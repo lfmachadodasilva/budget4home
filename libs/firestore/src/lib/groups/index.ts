@@ -39,6 +39,16 @@ export const getGroupsFirestore = async (userId: string): Promise<GroupModel[]> 
   return docs.docs.map(doc => doc.data());
 };
 
+export const getAllGroupsFirestore = async (): Promise<GroupModel[]> => {
+  const docs = await getFirebaseAdminFirestore()
+    .collection(FirestorePath.groups)
+    .orderBy('name', 'asc')
+    .withConverter(groupConverter)
+    .get();
+
+  return docs.docs.map(doc => doc.data());
+};
+
 export const getGroupFirestore = async (
   userId: string,
   groupId: string

@@ -13,6 +13,21 @@ const firebaseUniverseDomain = process.env['FIREBASE_UNIVERSE_DOMAIN'] as string
 const firebaseStorageBucket = process.env['FIREBASE_STORAGE_BUCKET'] as string;
 const firebaseDatabaseUrl = process.env['FIREBASE_DATABASE_URL'] as string;
 
+console.log({
+  firebaseProjectId,
+  firebasePrivateKey,
+  firebasePrivateKeyId,
+  firebaseClientEmail,
+  firebaseClientId,
+  firebaseAuthUrl,
+  firebaseTokenUrl,
+  firebaseAuthProviderUrl,
+  firebaseClientUrl,
+  firebaseUniverseDomain,
+  firebaseStorageBucket,
+  firebaseDatabaseUrl
+});
+
 let firebaseAdminApp: App;
 
 export const getFirebaseAdminApp = (): App => {
@@ -35,8 +50,8 @@ export const getFirebaseAdminApp = (): App => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any),
           projectId: firebaseProjectId,
-          storageBucket: firebaseStorageBucket,
-          databaseURL: firebaseDatabaseUrl
+          storageBucket: firebaseStorageBucket
+          // databaseURL: firebaseDatabaseUrl
         });
   return firebaseAdminApp;
 };
