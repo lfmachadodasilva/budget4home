@@ -12,11 +12,16 @@ type ResetForm = {
 };
 
 export default function ResetClient() {
+  const { user } = useB4hAuth();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<ResetForm>();
+  } = useForm<ResetForm>({
+    defaultValues: {
+      email: user?.email || ''
+    }
+  });
   const { resetPassword } = useB4hAuth();
 
   const onSubmit: SubmitHandler<ResetForm> = async (data, event) => {
@@ -32,6 +37,7 @@ export default function ResetClient() {
         <B4hForm.Label htmlFor="email">email</B4hForm.Label>
         <B4hForm.Input
           type="text"
+          placeholder="email"
           {...register('email', {
             required: 'email is required',
             maxLength: {

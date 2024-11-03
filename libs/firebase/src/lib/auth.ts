@@ -9,3 +9,5 @@ export const getFirebaseAuth = () => {
   firebaseAuth ??= getAuth(getFirebaseApp());
   return firebaseAuth;
 };
+
+export { updateProfile } from 'firebase/auth';
