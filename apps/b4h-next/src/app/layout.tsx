@@ -4,6 +4,7 @@ import './theme.scss';
 import './global.scss';
 
 import { B4hHeader } from '@/components/header/header';
+import { Analytics } from '@vercel/analytics/react';
 import { Poppins } from 'next/font/google';
 import B4hHead from './head';
 import { Providers } from './providers';
@@ -24,10 +25,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <B4hHead />
+
       <body className={poppings.className}>
         <Providers>
           <B4hHeader />
-          <main>{children}</main>
+          <main>
+            {children}
+            <Analytics />
+          </main>
         </Providers>
       </body>
     </html>
