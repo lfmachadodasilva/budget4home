@@ -122,7 +122,7 @@ export const B4hSettingsForm = () => {
             update
           </B4hButton>
           <Link href={B4hRoutes.reset}>
-            <B4hButton loading={isLoading === ACTION_SUBMIT} name={ACTION_SUBMIT}>
+            <B4hButton loading={isLoading === ACTION_SUBMIT} name={ACTION_SUBMIT} widthFit>
               reset password
             </B4hButton>
           </Link>
