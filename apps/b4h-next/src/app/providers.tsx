@@ -1,11 +1,12 @@
 'use client';
 
 import { B4hLoading } from '@/components/loading';
+import { BASE_URL } from '@/utils/config';
 import { B4hAuthProvider, useB4hAuth } from '@b4h/firebase';
 import { ReactNode } from 'react';
 
 export const Providers = ({ children }: { children: ReactNode }) => (
-  <B4hAuthProvider>
+  <B4hAuthProvider baseUrl={BASE_URL}>
     <WaitFirebase>{children}</WaitFirebase>
   </B4hAuthProvider>
 );

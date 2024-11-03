@@ -11,6 +11,7 @@ import { getFirebaseAuth } from './auth';
 
 interface AuthProviderProps {
   children: ReactNode | ReactNode[];
+  baseUrl: string;
 }
 
 interface B4hAuthContextProps {
@@ -35,18 +36,8 @@ export const B4hAuthContext = createContext<B4hAuthContextProps>({
   resetPassword: async (email: string) => Promise.resolve()
 });
 
-const HTTPS = 'https://';
-export const BASE_URL =
-  process.env['VERCEL_ENV'] === 'production'
-    ? HTTPS + (process.env['VERCEL_PROJECT_PRODUCTION_URL'] as string) // use production url
-    : process.env['VERCEL_ENV'] === 'development'
-      ? HTTPS + (process.env['NEXT_PUBLIC_API_URL'] as string) // use developer url
-      : process.env['VERCEL_ENV'] === 'preview'
-        ? HTTPS + (process.env['NEXT_PUBLIC_API_URL'] as string) // use preview url
-        : 'http://localhost:3000'; // use local url
-
-const loginFetch = async (token: string) =>
-  fetch(new URL('/api/auth/login', BASE_URL), {
+const loginFetch = async (token: string, baseUrl: string) =>
+  fetch(new URL('/api/auth/login', baseUrl), {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`
@@ -72,7 +63,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
 
       const token = await userCred?.getIdToken();
 
-      await loginFetch(token)
+      await loginFetch(token, props.baseUrl)
         .then(async response => {
           if (response.ok) {
             setUser({ user: userCred, token: token });
@@ -88,7 +79,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [props.baseUrl]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
