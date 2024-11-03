@@ -42,6 +42,7 @@ export const B4hMenuUser = () => {
 
   return (
     <B4hDropdown.Root
+      aria-label="user menu"
       autoReset
       onChange={handleOnChange}
       trigger={

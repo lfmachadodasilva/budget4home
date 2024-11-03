@@ -25,6 +25,7 @@ export const B4hMenuMain = () => {
 
   return (
     <B4hDropdown.Root
+      aria-label="main menu"
       autoReset
       onChange={handleOnChange}
       trigger={<HamburgerMenuIcon className={styles.icon} />}

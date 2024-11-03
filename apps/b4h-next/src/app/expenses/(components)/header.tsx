@@ -41,13 +41,22 @@ export const B4hExpensesHeader = () => {
   return (
     <>
       <B4hForm.Field>
-        <B4hForm.Label>month</B4hForm.Label>
-        <B4hForm.Input type="month" value={format(date, MONTH_FORMAT)} onChange={handleMonth} />
+        <B4hForm.Label id="month">month</B4hForm.Label>
+        <B4hForm.Input
+          type="month"
+          value={format(date, MONTH_FORMAT)}
+          onChange={handleMonth}
+          aria-labelledby="month"
+        />
       </B4hForm.Field>
 
       <B4hForm.Field>
-        <B4hForm.Label>view by</B4hForm.Label>
-        <B4hForm.Select onChange={handleViewBy} value={searchParams.get('viewBy') ?? 'byDate'}>
+        <B4hForm.Label id="viewby">view by</B4hForm.Label>
+        <B4hForm.Select
+          onChange={handleViewBy}
+          value={searchParams.get('viewBy') ?? 'byDate'}
+          aria-labelledby="viewby"
+        >
           <B4hForm.Option value="byDate">date</B4hForm.Option>
           <B4hForm.Option value="byLabel">label</B4hForm.Option>
         </B4hForm.Select>

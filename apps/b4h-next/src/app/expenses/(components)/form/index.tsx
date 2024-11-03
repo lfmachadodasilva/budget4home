@@ -168,13 +168,15 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   return (
     <>
       <B4hForm.Title>
-        <B4hForm.Return href={B4hRoutes.expenses} />
+        <B4hForm.Return href={B4hRoutes.expenses} aria-label="return to expenses page" />
         {title}
       </B4hForm.Title>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="type">type</B4hForm.Label>
-          <B4hForm.Select {...register('type')} disabled={!!isLoading}>
+          <B4hForm.Label id="type" htmlFor="type">
+            type
+          </B4hForm.Label>
+          <B4hForm.Select {...register('type')} disabled={!!isLoading} aria-labelledby="type">
             <B4hForm.Option value={ExpenseType.outcoming}>{ExpenseType.outcoming}</B4hForm.Option>
             <B4hForm.Option value={ExpenseType.incoming}>{ExpenseType.incoming}</B4hForm.Option>
           </B4hForm.Select>
@@ -182,14 +184,24 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="name">name</B4hForm.Label>
-          <B4hForm.Input type="text" {...register('name')} disabled={!!isLoading} />
+          <B4hForm.Label htmlFor="name" id="type">
+            name
+          </B4hForm.Label>
+          <B4hForm.Input
+            type="text"
+            {...register('name')}
+            disabled={!!isLoading}
+            aria-labelledby="name"
+          />
           <B4hForm.LabelError>{errors?.name?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="value">value</B4hForm.Label>
+          <B4hForm.Label htmlFor="value" id="value">
+            value
+          </B4hForm.Label>
           <B4hForm.Input
+            aria-labelledby="value"
             type="number"
             min={1}
             {...register('value', {
@@ -202,14 +214,23 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="date">date</B4hForm.Label>
-          <B4hForm.Input type="datetime-local" {...register('date')} disabled={!!isLoading} />
+          <B4hForm.Label htmlFor="date" id="date">
+            date
+          </B4hForm.Label>
+          <B4hForm.Input
+            type="datetime-local"
+            {...register('date')}
+            disabled={!!isLoading}
+            aria-labelledby="date"
+          />
           <B4hForm.LabelError>{errors?.date?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="label">label</B4hForm.Label>
-          <B4hForm.Select {...register('label')} disabled={!!isLoading}>
+          <B4hForm.Label htmlFor="label" id="label">
+            label
+          </B4hForm.Label>
+          <B4hForm.Select {...register('label')} disabled={!!isLoading} aria-labelledby="label">
             {props.labels?.map(label => (
               <B4hForm.Option key={label.id} value={label.id}>
                 {label.icon} {label.name}
@@ -220,15 +241,29 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
         </B4hForm.Field>
 
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="comments">comments</B4hForm.Label>
-          <B4hForm.TextArea type="text" rows={2} {...register('comments')} disabled={!!isLoading} />
+          <B4hForm.Label htmlFor="comments" id="comments">
+            comments
+          </B4hForm.Label>
+          <B4hForm.TextArea
+            type="text"
+            rows={2}
+            {...register('comments')}
+            disabled={!!isLoading}
+            aria-labelledby="comments"
+          />
           <B4hForm.LabelError>{errors?.comments?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         {!props?.expense?.id && (
           <B4hForm.Field>
-            <B4hForm.Label htmlFor="type">scheduled</B4hForm.Label>
-            <B4hForm.Select {...register('scheduled')} disabled={!!isLoading}>
+            <B4hForm.Label htmlFor="scheduled" id="scheduled">
+              scheduled
+            </B4hForm.Label>
+            <B4hForm.Select
+              {...register('scheduled')}
+              disabled={!!isLoading}
+              aria-labelledby="scheduled"
+            >
               {scheduled.map(x => (
                 <B4hForm.Option key={x.key} value={x.key}>
                   {x.value}
