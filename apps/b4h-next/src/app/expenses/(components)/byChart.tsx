@@ -1,6 +1,6 @@
 'use client';
 
-import { ExpenseModel, LabelModel } from '@b4h/models';
+import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { sumBy } from 'lodash';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
@@ -28,10 +28,13 @@ const COLORS = [
 ];
 
 export const B4hExpensesByChart = (props: ExpensesByChartProps) => {
-  const data = Object.entries(props.expenseByLabel).map(([key, expenses]) => ({
-    name: key,
-    value: sumBy(expenses, 'value')
-  }));
+  const data = Object.entries(props.expenseByLabel)
+    .map(([key, expenses]) => {
+      expenses = expenses.filter(expense => expense.type === ExpenseType.outcoming);
+      if (expenses.length === 0) return null;
+      return { name: key, value: sumBy(expenses, 'value') };
+    })
+    .filter(x => x);
 
   const renderLabel = (entry: { name: string; percent: number; value: number }) =>
     entry.name + ' ' + (entry.percent * 100).toFixed(0) + '%';
