@@ -37,11 +37,13 @@ export const B4hAuthContext = createContext<B4hAuthContextProps>({
 
 const HTTPS = 'https://';
 export const BASE_URL =
-  process.env.VERCEL_ENV === 'production'
-    ? HTTPS + (process.env['VERCEL_PROJECT_PRODUCTION_URL'] as string)
-    : process.env.VERCEL_ENV === 'preview' || process.env.VERCEL_ENV === 'development'
-      ? HTTPS + (process.env['VERCEL_URL'] as string)
-      : ((process.env['NEXT_PUBLIC_API_URL'] as string) ?? 'http://localhost:3000');
+  process.env['VERCEL_ENV'] === 'production'
+    ? HTTPS + (process.env['VERCEL_PROJECT_PRODUCTION_URL'] as string) // use production url
+    : process.env['VERCEL_ENV'] === 'development'
+      ? HTTPS + (process.env['NEXT_PUBLIC_API_URL'] as string) // use developer url
+      : process.env['VERCEL_ENV'] === 'preview'
+        ? HTTPS + (process.env['NEXT_PUBLIC_API_URL'] as string) // use preview url
+        : 'http://localhost:3000'; // use local url
 
 const loginFetch = async (token: string) =>
   fetch(new URL('/api/auth/login', BASE_URL), {

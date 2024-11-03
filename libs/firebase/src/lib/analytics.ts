@@ -7,7 +7,6 @@ let firebaseAnalytic: Analytics;
 
 export const getFirebaseAnalytics = async () => {
   const support = await isSupported();
-  console.log('support', support);
   if (!support) {
     return null;
   }

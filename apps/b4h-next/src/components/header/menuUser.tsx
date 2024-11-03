@@ -30,8 +30,8 @@ export const B4hMenuUser = () => {
             await logoutFetch();
           })
           .finally(() => {
-            push(B4hRoutes.login);
             refresh();
+            push(B4hRoutes.login);
           });
         break;
       default:
