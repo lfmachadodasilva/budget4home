@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/utils/config';
 import { B4hRoutes } from '@/utils/routes';
 import Link from 'next/link';
 import styles from './header.module.scss';
@@ -12,7 +13,7 @@ export const B4hHeader = () => {
         <Link href={B4hRoutes.home}>
           <h1 className={styles.title}>budget4home</h1>
         </Link>
-        <B4hMenuUser />
+        <B4hMenuUser baseUrl={BASE_URL} />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 'use client';
 
 import { B4hDropdown } from '@/components/ui/dropdown/dropdown';
-import { BASE_URL } from '@/utils/config';
 import { B4hApiRoutes, B4hRoutes } from '@/utils/routes';
 import { useB4hAuth } from '@b4h/firebase';
 import { PersonIcon } from '@radix-ui/react-icons';
@@ -9,8 +8,8 @@ import { useRouter } from 'next/navigation';
 import { ChangeEvent } from 'react';
 import styles from './header.module.scss';
 
-export const logoutFetch = async () =>
-  fetch(new URL(B4hApiRoutes.login, BASE_URL), {
+export const logoutFetch = async (baseUrl: string) =>
+  fetch(new URL(B4hApiRoutes.login, baseUrl), {
     headers: {
       'Content-Type': 'application/json'
     },
@@ -18,7 +17,11 @@ export const logoutFetch = async () =>
     cache: 'no-cache'
   });
 
-export const B4hMenuUser = () => {
+interface B4hMenuUserProps {
+  baseUrl: string;
+}
+
+export const B4hMenuUser = (props: B4hMenuUserProps) => {
   const { push, refresh } = useRouter();
   const { user, logout } = useB4hAuth();
 
@@ -27,7 +30,7 @@ export const B4hMenuUser = () => {
       case B4hRoutes.logout:
         await logout()
           .then(async () => {
-            await logoutFetch();
+            await logoutFetch(props.baseUrl);
           })
           .finally(() => {
             refresh();
