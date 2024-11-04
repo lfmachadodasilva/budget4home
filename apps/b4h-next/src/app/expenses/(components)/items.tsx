@@ -7,6 +7,7 @@ import { ANIMATION_DELAY } from '@/utils/constants';
 import Link from 'next/link';
 import {
   B4hExpenseHeaderType,
+  expenseQueryParams,
   expensesByDate,
   expensesByLabel,
   formatValue
@@ -37,6 +38,8 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   let item = 1;
   const reduceDelay = 0.5;
 
+  const queryParams = expenseQueryParams(props);
+
   return (
     <>
       <B4hFade key="summary" delay={item++ * ANIMATION_DELAY}>
@@ -59,7 +62,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
                   key={expense.id + 'animation'}
                   delay={item++ * ANIMATION_DELAY * reduceDelay}
                 >
-                  <Link href={`${B4hRoutes.expenses}/${expense.id}`} key={expense.id}>
+                  <Link href={`${B4hRoutes.expenses}/${expense.id}${queryParams}`} key={expense.id}>
                     <B4hItem.Item>
                       <p>
                         {labelById[expense.label]?.icon} {expense.name}{' '}

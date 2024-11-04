@@ -10,6 +10,7 @@ import {
   ACTION_SUBMIT_ALL,
   DATE_TIME_FORMAT
 } from '@/utils/constants';
+import { B4hExpenseHeaderType, expenseQueryParams } from '@/utils/expenses';
 import { defaultFormState } from '@/utils/formState';
 import { selectLabelByExpenseName } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
@@ -27,6 +28,7 @@ import { expenseFormSchema, ExpenseFormType, expenseTypeToModel } from './schema
 interface B4hExpensesFormProps extends HTMLProps<HTMLDivElement> {
   expense?: ExpenseModel | null;
   labels: LabelModel[];
+  searchParams: B4hExpenseHeaderType;
 }
 
 export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
@@ -37,6 +39,7 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   const [deleteState, deleteFormAction] = useActionState(onDeleteAction, defaultFormState);
   const [deleteAllState, deleteAllFormAction] = useActionState(onDeleteAllAction, defaultFormState);
   const [preview, setPreview] = useState<ExpenseModel[]>([]);
+  const searchParams = expenseQueryParams(props.searchParams);
 
   const {
     register,
@@ -137,9 +140,9 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
       prefetch(B4hRoutes.expenses, {
         kind: PrefetchKind.FULL
       });
-      push(B4hRoutes.expenses);
+      push(B4hRoutes.expenses + searchParams);
     }
-  }, [state, updateAllState, deleteState, deleteAllState, push, prefetch]);
+  }, [state, updateAllState, deleteState, deleteAllState, push, prefetch, searchParams]);
 
   useEffect(() => {
     // update label by expense name
@@ -168,7 +171,10 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
   return (
     <>
       <B4hForm.Title>
-        <B4hForm.Return href={B4hRoutes.expenses} aria-label="return to expenses page" />
+        <B4hForm.Return
+          href={B4hRoutes.expenses + searchParams}
+          aria-label="return to expenses page"
+        />
         {title}
       </B4hForm.Title>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>

@@ -1,3 +1,4 @@
+import { B4hExpenseHeaderType } from '@/utils/expenses';
 import { b4hSession } from '@/utils/session';
 import { getLabelsFirestore } from '@b4h/firestore';
 import { B4hExpensesForm } from '../(components)/form';
@@ -7,7 +8,11 @@ export const metadata = {
   title: 'add expense | budget4home'
 };
 
-export default async function ExpesesAdd() {
+export default async function ExpesesAdd({
+  searchParams
+}: {
+  searchParams: Promise<B4hExpenseHeaderType>;
+}) {
   const { getFavoriteGroupId } = b4hSession();
 
   const { userId, groupId } = await getFavoriteGroupId();
@@ -16,7 +21,7 @@ export default async function ExpesesAdd() {
   return (
     <>
       <AddExpenseAnalytics />
-      <B4hExpensesForm labels={labels} />
+      <B4hExpensesForm labels={labels} searchParams={await searchParams} />
     </>
   );
 }

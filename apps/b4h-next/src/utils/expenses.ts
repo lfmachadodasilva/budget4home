@@ -1,6 +1,6 @@
 import { ExpenseModel, LabelModel } from '@b4h/models';
 import { format } from 'date-fns';
-import { sumBy } from 'lodash';
+import { isEmpty, isNull, omitBy, sumBy } from 'lodash';
 import { DATE_FORMAT } from './constants';
 
 export type B4hExpenseHeaderType = {
@@ -8,6 +8,11 @@ export type B4hExpenseHeaderType = {
   year: string;
   viewBy: string;
 };
+
+export const expenseQueryParams = (props: B4hExpenseHeaderType) =>
+  props.month || props.year || props.viewBy
+    ? '?' + new URLSearchParams(omitBy(props, x => isEmpty(x) || isNull(x))).toString()
+    : '';
 
 export const expensesByDate = (expenses: ExpenseModel[]) =>
   expenses.reduce(
