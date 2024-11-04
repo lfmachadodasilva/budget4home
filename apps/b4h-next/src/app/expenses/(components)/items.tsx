@@ -31,7 +31,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
   // format data
   const labelById = labelsById(labels ?? []);
   const expenseBy =
-    props.viewBy === 'byDate'
+    !props.viewBy || props.viewBy === 'byDate'
       ? expensesByDate(expenses ?? [])
       : expensesByLabel(expenses ?? [], labelById);
   let item = 1;

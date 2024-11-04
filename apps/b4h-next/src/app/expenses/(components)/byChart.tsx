@@ -26,7 +26,7 @@ const COLORS = [
   '#CB99C9'
 ];
 
-const mixSizes = (arr: { name: string; value: number }[]) => {
+const mixValues = (arr: { name: string; value: number }[]) => {
   const mixedArray = [];
   let start = 0;
   let end = arr.length - 1;
@@ -46,7 +46,7 @@ const mixSizes = (arr: { name: string; value: number }[]) => {
 };
 
 export const B4hExpensesByChart = (props: ExpensesByChartProps) => {
-  const data = mixSizes(
+  const data = mixValues(
     Object.entries(props.expenseByLabel)
       .map(([key, expenses]) => {
         expenses = expenses.filter(expense => expense.type === ExpenseType.outcoming);
