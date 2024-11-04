@@ -1,12 +1,11 @@
 'use client';
 
-import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
+import { ExpenseModel, ExpenseType } from '@b4h/models';
 import { sumBy } from 'lodash';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 interface ExpensesByChartProps {
   expenseByLabel: Record<string, ExpenseModel[]>;
-  labelById: Record<string, LabelModel>;
 }
 
 const COLORS = [

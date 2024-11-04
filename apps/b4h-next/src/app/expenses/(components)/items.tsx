@@ -42,9 +42,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
       <B4hFade key="summary" delay={item++ * ANIMATION_DELAY}>
         <B4hExpenseSummary expenses={expenses ?? []} />
       </B4hFade>
-      {props.viewBy === 'byChart' && (
-        <B4hExpensesByChart expenseByLabel={expenseBy} labelById={labelById} />
-      )}
+      {props.viewBy === 'byChart' && <B4hExpensesByChart expenseByLabel={expenseBy} />}
       {props.viewBy !== 'byChart' &&
         Object.entries(expenseBy).map(([key, expenses]) => (
           <B4hItem.Group key={key}>
