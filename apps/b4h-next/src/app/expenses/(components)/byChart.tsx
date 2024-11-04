@@ -27,14 +27,35 @@ const COLORS = [
   '#CB99C9'
 ];
 
+const mixSizes = (arr: { name: string; value: number }[]) => {
+  const mixedArray = [];
+  let start = 0;
+  let end = arr.length - 1;
+
+  while (start <= end) {
+    if (start === end) {
+      mixedArray.push(arr[start]);
+    } else {
+      mixedArray.push(arr[start]);
+      mixedArray.push(arr[end]);
+    }
+    start++;
+    end--;
+  }
+
+  return mixedArray;
+};
+
 export const B4hExpensesByChart = (props: ExpensesByChartProps) => {
-  const data = Object.entries(props.expenseByLabel)
-    .map(([key, expenses]) => {
-      expenses = expenses.filter(expense => expense.type === ExpenseType.outcoming);
-      if (expenses.length === 0) return null;
-      return { name: key, value: sumBy(expenses, 'value') };
-    })
-    .filter(x => x);
+  const data = mixSizes(
+    Object.entries(props.expenseByLabel)
+      .map(([key, expenses]) => {
+        expenses = expenses.filter(expense => expense.type === ExpenseType.outcoming);
+        if (expenses.length === 0) return null;
+        return { name: key.split(' ')[0], value: sumBy(expenses, 'value') };
+      })
+      .filter(x => x !== null)
+  );
 
   const renderLabel = (entry: { name: string; percent: number; value: number }) =>
     entry.name + ' ' + (entry.percent * 100).toFixed(0) + '%';
