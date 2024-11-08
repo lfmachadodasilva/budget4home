@@ -4,17 +4,17 @@ import { B4hFade } from '@/components/ui/fade';
 import { B4hItem } from '@/components/ui/item/item';
 import styles from '@/components/ui/item/item.module.scss';
 import { ANIMATION_DELAY } from '@/utils/constants';
-import Link from 'next/link';
 import {
   B4hExpenseHeaderType,
   expenseQueryParams,
   expensesByDate,
   expensesByLabel,
   formatValue
-} from '../../../utils/expenses';
-import { labelsById } from '../../../utils/label';
-import { B4hRoutes } from '../../../utils/routes';
-import { b4hSession } from '../../../utils/session';
+} from '@/utils/expenses';
+import { labelsById } from '@/utils/label';
+import { B4hRoutes } from '@/utils/routes';
+import { b4hSession } from '@/utils/session';
+import Link from 'next/link';
 import { B4hExpensesByChart } from './byChart';
 import { B4hExpenseSummary } from './summary';
 

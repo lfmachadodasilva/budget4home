@@ -11,6 +11,6 @@ export interface ExpenseModel extends BaseModel {
   date: Date;
   label: string;
   comments?: string;
-  parent: string;
+  parent?: string;
   scheduled?: string;
 }
