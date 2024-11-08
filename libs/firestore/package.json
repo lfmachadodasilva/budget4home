@@ -2,8 +2,8 @@
   "name": "@b4h/firestore",
   "version": "0.0.1",
   "dependencies": {
-    "@b4h/firebase-admin": "*",
     "@b4h/models": "*",
+    "@b4h/firebase-admin": "*",
     "date-fns": "*"
   },
   "main": "./index.js",

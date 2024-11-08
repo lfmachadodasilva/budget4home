@@ -1,34 +1,11 @@
-import { FirestoreDataConverter, getFirebaseAdminFirestore, Timestamp } from '@b4h/firebase-admin';
+import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
+import { B4hFirestoreConverter } from '../converter';
 import { deleteExpensesByLabelFirebase } from '../expenses';
 import { tryGroupIsValidFirestore } from '../groups';
 import { FirestorePath } from '../path';
 
-class LabelConverter implements FirestoreDataConverter<LabelModel> {
-  toFirestore(modelObject: LabelModel): FirebaseFirestore.DocumentData {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...model } = modelObject;
-    return {
-      ...model,
-      createdAt: Timestamp.fromDate(new Date(model.createdAt)),
-      updatedAt: Timestamp.fromDate(new Date(model.updatedAt))
-    };
-  }
-  fromFirestore(
-    snapshot: FirebaseFirestore.QueryDocumentSnapshot<FirebaseFirestore.DocumentData>
-  ): LabelModel {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = snapshot.data() as any;
-
-    return {
-      ...data,
-      createdAt: new Date(data.createdAt.toDate()),
-      updatedAt: new Date(data.updatedAt.toDate()),
-      id: snapshot.id
-    } as LabelModel;
-  }
-}
-const labelConverter = new LabelConverter();
+const labelConverter = new B4hFirestoreConverter<LabelModel>();
 
 export const getLabelsFirestore = async (userId: string, groupId: string) => {
   await tryGroupIsValidFirestore(userId, groupId);
