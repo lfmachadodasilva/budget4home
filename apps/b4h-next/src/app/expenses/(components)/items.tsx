@@ -62,7 +62,11 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
                   key={expense.id + 'animation'}
                   delay={item++ * ANIMATION_DELAY * reduceDelay}
                 >
-                  <Link href={`${B4hRoutes.expenses}/${expense.id}${queryParams}`} key={expense.id}>
+                  <Link
+                    href={`${B4hRoutes.expenses}/${expense.id}${queryParams}`}
+                    key={expense.id}
+                    data-testid={`${expense.id}-link`}
+                  >
                     <B4hItem.Item>
                       <p>
                         {labelById[expense.label]?.icon} {expense.name}{' '}
@@ -71,7 +75,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
                         )}
                       </p>
 
-                      <p>{formatValue(expense.value)}</p>
+                      <p data-testid={`${expense.id}-value`}>{formatValue(expense.value)}</p>
                     </B4hItem.Item>
                   </Link>
                 </B4hFade>

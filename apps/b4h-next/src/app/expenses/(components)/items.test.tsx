@@ -44,6 +44,14 @@ describe('B4hExpensesItems', () => {
         label: 'label1',
         type: ExpenseType.outcoming,
         date: new Date()
+      },
+      {
+        id: 'expense3',
+        name: 'Expense 3',
+        value: 330,
+        label: 'label1',
+        type: ExpenseType.outcoming,
+        date: new Date()
       }
     ] as ExpenseModel[]);
   });
@@ -58,13 +66,33 @@ describe('B4hExpensesItems', () => {
   });
 
   test.each([['byDate'], ['byLabel']])(
-    'renders expense summary and items by %s',
+    'renders expense summary items by %s',
     async (viewBy: string) => {
       const props = { month: '01', year: '2023', viewBy: viewBy };
       const page = render(await B4hExpensesItems(props));
 
+      // page.debug();
+
       expect(page.getByText('🏷️ Expense 1')).toBeInTheDocument();
       expect(page.getByText('🏷️ Expense 2')).toBeInTheDocument();
+      expect(page.getByText('🏷️ Expense 3')).toBeInTheDocument();
+
+      expect(page.getByTestId('expense1-value')).toHaveTextContent('1');
+      expect(page.getByTestId('expense2-value')).toHaveTextContent('2');
+      expect(page.getByTestId('expense3-value')).toHaveTextContent('3.3');
+
+      expect(page.getByTestId('expense1-link')).toHaveProperty(
+        'href',
+        expect.stringContaining(`/expenses/expense1?month=01&year=2023&viewBy=${viewBy}`)
+      );
+      expect(page.getByTestId('expense2-link')).toHaveProperty(
+        'href',
+        expect.stringContaining(`/expenses/expense2?month=01&year=2023&viewBy=${viewBy}`)
+      );
+      expect(page.getByTestId('expense3-link')).toHaveProperty(
+        'href',
+        expect.stringContaining(`/expenses/expense3?month=01&year=2023&viewBy=${viewBy}`)
+      );
     }
   );
 });
