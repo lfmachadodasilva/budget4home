@@ -31,3 +31,5 @@ export class ExpenseConverter implements B4hFirestoreConverter<ExpenseModel> {
     } as ExpenseModel;
   }
 }
+
+export const expenseConverter = new ExpenseConverter();
