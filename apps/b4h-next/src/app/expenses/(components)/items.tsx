@@ -51,8 +51,10 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
           <B4hItem.Group key={key}>
             <B4hFade key={key + 'animation'} delay={item++ * ANIMATION_DELAY * reduceDelay}>
               <B4hItem.GroupTitle>
-                <p>{key}</p>
-                <p>{formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}</p>
+                <p data-testid="expense-group-header-key">{key}</p>
+                <p data-testid="expense-group-header-value">
+                  {formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}
+                </p>
               </B4hItem.GroupTitle>
             </B4hFade>
 

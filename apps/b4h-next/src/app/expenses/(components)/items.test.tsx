@@ -65,34 +65,51 @@ describe('B4hExpensesItems', () => {
     });
   });
 
-  test.each([['byDate'], ['byLabel']])(
-    'renders expense summary items by %s',
-    async (viewBy: string) => {
-      const props = { month: '01', year: '2023', viewBy: viewBy };
-      const page = render(await B4hExpensesItems(props));
+  test.each([['byDate'], ['byLabel']])('renders expense items by %s', async (viewBy: string) => {
+    const props = { month: '01', year: '2023', viewBy: viewBy };
+    const page = render(await B4hExpensesItems(props));
 
-      // page.debug();
+    // page.debug();
 
-      expect(page.getByText('🏷️ Expense 1')).toBeInTheDocument();
-      expect(page.getByText('🏷️ Expense 2')).toBeInTheDocument();
-      expect(page.getByText('🏷️ Expense 3')).toBeInTheDocument();
+    expect(page.getByText('🏷️ Expense 1')).toBeInTheDocument();
+    expect(page.getByText('🏷️ Expense 2')).toBeInTheDocument();
+    expect(page.getByText('🏷️ Expense 3')).toBeInTheDocument();
 
-      expect(page.getByTestId('expense1-value')).toHaveTextContent('1');
-      expect(page.getByTestId('expense2-value')).toHaveTextContent('2');
-      expect(page.getByTestId('expense3-value')).toHaveTextContent('3.3');
+    expect(page.getByTestId('expense1-value')).toHaveTextContent('1');
+    expect(page.getByTestId('expense2-value')).toHaveTextContent('2');
+    expect(page.getByTestId('expense3-value')).toHaveTextContent('3.3');
 
-      expect(page.getByTestId('expense1-link')).toHaveProperty(
-        'href',
-        expect.stringContaining(`/expenses/expense1?month=01&year=2023&viewBy=${viewBy}`)
-      );
-      expect(page.getByTestId('expense2-link')).toHaveProperty(
-        'href',
-        expect.stringContaining(`/expenses/expense2?month=01&year=2023&viewBy=${viewBy}`)
-      );
-      expect(page.getByTestId('expense3-link')).toHaveProperty(
-        'href',
-        expect.stringContaining(`/expenses/expense3?month=01&year=2023&viewBy=${viewBy}`)
-      );
-    }
-  );
+    expect(page.getByTestId('expense1-link')).toHaveProperty(
+      'href',
+      expect.stringContaining(`/expenses/expense1?month=01&year=2023&viewBy=${viewBy}`)
+    );
+    expect(page.getByTestId('expense2-link')).toHaveProperty(
+      'href',
+      expect.stringContaining(`/expenses/expense2?month=01&year=2023&viewBy=${viewBy}`)
+    );
+    expect(page.getByTestId('expense3-link')).toHaveProperty(
+      'href',
+      expect.stringContaining(`/expenses/expense3?month=01&year=2023&viewBy=${viewBy}`)
+    );
+  });
+
+  test('render expense items header grouped by date', async () => {
+    const props = { month: '01', year: '2023', viewBy: 'byDate' };
+    const page = render(await B4hExpensesItems(props));
+
+    // page.debug();
+
+    expect(page.getByTestId('expense-group-header-key')).toHaveTextContent('2024-11-08');
+    expect(page.getByTestId('expense-group-header-value')).toHaveTextContent('6.30');
+  });
+
+  test('render expense items header grouped by label', async () => {
+    const props = { month: '01', year: '2023', viewBy: 'byLabel' };
+    const page = render(await B4hExpensesItems(props));
+
+    // page.debug();
+
+    expect(page.getByTestId('expense-group-header-key')).toHaveTextContent('🏷️ Label 1');
+    expect(page.getByTestId('expense-group-header-value')).toHaveTextContent('6.30');
+  });
 });
