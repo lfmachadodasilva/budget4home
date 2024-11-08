@@ -15,6 +15,7 @@ window.ResizeObserver = jest.fn().mockImplementation(intersectionObserverMock);
 
 jest.mock('recharts', () => ({
   ...jest.requireActual('recharts'),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ResponsiveContainer: (props: any) => <div {...props} />
 }));
 

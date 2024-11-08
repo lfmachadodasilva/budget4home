@@ -18,6 +18,8 @@ export async function onSubmitAction(
   const { userId, groupId } = await getFavoriteGroupId();
   const parsed = expenseFormSchema.safeParse(data);
 
+  console.log('onSubmitAction', { data, parsed });
+
   if (!parsed.success) {
     return {
       message: ACTION_INVALID,

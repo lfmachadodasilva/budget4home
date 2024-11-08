@@ -2,7 +2,6 @@ import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
 import { tryGroupIsValidFirestore } from '../groups/validateGroup';
 import { FirestorePath } from '../path';
-import { labelConverter } from './converter';
 
 export const updateLabelsFirebase = async (
   userId: string,
@@ -20,9 +19,8 @@ export const updateLabelsFirebase = async (
       updatedBy: userId
     } as LabelModel;
 
-    const doc = getFirebaseAdminFirestore()
-      .doc(FirestorePath.label(groupId, label.id as string))
-      .withConverter(labelConverter);
+    const doc = getFirebaseAdminFirestore().doc(FirestorePath.label(groupId, label.id as string));
+    // .withConverter(labelConverter);
     batch.set(doc, toUpdate, { merge: true });
   });
 

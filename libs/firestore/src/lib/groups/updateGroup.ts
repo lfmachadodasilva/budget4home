@@ -1,7 +1,6 @@
 import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { GroupModel } from '@b4h/models';
 import { FirestorePath } from '../path';
-import { groupConverter } from './converter';
 
 export const updateGroupFirestore = async (userId: string, group: Partial<GroupModel>) => {
   const groupToUpdate = {
@@ -12,7 +11,7 @@ export const updateGroupFirestore = async (userId: string, group: Partial<GroupM
 
   await getFirebaseAdminFirestore()
     .doc(FirestorePath.group(group.id as string))
-    .withConverter(groupConverter)
+    // .withConverter(groupConverter)
     .set(groupToUpdate, {
       merge: true
     });

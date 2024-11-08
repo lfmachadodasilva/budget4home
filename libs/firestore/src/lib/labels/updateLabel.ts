@@ -2,7 +2,6 @@ import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { LabelModel } from '@b4h/models';
 import { tryGroupIsValidFirestore } from '../groups/validateGroup';
 import { FirestorePath } from '../path';
-import { labelConverter } from './converter';
 
 export const updateLabelFirestore = async (
   userId: string,
@@ -17,10 +16,10 @@ export const updateLabelFirestore = async (
     updatedBy: userId
   } as LabelModel;
 
-  const doc = getFirebaseAdminFirestore()
+  await getFirebaseAdminFirestore()
     .doc(FirestorePath.label(groupId, label.id as string))
-    .withConverter(labelConverter);
-  await doc.set(labelToUpdate, { merge: true });
+    // .withConverter(labelConverter)
+    .set(labelToUpdate, { merge: true });
 
   return labelToUpdate;
 };

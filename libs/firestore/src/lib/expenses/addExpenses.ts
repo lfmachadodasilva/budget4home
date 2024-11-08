@@ -2,7 +2,6 @@ import { getFirebaseAdminFirestore } from '@b4h/firebase-admin';
 import { ExpenseModel } from '@b4h/models';
 import { tryGroupIsValidFirestore } from '../groups/validateGroup';
 import { FirestorePath } from '../path';
-import { expenseConverter } from './converter';
 
 export const addExpensesFirebase = async (
   userId: string,
@@ -22,10 +21,8 @@ export const addExpensesFirebase = async (
       updatedBy: userId
     } as ExpenseModel;
 
-    const doc = getFirebaseAdminFirestore()
-      .collection(FirestorePath.expeses(groupId))
-      .doc()
-      .withConverter(expenseConverter);
+    const doc = getFirebaseAdminFirestore().collection(FirestorePath.expeses(groupId)).doc();
+    // .withConverter(expenseConverter);
     batch.set(doc, toAdd, { merge: true });
   });
 

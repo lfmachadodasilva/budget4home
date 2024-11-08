@@ -68,6 +68,8 @@ export const B4hExpensesForm = (props: B4hExpensesFormProps) => {
 
     let expenses: ExpenseModel[] = [];
 
+    console.log('onSubmit', { data });
+
     switch (submitter.name) {
       case ACTION_SUBMIT:
         setIsLoading(ACTION_SUBMIT);
