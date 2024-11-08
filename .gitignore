@@ -50,3 +50,7 @@ vite.config.mts.timestamp*
 
 # yarn
 .yarn/install-state.gz
+
+# firebase 
+firestore-debug.log
+firebase-debug.log
