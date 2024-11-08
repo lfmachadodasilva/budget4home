@@ -20,12 +20,13 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
   return (
     <div className={styles.container}>
       <p>
-        <small>Total used:</small> {formatValue(totalOutcoming)}
+        <small>Total used:</small>{' '}
+        <span data-testid="total-used">{formatValue(totalOutcoming)}</span>
       </p>
       <p>
-        <small>Total left:</small> {formatValue(totalLeft)}{' '}
+        <small>Total left:</small> <span data-testid="total-left">{formatValue(totalLeft)}</span>{' '}
         {totalIncoming > 0 && (
-          <small className={percentage < 0 ? styles.negative : ''}>
+          <small className={percentage < 0 ? styles.negative : ''} data-testid="total-perc">
             {formatValue(percentage)}%
           </small>
         )}
