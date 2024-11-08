@@ -1,8 +1,9 @@
+import '@testing-library/jest-dom';
+
 import { fetchExpenses } from '@/clients/expenses';
 import { fetchLabels } from '@/clients/labels';
 import { b4hSession } from '@/utils/session';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
-import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { B4hExpensesItems } from './items';
 
@@ -10,6 +11,12 @@ const intersectionObserverMock = () => ({
   observe: () => null
 });
 window.IntersectionObserver = jest.fn().mockImplementation(intersectionObserverMock);
+window.ResizeObserver = jest.fn().mockImplementation(intersectionObserverMock);
+
+jest.mock('recharts', () => ({
+  ...jest.requireActual('recharts'),
+  ResponsiveContainer: (props: any) => <div {...props} />
+}));
 
 jest.mock('@/clients/expenses');
 jest.mock('@/clients/labels');
@@ -111,5 +118,12 @@ describe('B4hExpensesItems', () => {
 
     expect(page.getByTestId('expense-group-header-key')).toHaveTextContent('🏷️ Label 1');
     expect(page.getByTestId('expense-group-header-value')).toHaveTextContent('6.30');
+  });
+
+  test('renders expense items by chart', async () => {
+    const props = { month: '01', year: '2023', viewBy: 'byChart' };
+    const { container } = render(await B4hExpensesItems(props));
+
+    expect(container.querySelector('.recharts-wrapper')).toBeInTheDocument();
   });
 });
