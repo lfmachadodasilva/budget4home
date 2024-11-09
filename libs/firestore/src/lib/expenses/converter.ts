@@ -6,18 +6,6 @@ export class ExpenseConverter implements B4hFirestoreConverter<ExpenseModel> {
   toFirestore(modelObject: ExpenseModel): FirebaseFirestore.DocumentData {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...model } = modelObject;
-
-    console.log('ExpenseConverter.toFirestore', {
-      modelObject,
-      model,
-      final: {
-        ...model,
-        value: model.value,
-        createdAt: Timestamp.fromDate(new Date(model.createdAt)),
-        updatedAt: Timestamp.fromDate(new Date(model.updatedAt)),
-        date: Timestamp.fromDate(new Date(model.date))
-      }
-    });
     return {
       ...model,
       value: model.value,

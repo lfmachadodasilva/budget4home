@@ -16,14 +16,10 @@ export const updateExpenseFirebase = async (
     updatedBy: userId
   } as ExpenseModel;
 
-  console.log('updateExpenseFirebase', { userId, groupId, expense, toUpdate });
-
-  const doc = await getFirebaseAdminFirestore()
+  await getFirebaseAdminFirestore()
     .doc(FirestorePath.expese(groupId, expense.id as string))
     // .withConverter(expenseConverter)
     .set(toUpdate, { merge: true });
-
-  console.log('updateExpenseFirebase', { userId, groupId, expense, doc });
 
   return toUpdate;
 };

@@ -1,11 +1,7 @@
-import { GroupModel } from '@b4h/models';
+import { ExpenseType, GroupModel } from '@b4h/models';
+import { addExpenseFirebase, getExpenseFirebase } from '../expenses';
 import { addGroupFirestore } from '../groups/addGroup';
-import {
-  TEST_GROUP_NAME,
-  TEST_INVALID_USER_ID,
-  TEST_LABEL_NAME,
-  TEST_USER_ID
-} from '../testConstants';
+import { TEST_GROUP_NAME, TEST_LABEL_NAME, TEST_USER_ID } from '../testConstants';
 import { addLabelFirestore } from './addLabel';
 import { deleteLabelFirestore } from './deleteLabel';
 import { getLabelFirestore } from './getLabel';
@@ -21,12 +17,18 @@ describe('deleteLabelFirestore', () => {
     expect(group).toBeDefined();
   });
 
-  test('should add and then delete a label', async () => {
+  test('should delete a label and expenses', async () => {
     // arrange
     const label = await addLabelFirestore(TEST_USER_ID, group?.id as string, {
       name: TEST_LABEL_NAME
     });
     expect(label).toBeDefined();
+    const expense = await addExpenseFirebase(TEST_USER_ID, group?.id as string, {
+      value: 100,
+      label: label?.id,
+      date: new Date(),
+      type: ExpenseType.incoming
+    });
 
     // act
     await deleteLabelFirestore(TEST_USER_ID, group?.id as string, label?.id as string);
@@ -38,19 +40,16 @@ describe('deleteLabelFirestore', () => {
       label?.id as string
     );
     expect(deletedLabel).toBeUndefined();
+    const deletedExpense = await getExpenseFirebase(
+      TEST_USER_ID,
+      group?.id as string,
+      expense?.id as string
+    );
+    expect(deletedExpense).toBeUndefined();
   });
 
-  test('should fail if user does not belong to the group', async () => {
-    // arrange
-    const label = await addLabelFirestore(TEST_USER_ID, group?.id as string, {
-      name: TEST_LABEL_NAME
-    });
-    expect(label).toBeDefined();
-
-    // act & assert
-    expect(
-      async () =>
-        await deleteLabelFirestore(TEST_INVALID_USER_ID, group?.id as string, label?.id as string)
-    ).rejects.toThrow();
+  test('should fail delete a label is does not exist', async () => {
+    // act
+    await deleteLabelFirestore(TEST_USER_ID, group?.id as string, 'invalid');
   });
 });

@@ -36,4 +36,10 @@ describe('getLabelFirestore', () => {
         await getLabelFirestore(TEST_INVALID_USER_ID, group?.id as string, label?.id as string)
     ).rejects.toThrow();
   });
+
+  test('should return undefined or null if label does not exist', async () => {
+    const value = await getLabelFirestore(TEST_USER_ID, group?.id as string, 'invalid');
+
+    expect(value).toBeUndefined();
+  });
 });

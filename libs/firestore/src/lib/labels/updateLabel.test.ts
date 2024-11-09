@@ -50,4 +50,28 @@ describe('updateLabelFirestore', () => {
         )
     ).rejects.toThrow();
   });
+
+  test('should not update if label id does not exist', async () => {
+    // arrange
+    const label = await addLabelFirestore(TEST_USER_ID, group?.id as string, {
+      name: TEST_LABEL_NAME,
+      icon: '🏷️',
+      keys: 'key1,key2'
+    });
+
+    // act
+    await updateLabelFirestore(TEST_USER_ID, group?.id as string, {
+      id: 'invalid',
+      name: TEST_LABEL_NAME + 'updated',
+      icon: '💣',
+      keys: 'key3,key4'
+    });
+
+    // assert
+    const value = await getLabelFirestore(TEST_USER_ID, group?.id as string, label?.id as string);
+    expect(value).toBeDefined();
+    expect(value?.name).toBe(TEST_LABEL_NAME);
+    expect(value?.icon).toBe('🏷️');
+    expect(value?.keys).toBe('key1,key2');
+  });
 });

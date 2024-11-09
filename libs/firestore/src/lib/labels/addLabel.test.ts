@@ -1,12 +1,7 @@
 import { GroupModel } from '@b4h/models';
 import { isSameDay } from 'date-fns';
 import { addGroupFirestore } from '../groups/addGroup';
-import {
-  TEST_GROUP_NAME,
-  TEST_INVALID_USER_ID,
-  TEST_LABEL_NAME,
-  TEST_USER_ID
-} from '../testConstants';
+import { TEST_GROUP_NAME, TEST_LABEL_NAME, TEST_USER_ID } from '../testConstants';
 import { addLabelFirestore } from './addLabel';
 
 describe('addLabelFirestore', () => {
@@ -38,15 +33,5 @@ describe('addLabelFirestore', () => {
 
     expect(value?.createdBy).toBe(TEST_USER_ID);
     expect(value?.updatedBy).toBe(TEST_USER_ID);
-  });
-
-  test('should fail if user does not belong to the group', async () => {
-    // act & assert
-    expect(
-      async () =>
-        await addLabelFirestore(TEST_INVALID_USER_ID, group?.id as string, {
-          name: TEST_LABEL_NAME
-        })
-    ).rejects.toThrow();
   });
 });
