@@ -2,9 +2,11 @@ import '@testing-library/jest-dom';
 
 import { fetchExpenses } from '@/clients/expenses';
 import { fetchLabels } from '@/clients/labels';
+import { DATE_FORMAT } from '@/utils/constants';
 import { b4hSession } from '@/utils/session';
 import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { render } from '@testing-library/react';
+import { format } from 'date-fns';
 import { B4hExpensesItems } from './items';
 
 const intersectionObserverMock = () => ({
@@ -107,7 +109,9 @@ describe('B4hExpensesItems', () => {
 
     // page.debug();
 
-    expect(page.getByTestId('expense-group-header-key')).toHaveTextContent('2024-11-08');
+    expect(page.getByTestId('expense-group-header-key')).toHaveTextContent(
+      format(new Date(), DATE_FORMAT)
+    );
     expect(page.getByTestId('expense-group-header-value')).toHaveTextContent('6.30');
   });
 
