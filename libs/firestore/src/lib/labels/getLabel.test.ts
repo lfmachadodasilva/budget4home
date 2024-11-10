@@ -20,7 +20,7 @@ describe('getLabelFirestore', () => {
     });
   });
 
-  test('should retrieve all labels for the given user and group', async () => {
+  test('should retrieve label for the given user and group', async () => {
     const value = await getLabelFirestore(TEST_USER_ID, group?.id as string, label?.id as string);
 
     expect(value).toBeDefined();

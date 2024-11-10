@@ -54,3 +54,4 @@ vite.config.mts.timestamp*
 # firebase 
 firestore-debug.log
 firebase-debug.log
+.vercel
