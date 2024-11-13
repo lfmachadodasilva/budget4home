@@ -8,5 +8,6 @@ export default {
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/next/babel'] }]
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/apps/b4h-next'
+  coverageDirectory: '../../coverage/apps/b4h-next',
+  reporters: ['default', 'jest-junit']
 } as Config;

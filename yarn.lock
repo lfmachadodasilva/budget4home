@@ -1825,6 +1825,7 @@ __metadata:
     husky: "npm:^9.1.6"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
+    jest-junit: "npm:^16.0.0"
     jsdom: "npm:~25.0.1"
     lodash: "npm:^4.17.21"
     next: "npm:15.0.3"
@@ -14152,6 +14153,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-junit@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "jest-junit@npm:16.0.0"
+  dependencies:
+    mkdirp: "npm:^1.0.4"
+    strip-ansi: "npm:^6.0.1"
+    uuid: "npm:^8.3.2"
+    xml: "npm:^1.0.1"
+  checksum: 10c0/d813d4d142341c2b51b634db7ad6ceb9849514cb58f96ec5e7e4cf4031a557133490452710c2d9dec9b1dd546334d9ca663e042d3070c3e8f102ce6217bd8e2e
+  languageName: node
+  linkType: hard
+
 "jest-leak-detector@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-leak-detector@npm:29.7.0"
@@ -15867,7 +15880,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^1.0.3":
+"mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
@@ -22048,6 +22061,13 @@ __metadata:
   version: 5.0.0
   resolution: "xml-name-validator@npm:5.0.0"
   checksum: 10c0/3fcf44e7b73fb18be917fdd4ccffff3639373c7cb83f8fc35df6001fecba7942f1dbead29d91ebb8315e2f2ff786b508f0c9dc0215b6353f9983c6b7d62cb1f5
+  languageName: node
+  linkType: hard
+
+"xml@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "xml@npm:1.0.1"
+  checksum: 10c0/04bcc9b8b5e7b49392072fbd9c6b0f0958bd8e8f8606fee460318e43991349a68cbc5384038d179ff15aef7d222285f69ca0f067f53d071084eb14c7fdb30411
   languageName: node
   linkType: hard
 
