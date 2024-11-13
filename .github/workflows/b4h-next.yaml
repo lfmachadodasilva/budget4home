@@ -27,7 +27,7 @@ jobs:
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: './coverage/**/junit.xml,./coverage/**/coverage-final.json,./coverage/**/clover.xml'
+          files: './coverage/libs/models/coverage-final.json,.coverage/libs/models/junit.xml,./coverage/libs/firestore/junit.xml,.coverage/libs/firestore/clover.xml,./coverage/libs/firestore/coverage-final.json,./coverage/apps/b4h-next/coverage-final.json,./coverage/apps/b4h-next/junit.json'
   preview:
     runs-on: ubuntu-latest
     needs: build
