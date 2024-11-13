@@ -9,8 +9,11 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/apps/b4h-next',
-  reporters: [
-    'default',
+  coverageReporters: [
+    // 'clover',
+    'json',
+    // 'lcov',
+    ['text', { skipFull: true }],
     [
       'jest-junit',
       {

@@ -53,7 +53,7 @@ export default defineConfig({
     environment: 'node',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 
-    reporters: ['default', 'jest-junit', 'junit'],
+    reporters: ['json', 'jest-junit', 'junit'],
     outputFile: {
       junit: '../../coverage/libs/models/junit.xml'
     },

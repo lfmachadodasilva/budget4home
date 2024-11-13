@@ -12,7 +12,7 @@
     "prettier:fix": "prettier . --write",
     "build:prod:next": "yarn nx build b4h-next --prod",
     "start:emulator": "firebase emulators:start --only firestore",
-    "test:integration": "firebase emulators:exec --only firestore 'nx run-many -t test --all'",
+    "test:integration": "firebase emulators:exec --only firestore 'nx run-many -t test --coverage'",
     "prepare": "husky"
   },
   "private": true,
