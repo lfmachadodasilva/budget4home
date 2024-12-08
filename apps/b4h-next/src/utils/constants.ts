@@ -29,3 +29,5 @@ export const FETCH_LABELS = 'labels';
 export const FETCH_REVALIDATE_TIME = 900; // 15 minutes
 
 export const ANIMATION_DELAY = 0.05;
+
+export const SHOW_DETAILS = 'showDetails';

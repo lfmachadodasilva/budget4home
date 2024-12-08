@@ -14,8 +14,8 @@ export const expenseQueryParams = (props: B4hExpenseHeaderType) =>
     ? '?' + new URLSearchParams(omitBy(props, x => isEmpty(x) || isNull(x))).toString()
     : '';
 
-export const expensesByDate = (expenses: ExpenseModel[]) =>
-  expenses.reduce(
+export const expensesByDate = (expenses: ExpenseModel[]): Record<string, ExpenseModel[]> => {
+  return expenses.reduce(
     (acc, expense) => {
       const date = format(expense.date, DATE_FORMAT);
       acc[date] = acc[date] || [];
@@ -24,12 +24,16 @@ export const expensesByDate = (expenses: ExpenseModel[]) =>
     },
     {} as Record<string, ExpenseModel[]>
   );
+};
 
-export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string, LabelModel>) => {
+export const expensesByLabel = (
+  expenses: ExpenseModel[],
+  labels: Record<string, LabelModel>
+): Record<string, ExpenseModel[]> => {
   const labelsById = {
-    ...expenses.reduce(
+    ...(expenses ?? []).reduce(
       (acc, expense) => {
-        const label = labels[expense.label as string];
+        const label = labels[expense.label];
         const labelTitle = `${label.icon} ${label.name}`;
         acc[labelTitle] = acc[labelTitle] || [];
         acc[labelTitle].push(expense);
@@ -39,17 +43,23 @@ export const expensesByLabel = (expenses: ExpenseModel[], labels: Record<string,
     )
   };
   return Object.fromEntries(
-    Object.entries(labelsById).sort(
+    Object.entries(labelsById ?? {}).sort(
       ([, a], [, b]) => sumBy(a, c => c.value) - sumBy(b, c => c.value)
     )
   );
 };
 
-export const formatValue = (value: number): string => {
+export const formatValue = (
+  value: number,
+  showValue: boolean | null | undefined = null
+): string => {
+  if (showValue === true) {
+    return '****';
+  }
   return (value / 100).toFixed(2).replace(/[.,]00$/, '');
 };
 
-export const getDateFromQuery = (year?: string | null, month?: string | null) => {
+export const getDateFromQuery = (year?: string | null, month?: string | null): Date => {
   if ((year && isNaN(Number(year))) || (month && isNaN(Number(month)))) {
     throw new Error('getDateFromQuery: Invalid date');
   }

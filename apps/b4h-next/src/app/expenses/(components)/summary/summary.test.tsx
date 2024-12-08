@@ -4,6 +4,11 @@ import { ExpenseModel, ExpenseType } from '@b4h/models';
 import { render } from '@testing-library/react';
 import { B4hExpenseSummary } from './index';
 
+const localStorageMock = {
+  getItem: jest.fn().mockImplementation(() => 'true')
+};
+global.localStorage = localStorageMock as any;
+
 describe('B4hExpenseSummary', () => {
   const expenses = [
     { id: '1', name: 'Expense 1', value: 100, type: ExpenseType.outcoming, date: new Date() },

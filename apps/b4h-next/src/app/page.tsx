@@ -1,14 +1,18 @@
 import { fetchExpenses } from '@/clients/expenses';
+import { fetchLabels } from '@/clients/labels';
 import { B4hSeparator } from '@/components/separator';
 import { B4hButton } from '@/components/ui/button/button';
 import { B4hFade } from '@/components/ui/fade';
 import { ANIMATION_DELAY } from '@/utils/constants';
+import { expensesByLabel } from '@/utils/expenses';
+import { labelsById } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { ExpenseModel } from '@b4h/models';
 import { ListBulletIcon, PlusIcon } from '@radix-ui/react-icons';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { B4hExpensesByChart } from './expenses/(components)/byChart';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
 
 export const metadata = {
@@ -30,6 +34,7 @@ const GroupExpenseSummary = async () => {
   const { getFavoriteGroupId, getUserId } = b4hSession();
 
   let expenses: ExpenseModel[] | undefined | null;
+  let byLabel: Record<string, ExpenseModel[]> | undefined | null;
 
   const userId = await getUserId();
   if (!userId) {
@@ -40,6 +45,10 @@ const GroupExpenseSummary = async () => {
     const { groupId } = await getFavoriteGroupId();
     if (groupId) {
       expenses = await fetchExpenses(groupId);
+      if (expenses && expenses?.length > 0) {
+        const labels = await fetchLabels(groupId);
+        byLabel = expensesByLabel(expenses, labelsById(labels ?? []));
+      }
     } else {
       return null;
     }
@@ -54,6 +63,11 @@ const GroupExpenseSummary = async () => {
       {expenses && (
         <B4hFade key="GroupExpenseSummary">
           <B4hExpenseSummary expenses={expenses} />
+        </B4hFade>
+      )}
+      {byLabel && (
+        <B4hFade key="GroupExpenseChart">
+          <B4hExpensesByChart expenseByLabel={byLabel} />
         </B4hFade>
       )}
     </AnimatePresence>

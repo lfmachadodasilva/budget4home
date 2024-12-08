@@ -1,16 +1,17 @@
 import { LabelModel } from '@b4h/models';
 
-export const labelsById = (labels: LabelModel[]) =>
-  labels.reduce(
+export const labelsById = (labels: LabelModel[]): Record<string, LabelModel> => {
+  return (labels ?? []).reduce(
     (acc, label) => {
       acc[label.id] = label;
       return acc;
     },
     {} as Record<string, LabelModel>
   );
+};
 
-export const labelsByKey = (labels: LabelModel[]) =>
-  labels.reduce(
+export const labelsByKey = (labels: LabelModel[]): Record<string, LabelModel> => {
+  return (labels ?? []).reduce(
     (acc, label) => {
       const keys = label.keys?.split(',').map(key => key.trim());
       if (keys) {
@@ -22,6 +23,7 @@ export const labelsByKey = (labels: LabelModel[]) =>
     },
     {} as Record<string, LabelModel>
   );
+};
 
 export const selectLabelByExpenseName = (labels: LabelModel[], name: string) => {
   const lowerCaseName = name.trim().toLowerCase();

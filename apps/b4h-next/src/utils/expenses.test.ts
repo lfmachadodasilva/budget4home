@@ -200,7 +200,8 @@ describe('utils>expenses', () => {
       // act
       const result = expensesByLabel(expenses, labels);
       // assert
-      expect(Object.keys(result)).toEqual(['🍔 Food', '🚗 Transport', '🎉 Entertainment']);
+      expect(result).toBeDefined();
+      expect(Object.keys(result ?? [])).toEqual(['🍔 Food', '🚗 Transport', '🎉 Entertainment']);
     });
   });
 });
