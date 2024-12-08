@@ -60,7 +60,7 @@ export const B4hExpensesByChart = (props: ExpensesByChartProps) => {
     entry.name + ' ' + (entry.percent * 100).toFixed(0) + '%';
 
   return (
-    <div style={{ width: '100%', height: 300 }}>
+    <div style={{ width: '100%', height: 250 }} className="border">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width={600} height={600}>
           <Pie

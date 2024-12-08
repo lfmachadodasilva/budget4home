@@ -1,8 +1,4 @@
 .container1 {
-  border: 2px solid var(--border-color-light);
-  border-radius: var(--size-xs);
-  padding: var(--size-s);
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,4 +12,9 @@
 
 .negative {
   color: var(--negative-color);
+}
+
+.icon {
+  color: var(--primary-color);
+  cursor: pointer;
 }

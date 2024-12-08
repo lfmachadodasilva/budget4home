@@ -66,7 +66,7 @@ const GroupExpenseSummary = async () => {
         </B4hFade>
       )}
       {byLabel && (
-        <B4hFade key="GroupExpenseChart">
+        <B4hFade key="ExpenseByLabel">
           <B4hExpensesByChart expenseByLabel={byLabel} />
         </B4hFade>
       )}

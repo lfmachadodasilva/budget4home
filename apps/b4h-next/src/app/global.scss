@@ -75,3 +75,9 @@ svg {
 .flex-wrap {
   flex-wrap: wrap;
 }
+
+.border {
+  border: 2px solid var(--border-color-light);
+  border-radius: var(--size-xs);
+  padding: var(--size-s);
+}

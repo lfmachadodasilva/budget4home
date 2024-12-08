@@ -41,7 +41,7 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
   const percentage = (totalLeft / totalIncoming) * 100 * 100;
 
   return (
-    <div className={styles.container1}>
+    <div className={`${styles.container1} border`}>
       <div className={styles.container2}>
         <p>
           <small>Total used:</small>{' '}
@@ -57,10 +57,8 @@ export const B4hExpenseSummary = ({ expenses }: B4hExpenseSummary) => {
           )}
         </p>
       </div>
-      {showDetails && <EyeOpenIcon style={{ cursor: 'pointer' }} onClick={handleToggleDetails} />}
-      {!showDetails && (
-        <EyeClosedIcon style={{ cursor: 'pointer' }} onClick={handleToggleDetails} />
-      )}
+      {showDetails && <EyeOpenIcon className={styles.icon} onClick={handleToggleDetails} />}
+      {!showDetails && <EyeClosedIcon className={styles.icon} onClick={handleToggleDetails} />}
     </div>
   );
 };
