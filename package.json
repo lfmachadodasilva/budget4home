@@ -96,10 +96,10 @@
     "vite-plugin-node-polyfills": "^0.22.0",
     "vitest": "^2.1.8"
   },
-  "packageManager": "yarn@4.5.3",
+  "packageManager": "yarn@4.6.0",
   "engines": {
     "node": ">=20.18.1",
-    "yarn": ">=4.5.1",
+    "yarn": ">=4.6.0",
     "npm": "please-use-yarn"
   }
 }
