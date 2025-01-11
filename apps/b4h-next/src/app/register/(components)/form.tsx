@@ -8,31 +8,32 @@ import { useB4hAuth } from '@b4h/firebase';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { loginFormSchema, LoginFormType } from './schema';
+import { registerFormSchema, RegisterFormType } from './schema';
 
-export const B4hLoginForm = () => {
-  const [isLoading, setIsLoading] = useState<string | null>(null);
+export default function B4hRegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<RegisterFormType>({
+    resolver: zodResolver(registerFormSchema)
+  });
+  const { register: registerAuth } = useB4hAuth();
   const [error, setError] = useState<string | null>(null);
-  const { login, user } = useB4hAuth();
+  const [isLoading, setIsLoading] = useState<string | null>(null);
   const { push } = useRouter();
 
-  const {
-    handleSubmit,
-    formState: { errors },
-    register
-  } = useForm<LoginFormType>({
-    resolver: zodResolver(loginFormSchema)
-  });
-
-  const onSubmit: SubmitHandler<LoginFormType> = async (data, event) => {
+  const onSubmit: SubmitHandler<RegisterFormType> = async (data, event) => {
     event?.preventDefault();
+
     setIsLoading(ACTION_SUBMIT);
     setError(null);
 
     try {
-      await login(data.email, data.password);
+      await registerAuth(data.email, data.password1);
+      push(B4hRoutes.home);
     } catch (err) {
       setError((err as Error).message);
       console.error(err);
@@ -41,15 +42,9 @@ export const B4hLoginForm = () => {
     }
   };
 
-  useEffect(() => {
-    if (user && !isLoading) {
-      push(B4hRoutes.home);
-    }
-  }, [user, isLoading, push]);
-
   return (
     <>
-      <h1>login</h1>
+      <h1>register</h1>
       <B4hForm.Root onSubmit={handleSubmit(onSubmit)}>
         <B4hForm.Field>
           <B4hForm.Label htmlFor="email" id="email">
@@ -64,31 +59,39 @@ export const B4hLoginForm = () => {
           <B4hForm.LabelError>{errors?.email?.message}</B4hForm.LabelError>
         </B4hForm.Field>
         <B4hForm.Field>
-          <B4hForm.Label htmlFor="password" id="password">
+          <B4hForm.Label htmlFor="password1" id="password1">
             password
           </B4hForm.Label>
           <B4hForm.Input
             type="password"
-            {...register('password')}
+            {...register('password1')}
             disabled={!!isLoading}
-            aria-labelledby="password"
+            aria-labelledby="password1"
             placeholder="password"
           />
-          <B4hForm.LabelError>{errors?.password?.message}</B4hForm.LabelError>
+          <B4hForm.LabelError>{errors?.password1?.message}</B4hForm.LabelError>
+        </B4hForm.Field>
+        <B4hForm.Field>
+          <B4hForm.Label htmlFor="password2" id="password2">
+            password
+          </B4hForm.Label>
+          <B4hForm.Input
+            type="password"
+            {...register('password2')}
+            disabled={!!isLoading}
+            aria-labelledby="password2"
+            placeholder="password"
+          />
+          <B4hForm.LabelError>{errors?.password2?.message}</B4hForm.LabelError>
         </B4hForm.Field>
 
         <B4hForm.Actions>
           <B4hButton type="submit" loading={isLoading === ACTION_SUBMIT} name={ACTION_SUBMIT}>
-            login
+            register
           </B4hButton>
-          <Link href={B4hRoutes.register}>
+          <Link href={B4hRoutes.login}>
             <B4hButton buttonType="secondary" widthFit>
-              register
-            </B4hButton>
-          </Link>
-          <Link href={B4hRoutes.reset}>
-            <B4hButton buttonType="secondary" widthFit>
-              reset password
+              login
             </B4hButton>
           </Link>
         </B4hForm.Actions>
@@ -97,4 +100,4 @@ export const B4hLoginForm = () => {
       </B4hForm.Root>
     </>
   );
-};
+}

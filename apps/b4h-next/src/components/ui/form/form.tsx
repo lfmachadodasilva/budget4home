@@ -99,6 +99,7 @@ const Label = forwardRef<HTMLLabelElement, HTMLProps<HTMLLabelElement>>((props, 
 Label.displayName = 'B4hForm.Label';
 
 const LabelError = forwardRef<HTMLLabelElement, HTMLProps<HTMLLabelElement>>((props, ref) => {
+  if (!props.children) return null;
   return (
     <AnimatePresence>
       {props.children && (
