@@ -22,6 +22,8 @@ export const B4hSettingsForm = () => {
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null | undefined>(user?.photoURL);
 
+  console.log('user', user);
+
   const {
     register,
     handleSubmit,
