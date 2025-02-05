@@ -36,7 +36,6 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
       ? expensesByDate(expenses ?? [])
       : expensesByLabel(expenses ?? [], labelById);
   let item = 1;
-  const reduceDelay = 0.5;
 
   const queryParams = expenseQueryParams(props);
 
@@ -49,7 +48,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
       {props.viewBy !== 'byChart' &&
         Object.entries(expenseBy).map(([key, expenses]) => (
           <B4hItem.Group key={key}>
-            <B4hFade key={key + 'animation'} delay={item++ * ANIMATION_DELAY * reduceDelay}>
+            <B4hFade key={key + 'animation'} delay={item++ * ANIMATION_DELAY}>
               <B4hItem.GroupTitle>
                 <p data-testid="expense-group-header-key">{key}</p>
                 <p data-testid="expense-group-header-value">
@@ -60,10 +59,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
 
             <B4hItem.Items>
               {expenses.map(expense => (
-                <B4hFade
-                  key={expense.id + 'animation'}
-                  delay={item++ * ANIMATION_DELAY * reduceDelay}
-                >
+                <B4hFade key={expense.id + 'animation'} delay={item++ * ANIMATION_DELAY}>
                   <Link
                     href={`${B4hRoutes.expenses}/${expense.id}${queryParams}`}
                     key={expense.id}

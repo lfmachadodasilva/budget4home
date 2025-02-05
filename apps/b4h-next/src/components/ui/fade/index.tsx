@@ -35,9 +35,8 @@ export const B4hFade = ({
       }
     }}
     initial="hidden"
-    whileInView="visible"
+    animate="visible"
     exit="exit"
-    viewport={{ once: true }}
     transition={{ delay, type: 'spring', duration }}
   >
     {children}
