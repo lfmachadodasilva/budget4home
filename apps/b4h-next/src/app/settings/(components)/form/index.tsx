@@ -8,7 +8,7 @@ import { updateProfile, useB4hAuth } from '@b4h/firebase';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { labelFormSchema, LabelFormType } from './schema';
 
@@ -22,22 +22,21 @@ export const B4hSettingsForm = () => {
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null | undefined>(user?.photoURL);
 
-  console.log('user', user);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-
     watch
   } = useForm<LabelFormType>({
     resolver: zodResolver(labelFormSchema),
-    defaultValues: {
-      id: user?.uid,
-      name: user?.displayName,
-      email: user?.email,
-      photoUrl: user?.photoURL
-    }
+    defaultValues: useMemo(() => {
+      return {
+        id: user?.uid,
+        name: user?.displayName,
+        email: user?.email,
+        photoUrl: user?.photoURL
+      };
+    }, [user])
   });
 
   useEffect(() => {
@@ -49,25 +48,28 @@ export const B4hSettingsForm = () => {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  const onSubmit: SubmitHandler<LabelFormType> = async (data, event) => {
-    const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
+  const onSubmit: SubmitHandler<LabelFormType> = useCallback(
+    async (data, event) => {
+      const submitter = (event?.nativeEvent as SubmitEvent)?.submitter as HTMLButtonElement;
 
-    event?.preventDefault();
-    setIsLoading(submitter.name);
+      event?.preventDefault();
+      setIsLoading(submitter.name);
 
-    try {
-      user &&
-        (await updateProfile(user, {
-          displayName: data.name,
-          photoURL: data.photoUrl
-        }));
-      refresh();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(null);
-    }
-  };
+      try {
+        user &&
+          (await updateProfile(user, {
+            displayName: data.name,
+            photoURL: data.photoUrl
+          }));
+        refresh();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(null);
+      }
+    },
+    [user, refresh]
+  );
 
   return (
     <>
