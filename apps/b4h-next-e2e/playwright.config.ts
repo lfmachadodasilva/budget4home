@@ -1,5 +1,5 @@
-import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
+import { defineConfig, devices } from '@playwright/test';
 
 import { workspaceRoot } from '@nx/devkit';
 
@@ -44,17 +44,15 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
-    }
-
-    // Uncomment for mobile browsers support
-    /* {
+    },
+    {
       name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
+      use: { ...devices['Pixel 5'] }
     },
     {
       name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    }, */
+      use: { ...devices['iPhone 12'] }
+    }
 
     // Uncomment for branded browsers
     /* {
