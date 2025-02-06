@@ -1,7 +1,7 @@
 const HTTPS = 'https://';
 export const BASE_URL =
   process.env['VERCEL_ENV'] === 'production'
-    ? HTTPS + (process.env['VERCEL_PROJECT_PRODUCTION_URL'] as string) // use production url
+    ? HTTPS + (process.env['NEXT_PUBLIC_API_URL'] as string) // use production url
     : process.env['VERCEL_ENV'] === 'development'
       ? HTTPS + (process.env['NEXT_PUBLIC_API_URL'] as string) // use developer url
       : process.env['VERCEL_ENV'] === 'preview'
