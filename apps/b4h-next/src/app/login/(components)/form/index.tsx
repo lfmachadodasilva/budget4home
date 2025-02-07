@@ -33,7 +33,6 @@ export const B4hLoginForm = () => {
 
     try {
       await login(data.email, data.password);
-      push(B4hRoutes.home);
     } catch (err) {
       setError((err as Error).message);
       console.error(err);
