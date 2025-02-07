@@ -51,7 +51,6 @@ export function B4hAuthProvider(props: AuthProviderProps) {
     token: string | null | undefined;
   }>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
@@ -80,21 +79,18 @@ export function B4hAuthProvider(props: AuthProviderProps) {
     });
 
     return () => unsubscribe();
-  }, [props.baseUrl, refresh]);
+  }, [props.baseUrl]);
 
   const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
-    setRefresh(x => !x);
   };
 
   const logout = async () => {
     await signOut(getFirebaseAuth());
-    setRefresh(x => !x);
   };
 
   const register = async (email: string, password: string) => {
     await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
-    setRefresh(x => !x);
   };
 
   const resetPassword = async (email: string) => {
