@@ -74,7 +74,7 @@ export function B4hAuthProvider(props: AuthProviderProps) {
           }
         })
         .catch(err => {
-          console.error(err);
+          console.error(err, props.baseUrl);
           setUser({ user: null, token: null });
         })
         .finally(() => setLoading(false));
