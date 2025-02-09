@@ -4,8 +4,5 @@
       "main": false,
       "developer": false
     }
-  },
-  "engines": {
-    "node": "22.x"
   }
 }
