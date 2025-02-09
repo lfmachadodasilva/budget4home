@@ -24,7 +24,7 @@ jobs:
       # - name: test ✅
       #   run: yarn test:integration
       - name: ui test ✅
-        run: yarn playwright install --with-deps && yarn nx e2e b4h-next-e2e
+        run: yarn playwright install --with-deps && yarn nx e2e b4h-next-e2e --skip-nx-cache
       - name: Upload test results to Codecov 📊
         uses: codecov/test-results-action@v1
         with:
