@@ -25,6 +25,7 @@ jobs:
         run: yarn test:integration
       - name: Cache Playwright browsers
         uses: actions/cache@v4
+        id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}
