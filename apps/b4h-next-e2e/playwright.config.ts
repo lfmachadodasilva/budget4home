@@ -25,7 +25,7 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx run b4h-next:serve-static',
+    command: 'yarn nx run b4h-next:serve-static',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot

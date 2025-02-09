@@ -53,15 +53,15 @@ export default defineConfig({
     watch: false,
     globals: true,
     environment: 'node',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
 
-    reporters: ['json', 'jest-junit', 'junit'],
-    outputFile: {
-      junit: '../../coverage/libs/firestore/junit.xml'
-    },
-    coverage: {
-      reportsDirectory: '../../coverage/libs/firestore',
-      provider: 'v8'
-    }
+    // reporters: ['json', 'jest-junit', 'junit'],
+    // outputFile: {
+    //   junit: '../../coverage/libs/firestore/junit.xml'
+    // },
+    // coverage: {
+    //   reportsDirectory: '../../coverage/libs/firestore',
+    //   provider: 'v8'
+    // }
   }
 });

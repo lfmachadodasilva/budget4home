@@ -13,6 +13,7 @@ export const BASE_URL =
 
 console.log('BASE_URL', {
   BASE_URL,
+  nodeEnv: process.env['NODE_ENV'],
   vercelEnv: process.env['VERCEL_ENV'],
   vercelProdUrl: process.env['VERCEL_PROJECT_PRODUCTION_URL'],
   nextPublicApiUrl: process.env['NEXT_PUBLIC_API_URL'],

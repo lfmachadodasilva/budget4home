@@ -5,40 +5,37 @@ env:
 on: push
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 22
-  #         cache: 'yarn'
-  #     - name: install dependencies 📦
-  #       run: yarn install
-  #     - name: pretiter 💅
-  #       run: yarn prettier:check
-  #     - name: lint 🕵️‍♂️
-  #       run: yarn lint --skip-nx-cache
-  #     - name: build 🏗️
-  #       run: yarn build --skip-nx-cache
-  #     # - name: test ✅
-  #     #   run: yarn test:integration
-  #     # - name: Get installed Playwright version
-  #     #   id: playwright-version
-  #     #   run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
-  #     # - name: Cache playwright binaries
-  #     #   uses: actions/cache@v3
-  #     #   id: playwright-cache
-  #     #   with:
-  #     #     path: |
-  #     #       ~/.cache/ms-playwright
-  #     #     key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-  #     # - run: npx playwright install --with-deps
-  #     #   if: steps.playwright-cache.outputs.cache-hit != 'true'
-  #     # - run: npx playwright install-deps
-  #     #   if: steps.playwright-cache.outputs.cache-hit != 'true'
-  #     # - name: ui test ✅
-  #     #   run: yarn playwright install --with-deps && yarn nx e2e b4h-next-e2e --skip-nx-cache
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+      - name: install dependencies 📦
+        run: yarn install
+      - name: pretiter 💅
+        run: yarn prettier:check
+      - name: lint 🕵️‍♂️
+        run: yarn lint
+      - name: build 🏗️
+        run: yarn build
+      - name: test ✅
+        run: yarn test:integration
+      # - name: Cache Playwright browsers
+      #   uses: actions/cache@v4
+      #   id: playwright-cache
+      #   with:
+      #     path: ~/.cache/ms-playwright
+      #     key: playwright-${{ runner.os }}
+      #     restore-keys: |
+      #       playwright-${{ runner.os }}
+      - name: Install playwright deps
+        # if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+      - name: ui test ✅
+        run: yarn test:ui
   #     - name: Upload test results to Codecov 📊
   #       uses: codecov/test-results-action@v1
   #       with:
@@ -46,7 +43,7 @@ jobs:
   #         files: './coverage/libs/models/coverage-final.json,.coverage/libs/models/junit.xml,./coverage/libs/firestore/junit.xml,.coverage/libs/firestore/clover.xml,./coverage/libs/firestore/coverage-final.json,./coverage/apps/b4h-next/coverage-final.json,./coverage/apps/b4h-next/junit.json'
   preview:
     runs-on: ubuntu-latest
-    # needs: build
+    needs: build
     if: github.ref != 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
@@ -64,7 +61,7 @@ jobs:
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
   production:
     runs-on: ubuntu-latest
-    # needs: build
+    needs: build
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4

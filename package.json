@@ -13,7 +13,8 @@
     "prettier:fix": "prettier . --write",
     "build:prod:next": "yarn nx build b4h-next --prod",
     "start:emulator": "firebase emulators:start --only firestore",
-    "test:integration": "firebase emulators:exec --only firestore 'nx run-many -t test --coverage'",
+    "test:integration": "firebase emulators:exec --only firestore 'nx run-many -t test'",
+    "test:ui": "yarn nx e2e b4h-next-e2e",
     "prepare": "husky",
     "all": "yarn prettier:check && yarn lint && yarn build && yarn test:integration"
   },
@@ -85,7 +86,7 @@
     "jest-junit": "^16.0.0",
     "jsdom": "~26.0.0",
     "nx": "20.4.2",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.0",
     "sass": "1.84.0",
     "ts-jest": "^29.2.5",
     "ts-node": "10.9.2",
