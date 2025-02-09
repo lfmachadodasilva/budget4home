@@ -4,7 +4,7 @@ function ensureHttps(url: string): string {
 }
 export const BASE_URL =
   process.env['VERCEL_ENV'] === 'production'
-    ? ensureHttps(process.env['VERCEL_PROJECT_PRODUCTION_URL'] as string) // use production url
+    ? ensureHttps(process.env['NEXT_PUBLIC_API_URL'] as string) // use production url
     : process.env['VERCEL_ENV'] === 'development'
       ? ensureHttps(process.env['NEXT_PUBLIC_API_URL'] as string) // use developer url
       : process.env['VERCEL_ENV'] === 'preview'
