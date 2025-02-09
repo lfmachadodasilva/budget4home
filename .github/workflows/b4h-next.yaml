@@ -18,9 +18,9 @@ jobs:
       - name: pretiter 💅
         run: yarn prettier:check
       - name: lint 🕵️‍♂️
-        run: yarn lint --skip-nx-cache
+        run: yarn lint
       - name: build 🏗️
-        run: yarn build --skip-nx-cache
+        run: yarn build
       - name: test ✅
         run: yarn test:integration
   #     # - name: Get installed Playwright version

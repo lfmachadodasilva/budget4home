@@ -77,5 +77,5 @@
       }
     }
   },
-  "nxCloudId": "67a460ffedf5660674ef019e"
+  "neverConnectToCloud": true
 }

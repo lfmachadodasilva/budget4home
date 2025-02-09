@@ -1,4 +1,4 @@
 yarn prettier:check
 yarn lint
 yarn build
-# yarn test:integration
+yarn test:integration
