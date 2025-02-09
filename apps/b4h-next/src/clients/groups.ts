@@ -13,6 +13,7 @@ export const fetchGroups = async (): Promise<GroupModel[] | null> => {
     headers: {
       session: session
     },
+    cache: 'force-cache',
     next: {
       revalidate: FETCH_REVALIDATE_TIME,
       tags: [FETCH_GROUPS]

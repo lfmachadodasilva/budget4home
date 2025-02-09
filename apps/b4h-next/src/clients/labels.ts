@@ -13,6 +13,7 @@ export const fetchLabels = async (groupId: string): Promise<LabelModel[] | null>
     headers: {
       session: session
     },
+    cache: 'force-cache',
     next: {
       revalidate: FETCH_REVALIDATE_TIME,
       tags: [FETCH_LABELS]

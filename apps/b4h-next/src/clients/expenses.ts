@@ -27,6 +27,7 @@ export const fetchExpenses = async (
     headers: {
       session: session
     },
+    cache: 'force-cache',
     next: {
       revalidate: FETCH_REVALIDATE_TIME,
       tags: [FETCH_EXPENSES(getDateFromQuery(year, month))]
