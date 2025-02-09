@@ -1,6 +1,6 @@
 function ensureHttps(url: string): string {
   const https = 'https://';
-  return url.startsWith(https) ? url : https + url;
+  return url?.startsWith(https) ? url : https + url;
 }
 export const BASE_URL =
   process.env['VERCEL_ENV'] === 'production'
