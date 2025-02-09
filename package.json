@@ -14,6 +14,7 @@
     "build:prod:next": "yarn nx build b4h-next --prod",
     "start:emulator": "firebase emulators:start --only firestore",
     "test:integration": "firebase emulators:exec --only firestore 'nx run-many -t test'",
+    "test:ui": "yarn nx e2e b4h-next-e2e",
     "prepare": "husky",
     "all": "yarn prettier:check && yarn lint && yarn build && yarn test:integration"
   },
