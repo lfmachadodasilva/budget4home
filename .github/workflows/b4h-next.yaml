@@ -5,24 +5,24 @@ env:
 on: push
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 22
-  #         cache: 'yarn'
-  #     - name: install dependencies 📦
-  #       run: yarn install
-  #     - name: pretiter 💅
-  #       run: yarn prettier:check
-  #     - name: lint 🕵️‍♂️
-  #       run: yarn lint --skip-nx-cache
-  #     - name: build 🏗️
-  #       run: yarn build --skip-nx-cache
-  #     # - name: test ✅
-  #     #   run: yarn test:integration
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+      - name: install dependencies 📦
+        run: yarn install
+      - name: pretiter 💅
+        run: yarn prettier:check
+      - name: lint 🕵️‍♂️
+        run: yarn lint --skip-nx-cache
+      - name: build 🏗️
+        run: yarn build --skip-nx-cache
+      - name: test ✅
+        run: yarn test:integration
   #     # - name: Get installed Playwright version
   #     #   id: playwright-version
   #     #   run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
