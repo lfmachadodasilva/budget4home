@@ -14,10 +14,8 @@ describe('addGroupFirestore', () => {
     expect(value?.id).toBeDefined();
     expect(value?.name).toBe(TEST_GROUP_NAME);
     expect(value?.userIds).toStrictEqual([TEST_USER_ID]);
-
     expect(isSameDay(value?.createdAt as Date, new Date())).toBeTruthy();
     expect(isSameDay(value?.updatedAt as Date, new Date())).toBeTruthy();
-
     expect(value?.createdBy).toBe(TEST_USER_ID);
     expect(value?.updatedBy).toBe(TEST_USER_ID);
   });
