@@ -7,6 +7,7 @@ import { B4hExpenseSummary } from './index';
 const localStorageMock = {
   getItem: jest.fn().mockImplementation(() => 'true')
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 global.localStorage = localStorageMock as any;
 
 describe('B4hExpenseSummary', () => {

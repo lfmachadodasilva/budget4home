@@ -18,9 +18,9 @@ jobs:
       - name: pretiter 💅
         run: yarn prettier:check
       - name: lint 🕵️‍♂️
-        run: yarn lint
+        run: yarn lint --skip-nx-cache
       - name: build 🏗️
-        run: yarn build
+        run: yarn build --skip-nx-cache
       # - name: test ✅
       #   run: yarn test:integration
       - name: ui test ✅

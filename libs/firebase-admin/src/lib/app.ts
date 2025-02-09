@@ -44,6 +44,7 @@ export const getFirebaseAdminApp = (): App => {
           messagingSenderId: firebaseMessagingSenderId,
           appId: firebaseAppId,
           measurementId: firebaseMeasurementId
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
   return firebaseAdminApp;
 };
