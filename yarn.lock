@@ -1675,7 +1675,7 @@ __metadata:
     firebase: "npm:^11.3.1"
     firebase-admin: "npm:^13.1.0"
     firebase-tools: "npm:^13.30.0"
-    framer-motion: "npm:^12.4.1"
+    framer-motion: "npm:^12.4.3"
     husky: "npm:^9.1.7"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
@@ -12409,9 +12409,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@npm:^12.4.1":
-  version: 12.4.1
-  resolution: "framer-motion@npm:12.4.1"
+"framer-motion@npm:^12.4.3":
+  version: 12.4.3
+  resolution: "framer-motion@npm:12.4.3"
   dependencies:
     motion-dom: "npm:^12.0.0"
     motion-utils: "npm:^12.0.0"
@@ -12427,7 +12427,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 10c0/8d1f521f836d475330b1f9b9073d366f4aa7fcf15b7e697309847fdeeedc65928eff844aa6887ecc908451521934dec73726d8bf6c3895c4e58a88997df9f448
+  checksum: 10c0/4f6a4c859c5cc96c234ac6c43ede0ef7a3472f9449fad72dd9fa518b30779b17ee785ab5ca20e626a303d7a0b9b4709bd9a12125381b948e6246b5b94fef87f2
   languageName: node
   linkType: hard
 
