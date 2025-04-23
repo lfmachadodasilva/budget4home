@@ -1683,7 +1683,7 @@ __metadata:
     eslint-plugin-react: "npm:7.37.5"
     eslint-plugin-react-hooks: "npm:5.2.0"
     firebase: "npm:^11.6.0"
-    firebase-admin: "npm:^13.2.0"
+    firebase-admin: "npm:^13.3.0"
     firebase-tools: "npm:^14.2.0"
     framer-motion: "npm:^12.7.4"
     husky: "npm:^9.1.7"
@@ -12743,9 +12743,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-admin@npm:^13.2.0":
-  version: 13.2.0
-  resolution: "firebase-admin@npm:13.2.0"
+"firebase-admin@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "firebase-admin@npm:13.3.0"
   dependencies:
     "@fastify/busboy": "npm:^3.0.0"
     "@firebase/database-compat": "npm:^2.0.0"
@@ -12764,7 +12764,7 @@ __metadata:
       optional: true
     "@google-cloud/storage":
       optional: true
-  checksum: 10c0/92417d5686b55bdc1e447649c155e8e6e7ed2e0088b14465a33f2440125b3ee5fbee651688af5d0c52c4c805979398ba81070574da4556d5d6d1002e52b9a083
+  checksum: 10c0/eb5c82ab8d8d033cf4f77198159c3f8037127ded60a2e4146bd6f38e093c2dd9604eb830d794fc70f35b2fe03bf69e106b02638a76abb1251a3bf89cb441cd27
   languageName: node
   linkType: hard
 
