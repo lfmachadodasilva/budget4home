@@ -10,7 +10,6 @@ import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
 import { ExpenseModel } from '@b4h/models';
 import { ListBulletIcon, PlusIcon } from '@radix-ui/react-icons';
-import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { B4hExpensesByChart } from './expenses/(components)/byChart';
 import { B4hExpenseSummary } from './expenses/(components)/summary';
@@ -58,7 +57,7 @@ const GroupExpenseSummary = async () => {
   }
 
   return (
-    <AnimatePresence>
+    <>
       <p>summary of your ⭐️ group</p>
       {expenses && (
         <B4hFade key="GroupExpenseSummary">
@@ -70,7 +69,7 @@ const GroupExpenseSummary = async () => {
           <B4hExpensesByChart expenseByLabel={byLabel} />
         </B4hFade>
       )}
-    </AnimatePresence>
+    </>
   );
 };
 
