@@ -1,4 +1,4 @@
-import { ExpenseModel, LabelModel } from '@b4h/models';
+import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { format } from 'date-fns';
 import { isEmpty, isNull, omitBy, sumBy } from 'lodash';
 import { DATE_FORMAT } from './constants';
@@ -57,6 +57,28 @@ export const formatValue = (
     return '****';
   }
   return (value / 100).toFixed(2).replace(/[.,]00$/, '');
+};
+
+export const formatValues = (
+  expenses: ExpenseModel[],
+  showValue: boolean | null | undefined = null
+): string => {
+  if (showValue === true) {
+    return '****';
+  }
+  const inconing = sumBy(
+    expenses.filter(expense => expense.type === ExpenseType.incoming),
+    ex => ex.value
+  );
+  const outcoming = sumBy(
+    expenses.filter(expense => expense.type === ExpenseType.outcoming),
+    ex => ex.value
+  );
+
+  const resultIncoming = inconing > 0 ? `+${formatValue(inconing)} ` : '';
+  const resultOutcoming = outcoming > 0 ? `-${formatValue(outcoming)} ` : '0';
+
+  return `${resultIncoming}${resultOutcoming}`.trim();
 };
 
 export const getDateFromQuery = (year?: string | null, month?: string | null): Date => {

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev": "yarn nx dev b4h-next --turbopack",
     "nx": "nx",
     "nx:graph": "nx graph",
     "start": "nx run-many -t dev",

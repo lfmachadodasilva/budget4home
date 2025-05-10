@@ -2,10 +2,10 @@ import { B4hButton } from '@/components/ui/button/button';
 import { B4hFade } from '@/components/ui/fade';
 import { B4hItem } from '@/components/ui/item/item';
 import { ACTION_DONE, ACTION_SUBMIT, ANIMATION_DELAY } from '@/utils/constants';
-import { expensesByDate, formatValue } from '@/utils/expenses';
+import { expensesByDate, formatValue, formatValues } from '@/utils/expenses';
 import { labelsById } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
-import { ExpenseModel, LabelModel } from '@b4h/models';
+import { ExpenseModel, ExpenseType, LabelModel } from '@b4h/models';
 import { useRouter } from 'next/navigation';
 import { startTransition, useActionState, useEffect, useState } from 'react';
 import { onSubmitAllAction } from './action';
@@ -52,7 +52,7 @@ export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) 
           <B4hFade key={key + 'animation'} delay={item++ * ANIMATION_DELAY}>
             <B4hItem.GroupTitle>
               <p>{key}</p>
-              <p>{formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}</p>
+              <p>{formatValues(expenses)}</p>
             </B4hItem.GroupTitle>
           </B4hFade>
 
@@ -63,7 +63,10 @@ export const B4hExpensePreview = ({ expenses, labels }: B4hExpensePreviewProps) 
                   <p>
                     {labelById[expense.label]?.icon} {expense.name}
                   </p>
-                  <p>{formatValue(expense.value)}</p>
+                  <p>
+                    {expense.type === ExpenseType.incoming ? '+' : '-'}
+                    {formatValue(expense.value)}
+                  </p>
                 </B4hItem.Item>
               </B4hFade>
             ))}

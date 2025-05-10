@@ -9,11 +9,13 @@ import {
   expenseQueryParams,
   expensesByDate,
   expensesByLabel,
-  formatValue
+  formatValue,
+  formatValues
 } from '@/utils/expenses';
 import { labelsById } from '@/utils/label';
 import { B4hRoutes } from '@/utils/routes';
 import { b4hSession } from '@/utils/session';
+import { ExpenseType } from '@b4h/models';
 import Link from 'next/link';
 import { B4hExpensesByChart } from './byChart';
 import { B4hExpenseSummary } from './summary';
@@ -51,9 +53,7 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
             <B4hFade key={key + 'animation'} delay={item++ * ANIMATION_DELAY}>
               <B4hItem.GroupTitle>
                 <p data-testid="expense-group-header-key">{key}</p>
-                <p data-testid="expense-group-header-value">
-                  {formatValue(expenses.reduce((acc, expense) => acc + expense.value, 0))}
-                </p>
+                <p data-testid="expense-group-header-value">{formatValues(expenses ?? [])}</p>
               </B4hItem.GroupTitle>
             </B4hFade>
 
@@ -73,7 +73,10 @@ export const B4hExpensesItems = async (props: B4hExpenseHeaderType) => {
                         )}
                       </p>
 
-                      <p data-testid={`${expense.id}-value`}>{formatValue(expense.value)}</p>
+                      <p data-testid={`${expense.id}-value`}>
+                        {expense.type === ExpenseType.incoming ? '+' : '-'}
+                        {formatValue(expense.value)}
+                      </p>
                     </B4hItem.Item>
                   </Link>
                 </B4hFade>
