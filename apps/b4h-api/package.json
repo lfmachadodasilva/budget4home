@@ -1,0 +1,73 @@
+{
+  "name": "@budget4home/b4h-api",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "b4h-api",
+    "targets": {
+      "build": {
+        "executor": "@nx/esbuild:esbuild",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "defaultConfiguration": "production",
+        "options": {
+          "platform": "node",
+          "outputPath": "apps/b4h-api/dist",
+          "format": [
+            "cjs"
+          ],
+          "bundle": false,
+          "main": "apps/b4h-api/src/main.ts",
+          "tsConfig": "apps/b4h-api/tsconfig.app.json",
+          "assets": [
+            "apps/b4h-api/src/assets"
+          ],
+          "esbuildOptions": {
+            "sourcemap": true,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        },
+        "configurations": {
+          "development": {},
+          "production": {
+            "generateLockfile": true,
+            "esbuildOptions": {
+              "sourcemap": false,
+              "outExtension": {
+                ".js": ".js"
+              }
+            }
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "b4h-api:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "b4h-api:build:development"
+          },
+          "production": {
+            "buildTarget": "b4h-api:build:production"
+          }
+        }
+      },
+      "test": {
+        "options": {
+          "passWithNoTests": true
+        }
+      }
+    }
+  }
+}
