@@ -8,7 +8,7 @@ services:
   #     MONGO_INITDB_ROOT_USERNAME: root
   #     MONGO_INITDB_ROOT_PASSWORD: example
 
-  budget4home:
+  app:
     build:
       # context: .
       dockerfile: ./Dockerfile
@@ -16,8 +16,7 @@ services:
     restart: on-failure
     environment:
       - MONGO_URI=mongodb://mongo:27017
-      - MONGO_DB=budget4home
     ports:
-      - "5217:8080"
+      - "4000:8080"
     # depends_on:
     #   - mongo
