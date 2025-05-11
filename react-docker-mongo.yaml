@@ -1,0 +1,25 @@
+services:
+  # mongo:
+  #   image: mongo
+  #   restart: on-failure
+  #   ports:
+  #     - 27017:27017
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: example
+
+  budget4home:
+    build:
+      context: .
+      dockerfile: ./dotnet/Dockerfile
+    # container_name: app
+    restart: on-failure
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+      - MONGO_DB=budget4home
+    ports:
+      - "5217:8080"
+    # depends_on:
+    #   - mongo
+    # networks:
+    #   - my-network
