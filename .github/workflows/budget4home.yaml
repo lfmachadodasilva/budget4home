@@ -38,8 +38,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ steps.meta.outputs.tags }}
-            lfmachadodasilva/budget4home:latest
+              lfmachadodasilva/budget4home:latest
+              lfmachadodasilva/budget4home:${{ github.run_number }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
