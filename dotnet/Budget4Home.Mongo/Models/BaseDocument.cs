@@ -1,13 +1,20 @@
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Budget4Home.Mongo.Models;
 
 public abstract class BaseDocument
 {
-    public required string Id { get; set; }
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
+    public required ObjectId Id { get; set; }
     public required string Name { get; set; }
     
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
+    [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+    public DateTime CreatedAt { get; set; }
+    [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+    public DateTime UpdatedAt { get; set; }
     
-    public required string CreatedBy { get; set; }
-    public required string UpdatedBy { get; set; }
+    public string CreatedBy { get; set; }
+    public string UpdatedBy { get; set; }
 }
