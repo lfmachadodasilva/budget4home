@@ -28,7 +28,7 @@
     "date-fns": "^4.1.0",
     "emoji-picker-react": "^4.12.2",
     "firebase": "^11.7.1",
-    "firebase-admin": "^13.3.0",
+    "firebase-admin": "^13.4.0",
     "framer-motion": "^12.10.5",
     "lodash": "^4.17.21",
     "next": "15.3.2",
