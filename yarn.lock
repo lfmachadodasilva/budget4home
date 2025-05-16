@@ -1944,7 +1944,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:5.2.0"
     firebase: "npm:^11.7.3"
     firebase-admin: "npm:^13.4.0"
-    firebase-tools: "npm:^14.3.1"
+    firebase-tools: "npm:^14.4.0"
     framer-motion: "npm:^12.11.4"
     husky: "npm:^9.1.7"
     jest: "npm:^29.7.0"
@@ -13422,9 +13422,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-tools@npm:^14.3.1":
-  version: 14.3.1
-  resolution: "firebase-tools@npm:14.3.1"
+"firebase-tools@npm:^14.4.0":
+  version: 14.4.0
+  resolution: "firebase-tools@npm:14.4.0"
   dependencies:
     "@electric-sql/pglite": "npm:^0.2.16"
     "@google-cloud/cloud-sql-connector": "npm:^1.3.3"
@@ -13458,6 +13458,7 @@ __metadata:
     gaxios: "npm:^6.7.0"
     glob: "npm:^10.4.1"
     google-auth-library: "npm:^9.11.0"
+    ignore: "npm:^7.0.4"
     js-yaml: "npm:^3.14.1"
     jsonwebtoken: "npm:^9.0.0"
     leven: "npm:^3.1.0"
@@ -13498,7 +13499,7 @@ __metadata:
     zod-to-json-schema: "npm:^3.24.5"
   bin:
     firebase: lib/bin/firebase.js
-  checksum: 10c0/14760d46ba519d0d66d41d9ab8d45fb2a401ec7c323df9593fd2e8706bb3aa5fd9c1b429aca47e68cda8142f17db1620b7b34b46ddaf362874790c9fc2a59969
+  checksum: 10c0/5aab60c64d34e67729bf4bd36bdf5a2e5bf516b228c1cbaf763b63315f015b08f48084608914efa4868f2e9984ee64924dff363b8446fc80ef3475e44a707e21
   languageName: node
   linkType: hard
 
@@ -14821,7 +14822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^7.0.0":
+"ignore@npm:^7.0.0, ignore@npm:^7.0.4":
   version: 7.0.4
   resolution: "ignore@npm:7.0.4"
   checksum: 10c0/90e1f69ce352b9555caecd9cbfd07abe7626d312a6f90efbbb52c7edca6ea8df065d66303863b30154ab1502afb2da8bc59d5b04e1719a52ef75bbf675c488eb
