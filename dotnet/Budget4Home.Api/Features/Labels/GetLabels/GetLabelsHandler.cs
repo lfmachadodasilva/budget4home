@@ -15,10 +15,8 @@ public class GetLabelsHandler(
     {
         await getGroupHandler.Handle(groupId, cancellationToken);
 
-        var docs = await collection
+        return await collection
             .Find(x => x.GroupId == ObjectId.Parse(groupId))
             .ToListAsync(cancellationToken);
-        
-        return docs;
     }
 }
