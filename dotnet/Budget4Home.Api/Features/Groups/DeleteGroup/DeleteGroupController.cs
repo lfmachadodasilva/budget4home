@@ -6,7 +6,7 @@ namespace Budget4Home.Api.Features.Groups.DeleteGroup;
 
 [ApiController]
 [Route("api/groups/{groupId}")]
-[Tags("expenses")]
+[Tags("groups")]
 [Produces("application/json")]
 public class DeleteGroupController(DeleteGroupHandler handler) : ControllerBase
 {
