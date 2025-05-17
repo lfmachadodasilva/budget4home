@@ -6,7 +6,10 @@ using MongoDB.Driver;
 namespace Budget4Home.Api.Features.Groups.AddGroup;
 
 [AutoRegister(typeof(AddGroupHandler), Scope = ServiceScope.Scoped)]
-public class AddGroupHandler(AuthContext authContext, IMongoCollection<GroupDocument> collection)
+public class AddGroupHandler(
+    AuthContext authContext,
+    IMongoCollection<GroupDocument> collection,
+    ILogger<AddGroupHandler> logger)
 {
     public async Task<GroupDocument> Handle(
         AddGroupRequest request,
@@ -16,6 +19,8 @@ public class AddGroupHandler(AuthContext authContext, IMongoCollection<GroupDocu
         doc.Create(authContext.UserId);
         
         await collection.InsertOneAsync(doc, new InsertOneOptions(), cancellationToken);
+        
+        logger.LogInformation("Added group {ObjectId}.", doc.Id.ToString());
         
         return doc;
     }
