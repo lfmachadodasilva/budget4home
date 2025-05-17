@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Budget4Home.Api.Attributes;
 using Budget4Home.Mongo.Models;
 using MongoDB.Bson;
 
