@@ -18,12 +18,6 @@ public class GetGroupController(GetGroupHandler handler) : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await handler.Handle(groupId, cancellationToken);
-
-        if (result is null)
-        {
-            return NotFound();
-        }
-        
         return Ok(new GetGroupResponse { Group = new GroupResponse(result) });
     }
 }

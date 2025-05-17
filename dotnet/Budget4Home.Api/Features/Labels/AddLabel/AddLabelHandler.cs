@@ -17,11 +17,7 @@ public class AddLabelHandler(
         AddLabelRequest request,
         CancellationToken cancellationToken)
     {
-        var group = await getGroupHandler.Handle(request.GroupId, cancellationToken);
-        if (group is null)
-        {
-            return null;
-        }
+        await getGroupHandler.Handle(request.GroupId, cancellationToken);
         
         var doc = request.ToDocument();
         doc.Create(authContext.UserId);

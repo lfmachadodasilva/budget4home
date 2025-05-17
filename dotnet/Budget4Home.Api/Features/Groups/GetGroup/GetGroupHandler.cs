@@ -1,5 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
+using Budget4Home.Api.Configuration.Exceptions;
 using Budget4Home.Mongo.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -15,5 +16,5 @@ public class GetGroupHandler(
         string groupId,
         CancellationToken cancellationToken) => await groupCollection
             .Find(x => x.Id == ObjectId.Parse(groupId) && x.UserIds.Contains(ObjectId.Parse(authContext.UserId)))
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException($"Group {groupId} not found.");
 }

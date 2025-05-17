@@ -37,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 var options = new DefaultFilesOptions();
 options.DefaultFileNames.Clear();
