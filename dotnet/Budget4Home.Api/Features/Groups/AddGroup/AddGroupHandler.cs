@@ -1,9 +1,11 @@
+using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Mongo.Models;
 using MongoDB.Driver;
 
 namespace Budget4Home.Api.Features.Groups.AddGroup;
 
+[AutoRegister(typeof(AddGroupHandler), Scope = ServiceScope.Scoped)]
 public class AddGroupHandler(AuthContext authContext, IMongoCollection<GroupDocument> collection)
 {
     public async Task<GroupDocument> Handle(

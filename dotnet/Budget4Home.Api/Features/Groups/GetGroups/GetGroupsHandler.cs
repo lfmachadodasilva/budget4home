@@ -1,3 +1,4 @@
+using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Mongo.Models;
 using MongoDB.Bson;
@@ -5,6 +6,7 @@ using MongoDB.Driver;
 
 namespace Budget4Home.Api.Features.Groups.GetGroups;
 
+[AutoRegister(typeof(GetGroupsHandler), Scope = ServiceScope.Scoped)]
 public class GetGroupsHandler(
     AuthContext authContext,
     IMongoCollection<GroupDocument> collection)
