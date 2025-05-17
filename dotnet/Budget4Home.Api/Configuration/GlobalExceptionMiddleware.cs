@@ -44,6 +44,7 @@ public class GlobalExceptionMiddleware(RequestDelegate next)
         return exception switch
         {
             NotFoundException => StatusCodes.Status404NotFound,
+            InvalidOperationException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
     }

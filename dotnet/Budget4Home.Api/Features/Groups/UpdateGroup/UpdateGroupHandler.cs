@@ -1,5 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
+using Budget4Home.Api.Configuration.Exceptions;
 using Budget4Home.Api.Features.Groups.AddGroup;
 using Budget4Home.Mongo.Models;
 using MongoDB.Bson;
@@ -14,6 +15,7 @@ public class UpdateGroupHandler(
     ILogger<AddGroupHandler> logger)
 {
     public async Task<GroupDocument> Handle(
+        string groupId,
         UpdateGroupRequest request,
         CancellationToken cancellationToken)
     {
@@ -21,7 +23,7 @@ public class UpdateGroupHandler(
         doc.Update(authContext.UserId);
         
         var filter = Builders<GroupDocument>.Filter.And(
-            Builders<GroupDocument>.Filter.Eq(x => x.Id, ObjectId.Parse(request.Id)),
+            Builders<GroupDocument>.Filter.Eq(x => x.Id, ObjectId.Parse(groupId)),
             Builders<GroupDocument>.Filter.AnyEq(x => x.UserIds, ObjectId.Parse(authContext.UserId))
         );
         var update = Builders<GroupDocument>.Update
@@ -31,13 +33,12 @@ public class UpdateGroupHandler(
             .Set(x => x.UpdatedAt, doc.UpdatedAt);
 
         var result = await collection.UpdateOneAsync(filter, update, new UpdateOptions(), cancellationToken);
-        if (result.ModifiedCount == 0)
+        if (result.IsAcknowledged && result.ModifiedCount == 1)
         {
-            throw new InvalidOperationException($"Group with ID {request.Id} not found or you do not have permission to update it.");
+            logger.LogInformation("Updated label {ObjectId}.", doc.Id.ToString());
+            return doc;
         }
         
-        logger.LogInformation("Updated group {ObjectId}.", doc.Id.ToString());
-        
-        return doc;
+        throw new NotFoundException($"Group with id {groupId} not found.");
     }
 }
