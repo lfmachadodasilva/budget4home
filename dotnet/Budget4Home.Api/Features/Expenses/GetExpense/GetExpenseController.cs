@@ -20,7 +20,7 @@ public class GetExpenseController(IMongoCollection<ExpenseDocument> expenseColle
         [FromRoute, Budget4HomeId] string expenseId)
     {
         var result = await expenseCollection
-            .Find(x => x.GroupId == groupId && x.Id == ObjectId.Parse(expenseId))
+            .Find(x => x.GroupId == ObjectId.Parse(groupId) && x.Id == ObjectId.Parse(expenseId))
             .FirstOrDefaultAsync();
 
         if (result is null)

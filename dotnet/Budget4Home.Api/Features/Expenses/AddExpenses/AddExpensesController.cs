@@ -1,7 +1,9 @@
 using Budget4Home.Api.Attributes;
+using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Models;
 using Budget4Home.Mongo.Models;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -10,7 +12,9 @@ namespace Budget4Home.Api.Features.Expenses.AddExpenses;
 [ApiController]
 [Tags("expenses")]
 [Produces("application/json")]
-public class AddExpensesController(IMongoCollection<ExpenseDocument> expenseCollection) : ControllerBase
+public class AddExpensesController(
+    IMongoCollection<ExpenseDocument> expenseCollection,
+    AuthContext authContext) : ControllerBase
 {
     [SwaggerOperation(
         Summary = "Add expenses",
@@ -27,7 +31,9 @@ public class AddExpensesController(IMongoCollection<ExpenseDocument> expenseColl
                 var doc = x.ToDocument();
                 doc.CreatedAt = DateTime.UtcNow;
                 doc.UpdatedAt = DateTime.UtcNow;
-                doc.GroupId = groupId;
+                doc.GroupId = ObjectId.Parse(groupId);
+                doc.CreatedBy = authContext.UserId;
+                doc.UpdatedBy = authContext.UserId;
                 return doc;
             })
             .ToList();

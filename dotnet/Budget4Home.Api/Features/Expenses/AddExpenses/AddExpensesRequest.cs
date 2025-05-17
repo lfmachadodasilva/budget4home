@@ -29,6 +29,6 @@ public class AddExpenseRequest
         Name = Name,
         Amount = Amount,
         Date = Date,
-        LabelId = LabelId
+        LabelId = ObjectId.Parse(LabelId)
     };
 }

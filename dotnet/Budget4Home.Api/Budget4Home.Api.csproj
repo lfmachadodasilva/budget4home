@@ -15,8 +15,4 @@
       <ProjectReference Include="..\Budget4Home.Mongo\Budget4Home.Mongo.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Setup\" />
-    </ItemGroup>
-
 </Project>

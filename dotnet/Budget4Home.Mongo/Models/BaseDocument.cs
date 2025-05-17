@@ -6,7 +6,6 @@ namespace Budget4Home.Mongo.Models;
 public abstract class BaseDocument
 {
     [BsonId]
-    [BsonRepresentation(BsonType.String)]
     public required ObjectId Id { get; set; }
     public required string Name { get; set; }
     

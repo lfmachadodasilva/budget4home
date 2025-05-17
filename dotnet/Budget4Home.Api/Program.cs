@@ -1,3 +1,4 @@
+using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Mongo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 var mongoSettings = builder.Configuration.GetSection("Mongo").Get<MongoSettings>();
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<AuthActionFilter>();
+});
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -17,6 +21,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddMongoDb(mongoSettings);
+builder.Services.AddScoped<AuthContext>();
 
 var app = builder.Build();
 
