@@ -9,9 +9,7 @@ namespace Budget4Home.Api.Features.Groups.GetGroup;
 [Route("api/groups/{groupId}")]
 [Tags("groups")]
 [Produces("application/json")]
-public class GetGroupController(
-    GetGroupHandler handler,
-    AuthContext authContext) : ControllerBase
+public class GetGroupController(GetGroupHandler handler) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(typeof(GetGroupResponse), StatusCodes.Status200OK)]

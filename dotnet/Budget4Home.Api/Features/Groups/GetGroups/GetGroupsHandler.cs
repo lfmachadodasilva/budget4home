@@ -1,6 +1,18 @@
+using Budget4Home.Api.Configuration.Auth;
+using Budget4Home.Mongo.Models;
+using MongoDB.Bson;
+using MongoDB.Driver;
+
 namespace Budget4Home.Api.Features.Groups.GetGroups;
 
-public class GetGroupsHandler
+public class GetGroupsHandler(
+    AuthContext authContext,
+    IMongoCollection<GroupDocument> collection)
 {
-    
+    public async Task<ICollection<GroupDocument>> Handle(CancellationToken cancellationToken)
+    {
+        var filter = Builders<GroupDocument>.Filter.AnyEq(x => x.UserIds, ObjectId.Parse(authContext.UserId));
+        var groups = await collection.Find(filter).ToListAsync(cancellationToken);
+        return groups;
+    }
 }
