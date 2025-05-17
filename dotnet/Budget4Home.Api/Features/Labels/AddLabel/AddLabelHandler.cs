@@ -20,7 +20,7 @@ public class AddLabelHandler(
     {
         await getGroupHandler.Handle(groupId, cancellationToken);
         
-        var doc = request.ToDocument(groupId);
+        var doc = request.ToDocument(id: null, groupId: groupId);
         doc.Create(authContext.UserId);
         
         await collection.InsertOneAsync(doc, new InsertOneOptions(), cancellationToken);

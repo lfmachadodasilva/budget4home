@@ -23,7 +23,7 @@ public class UpdateLabelHandler(
     {
         await getGroupHandler.Handle(groupId, cancellationToken);
         
-        var doc = request.ToDocument(groupId);
+        var doc = request.ToDocument(id: labelId, groupId: groupId);
         doc.Update(authContext.UserId);
         
         var filter = Builders<LabelDocument>.Filter.And(

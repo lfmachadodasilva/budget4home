@@ -10,9 +10,9 @@ public class AddLabelRequest
     public string Name { get; set; }
     public string Icon { get; set; }
 
-    public LabelDocument ToDocument(string groupId) => new()
+    public LabelDocument ToDocument(string id, string groupId) => new()
     {
-        Id = ObjectId.GenerateNewId(),
+        Id = string.IsNullOrEmpty(id) ? ObjectId.GenerateNewId() : ObjectId.Parse(id),
         Name = Name,
         Icon = Icon,
         GroupId = ObjectId.Parse(groupId),

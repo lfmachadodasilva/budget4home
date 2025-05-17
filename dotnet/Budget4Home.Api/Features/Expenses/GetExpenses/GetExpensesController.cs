@@ -1,9 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models;
-using Budget4Home.Mongo.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Budget4Home.Api.Features.Expenses.GetExpenses;
 
@@ -11,15 +8,17 @@ namespace Budget4Home.Api.Features.Expenses.GetExpenses;
 [Route("api/groups/{groupId}/expenses")]
 [Tags("expenses")]
 [Produces("application/json")]
-public class GetExpensesController(IMongoCollection<ExpenseDocument> expenseCollection) : ControllerBase
+public class GetExpensesController(
+    GetExpensesHandler handler) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(typeof(GetExpensesResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetExpensesAsync([FromRoute, Budget4HomeId] string groupId)
+    public async Task<IActionResult> GetExpensesAsync(
+        [FromRoute, Budget4HomeId] string groupId,
+        [FromQuery] DateTime? from = null,
+        [FromQuery] DateTime? to = null)
     {
-        var result = await expenseCollection
-            .Find(x => x.GroupId == ObjectId.Parse(groupId))
-            .ToListAsync();
+        var result = await handler.RunAsync(groupId, from, to);
         return Ok(new GetExpensesResponse
         {
             Expenses = new List<ExpenseResponse>(result.Select(x => new ExpenseResponse(x)))

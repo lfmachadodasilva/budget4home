@@ -22,13 +22,14 @@ public class AddExpenseRequest
     [Budget4HomeId]
     public string LabelId { get; set; }
 
-    public ExpenseDocument ToDocument() => new()
+    public ExpenseDocument ToDocument(string id, string groupId) => new()
     {
-        Id = ObjectId.GenerateNewId(),
+        Id = string.IsNullOrEmpty(id) ? ObjectId.GenerateNewId() : ObjectId.Parse(id),
         Type = Type,
         Name = Name,
         Amount = Amount,
         Date = Date,
-        LabelId = ObjectId.Parse(LabelId)
+        LabelId = ObjectId.Parse(LabelId),
+        GroupId = ObjectId.Parse(groupId)
     };
 }

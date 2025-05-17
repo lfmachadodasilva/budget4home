@@ -12,9 +12,9 @@ public class AddGroupRequest
     [Required, Budget4HomeIds]
     public ICollection<string> UserIds { get; set; }
 
-    public GroupDocument ToDocument() => new()
+    public GroupDocument ToDocument(string id = null) => new()
     {
-        Id = ObjectId.GenerateNewId(),
+        Id = string.IsNullOrEmpty(id) ? ObjectId.GenerateNewId() : ObjectId.Parse(id),
         Name = Name,
         UserIds = UserIds.Select(ObjectId.Parse).ToList()
     };
