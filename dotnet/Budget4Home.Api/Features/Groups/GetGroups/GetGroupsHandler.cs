@@ -9,10 +9,7 @@ public class GetGroupsHandler(
     AuthContext authContext,
     IMongoCollection<GroupDocument> collection)
 {
-    public async Task<ICollection<GroupDocument>> Handle(CancellationToken cancellationToken)
-    {
-        var filter = Builders<GroupDocument>.Filter.AnyEq(x => x.UserIds, ObjectId.Parse(authContext.UserId));
-        var groups = await collection.Find(filter).ToListAsync(cancellationToken);
-        return groups;
-    }
+    public async Task<ICollection<GroupDocument>> Handle(CancellationToken cancellationToken) => await collection
+        .Find(Builders<GroupDocument>.Filter.AnyEq(x => x.UserIds, ObjectId.Parse(authContext.UserId)))
+        .ToListAsync(cancellationToken);
 }
