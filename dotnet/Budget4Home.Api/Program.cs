@@ -1,4 +1,7 @@
 using Budget4Home.Api.Configuration.Auth;
+using Budget4Home.Api.Features.Groups.AddGroup;
+using Budget4Home.Api.Features.Groups.GetGroup;
+using Budget4Home.Api.Features.Groups.GetGroups;
 using Budget4Home.Mongo;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +25,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMongoDb(mongoSettings);
 builder.Services.AddScoped<AuthContext>();
+
+// Group
+builder.Services.AddScoped<AddGroupHandler>();
+builder.Services.AddScoped<GetGroupHandler>();
+builder.Services.AddScoped<GetGroupsHandler>();
 
 var app = builder.Build();
 

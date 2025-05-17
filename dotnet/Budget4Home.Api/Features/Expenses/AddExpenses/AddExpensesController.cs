@@ -32,8 +32,8 @@ public class AddExpensesController(
                 doc.CreatedAt = DateTime.UtcNow;
                 doc.UpdatedAt = DateTime.UtcNow;
                 doc.GroupId = ObjectId.Parse(groupId);
-                doc.CreatedBy = authContext.UserId;
-                doc.UpdatedBy = authContext.UserId;
+                doc.CreatedBy = ObjectId.Parse(authContext.UserId);
+                doc.UpdatedBy = ObjectId.Parse(authContext.UserId);
                 return doc;
             })
             .ToList();

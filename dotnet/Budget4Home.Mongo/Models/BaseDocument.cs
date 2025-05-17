@@ -14,6 +14,19 @@ public abstract class BaseDocument
     [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
     public DateTime UpdatedAt { get; set; }
     
-    public string CreatedBy { get; set; }
-    public string UpdatedBy { get; set; }
+    public ObjectId CreatedBy { get; set; }
+    public ObjectId UpdatedBy { get; set; }
+    
+    public void Create(string userId)
+    {
+        CreatedAt = DateTime.UtcNow;
+        CreatedBy = ObjectId.Parse(userId);
+        Update(userId);
+    }
+
+    public void Update(string userId)
+    {
+        UpdatedAt = DateTime.UtcNow;
+        UpdatedBy = ObjectId.Parse(userId);
+    }
 }
