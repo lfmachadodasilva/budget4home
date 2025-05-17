@@ -10,14 +10,12 @@ public class AddLabelRequest
     [Required, StringLength(100)]
     public string Name { get; set; }
     public string Icon { get; set; }
-    [Required, Budget4HomeId]
-    public string GroupId { get; set; }
 
-    public LabelDocument ToDocument() => new()
+    public LabelDocument ToDocument(string groupId) => new()
     {
         Id = ObjectId.GenerateNewId(),
         Name = Name,
         Icon = Icon,
-        GroupId = ObjectId.Parse(GroupId),
+        GroupId = ObjectId.Parse(groupId),
     };
 }

@@ -14,12 +14,13 @@ public class AddLabelHandler(
     ILogger<AddLabelHandler> logger)
 {
     public async Task<LabelDocument> Handle(
+        string groupId,
         AddLabelRequest request,
         CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(request.GroupId, cancellationToken);
+        await getGroupHandler.Handle(groupId, cancellationToken);
         
-        var doc = request.ToDocument();
+        var doc = request.ToDocument(groupId);
         doc.Create(authContext.UserId);
         
         await collection.InsertOneAsync(doc, new InsertOneOptions(), cancellationToken);
