@@ -19,7 +19,7 @@ public class UpdateExpenseController(UpdateExpenseHandler handler) : ControllerB
         [FromBody] UpdateExpenseRequest request,
         CancellationToken cancellationToken)
     {
-        var result = await handler.RunAsync(groupId, expenseId, request,  cancellationToken);
+        var result = await handler.RunAsync(groupId, expenseId, request, cancellationToken);
         return Ok(new UpdateExpenseResponse { Expense = new ExpenseResponse(result)});
     }
 }
