@@ -1,6 +1,7 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Labels.GetLabels;
 
@@ -10,6 +11,7 @@ namespace Budget4Home.Api.Features.Labels.GetLabels;
 [Produces("application/json")]
 public class GetLabelsController(GetLabelsHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Get labels")]
     [HttpGet]
     [ProducesResponseType(typeof(GetLabelsResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetLabelsAsync(

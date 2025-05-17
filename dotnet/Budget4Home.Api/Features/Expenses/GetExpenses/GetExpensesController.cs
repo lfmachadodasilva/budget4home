@@ -1,6 +1,7 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Expenses.GetExpenses;
 
@@ -11,6 +12,7 @@ namespace Budget4Home.Api.Features.Expenses.GetExpenses;
 public class GetExpensesController(
     GetExpensesHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Get expenses")]
     [HttpGet]
     [ProducesResponseType(typeof(GetExpensesResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpensesAsync(

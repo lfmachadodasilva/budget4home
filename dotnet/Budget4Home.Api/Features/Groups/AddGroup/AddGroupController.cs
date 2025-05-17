@@ -1,5 +1,6 @@
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Groups.AddGroup;
 
@@ -9,6 +10,7 @@ namespace Budget4Home.Api.Features.Groups.AddGroup;
 [Produces("application/json")]
 public class AddGroupController(AddGroupHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Add group")]
     [HttpPost]
     [ProducesResponseType(typeof(AddGroupResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetGroupAsync(

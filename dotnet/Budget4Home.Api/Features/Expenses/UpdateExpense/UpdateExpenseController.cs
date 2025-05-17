@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Expenses.UpdateExpense;
 
@@ -11,6 +12,7 @@ namespace Budget4Home.Api.Features.Expenses.UpdateExpense;
 [Produces("application/json")]
 public class UpdateExpenseController(UpdateExpenseHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Update expense")]
     [HttpPut]
     [ProducesResponseType(typeof(UpdateExpenseResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateExpenseAsync(

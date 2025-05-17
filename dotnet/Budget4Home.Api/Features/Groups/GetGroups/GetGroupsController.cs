@@ -1,5 +1,6 @@
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Groups.GetGroups;
 
@@ -9,6 +10,7 @@ namespace Budget4Home.Api.Features.Groups.GetGroups;
 [Produces("application/json")]
 public class GetGroupsController(GetGroupsHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Get groups")]
     [HttpGet]
     [ProducesResponseType(typeof(GetGroupsResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetGroupsAsync(CancellationToken cancellationToken)

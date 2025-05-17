@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Groups.UpdateGroup;
 
@@ -11,6 +12,7 @@ namespace Budget4Home.Api.Features.Groups.UpdateGroup;
 [Produces("application/json")]
 public class UpdateGroupController(UpdateGroupHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Update group")]
     [HttpPut]
     [ProducesResponseType(typeof(UpdateGroupResponse), StatusCodes.Status201Created)]
     public async Task<IActionResult> GetGroupAsync(

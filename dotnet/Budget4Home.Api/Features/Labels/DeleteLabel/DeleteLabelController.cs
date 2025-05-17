@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Budget4Home.Api.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Labels.DeleteLabel;
 
@@ -9,6 +10,7 @@ namespace Budget4Home.Api.Features.Labels.DeleteLabel;
 [Produces("application/json")]
 public class DeleteLabelController(DeleteLabelHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Delete label")]
     [HttpDelete]
     [Route("api/groups/{groupId}/labels/{labelId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -21,6 +23,7 @@ public class DeleteLabelController(DeleteLabelHandler handler) : ControllerBase
         return Ok();
     }
     
+    [SwaggerOperation(Summary = "Delete labels")]
     [HttpDelete]
     [Route("api/groups/{groupId}/labels")]
     [ProducesResponseType(StatusCodes.Status201Created)]

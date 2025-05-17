@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Budget4Home.Api.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Expenses.DeleteExpense;
 
@@ -9,6 +10,7 @@ namespace Budget4Home.Api.Features.Expenses.DeleteExpense;
 [Produces("application/json")]
 public class DeleteExpenseController(DeleteExpenseHandler handler) : ControllerBase
 {
+    [SwaggerOperation(Summary = "Delete expense")]
     [HttpDelete]
     [Route("api/groups/{groupId}/expenses/{expenseId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -21,6 +23,7 @@ public class DeleteExpenseController(DeleteExpenseHandler handler) : ControllerB
         return Ok();
     }
     
+    [SwaggerOperation(Summary = "Delete expenses")]
     [HttpDelete]
     [Route("api/groups/{groupId}/expenses")]
     [ProducesResponseType(StatusCodes.Status201Created)]
