@@ -1,4 +1,3 @@
-using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Configuration.Exceptions;
 using Budget4Home.Api.Features.Groups.GetGroup;
 using Budget4Home.Mongo.Models;
