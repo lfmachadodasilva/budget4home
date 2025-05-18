@@ -14,7 +14,17 @@ public class GetGroupHandler(
 {
     public async Task<GroupDocument> Handle(
         string groupId,
-        CancellationToken cancellationToken) => await groupCollection
+        CancellationToken cancellationToken)
+    {
+        var result = await groupCollection
             .Find(x => x.Id == ObjectId.Parse(groupId) && x.UserIds.Contains(ObjectId.Parse(authContext.UserId)))
-            .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException($"Group {groupId} not found.");
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (result is null)
+        {
+            throw new NotFoundException($"Group {groupId} not found.");
+        }
+
+        return result;
+    }
 }

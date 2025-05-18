@@ -12,15 +12,19 @@ public class DeleteExpenseHandler(
     GetGroupHandler getGroupHandler,
     IMongoCollection<ExpenseDocument> collection)
 {
-    public async Task RunAsync(string groupId, string expenseId, CancellationToken cancellationToken)
+    public async Task RunAsync(
+        string groupId,
+        string expenseId,
+        CancellationToken cancellationToken)
     {
         await getGroupHandler.Handle(groupId, cancellationToken);
         
         await getGroupHandler.Handle(groupId, cancellationToken);
-        var result = await collection.DeleteOneAsync(
+        var result = await collection.DeleteManyAsync(
             Builders<ExpenseDocument>.Filter.And(
                 Builders<ExpenseDocument>.Filter.Eq(x => x.Id, ObjectId.Parse(expenseId)),
                 Builders<ExpenseDocument>.Filter.Eq(x => x.GroupId, ObjectId.Parse(groupId))),
+            new DeleteOptions(),
             cancellationToken);
 
         if (result.IsAcknowledged && result.DeletedCount == 0)
@@ -29,11 +33,15 @@ public class DeleteExpenseHandler(
         }
     }
     
-    public async Task RunAsync(string groupId, CancellationToken cancellationToken)
+    public async Task RunAsync(
+        string groupId,
+        CancellationToken cancellationToken)
     {
         await getGroupHandler.Handle(groupId, cancellationToken);
+        
         await collection.DeleteManyAsync(
             Builders<ExpenseDocument>.Filter.Eq(x => x.GroupId, ObjectId.Parse(groupId)),
+            new DeleteOptions(),
             cancellationToken);
     }
 }
