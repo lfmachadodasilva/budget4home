@@ -1,17 +1,22 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using Budget4Home.Api.Configuration;
 using Budget4Home.Api.Configuration.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // bind settings
-var mongoSettings = builder.Configuration.GetSection("Mongo").Get<MongoSettings>();
+var settings = builder.Configuration.GetSection("Budget4home").Get<Budget4HomeSettings>();
+builder.Services.AddSingleton(settings);
 
 // Add services to the container.
 builder.Services
     .AddControllers(options =>
     {
         options.Filters.Add<AuthActionFilter>();
+        options.Filters.Add<GroupActionFilter>();
     })
     .AddJsonOptions(options =>
     {
@@ -27,9 +32,28 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 });
 
-builder.Services.AddMongoDb(mongoSettings);
+builder.Services.AddMongoDb(settings.Mongo);
 builder.Services.AddAutoRegister(typeof(Program).Assembly);
 builder.Services.AddMemoryCache();
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(settings.SecurityKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+builder.Configuration.AddEnvironmentVariables();
 
 var app = builder.Build();
 

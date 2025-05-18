@@ -1,7 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Configuration.Exceptions;
-using Budget4Home.Api.Features.Groups.GetGroup;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -12,7 +11,6 @@ namespace Budget4Home.Api.Features.Labels.UpdateLabel;
 public class UpdateLabelHandler(
     AuthContext authContext,
     IMongoCollection<LabelDocument> collection,
-    GetGroupHandler getGroupHandler,
     ILogger<UpdateLabelHandler> logger)
 {
     public async Task<LabelDocument> Handle(
@@ -21,8 +19,6 @@ public class UpdateLabelHandler(
         UpdateLabelRequest request,
         CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
-        
         var doc = request.ToDocument(id: labelId, groupId: groupId);
         doc.Update(authContext.UserId);
         

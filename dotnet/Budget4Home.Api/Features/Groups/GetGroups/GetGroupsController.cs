@@ -1,9 +1,11 @@
 using Budget4Home.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Groups.GetGroups;
 
+[Authorize]
 [ApiController]
 [Route("api/groups")]
 [Tags("groups")]

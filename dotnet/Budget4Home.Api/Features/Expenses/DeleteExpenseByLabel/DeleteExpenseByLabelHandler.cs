@@ -1,5 +1,4 @@
 using Budget4Home.Api.Attributes;
-using Budget4Home.Api.Features.Groups.GetGroup;
 using Budget4Home.Api.Features.Labels.GetLabel;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
@@ -9,7 +8,6 @@ namespace Budget4Home.Api.Features.Expenses.DeleteExpenseByLabel;
 
 [AutoRegister(typeof(DeleteExpenseByLabelHandler), Scope = ServiceScope.Scoped)]
 public class DeleteExpenseByLabelHandler(
-    GetGroupHandler getGroupHandler,
     GetLabelHandler getLabelHandler,
     IMongoCollection<ExpenseDocument> collection)
 {
@@ -19,7 +17,6 @@ public class DeleteExpenseByLabelHandler(
         CancellationToken cancellationToken)
     {
         await Task.WhenAll(
-            getGroupHandler.Handle(groupId, cancellationToken),
             getLabelHandler.Handle(groupId, labelId, cancellationToken));
         
         await collection.DeleteManyAsync(

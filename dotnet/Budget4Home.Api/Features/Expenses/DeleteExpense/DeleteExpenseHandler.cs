@@ -17,9 +17,7 @@ public class DeleteExpenseHandler(
         string expenseId,
         CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
-        
-        await getGroupHandler.Handle(groupId, cancellationToken);
+        await getGroupHandler.RunAsync(groupId, cancellationToken);
         var result = await collection.DeleteManyAsync(
             Builders<ExpenseDocument>.Filter.And(
                 Builders<ExpenseDocument>.Filter.Eq(x => x.Id, ObjectId.Parse(expenseId)),
@@ -37,7 +35,7 @@ public class DeleteExpenseHandler(
         string groupId,
         CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
+        await getGroupHandler.RunAsync(groupId, cancellationToken);
         
         await collection.DeleteManyAsync(
             Builders<ExpenseDocument>.Filter.Eq(x => x.GroupId, ObjectId.Parse(groupId)),

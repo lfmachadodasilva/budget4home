@@ -11,7 +11,6 @@ namespace Budget4Home.Api.Features.Labels.DeleteLabel;
 
 [AutoRegister(typeof(DeleteLabelHandler), Scope = ServiceScope.Scoped)]
 public class DeleteLabelHandler(
-    IMongoClient mongoClient,
     GetGroupHandler getGroupHandler,
     DeleteExpenseHandler deleteExpenseHandler,
     DeleteExpenseByLabelHandler deleteExpenseByLabelHandler,
@@ -19,8 +18,6 @@ public class DeleteLabelHandler(
 {
     public async Task RunAsync(string groupId, string labelId, CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
-        
         await deleteExpenseByLabelHandler.RunAsync(groupId, labelId, cancellationToken);
         
         var result = await collection.DeleteOneAsync(
@@ -38,7 +35,7 @@ public class DeleteLabelHandler(
     
     public async Task RunAsync(string groupId, CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
+        await getGroupHandler.RunAsync(groupId, cancellationToken);
         
         await Task.WhenAll(
             collection.DeleteManyAsync(

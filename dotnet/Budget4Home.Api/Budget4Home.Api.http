@@ -13,6 +13,7 @@ Accept: application/json
 
 POST {{url}}/api/groups/{{groupId}}/expenses/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODI5YzZjY2M3NTRmYjc4M2Y4OTU5MmMiLCJuYW1lIjoidXNlckBleGFtcGxlLmNvbSIsIm5iZiI6MTc0NzU3MTM5NSwiZXhwIjoxNzQ3NTczMTk1LCJpYXQiOjE3NDc1NzEzOTV9.6iBF5SHGU_c-n_309CX1gNoz8LIIEFxPNO7VoSnmYxw
 
 {
   "expenses": [
@@ -62,3 +63,18 @@ Content-Type: application/json
 
 GET {{url}}/api/groups/{{groupId}}
 Content-Type: application/json
+
+### Get users
+
+GET {{url}}/api/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODI5YzZjY2M3NTRmYjc4M2Y4OTU5MmMiLCJuYW1lIjoidXNlckBleGFtcGxlLmNvbSIsIm5iZiI6MTc0NzU2OTYyMSwiZXhwIjoxNzQ3NTcxNDIxLCJpYXQiOjE3NDc1Njk2MjF9.Rt4St3exIYy1fUvJve2cQAqJdE1xXjHyu4Potru8sQ0
+
+### Login
+POST {{url}}/api/users/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "12345"
+}

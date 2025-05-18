@@ -15,7 +15,7 @@ public class GetGroupHandler(
     AuthContext authContext,
     IMemoryCache memoryCache)
 {
-    public async Task<GroupDocument> Handle(
+    public async Task<GroupDocument> RunAsync(
         string groupId,
         CancellationToken cancellationToken)
     {

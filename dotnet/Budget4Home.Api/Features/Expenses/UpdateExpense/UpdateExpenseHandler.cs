@@ -1,7 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Configuration.Exceptions;
-using Budget4Home.Api.Features.Groups.GetGroup;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -12,7 +11,6 @@ namespace Budget4Home.Api.Features.Expenses.UpdateExpense;
 public class UpdateExpenseHandler(
     AuthContext authContext,
     IMongoCollection<ExpenseDocument> collection,
-    GetGroupHandler getGroupHandler,
     ILogger<UpdateExpenseHandler> logger)
 {
     public async Task<ExpenseDocument> RunAsync(
@@ -21,8 +19,6 @@ public class UpdateExpenseHandler(
         UpdateExpenseRequest request,
         CancellationToken cancellationToken)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
-        
         var doc = request.ToDocument(id: expenseId, groupId: groupId);
         doc.Update(authContext.UserId);
             

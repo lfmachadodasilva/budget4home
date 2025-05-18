@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Expenses.UpdateExpense;
 
+[Authorize]
 [ApiController]
 [Route("api/groups/{groupId}/expenses/{expenseId}")]
 [Tags("expenses")]

@@ -1,5 +1,4 @@
 using Budget4Home.Api.Attributes;
-using Budget4Home.Api.Features.Groups.GetGroup;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -7,9 +6,7 @@ using MongoDB.Driver;
 namespace Budget4Home.Api.Features.Expenses.GetExpenses;
 
 [AutoRegister(typeof(GetExpensesHandler), Scope = ServiceScope.Scoped)]
-public class GetExpensesHandler(
-    GetGroupHandler getGroupHandler,
-    IMongoCollection<ExpenseDocument> collection)
+public class GetExpensesHandler(IMongoCollection<ExpenseDocument> collection)
 {
     public async Task<ICollection<ExpenseDocument>> RunAsync(
         string groupId,
@@ -17,8 +14,6 @@ public class GetExpensesHandler(
         DateTime? to,
         CancellationToken cancellationToken = default)
     {
-        await getGroupHandler.Handle(groupId, cancellationToken);
-        
         var filter = Builders<ExpenseDocument>.Filter.Eq(x => x.GroupId, ObjectId.Parse(groupId));
         
         var now = DateTime.UtcNow;

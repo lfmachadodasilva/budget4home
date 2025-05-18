@@ -2,6 +2,7 @@ using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Configuration.Exceptions;
 using Budget4Home.Api.Features.Groups.AddGroup;
+using Budget4Home.Api.Features.Users.GetUsers;
 using Budget4Home.Api.Models.Mongo;
 using Budget4Home.Api.Utils;
 using Microsoft.Extensions.Caching.Memory;
@@ -14,6 +15,7 @@ namespace Budget4Home.Api.Features.Groups.UpdateGroup;
 public class UpdateGroupHandler(
     AuthContext authContext,
     IMongoCollection<GroupDocument> collection,
+    GetUsersHandle getUsersHandler,
     IMemoryCache memoryCache,
     ILogger<AddGroupHandler> logger)
 {
@@ -22,6 +24,12 @@ public class UpdateGroupHandler(
         UpdateGroupRequest request,
         CancellationToken cancellationToken)
     {
+        var users = await getUsersHandler.RunAsync(cancellationToken);
+        if (!request.UserIds.Except(users.Select(x => x.Id.ToString())).Any())
+        {
+            throw new NotFoundException("One or more users not found.");
+        }
+        
         var doc = request.ToDocument(groupId);
         doc.Update(authContext.UserId);
         

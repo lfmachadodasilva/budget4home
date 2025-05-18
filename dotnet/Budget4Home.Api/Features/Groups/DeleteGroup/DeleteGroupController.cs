@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using Budget4Home.Api.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Budget4Home.Api.Features.Groups.DeleteGroup;
 
+[Authorize]
 [ApiController]
 [Route("api/groups/{groupId}")]
 [Tags("groups")]

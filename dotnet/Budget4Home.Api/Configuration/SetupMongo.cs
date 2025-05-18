@@ -3,19 +3,16 @@ using MongoDB.Driver;
 
 namespace Budget4Home.Api.Configuration;
 
-public class MongoSettings
-{
-    public string ConnectionString { get; set; }
-    public string DatabaseName { get; set; }
-}
-
 public static class SetupMongo
 {
     private const string ExpenseCollectionName = "expenses";
     private const string LabelCollectionName = "labels";
     private const string GroupCollectionName = "groups";
+    private const string UserCollectionName = "users";
     
-    public static IServiceCollection AddMongoDb(this IServiceCollection services, MongoSettings settings)
+    public static IServiceCollection AddMongoDb(
+        this IServiceCollection services,
+        MongoSettings settings)
     {
         services.AddSingleton<IMongoClient>(_ => new MongoClient(settings.ConnectionString));
         services.AddSingleton(s => s.GetRequiredService<IMongoClient>().GetDatabase(settings.DatabaseName));
@@ -54,6 +51,18 @@ public static class SetupMongo
             collection.Indexes.CreateMany([
                 new CreateIndexModel<GroupDocument>(
                     Builders<GroupDocument>.IndexKeys.Ascending(x => x.UserIds),
+                    new CreateIndexOptions { Background = true, Unique = false})
+            ]);
+            return collection;
+        });
+        services.AddSingleton(s =>
+        {
+            var collection = s
+                .GetRequiredService<IMongoDatabase>()
+                .GetCollection<UserDocument>(UserCollectionName);
+            collection.Indexes.CreateMany([
+                new CreateIndexModel<UserDocument>(
+                    Builders<UserDocument>.IndexKeys.Ascending(x => x.Email),
                     new CreateIndexOptions { Background = true, Unique = false})
             ]);
             return collection;
