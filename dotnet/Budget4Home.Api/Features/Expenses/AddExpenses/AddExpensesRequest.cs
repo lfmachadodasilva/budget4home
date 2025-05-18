@@ -14,8 +14,7 @@ public class AddExpensesRequest
 
 public class AddExpenseRequest
 {
-    [JsonConverter(typeof(JsonStringEnumConverter)), 
-     Description("Type of the expense. Out = expense, In = income. Default is Out.")] 
+    [JsonConverter(typeof(JsonStringEnumConverter))] 
     public ExpenseType Type { get; set; } = ExpenseType.Out;
     [Budget4HomeName, Description("Name of the expense.")]
     public string Name { get; set; }
@@ -29,7 +28,7 @@ public class AddExpenseRequest
     public string LabelId { get; set; }
     [Description("Comments about the expense.")]
     public string Comments { get; set; }
-    [Description("Parent expense id.")]
+    [Budget4HomeId(optional: true), Description("Parent expense id.")]
     public string ParentId { get; set; }
 
     public ExpenseDocument ToDocument(string id, string groupId) => new()

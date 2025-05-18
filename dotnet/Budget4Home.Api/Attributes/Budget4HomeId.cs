@@ -7,14 +7,23 @@ namespace Budget4Home.Api.Attributes;
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
 public class Budget4HomeIdAttribute : ValidationAttribute
 {
-    public Budget4HomeIdAttribute()
+    private readonly bool _optional;
+
+    public Budget4HomeIdAttribute(bool optional = false)
     {
+        _optional = optional;
+        
         // Default error message with a placeholder for the field name
         ErrorMessage = "{0} must be valid id";
     }
     
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
+        if (value is null && _optional)
+        {
+            return ValidationResult.Success;
+        }
+        
         if (value is string stringValue && ObjectId.TryParse(stringValue, out _))
         {
             return ValidationResult.Success;
@@ -29,7 +38,7 @@ public class Budget4HomeIdAttribute : ValidationAttribute
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
 public class Budget4HomeIdsAttribute : ValidationAttribute
 {
-    private readonly Budget4HomeIdAttribute _singleValidator = new();
+    private readonly Budget4HomeIdAttribute _singleValidator = new(optional: false);
     public Budget4HomeIdsAttribute()
     {
         // Default error message with a placeholder for the field name

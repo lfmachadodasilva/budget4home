@@ -3,11 +3,10 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Budget4Home.Api.Models.Mongo;
 
-public enum ExpenseType { Out, In }
+public enum ExpenseType { Out = -1, In = 1 }
 
 public class ExpenseDocument : BaseDocument
 {
-    [BsonRepresentation(BsonType.String)]
     public ExpenseType Type { get; set; }
     [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
     public DateTime Date { get; set; }
