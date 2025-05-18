@@ -12,6 +12,8 @@ public class ExpenseDocument : BaseDocument
     [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
     public DateTime Date { get; set; }
     public long Amount { get; set; }
+    public string Comments { get; set; }
     public ObjectId LabelId { get; set; }
     public ObjectId GroupId { get; set; }
+    public ObjectId? ParentId { get; set; }
 }

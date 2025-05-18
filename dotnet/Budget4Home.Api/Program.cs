@@ -25,6 +25,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddMongoDb(mongoSettings);
 builder.Services.AddAutoRegister(typeof(Program).Assembly);
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
