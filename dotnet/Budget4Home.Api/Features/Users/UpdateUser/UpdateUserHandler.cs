@@ -1,5 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration;
+using Budget4Home.Api.Configuration.Models;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;

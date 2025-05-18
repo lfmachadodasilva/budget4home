@@ -1,7 +1,9 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using Budget4Home.Api.Configuration;
-using Budget4Home.Api.Configuration.Auth;
+using Budget4Home.Api.Configuration.Filters;
+using Budget4Home.Api.Configuration.Middlewares;
+using Budget4Home.Api.Configuration.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

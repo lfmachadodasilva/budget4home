@@ -1,5 +1,4 @@
 using Budget4Home.Api.Attributes;
-using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

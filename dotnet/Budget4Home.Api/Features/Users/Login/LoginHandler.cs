@@ -4,6 +4,7 @@ using System.Text;
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration;
 using Budget4Home.Api.Configuration.Exceptions;
+using Budget4Home.Api.Configuration.Models;
 using Budget4Home.Api.Models.Mongo;
 using Budget4Home.Api.Utils;
 using Microsoft.IdentityModel.Tokens;

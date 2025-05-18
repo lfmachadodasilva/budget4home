@@ -1,5 +1,6 @@
 using Budget4Home.Api.Attributes;
-using Budget4Home.Api.Configuration.Auth;
+using Budget4Home.Api.Configuration;
+using Budget4Home.Api.Configuration.Contexts;
 using Budget4Home.Api.Configuration.Exceptions;
 using Budget4Home.Api.Models.Mongo;
 using Budget4Home.Api.Utils;

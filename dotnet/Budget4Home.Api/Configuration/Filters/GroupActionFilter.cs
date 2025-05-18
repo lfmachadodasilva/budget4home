@@ -3,7 +3,7 @@ using Budget4Home.Api.Features.Groups.GetGroup;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Budget4Home.Api.Configuration;
+namespace Budget4Home.Api.Configuration.Filters;
 
 public class GroupActionFilter(GetGroupHandler handler) : IActionFilter
 {

@@ -1,9 +1,10 @@
+using Budget4Home.Api.Configuration.Models;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Driver;
 
 namespace Budget4Home.Api.Configuration;
 
-public static class SetupMongo
+public static class MongoConfiguration
 {
     private const string ExpenseCollectionName = "expenses";
     private const string LabelCollectionName = "labels";

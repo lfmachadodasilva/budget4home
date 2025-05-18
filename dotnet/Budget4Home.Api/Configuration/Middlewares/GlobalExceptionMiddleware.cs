@@ -4,7 +4,7 @@ using System.Text.Json;
 using Budget4Home.Api.Configuration.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Budget4Home.Api.Configuration;
+namespace Budget4Home.Api.Configuration.Middlewares;
 
 public class GlobalExceptionMiddleware(RequestDelegate next)
 {
