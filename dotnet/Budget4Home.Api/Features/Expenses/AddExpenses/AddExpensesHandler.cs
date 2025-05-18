@@ -25,16 +25,12 @@ public class AddExpensesHandler(
         var docs = request.Expenses
             .Select(x =>
             {
-                if (labels.ContainsKey(ObjectId.Parse(x.LabelId)))
+                if (!labels.ContainsKey(ObjectId.Parse(x.LabelId)))
                 {
                     throw new NotFoundException($"Label {x.LabelId} not found.");
                 }
                 var doc = x.ToDocument(id: null, groupId: groupId);
-                doc.CreatedAt = DateTime.UtcNow;
-                doc.UpdatedAt = DateTime.UtcNow;
-                doc.GroupId = ObjectId.Parse(groupId);
-                doc.CreatedBy = ObjectId.Parse(authContext.UserId);
-                doc.UpdatedBy = ObjectId.Parse(authContext.UserId);
+                doc.Create(authContext.UserId);
                 return doc;
             })
             .ToList();

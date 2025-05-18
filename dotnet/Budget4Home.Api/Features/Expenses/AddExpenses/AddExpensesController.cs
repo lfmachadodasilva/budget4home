@@ -11,9 +11,7 @@ namespace Budget4Home.Api.Features.Expenses.AddExpenses;
 [Produces("application/json")]
 public class AddExpensesController(AddExpensesHandler handler) : ControllerBase
 {
-    [SwaggerOperation(
-        Summary = "Add expenses",
-        Description = "Add multiple expenses")]
+    [SwaggerOperation(Summary = "Add expenses")]
     [HttpPost("api/groups/{groupId}/expenses")]
     [ProducesResponseType(typeof(AddExpensesResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetExpensesAsync(
