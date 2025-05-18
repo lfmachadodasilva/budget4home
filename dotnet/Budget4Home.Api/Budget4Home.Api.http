@@ -1,6 +1,8 @@
 @url = https://localhost:7054
+@userId = 6828782ffa2e8ccd9bb40e61
 @groupId = 6829910beb7115b6f328cec3
 @labelId = 68299ddae74cc7bbeae5d358
+@expenseId = 68299e0f2a1b5c3d8f4a7b9c
 
 ### Get Expenses
 
@@ -29,9 +31,18 @@ POST {{url}}/api/groups/{{groupId}}/labels
 Content-Type: application/json
 
 {
-  "name": "Test Label",
-  "icon": "🚀"
+  "name": "Test Label 3",
+  "icon": "🚀",
+  "keys": ["coop", "test"]
 }
+> {%
+    client.global.set("labelId", response.body.label.id);
+%}
+
+### Get Label
+
+GET {{url}}/api/groups/{{groupId}}/labels/{{labelId}}
+Content-Type: application/json
 
 ### Add group
 
@@ -39,6 +50,15 @@ POST {{url}}/api/groups
 Content-Type: application/json
 
 {
-  "name": "Test Label",
-  "UserIds": ["6828782ffa2e8ccd9bb40e61"]
+  "name": "Test group 2",
+  "UserIds": ["{{userId}}"]
 }
+
+> {%
+    client.global.set("groupId", response.body.group.id);
+%}
+
+### Get Group
+
+GET {{url}}/api/groups/{{groupId}}
+Content-Type: application/json

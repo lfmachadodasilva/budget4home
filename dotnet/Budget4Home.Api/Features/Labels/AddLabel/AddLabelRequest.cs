@@ -11,6 +11,7 @@ public class AddLabelRequest
     public string Name { get; set; }
     [MaxLength(100)]
     public string Icon { get; set; }
+    public ICollection<string> Keys { get; set; }
 
     public LabelDocument ToDocument(string id, string groupId) => new()
     {
@@ -18,5 +19,6 @@ public class AddLabelRequest
         Name = Name,
         Icon = Icon,
         GroupId = ObjectId.Parse(groupId),
+        Keys = Keys
     };
 }
