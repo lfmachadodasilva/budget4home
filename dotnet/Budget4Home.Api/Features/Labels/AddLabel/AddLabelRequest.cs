@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 
@@ -6,8 +7,9 @@ namespace Budget4Home.Api.Features.Labels.AddLabel;
 
 public class AddLabelRequest
 {
-    [Required, StringLength(100)]
+    [Budget4HomeName]
     public string Name { get; set; }
+    [MaxLength(100)]
     public string Icon { get; set; }
 
     public LabelDocument ToDocument(string id, string groupId) => new()

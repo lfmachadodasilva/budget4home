@@ -7,9 +7,9 @@ namespace Budget4Home.Api.Features.Groups.AddGroup;
 
 public class AddGroupRequest
 {
-    [Required, StringLength(100)]
+    [Budget4HomeName]
     public string Name { get; set; }
-    [Required, Budget4HomeIds]
+    [Required, MinLength(1), Budget4HomeIds]
     public ICollection<string> UserIds { get; set; }
 
     public GroupDocument ToDocument(string id = null) => new()
