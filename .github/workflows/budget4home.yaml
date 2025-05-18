@@ -39,7 +39,7 @@ jobs:
           push: true
           tags: |
             lfmachadodasilva/budget4home:latest
-            lfmachadodasilva/budget4home:${GITHUB_REF#refs/tags/}
+            lfmachadodasilva/budget4home:${{ github.ref_name }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
