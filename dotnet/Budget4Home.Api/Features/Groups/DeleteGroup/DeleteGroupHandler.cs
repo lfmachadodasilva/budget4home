@@ -3,7 +3,7 @@ using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Configuration.Exceptions;
 using Budget4Home.Api.Features.Expenses.DeleteExpense;
 using Budget4Home.Api.Features.Labels.DeleteLabel;
-using Budget4Home.Mongo.Models;
+using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

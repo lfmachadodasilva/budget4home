@@ -1,4 +1,4 @@
-using Budget4Home.Mongo.Models;
+using Budget4Home.Api.Models.Mongo;
 
 namespace Budget4Home.Api.Models;
 

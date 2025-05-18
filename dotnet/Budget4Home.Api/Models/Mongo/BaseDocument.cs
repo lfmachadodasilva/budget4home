@@ -1,7 +1,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Budget4Home.Mongo.Models;
+namespace Budget4Home.Api.Models.Mongo;
 
 public abstract class BaseDocument
 {

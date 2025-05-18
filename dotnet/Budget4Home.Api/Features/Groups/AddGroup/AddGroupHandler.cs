@@ -1,6 +1,6 @@
 using Budget4Home.Api.Attributes;
 using Budget4Home.Api.Configuration.Auth;
-using Budget4Home.Mongo.Models;
+using Budget4Home.Api.Models.Mongo;
 using MongoDB.Driver;
 
 namespace Budget4Home.Api.Features.Groups.AddGroup;

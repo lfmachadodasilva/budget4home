@@ -1,6 +1,6 @@
 using MongoDB.Bson;
 
-namespace Budget4Home.Mongo.Models;
+namespace Budget4Home.Api.Models.Mongo;
 
 public class GroupDocument : BaseDocument
 {

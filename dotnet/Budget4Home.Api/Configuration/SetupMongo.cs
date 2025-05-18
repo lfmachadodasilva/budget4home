@@ -1,8 +1,7 @@
-using Budget4Home.Mongo.Models;
-using Microsoft.Extensions.DependencyInjection;
+using Budget4Home.Api.Models.Mongo;
 using MongoDB.Driver;
 
-namespace Budget4Home.Mongo;
+namespace Budget4Home.Api.Configuration;
 
 public class MongoSettings
 {

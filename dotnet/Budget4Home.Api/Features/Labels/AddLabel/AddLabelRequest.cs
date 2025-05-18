@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Budget4Home.Mongo.Models;
+using Budget4Home.Api.Models.Mongo;
 using MongoDB.Bson;
 
 namespace Budget4Home.Api.Features.Labels.AddLabel;

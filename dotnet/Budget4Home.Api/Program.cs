@@ -3,7 +3,6 @@ using Budget4Home.Api.Configuration.Auth;
 using Budget4Home.Api.Features.Groups.AddGroup;
 using Budget4Home.Api.Features.Groups.GetGroup;
 using Budget4Home.Api.Features.Groups.GetGroups;
-using Budget4Home.Mongo;
 
 var builder = WebApplication.CreateBuilder(args);
 
