@@ -1,0 +1,42 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of the go coverage tool
+*.cover
+
+# Configuration files created by editors or tools
+.idea/
+.vscode/
+*.swp
+
+# Dependency directories (vendor/)
+vendor/
+
+# Go build artifacts
+*.a
+*.o
+*.log
+bin/
+
+# Module files
+go.sum
+
+# Test binary
+*.test
+
+# IDE specific files
+*.iml
+
+# Local environment files
+.env
+
+# Logs
+*.log
+
+# Environment variables
+.env

@@ -8,15 +8,38 @@ services:
   #     MONGO_INITDB_ROOT_USERNAME: root
   #     MONGO_INITDB_ROOT_PASSWORD: example
 
-  app:
-    build:
-      # context: .
-      dockerfile: ./Dockerfile
-    # container_name: app
-    restart: on-failure
+  # app:
+  #   build:
+  #     # context: .
+  #     dockerfile: ./Dockerfile
+  #   # container_name: app
+  #   restart: on-failure
+  #   environment:
+  #     - MONGO_URI=mongodb://mongo:27017
+  #   ports:
+  #     - "4000:8080"
+  #   # depends_on:
+  #   #   - mongo
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
     environment:
-      - MONGO_URI=mongodb://mongo:27017
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: budget4home
     ports:
-      - "4000:8080"
-    # depends_on:
-    #   - mongo
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
