@@ -31,6 +31,9 @@ func main() {
 	}
 	defer db.Close()
 
+	// Apply migrations to ensure the database schema is up-to-date
+	mydatabase.ApplyMigrations()
+
 	// Add PostgreSQL client to context
 	ctx := stdContext.WithValue(stdContext.Background(), mycontext.DBKey, db)
 
