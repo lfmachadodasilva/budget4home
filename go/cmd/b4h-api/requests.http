@@ -1,0 +1,33 @@
+@url = http://localhost:4000/api/
+
+### Get all expense
+GET {{url}}expenses
+Content-Type: application/json
+
+### Add expense
+POST {{url}}expenses
+Content-Type: application/json
+
+{
+    "name": "Test 2",
+    "amount": 7,
+    "date_time": "2020-01-01T00:00:00Z"
+}
+
+### Get expense
+GET {{url}}expenses/18
+Content-Type: application/json
+
+### Update expense
+PUT {{url}}expenses/18
+Content-Type: application/json
+
+{
+    "name": "Test 2 Updated",
+    "amount": 10,
+    "date_time": "2020-01-01T00:00:00Z"
+}
+
+### Delete expense
+DELETE {{url}}expenses/18
+Content-Type: application/json

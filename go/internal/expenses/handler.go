@@ -1,14 +1,11 @@
-package handlers
+package expenses
 
 import (
-	"budget4home/internal/models"
-	"budget4home/internal/repositories"
+	"budget4home/internal/utils"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
-	"strings"
 
 	"github.com/go-playground/validator"
 	"github.com/gorilla/mux"
@@ -16,15 +13,31 @@ import (
 
 var validate = validator.New()
 
-func RegisterExpenseHandlers(r *mux.Router) {
-	r.HandleFunc("/api/expenses", AddExpense).Methods("POST")
-	r.HandleFunc("/api/expenses/{expenseId}", GetExpense).Methods("GET")
-	r.HandleFunc("/api/expenses/{expenseId}", UpdateExpense).Methods("PUT")
-	r.HandleFunc("/api/expenses/{expenseId}", DeleteExpense).Methods("DELETE")
+func RegisterHandlers(r *mux.Router) {
+	r.HandleFunc("/api/expenses", getAllHandler).Methods("GET")
+	r.HandleFunc("/api/expenses", addHandler).Methods("POST")
+	r.HandleFunc("/api/expenses/{expenseId}", getHandler).Methods("GET")
+	r.HandleFunc("/api/expenses/{expenseId}", updateHandler).Methods("PUT")
+	r.HandleFunc("/api/expenses/{expenseId}", deleteHandler).Methods("DELETE")
 }
 
-func AddExpense(w http.ResponseWriter, r *http.Request) {
-	var request models.ExpenseRequest
+func getAllHandler(w http.ResponseWriter, r *http.Request) {
+	expenses, err := GetAllExpenses(r.Context(), 0, 0)
+	if err != nil {
+		log.Printf("Error getting expenses: %v", err)
+		http.Error(w, fmt.Sprintf("Failed to get expenses: %v", err), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(expenses); err != nil {
+		log.Printf("Error encoding response: %v", err)
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
+}
+
+func addHandler(w http.ResponseWriter, r *http.Request) {
+	var request ExpenseRequest
 
 	// Decode the request body into the ExpenseRequest struct
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -32,14 +45,8 @@ func AddExpense(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate the request
-	if err := validate.Struct(request); err != nil {
-		http.Error(w, "Validation failed: "+err.Error(), http.StatusBadRequest)
-		return
-	}
-
 	// Add the expense to database
-	entity, err := repositories.AddExpense(r.Context(), request)
+	entity, err := AddExpense(r.Context(), request)
 	if err != nil {
 		log.Printf("Error adding expense: %v", err)
 		http.Error(w, fmt.Sprintf("Failed to add expense: %v", err), http.StatusInternalServerError)
@@ -50,33 +57,22 @@ func AddExpense(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 
 	// Convert the entity to response format
-	response := models.ExpenseEntityToResponse(entity)
+	response := ExpenseEntityToResponse(entity)
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		log.Printf("Error encoding response: %v", err)
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 	}
 }
 
-func GetExpense(w http.ResponseWriter, r *http.Request) {
+func getHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract the expenseId from the URL
-	vars := mux.Vars(r)
-	expenseId := vars["expenseId"]
-	expenseId = strings.TrimSpace(expenseId)
-
-	// Validate the expenseId
-	if expenseId == "" {
-		http.Error(w, "expenseId is required", http.StatusBadRequest)
-		return
-	}
-
-	// Validate and convert the expenseId to int64
-	id, err := strconv.ParseInt(expenseId, 10, 64)
+	id, err := utils.ConvertStringToInt64(mux.Vars(r)["expenseId"])
 	if err != nil {
-		http.Error(w, "Invalid expenseId. It must be a valid integer.", http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Invalid expenseId: %v", err), http.StatusBadRequest)
 		return
 	}
 
-	entity, err := repositories.GetExpense(r.Context(), id)
+	entity, err := GetExpense(r.Context(), id)
 	if err != nil {
 		log.Printf("Error adding expense: %v", err)
 		http.Error(w, fmt.Sprintf("Failed to add expense: %v", err), http.StatusInternalServerError)
@@ -84,7 +80,7 @@ func GetExpense(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Convert the entity to response format
-	response := models.ExpenseEntityToResponse(entity)
+	response := ExpenseEntityToResponse(entity)
 
 	// Write the response
 	w.Header().Set("Content-Type", "application/json")
@@ -94,23 +90,15 @@ func GetExpense(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func UpdateExpense(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	expenseId := vars["expenseId"]
-	expenseId = strings.TrimSpace(expenseId)
-
-	if expenseId == "" {
-		http.Error(w, "expenseId is required", http.StatusBadRequest)
-		return
-	}
-
-	id, err := strconv.ParseInt(expenseId, 10, 64)
+func updateHandler(w http.ResponseWriter, r *http.Request) {
+	// Extract the expenseId from the URL
+	id, err := utils.ConvertStringToInt64(mux.Vars(r)["expenseId"])
 	if err != nil {
-		http.Error(w, "Invalid expenseId. It must be a valid integer.", http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Invalid expenseId: %v", err), http.StatusBadRequest)
 		return
 	}
 
-	var request models.ExpenseRequest
+	var request ExpenseRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		http.Error(w, "Invalid request payload", http.StatusBadRequest)
 		return
@@ -121,7 +109,7 @@ func UpdateExpense(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	entity, err := repositories.UpdateExpense(r.Context(), id, request)
+	entity, err := UpdateExpense(r.Context(), id, request)
 	if err != nil {
 		log.Printf("Error updating expense: %v", err)
 		http.Error(w, fmt.Sprintf("Failed to update expense: %v", err), http.StatusInternalServerError)
@@ -129,7 +117,7 @@ func UpdateExpense(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Convert the entity to response format
-	response := models.ExpenseEntityToResponse(entity)
+	response := ExpenseEntityToResponse(entity)
 
 	// Write the response
 	w.Header().Set("Content-Type", "application/json")
@@ -139,26 +127,15 @@ func UpdateExpense(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteExpense(w http.ResponseWriter, r *http.Request) {
+func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	// Extract the expenseId from the URL
-	vars := mux.Vars(r)
-	expenseId := vars["expenseId"]
-	expenseId = strings.TrimSpace(expenseId)
-
-	// Validate the expenseId
-	if expenseId == "" {
-		http.Error(w, "expenseId is required", http.StatusBadRequest)
-		return
-	}
-
-	// Validate and convert the expenseId to int64
-	id, err := strconv.ParseInt(expenseId, 10, 64)
+	id, err := utils.ConvertStringToInt64(mux.Vars(r)["expenseId"])
 	if err != nil {
-		http.Error(w, "Invalid expenseId. It must be a valid integer.", http.StatusBadRequest)
+		http.Error(w, fmt.Sprintf("Invalid expenseId: %v", err), http.StatusBadRequest)
 		return
 	}
 
-	err = repositories.DeleteExpense(r.Context(), id)
+	err = DeleteExpense(r.Context(), id)
 	if err != nil {
 		log.Printf("Error adding expense: %v", err)
 		http.Error(w, fmt.Sprintf("Failed to add expense: %v", err), http.StatusInternalServerError)

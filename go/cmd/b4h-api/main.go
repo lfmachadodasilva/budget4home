@@ -1,10 +1,10 @@
 package main
 
 import (
-	"budget4home/internal/handlers"
+	"budget4home/internal/expenses"
 	"budget4home/internal/mycontext"
+	"budget4home/internal/mydatabase"
 	stdContext "context"
-	"database/sql"
 	"log"
 	"net"
 	"net/http"
@@ -25,24 +25,17 @@ func main() {
 		}
 	}
 
-	// Initialize PostgreSQL client
-	connStr := os.Getenv("POSTGRES_CONN_STR")
-	if connStr == "" {
-		log.Fatal("POSTGRES_CONN_STR environment variable is not set")
-	}
-
-	db, err := sql.Open("postgres", connStr)
+	db, err := mydatabase.GetOrConnectDatabase()
 	if err != nil {
-		log.Fatalf("Failed to connect to PostgreSQL: %v", err)
+		log.Fatalf("Error initializing database: %v", err)
 	}
-
 	defer db.Close()
 
 	// Add PostgreSQL client to context
 	ctx := stdContext.WithValue(stdContext.Background(), mycontext.DBKey, db)
 
 	r := mux.NewRouter()
-	handlers.RegisterExpenseHandlers(r)
+	expenses.RegisterHandlers(r)
 
 	httpServer := &http.Server{
 		Addr:    ":4000",

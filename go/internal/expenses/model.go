@@ -1,4 +1,4 @@
-package models
+package expenses
 
 import "time"
 
@@ -7,6 +7,7 @@ type ExpenseEntity struct {
 	Name     string    `json:"name"`
 	Amount   int64     `json:"amount"`
 	DateTime time.Time `json:"date_time"`
+	GroupID  int64     `json:"group_id"`
 }
 
 type ExpenseRequest struct {
