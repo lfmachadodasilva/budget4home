@@ -7,6 +7,8 @@ import (
 	"fmt"
 )
 
+var database = "expenses"
+
 func GetAllExpenses(ctx context.Context, userId int64, groupId int64) ([]ExpenseEntity, error) {
 	// Get the database connection from the context
 	db, ok := ctx.Value(mycontext.DBKey).(*sql.DB)
@@ -15,8 +17,8 @@ func GetAllExpenses(ctx context.Context, userId int64, groupId int64) ([]Expense
 	}
 
 	// Query to get all expenses for the user
-	query := "SELECT id, name, amount, date_time FROM expenses" // WHERE user_id = $1" and grup_id = $2
-	rows, err := db.QueryContext(ctx, query)                    //, userId, groupId)
+	query := "SELECT " + selectAllExpenses + " FROM " + database // WHERE user_id = $1" and grup_id = $2
+	rows, err := db.QueryContext(ctx, query)                     //, userId, groupId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to retrieve expenses: %w", err)
 	}
@@ -51,7 +53,7 @@ func AddExpense(ctx context.Context, request ExpenseRequest) (ExpenseEntity, err
 	}
 
 	// Insert the expense into the database and return the inserted value
-	query := "INSERT INTO expenses (name, amount, date_time) VALUES ($1, $2, $3) RETURNING id, name, amount, date_time"
+	query := "INSERT INTO " + database + " (" + addAllExpenses + ") VALUES ($1, $2, $3) RETURNING " + selectAllExpenses
 	row := db.QueryRowContext(ctx, query, request.Name, request.Amount, request.DateTime)
 
 	var insertedExpense ExpenseEntity
@@ -69,7 +71,7 @@ func GetExpense(ctx context.Context, id int64) (ExpenseEntity, error) {
 		return ExpenseEntity{}, fmt.Errorf("database connection not found in context")
 	}
 
-	query := "SELECT id, name, amount, date_time FROM expenses WHERE id = $1"
+	query := "SELECT " + selectAllExpenses + " FROM " + database + " WHERE id = $1"
 	row := db.QueryRowContext(ctx, query, id)
 	var expense ExpenseEntity
 	if err := row.Scan(&expense.ID, &expense.Name, &expense.Amount, &expense.DateTime); err != nil {
@@ -88,7 +90,7 @@ func UpdateExpense(ctx context.Context, expenseId int64, request ExpenseRequest)
 		return ExpenseEntity{}, fmt.Errorf("database connection not found in context")
 	}
 
-	query := "UPDATE expenses SET name = $1, amount = $2, date_time = $3 WHERE id = $4 RETURNING id, name, amount, date_time"
+	query := "UPDATE " + database + " SET " + updateAllExpenses + " WHERE id = $4 RETURNING " + selectAllExpenses
 	row := db.QueryRowContext(ctx, query, request.Name, request.Amount, request.DateTime, expenseId)
 
 	var updatedExpense ExpenseEntity
@@ -109,7 +111,7 @@ func DeleteExpense(ctx context.Context, id int64) error {
 	}
 
 	// Delete the expense from the database
-	query := "DELETE FROM expenses WHERE id = $1"
+	query := "DELETE FROM " + database + " WHERE id = $1"
 	_, err := db.ExecContext(ctx, query, id)
 	if err != nil {
 		return fmt.Errorf("failed to delete expense: %w", err)

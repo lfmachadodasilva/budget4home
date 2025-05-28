@@ -1,12 +1,15 @@
 package expenses
 
-import "time"
+import (
+	"budget4home/internal/utils"
+	"time"
+)
 
 type ExpenseEntity struct {
-	ID       int64     `json:"id"`
-	Name     string    `json:"name"`
-	Amount   int64     `json:"amount"`
-	DateTime time.Time `json:"date_time"`
+	ID       int64     `json:"id" out:"id"`
+	Name     string    `json:"name" out:"name" in:"name"`
+	Amount   int64     `json:"amount" out:"amount" in:"amount"`
+	DateTime time.Time `json:"date_time" out:"date_time" in:"date_time"`
 	GroupID  int64     `json:"group_id"`
 }
 
@@ -33,3 +36,9 @@ func ExpenseEntityToResponse(entity ExpenseEntity) ExpenseResponse {
 		DateTime: entity.DateTime,
 	}
 }
+
+var (
+	selectAllExpenses = utils.BuildSelectFields("out", ExpenseEntity{})
+	addAllExpenses    = utils.BuildSelectFields("in", ExpenseEntity{})
+	updateAllExpenses = utils.BuildUpdateFields("in", ExpenseEntity{})
+)
