@@ -2029,7 +2029,7 @@ __metadata:
     vite-plugin-dts: "npm:~4.5.4"
     vite-plugin-node-polyfills: "npm:^0.23.0"
     vitest: "npm:^3.1.4"
-    zod: "npm:^3.25.7"
+    zod: "npm:^3.25.32"
   languageName: unknown
   linkType: soft
 
@@ -25234,9 +25234,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.25.7":
-  version: 3.25.7
-  resolution: "zod@npm:3.25.7"
-  checksum: 10c0/9bf497ed9b810d30b84ae032ec7882435d0fb9c94db08427592f56b711227726cfb7551ee7ca9f99135dfaff1fcff5ce261e25a6400f62b651ec23880cb41013
+"zod@npm:^3.25.32":
+  version: 3.25.32
+  resolution: "zod@npm:3.25.32"
+  checksum: 10c0/de0bc052a7666578b3d5dd42bc522f02f27e1c798236439c0f6b6bc1b311a221706aebdafb1f58399d5f558b1fab7860c6970e096fe8d6947743bc791d567c4b
   languageName: node
   linkType: hard
