@@ -27,7 +27,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "date-fns": "^4.1.0",
     "emoji-picker-react": "^4.13.2",
-    "firebase": "^11.8.1",
+    "firebase": "^11.10.0",
     "firebase-admin": "^13.4.0",
     "framer-motion": "^12.15.0",
     "lodash": "^4.17.21",
