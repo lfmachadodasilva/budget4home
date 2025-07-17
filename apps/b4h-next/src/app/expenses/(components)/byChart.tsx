@@ -3,6 +3,7 @@
 import { ExpenseModel, ExpenseType } from '@b4h/models';
 import { sumBy } from 'lodash';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { PieLabelProps } from 'recharts/types/polar/Pie';
 
 interface ExpensesByChartProps {
   expenseByLabel: Record<string, ExpenseModel[]>;
@@ -56,8 +57,8 @@ export const B4hExpensesByChart = (props: ExpensesByChartProps) => {
       .filter(x => x !== null)
   );
 
-  const renderLabel = (entry: { name: string; percent: number; value: number }) =>
-    entry.name + ' ' + (entry.percent * 100).toFixed(0) + '%';
+  const renderLabel = (entry: PieLabelProps) =>
+    entry.name + ' ' + ((entry.percent ?? 0) * 100).toFixed(0) + '%';
 
   return (
     <div style={{ width: '100%', height: 250 }} className="border">
