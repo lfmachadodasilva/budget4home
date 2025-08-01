@@ -29,7 +29,7 @@
     "emoji-picker-react": "^4.13.2",
     "firebase": "^11.10.0",
     "firebase-admin": "^13.4.0",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.23.12",
     "lodash": "^4.17.21",
     "next": "15.4.1",
     "react": "19.1.0",
