@@ -7,10 +7,5 @@
   },
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "editor.detectIndentation": false,
-  "workbench.colorCustomizations": {
-    "activityBar.background": "#612F74",
-    "titleBar.activeBackground": "#612F74",
-    "statusBar.background": "#612F74"
-  }
+  "editor.detectIndentation": false
 }
