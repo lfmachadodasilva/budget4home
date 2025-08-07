@@ -1563,7 +1563,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:5.2.0"
     firebase: "npm:^12.0.0"
     firebase-admin: "npm:^13.4.0"
-    firebase-tools: "npm:^14.11.2"
+    firebase-tools: "npm:^14.12.0"
     framer-motion: "npm:^12.23.12"
     husky: "npm:^9.1.7"
     jest: "npm:^30.0.5"
@@ -12612,9 +12612,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-tools@npm:^14.11.2":
-  version: 14.11.2
-  resolution: "firebase-tools@npm:14.11.2"
+"firebase-tools@npm:^14.12.0":
+  version: 14.12.0
+  resolution: "firebase-tools@npm:14.12.0"
   dependencies:
     "@electric-sql/pglite": "npm:^0.3.3"
     "@electric-sql/pglite-tools": "npm:^0.2.8"
@@ -12692,7 +12692,7 @@ __metadata:
     zod-to-json-schema: "npm:^3.24.5"
   bin:
     firebase: lib/bin/firebase.js
-  checksum: 10c0/e4594538bec49f68881b5d43545e7992d15a728c54e5f00fbee5850975956459efc020323650ee530633d3b26bcfbfe7f60b52f628b6b8890b170c8f9c402af8
+  checksum: 10c0/ff99b51a5837771c7439c50e35dd50365f4b70b8ece0430f42a4ffd4810a90fc1c30d853d29993e38829a9b4fea14a6bd111034d9fcf5ce2fa4f61ed745e225c
   languageName: node
   linkType: hard
 
