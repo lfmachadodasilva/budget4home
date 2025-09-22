@@ -101,7 +101,7 @@
   },
   "packageManager": "yarn@4.10.0",
   "engines": {
-    "node": ">=22.18.0",
+    "node": ">=22.19.0",
     "yarn": ">=4.10.0",
     "npm": "please-use-yarn"
   }
