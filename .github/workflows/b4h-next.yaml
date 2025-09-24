@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 22.18.0
+          node-version: 22.19.0
           cache: 'yarn'
       - name: install dependencies 📦
         run: yarn install
@@ -47,9 +47,9 @@ jobs:
     if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/renovate')
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 22.18.0
+          node-version: 22.19.0
           cache: 'yarn'
       - name: Install Vercel CLI 🖥️
         run: npm install --global vercel@latest
@@ -65,9 +65,9 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 22.18.0
+          node-version: 22.19.0
           cache: 'yarn'
       - name: Install Vercel CLI 🖥️
         run: npm install --global vercel@latest
