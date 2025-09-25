@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
-          node-version: 22.19.0
+          node-version: 22.20.0
           cache: 'yarn'
       - name: install dependencies 📦
         run: yarn install
@@ -49,7 +49,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
-          node-version: 22.19.0
+          node-version: 22.20.0
           cache: 'yarn'
       - name: Install Vercel CLI 🖥️
         run: npm install --global vercel@latest
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
-          node-version: 22.19.0
+          node-version: 22.20.0
           cache: 'yarn'
       - name: Install Vercel CLI 🖥️
         run: npm install --global vercel@latest
