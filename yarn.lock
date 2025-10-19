@@ -1757,7 +1757,7 @@ __metadata:
     "@vitest/ui": "npm:^3.2.4"
     babel-jest: "npm:^30.2.0"
     date-fns: "npm:^4.1.0"
-    emoji-picker-react: "npm:^4.14.0"
+    emoji-picker-react: "npm:^4.14.2"
     eslint: "npm:^9.37.0"
     eslint-config-next: "npm:15.5.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -12052,14 +12052,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emoji-picker-react@npm:^4.14.0":
-  version: 4.14.0
-  resolution: "emoji-picker-react@npm:4.14.0"
+"emoji-picker-react@npm:^4.14.2":
+  version: 4.14.2
+  resolution: "emoji-picker-react@npm:4.14.2"
   dependencies:
     flairup: "npm:1.0.0"
   peerDependencies:
     react: ">=16"
-  checksum: 10c0/9d59b2ae0a4145b3de9442d11816f5a67c4892497c66a54617dfd93fd3e4365ffe7fb07812844359f6220bb15bd852a93aea89e782a8cfbe46b72d659df0a51c
+  checksum: 10c0/ceda2f6162d90b5619048a860bc34bf0d8e839d09ddeaeb172d7740ba5ce104d40d000524f3e119760aea64a1ed1a8a8b343883a16904028853d4e8daf71f8db
   languageName: node
   linkType: hard
 
