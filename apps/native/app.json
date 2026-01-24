@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Budget4Home",
+    "slug": "budget4home",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "budget4home",
+    "splash": {
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.budget4home.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.budget4home.app"
+    },
+    "web": {}
+  }
+}
