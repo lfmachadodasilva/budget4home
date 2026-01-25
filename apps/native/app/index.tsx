@@ -6,7 +6,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Text style={styles.title}>Budget4Home</Text>
+      <Text style={styles.title}>budget4Home</Text>
       <Text style={styles.subtitle}>Manage your home budget with ease</Text>
       <View style={styles.card}>
         <Text style={styles.cardText}>
